@@ -1,0 +1,9 @@
+Django
+numpy
+pandas
+bootstrap4
+beautifulsoup4==4.8.2
+django-crispy-forms
+numpy
+matplotlib
+whitenoise==6.0.0

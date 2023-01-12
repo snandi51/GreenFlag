@@ -1,0 +1,53 @@
+{% extends 'figma-base-1.html' %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+
+<script>
+function openCity(cityName) {
+  var i;
+  var x = document.getElementsByClassName('city');
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = 'none';
+  }
+  document.getElementById(cityName).style.display = 'block';
+}
+</script>
+
+<div id="main_width" class="main_width">
+    <div style="width: 100%; display: flex; height: 50px; margin-top: 15px;">
+        <div class="custom-nav-box" style="line-height: 28px; font-family: 'Ubuntu'; color: #ADB5BD; font-size: 24px; text-align: center; padding-top: 8px; width: 300px; height: 50px;">
+            Project Dashboard(5)
+        </div>
+        <div style="margin-right: 20px; line-height: 16px; float: right; align-item: center; margin-left: auto; font-family: 'Ubuntu'; color: #ADB5BD; text-align: center; padding-top: 8px; width: 200px; height: 50px;">
+            <button class="static-font" style="font-size: 12px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 144px; height: 32px; color: #E6E9EE; background-color: #4FAFA2;">
+                +  ADD PROJECT
+            </button>
+        </div>
+    </div>
+
+<!--    Tab selection-->
+    <div class="w3-bar static-font" style="margin-left: 30px; margin-top: 7px; font-weight: 400; font-size: 16px; line-height: 20px;">
+      <button class="btn btn-outline-secondary" onclick="openCity('London')" style="color: #6C757D">Drafts</button>
+      <button class="btn btn-outline-secondary" onclick="openCity('Paris')" style="color: #6C757D">Completed</button>
+    </div>
+
+    <div id="London" class="city static-font" style="text-align: center; height: 400px; margin-top: 150px;">
+            <h3 style="font-size: 20px; font-family: 'Ubuntu'; weight: 500; line-height: 28px; color: #ADB5BD">Oops, looks like you don’t have any projects set up!</h3>
+            <p style="font-size: 16px; font-family: 'Ubuntu'; weight: 500; line-height: 24px; color: #6C757D">Add a new project to start viewing the results.</p>
+    </div>
+
+    <div id="Paris" class="w3-container city static-font" style="display:none; text-align: center; height: 500px; margin-top: 150px;">
+      <h3>Oops, looks like you don’t have any projects set up!</h3>
+      <p>Add a new project to start viewing the results.</p>
+    </div>
+
+</div>
+{% endblock %}
+</html>

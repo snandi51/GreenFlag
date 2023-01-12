@@ -1,0 +1,221 @@
+/**
+* Template Name: Selecao - v4.9.1
+* Template URL: https://bootstrapmade.com/selecao-bootstrap-template/
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+*/
+
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+
+
+.custom-nav{
+    height: 72px;
+    background-color: #1A1D23;
+    display: flex;
+}
+
+.custom-nav: after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.custom-nav-box{
+    float: left;
+}
+
+.gf_title{
+    width: 121px;
+    height: 28px;
+    /* Headings/h3 */
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+    color: #4FAFA2;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.custom-nav-box-last{
+    float: right;
+    display: flex;
+}
+
+
+.logout-p-class{
+    width: 62px;
+    height: 18px;
+    /* Buttons/Large Button */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height, or 129% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-feature-settings: 'liga' off;
+    /* Gray/Gray – Primary */
+    color: #ADB5BD;
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.side-bar{
+    background-color: #1A1D23;
+    height: 100%;
+    width: 252px;
+    position: fixed;
+    border-radius: 0px;
+}
+
+.logout-button{
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height, or 129% */
+    display: flex;
+    margin-top: 2px;
+    align-items: center;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-feature-settings: 'liga' off;
+    /* Gray/Gray – Primary */
+    color: #ADB5BD;
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+
+.navigation{
+    position:fixed;
+    width:252px;
+    height:100%;
+    background:  #1A1D23;
+    transition:0.5s;
+}
+
+.navigation.active{
+    width:100px;
+    transition:0.5s;
+}
+
+.navigation ul{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+}
+
+.navigation ul li{
+    position:relative;
+    width:100%;
+    list-style:none;
+}
+
+.navigation ul li:hover{
+    background:#4FAFA2;
+    color:#4FAFA2;
+}
+
+.navigation ul li a{
+    position:relative;
+    display:block;
+    width:100%;
+    display:flex;
+    text-decoration:none;
+    color: #fff;
+}
+
+.navigation ul li a .icon{
+    position:relative;
+    display:block;
+    min-width:50px;
+    height:50px;
+    line-height:50px;
+    text-align:center;
+}
+
+.navigation ul li a .icon .img{
+    color:#fff;
+    font-size:24px;
+}
+
+.navigation ul li a .title{
+    position:relative;
+    display:block;
+    margin-right: 15px;
+    font-size: 16px;
+    font-family: 'Ubuntu';
+    height:60px;
+    line-height:60px;
+    white-space:nowrap;
+}
+
+.main_width{
+    position:absolute;
+    width:calc(100% - 252px);
+    left:252px;
+    min-height:100vh;
+    transition:0.5s;
+}
+/*Screen Adjust*/
+.main_width.active{
+    width: 92%;
+    left:8%;
+    transition:0.5s;
+}
+
+
+.main_width .inside-body{
+    width:100%;
+    background:#fff;
+    height:60px;
+    padding: 0 10px;
+    display:flex;
+    justify-content:space-between;
+    align-item:center;
+}
+
+.title.active{
+    font-size: 10px;
+    color: 'pink';
+    width: 0px;
+}
+
+
+.static-font{
+    font-family: 'Ubuntu';
+    font-style: 'normal';
+}
+
+
+.outer-project-name-dashboard{
+    float: left;
+}
+
+.outer-project-name-dashboard-child:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
