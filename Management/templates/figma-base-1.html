@@ -1,10 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="static/assets/img/capgemini-squareLogo.png">
+  <title>GreenFlag</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
 
+    <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="static/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
+
+  <!-- Template Main CSS File -->
+  <link href="static/assets/css/style.css" rel="stylesheet">
+    <link href="static/assets/css/figma-base-style.css" rel="stylesheet">
+
+
+  <!-- Template Main CSS File -->
+  <link href="static/assets/css_1/style-figma.css" rel="stylesheet">
+</head>
+<script>
+    function sideToggle(){
+        let toggle = document.querySelector('.toggle');
+        let main_width = document.querySelector('.main_width');
+        let title = document.querySelector('.title');
+        main_width.classList.toggle('active');
+        let navigation = document.querySelector('.navigation');
+        toggle.classList.toggle('active');
+        title.classList.toggle('active');
+        navigation.classList.toggle('active');
+
+        if (toggle.classList.contains('active')){
+            console.log('enter in if condition')
+            document.getElementById('title-1').style.visibility = 'hidden';
+            document.getElementById('title-2').style.visibility = 'hidden';
+            document.getElementById('title-3').style.visibility = 'hidden';
+            document.getElementById('title-4').style.visibility = 'hidden';
+            document.getElementById('title-5').style.visibility = 'hidden';
+
+        }
+        else{
+            document.getElementById('title-1').style.visibility = 'visible';
+            document.getElementById('title-2').style.visibility = 'visible';
+            document.getElementById('title-3').style.visibility = 'visible';
+            document.getElementById('title-4').style.visibility = 'visible';
+            document.getElementById('title-5').style.visibility = 'visible';
+        }
+    }
+</script>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body class="body-class">
+    <nav class="navbar navbar-expand-lg custom-nav">
+        <div class="custom-nav-box" style='height: 100%; width: 6%;'>
+            <div class="toggle" style="text-align: center; padding: 22px 0; cursor: pointer;" onclick="sideToggle()">
+                <img src="static/assets/img/menu_icon.png">
+            </div>
+        </div>
+        <div class="custom-nav-box" style='height: 100%; width: 15%;'>
+            <p class="gf_title" style="width: 121px; height: 28px; font-family: 'Ubuntu'; font-style: normal;
+            font-weight: 500;
+                font-size: 24px;
+                line-height: 28px;
+                display: flex;
+                padding: 35px 0;
+                align-items: center;
+                color: #4FAFA2;
+                flex: none;
+                order: 0;flex-grow: 0;"
+            >Green Flag</p>
+        </div>
+        <div style='height: 100%; width: 10%; margin-left: auto; margin-right: 10px; position: relative;'>
+            <div style="padding: 22px 0;">
+                {% if user.is_authenticated %}
+                <div>
+                    <ul>
+                      <li><img src="static/assets/img/logout-gf.png"></li>
+                      <li><a class="nav-link scrollto logout-button"  href="#about">Logout</a></li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% if user.is_authenticated %}
+    <div class="navigation" style="">
+      <ul>
+          <li>
+              <a href="#">
+                  <span class="icon"><img src="static/assets/img/home-icon.png"></span>
+                  <span class="title" id="title-1">My Project</span>
+              </a>
+          </li>
+          <li>
+              <a href="#">
+                  <span class="icon"><img src="static/assets/img/management-icon.png"></span>
+                  <span class="title" id="title-2">Emission Library</span>
+              </a>
+          </li>
+          <li>
+              <a href="#">
+                  <span class="icon"><img src="static/assets/img/help-icon.png"></span>
+                  <span class="title" id="title-3">Data Centers</span>
+              </a>
+          </li>
+          <li>
+              <a href="#">
+                  <span class="icon"><img src="static/assets/img/help-icon.png"></span>
+                  <span class="title" id="title-4">Network Parameters</span>
+              </a>
+          </li>
+          <li>
+              <a href="#">
+                  <span class="icon"><img src="static/assets/img/help-icon.png"></span>
+                  <span class="title" id="title-5">Help</span>
+              </a>
+          </li>
+      </ul>
+    </div>
+    {% endif %}
+    <main id="main">
+        {% block content %}
+        {% endblock %}
+    </main>
 </body>
 </html>
