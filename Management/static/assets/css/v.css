@@ -1,0 +1,7 @@
+/* Vishal CSS styles start */
+
+.coro-scc {
+    @include 'coro.css';
+}
+
+/* Vishal CSS styles end */
