@@ -8,46 +8,566 @@
     <meta charset="UTF-8">
     <title>Index</title>
 </head>
-
+<!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+<!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
 <script>
-function openCity(cityName) {
-  var i;
-  var x = document.getElementsByClassName('city');
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = 'none';
-  }
-  document.getElementById(cityName).style.display = 'block';
-}
+    function openCity(evt, cityName) {
+      var i;
+      var x = document.getElementsByClassName('city');
+      var nav_button_1 = document.getElementById('nav_button_1');
+      var nav_button_2 = document.getElementById('nav_button_2');
+      var Completed_search = document.getElementById('Completed_search');
+      var Draft_search = document.getElementById('Draft_search');
+      console.log(evt)
+      console.log(cityName)
+      var progress2 = document.querySelector('.progress2')
+      if (cityName == 'Completed'){
+        Completed_search.style.visibility = 'visible';
+        Draft_search.style.visibility = 'hidden';
+        progress2.style.marginLeft = '80px';
+        nav_button_2.style.color = '#ADB5BD';
+        nav_button_1.style.color = '#6C757D';
+      } else{
+        Draft_search.style.visibility = 'visible';
+        Completed_search.style.visibility = 'hidden';
+        progress2.style.marginLeft = '0px';
+        nav_button_1.style.color = '#ADB5BD';
+        nav_button_2.style.color = '#6C757D';
+      }
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = 'none';
+      }
+      document.getElementById(cityName).style.display = 'block';
+    }
+
+   function showDropdown() {
+      document.getElementById("myDropdown").classList.toggle("show");
+   }
+   function showDropdown_1() {
+      document.getElementById("myDropdown_1").classList.toggle("show");
+   }
+
+<!---------------------------------------graph grid toggle button------------------------>
+   function toggle_grid(name) {
+      console.log(name)
+      var grid = document.getElementById("grid");
+      var img_grid = document.getElementById("img_grid");
+      var graph = document.getElementById("graph");
+      var img_graph = document.getElementById("img_graph");
+      var grid_graph_visible = document.getElementById("grid_graph_visible");
+        if (name == 'grid'){
+          grid.style.borderColor = "#ADB5BD";
+          img_grid.style.color="#ADB5BD";
+          graph.style.borderColor = "#6C757D";
+          img_graph.style.color="#6C757D";
+          grid_graph_visible.style.display = 'none'
+        }
+        else {
+          grid_graph_visible.style.display = 'block'
+          grid.style.borderColor = "#6C757D";
+          img_grid.style.color="#6C757D";
+          graph.style.borderColor = "#ADB5BD";
+          img_graph.style.color="#ADB5BD";
+        }
+   }
+
 </script>
 
-<div id="main_width" class="main_width">
-    <div style="width: 100%; display: flex; height: 50px; margin-top: 15px;">
-        <div class="custom-nav-box" style="line-height: 28px; font-family: 'Ubuntu'; color: #ADB5BD; font-size: 24px; text-align: center; padding-top: 8px; width: 300px; height: 50px;">
-            Project Dashboard(5)
+<body >
+    <div id="main_width" class="main_width" style="overflow-y:auto; overflow-x:hidden;">
+        <div style="width: 100%; display: flex; height: 40px; margin-top: 15px;">
+            <div class="custom-nav-box" style="line-height: 28px; font-family: 'Ubuntu'; color: #ADB5BD; font-size: 24px; text-align: center; padding-top: 8px; width: 300px; height: 50px;">
+                Project Dashboard(5)
+            </div>
+            <div style="margin-right: 20px; line-height: 16px; float: right; align-item: center; margin-left: auto; font-family: 'Ubuntu'; color: #ADB5BD; text-align: center; padding-top: 8px; width: 200px; height: 50px;">
+                <a href="{% url 'projectA' %}">
+                    <button class="static-font" style="font-size: 12px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 144px; height: 32px; color: #E6E9EE; background-color: #4FAFA2;">
+                        +  ADD PROJECT
+                    </button>
+                </a>
+            </div>
         </div>
-        <div style="margin-right: 20px; line-height: 16px; float: right; align-item: center; margin-left: auto; font-family: 'Ubuntu'; color: #ADB5BD; text-align: center; padding-top: 8px; width: 200px; height: 50px;">
-            <button class="static-font" style="font-size: 12px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 144px; height: 32px; color: #E6E9EE; background-color: #4FAFA2;">
-                +  ADD PROJECT
-            </button>
+
+        <!-------------------------------Tab Section----------------------->
+        <div class="w3-bar static-font" style="margin-left: 30px; margin-top: 7px; font-weight: 400; font-size: 16px; line-height: 20px;">
+            <button id="nav_button_1" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Draft');"  style="color: #ADB5BD; border:none; background-color:transparent">Draft</button>
+            <button id="nav_button_2" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Completed');" style="color: #6C757D; border:none; background-color:transparent">Completed</button>
+            <div class="progress1">
+                <div class="progress2">
+                    <hr class="line" size="3" width="100%" color="#6C757D">
+                </div>
+            </div>
         </div>
-    </div>
+        <!--------------------------------Draft Search Bar-------------------------------->
+        <div id="Draft_search" class="search_outer_bar">
+            <div class="search_outer_inner_bar">
+                <div class="search_img_icon" >
+                    <img src="static/assets/img/search_icon.png" style="margin-left: 20px">
+                    <input type="text" placeholder="Search Projects" name="search" style="background-color: #23272E;width: 70%;border-color:#23272E;border-top: #23272E;border-left: #23272E;">
+                </div>
+                <div class="select_div" >
+                    <select class="select" name="none" id="select_1" >
+                        <option value="BU">BU</option>
+                        <option value="1">1</option>
+                    </select>
+                    <select class="select" name="none" id="select_2">
+                        <option value="Localization">Localization</option>
+                        <option value="1">1</option>
+                    </select>
+                    <select class="select"name="none" id="select_3">
+                        <option value="Department">Department</option>
+                        <option value="1">1</option>
+                    </select>
+                    <select class="select" name="none" id="select_4">
+                        <option value="Status">Status</option>
+                        <option value="1">1</option>
+                    </select>
+                    <select class="select" name="none" id="select_5">
+                        <option value="Date">Date</option>
+                        <option value="1">1</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!-------------------------------------Completed Search Bar------------------------------------>
+        <div id="Completed_search" class="search_outer_bar">
+            <div class="search_outer_inner_bar">
+                <div class="search_img_icon" >
+                    <img src="static/assets/img/search_icon.png" style="margin-left: 20px">
+                    <input type="text" placeholder="Search Projects" name="search" style="background-color: #23272E;width: 70%;border-color:#23272E;border-top: #23272E;border-left: #23272E;">
+                </div>
+                <div class="select_div" >
+                    <select class="select_completed" name="none" id="select_6" >
+                        <option value="BU">BU</option>
+                        <option value="1">1</option>
+                    </select>
+                    <select class="select_completed" name="none" id="select_7">
+                        <option value="Localization">Localization</option>
+                        <option value="1">1</option>
+                    </select>
+                    <select class="select_completed"name="none" id="select_8">
+                        <option value="Department">Department</option>
+                        <option value="1">1</option>
+                    </select>
+                    <select class="select_completed" name="none" id="select_9">
+                        <option value="Status">Status</option>
+                        <option value="1">1</option>
+                    </select>
+                    <select class="select_completed" name="none" id="select_10">
+                        <option value="Date">Date</option>
+                        <option value="1">1</option>
+                    </select>
+                </div>
 
-<!--    Tab selection-->
-    <div class="w3-bar static-font" style="margin-left: 30px; margin-top: 7px; font-weight: 400; font-size: 16px; line-height: 20px;">
-      <button class="btn btn-outline-secondary" onclick="openCity('London')" style="color: #6C757D">Drafts</button>
-      <button class="btn btn-outline-secondary" onclick="openCity('Paris')" style="color: #6C757D">Completed</button>
-    </div>
+                <div class="graph_representation">
+                    <div class="grid" id="grid" onclick="toggle_grid('grid')">
+                        <i id="img_grid" class="fa fa-th-large" aria-hidden="true" style="item-align:center; color: #ADB5BD; Width:14px;Height:14px;Top:1px;Left:1px;"></i>
+                    </div >
 
-    <div id="London" class="city static-font" style="text-align: center; height: 400px; margin-top: 150px;">
-            <h3 style="font-size: 20px; font-family: 'Ubuntu'; weight: 500; line-height: 28px; color: #ADB5BD">Oops, looks like you don’t have any projects set up!</h3>
-            <p style="font-size: 16px; font-family: 'Ubuntu'; weight: 500; line-height: 24px; color: #6C757D">Add a new project to start viewing the results.</p>
-    </div>
+                    <div class="graph" id="graph" onclick="toggle_grid('graph')" style="">
+                        <i id="img_graph" class="fa fa-line-chart" aria-hidden="true" style="item-align:center"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div id="Paris" class="w3-container city static-font" style="display:none; text-align: center; height: 500px; margin-top: 150px;">
-      <h3>Oops, looks like you don’t have any projects set up!</h3>
-      <p>Add a new project to start viewing the results.</p>
-    </div>
+<!--        <div id="Completed_search" class="search_outer_bar">-->
+<!--            <div class="search_outer_inner_bar">-->
+<!--                <img src="static/assets/img/search_Icon.png" style="margin-left:20px; align-item:start; width:20px; height:auto;">-->
+<!--                <input  type="text" placeholder="Search Projects" name="search" style="width:35%; margin-left:10px; background-color:#23272E; border:none; color: #6C757D; border-color:transparent;">-->
+<!--                <select class="select_1" name="none" id="select_6">-->
+<!--                    <option value="BU">BU</option>-->
+<!--                    <option value="1">1</option>-->
+<!--                </select>-->
+<!--                <select class="select_2" name="none" id="select_7">-->
+<!--                    <option value="Localization">Localization</option>-->
+<!--                    <option value="1">1</option>-->
+<!--                </select>-->
+<!--                <select class="select_2"name="none" id="select_8">-->
+<!--                    <option value="Department">Department</option>-->
+<!--                    <option value="1">1</option>-->
+<!--                </select>-->
+<!--                <select class="select_2" name="none" id="select_9">-->
+<!--                    <option value="Status">Status</option>-->
+<!--                    <option value="1">1</option>-->
+<!--                </select>-->
+<!--                <select class="select_2" name="none" id="select_10">-->
+<!--                    <option value="Date">Date</option>-->
+<!--                    <option value="1">1</option>-->
+<!--                </select>-->
+<!--                <p class="select_2" style="float:right;">-->
+<!--                    <div class="images_grid" id="grid" onclick="toggle_grid('grid')" value="0" style="border-color:#ADB5BD;">-->
+<!--                        <i id="img_grid" class="fa fa-th-large" aria-hidden="true" style="item-align:center; color: #ADB5BD;"></i>-->
+<!--                    </div>-->
+<!--                    <div class="images_graph" id="graph" onclick="toggle_grid('graph')" value="1">-->
+<!--                        <i id="img_graph" class="fa fa-line-chart" aria-hidden="true" style="item-align:center"></i>-->
+<!--                    </div>-->
+<!--                </p>-->
+<!--            </div>-->
+<!--        </div>-->
 
-</div>
+        <!--------------------------------------Mark as complete------------------------------------------>
+
+        <!--        <div class="mark_as_completed" >-->
+        <!--            <span class="popuptext" id="myPopup">A Simple Popup!</span>-->
+        <!--        </div>-->
+
+        <div id="Draft" class="w3-container city" style="display:none; text-align: center; height: 400px; margin-top: 170px;">
+            <!------------------When there is No data enter in database it will show oops------------------->
+            <!--            <h3 style="font-size: 20px; font-family: 'Ubuntu'; weight: 500; line-height: 28px; color: #ADB5BD" >Oops, looks like you don’t have any projects set up!</h3>-->
+            <!--            <p style="font-size: 16px; font-family: 'Ubuntu'; weight: 500; line-height: 24px; color: #6C757D">Add a new project to start viewing the results.</p>-->
+            <!------------------------------------End of 'OOPs' Statement--------------------------------->
+
+            <!-------------------------------------Data Enter in database--------------------------------->
+            <div class="details">
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2 class="header">Project 1</h2>
+                        <hr  size="7" width="20%" color="#6C757D">
+                        <div class="dropdown">
+                            <i class="fa fa-ellipsis-v" onclick="showDropdown_1()" aria-hidden="true" style="padding-top:10px; color:#ADB5BD; ">
+                                <div id="myDropdown_1" class="dropdown-content">
+                                    <a href="#home"><i class="fa fa-check-circle-o" aria-hidden="true" onclick="mark()"><span style="font-family: 'Ubuntu';">Mark as complete</span></i></a>
+                                    <a href="#about"><i class="fa fa-clone" aria-hidden="true"><span style="font-family: 'Ubuntu';">Duplicate this project</span></i></a>
+                                    <a href="#contact"><i class="fa fa-trash-o" aria-hidden="true"><span style="font-family: 'Ubuntu';">Delete this project</span></i></a>
+                                </div>
+                            </i>
+                        </div>
+                    </div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Direct Impact</td>
+                            <td>1000 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Indirect Impact</td>
+                            <td>500 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Net Impact</td>
+                            <td>1200 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>ROE</td>
+                            <td>200%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="custom-nav" style="padding:5px; width:100%; height:32px;">
+                        <button class="view_button"><span>View Results</span></button>
+                        <button class="edit_button"><span>Edit Details</span></button>
+                    </div>
+                </div>
+
+                <!--                2nd Project Starts-->
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2 class="header">Project 2</h2>
+                        <hr  size="7" width="20%" color="#6C757D">
+                        <i class="fa fa-ellipsis-v" aria-hidden="true" style="padding-top:10px; color:#ADB5BD;"></i>
+                    </div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Direct Impact</td>
+                            <td>1000 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Indirect Impact</td>
+                            <td>500 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Net Impact</td>
+                            <td>1200 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>ROE</td>
+                            <td>200%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="custom-nav" style="padding:5px; width:100%; height:32px;">
+                        <button class="view_button"><span>View Results</span></button>
+                        <button class="edit_button"><span>Edit Details</span></button>
+                    </div>
+                </div>
+
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2 class="header">Project 2</h2>
+                        <hr  size="7" width="20%" color="#6C757D">
+                        <i class="fa fa-ellipsis-v" aria-hidden="true" style="padding-top:10px; color:#ADB5BD;"></i>
+                    </div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Direct Impact</td>
+                            <td>1000 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Indirect Impact</td>
+                            <td>500 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Net Impact</td>
+                            <td>1200 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>ROE</td>
+                            <td>200%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="custom-nav" style="padding:5px; width:100%; height:32px;">
+                        <button class="view_button"><span>View Results</span></button>
+                        <button class="edit_button"><span>Edit Details</span></button>
+                    </div>
+                </div>
+
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2 class="header">Project 2</h2>
+                        <hr  size="7" width="20%" color="#6C757D">
+                        <i class="fa fa-ellipsis-v" aria-hidden="true" style="padding-top:10px; color:#ADB5BD;"></i>
+                    </div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Direct Impact</td>
+                            <td>1000 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Indirect Impact</td>
+                            <td>500 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Net Impact</td>
+                            <td>1200 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>ROE</td>
+                            <td>200%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="custom-nav" style="padding:5px; width:100%; height:32px;">
+                        <button class="view_button"><span>View Results</span></button>
+                        <button class="edit_button"><span>Edit Details</span></button>
+                    </div>
+                </div>
+
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2 class="header">Project 2</h2>
+                        <hr  size="7" width="20%" color="#6C757D">
+                        <i class="fa fa-ellipsis-v" aria-hidden="true" style="padding-top:10px; color:#ADB5BD;"></i>
+                    </div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Direct Impact</td>
+                            <td>1000 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Indirect Impact</td>
+                            <td>500 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Net Impact</td>
+                            <td>1200 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>ROE</td>
+                            <td>200%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="custom-nav" style="padding:5px; width:100%; height:32px;">
+                        <button class="view_button"><span>View Results</span></button>
+                        <button class="edit_button"><span>Edit Details</span></button>
+                    </div>
+                </div>
+
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2 class="header">Project 2</h2>
+                        <hr  size="7" width="20%" color="#6C757D">
+                        <i class="fa fa-ellipsis-v" aria-hidden="true" style="padding-top:10px; color:#ADB5BD;"></i>
+                    </div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Direct Impact</td>
+                            <td>1000 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Indirect Impact</td>
+                            <td>500 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Net Impact</td>
+                            <td>1200 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>ROE</td>
+                            <td>200%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="custom-nav" style="padding:5px; width:100%; height:32px;">
+                        <button class="view_button"><span>View Results</span></button>
+                        <button class="edit_button"><span>Edit Details</span></button>
+                    </div>
+                </div>
+
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2 class="header">Project 2</h2>
+                        <hr  size="7" width="20%" color="#6C757D">
+                        <i class="fa fa-ellipsis-v" aria-hidden="true" style="padding-top:10px; color:#ADB5BD;"></i>
+                    </div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Direct Impact</td>
+                            <td>1000 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Indirect Impact</td>
+                            <td>500 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Net Impact</td>
+                            <td>1200 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>ROE</td>
+                            <td>200%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="custom-nav" style="padding:5px; width:100%; height:32px;">
+                        <button class="view_button"><span>View Results</span></button>
+                        <button class="edit_button"><span>Edit Details</span></button>
+                    </div>
+                </div>
+
+
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2 class="header">Project 2</h2>
+                        <hr  size="7" width="20%" color="#6C757D">
+                        <i class="fa fa-ellipsis-v" aria-hidden="true" style="padding-top:10px; color:#ADB5BD;"></i>
+                    </div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Direct Impact</td>
+                            <td>1000 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Indirect Impact</td>
+                            <td>500 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Net Impact</td>
+                            <td>1200 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>ROE</td>
+                            <td>200%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="custom-nav" style="padding:5px; width:100%; height:32px;">
+                        <button class="view_button"><span>View Results</span></button>
+                        <button class="edit_button"><span>Edit Details</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="Completed" class="w3-container city" style="display:block; text-align: center; height: 400px; margin-top: 170px;">
+            <!--            <h2 style="font-size: 20px; font-family: 'Ubuntu'; weight: 500; line-height: 28px; color: #ADB5BD" >Oops, looks like you don’t have any projects set up!</h2>-->
+            <!--            <p style="font-size: 16px; font-family: 'Ubuntu'; weight: 500; line-height: 24px; color: #6C757D">Add a new project to start viewing the results.</p>-->
+            <!-------------------------------Card Based On Projects------------------------------->
+            <div class="details">
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2 class="header">Project 1</h2>
+                        <div class="dropdown">
+                            <i class="fa fa-ellipsis-v" onclick="showDropdown()" aria-hidden="true" style="padding-top:10px; color:#ADB5BD; ">
+                                <div id="myDropdown" class="dropdown-content" >
+                                    <a href="#home"><i class="fa fa-pencil-square-o" aria-hidden="true"><span style="font-family: 'Ubuntu'; font-size:14px;">Edit this project</span></i></a>
+                                    <a href="#about"><i class="fa fa-clone" aria-hidden="true"><span style="font-family: 'Ubuntu'; font-size:14px;">Duplicate this project</span></i></a>
+                                    <a href="#contact"><i class="fa fa-trash-o" aria-hidden="true"><span style="font-family: 'Ubuntu'; font-size:14px;">Delete this project</span></i></a>
+                                </div>
+                            </i>
+                        </div>
+                    </div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Direct Impact</td>
+                            <td>1000 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Indirect Impact</td>
+                            <td>500 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Net Impact</td>
+                            <td>1200 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>ROE</td>
+                            <td>200%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div id="grid_graph_visible" style="display:none; background-color:white; width:100%; height:200px;">
+                        Hiiiiiiiiiiiiiii
+                    </div>
+                    <button class="view_completed"><span class="span">View Results</span></button>
+                </div>
+
+                <!--                2nd Project Starts-->
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2 class="header">Project 2</h2>
+                        <i class="fa fa-ellipsis-v" aria-hidden="true" style="padding-top:10px; color:#ADB5BD;"></i>
+                    </div>
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td>Direct Impact</td>
+                            <td>1000 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Indirect Impact</td>
+                            <td>500 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>Net Impact</td>
+                            <td>1200 t C02e</td>
+                        </tr>
+                        <tr>
+                            <td>ROE</td>
+                            <td>200%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button class="view_completed"><span class="span">View Results</span></button>
+                </div>
+            </div>
+            <!-------------------------------End Of Card Based On Projects------------------------------->
+        </div>
+        <!-------------------------------End Of Tab Section----------------------->
+        <!-------------------------------Search Bar------------------------------->
+        <!-------------------------------End Of Search Bar------------------------------->
+
+    </div>
 {% endblock %}
+</body>
 </html>
