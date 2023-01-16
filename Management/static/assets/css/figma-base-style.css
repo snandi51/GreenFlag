@@ -172,10 +172,11 @@
 }
 
 .main_width{
-    position:absolute;
+    position: fixed;
+    min-height:100vh;
     width:calc(100% - 252px);
     left:252px;
-    min-height:100vh;
+    /*min-height:100vh;*/
     transition:0.5s;
 }
 /*Screen Adjust*/
@@ -219,3 +220,1085 @@
   clear: both;
 }
 
+.progress1{
+    background:#6C757D;
+    width:100%;
+    height:1.5px;
+}
+
+.progress2{
+    background:#ADB5BD;
+    width:8%;
+    height:1.5px;
+    transition:0.1s;
+}
+
+.details{
+    position:relative;
+    width:100%;
+    display:grid;
+    left:20px;
+    padding:10px;
+    grid-gap:10px;
+    bottom:100px;
+    grid-template-columns:2fr 2fr;
+    grid-template-columns:repeat(3, 1fr);
+}
+
+.details .recentOrders{
+    position:relative;
+    padding:10px;
+    min-height:200px;
+    background:#1A1D23;
+    width:96%;
+    padding-right:20px;
+}
+.cardHeader{
+    display:flex;
+    justify-content:space-between;
+    align-item:flex-start;
+}
+.cardHeader h2{
+    width: 104px;
+    height: 24px;
+    padding:10px;
+
+    /* Headings/h4 */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    /* identical to box height, or 120% */
+
+    /* White/White – Secondary */
+    color: #CED4DA;
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+.btn{
+    position:relative;
+    height:40px;
+    padding:5px 10px;
+    background:#03a9f4;
+    color:#fff;
+    text-decoration:none;
+    border-radius:6px;
+}
+.details table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    color:#ADB5BD;
+}
+.details table thread td{
+    font-width:600;
+    border-bottom: 1px solid;
+}
+.details .recentOrders table tr{
+    border-bottom: 0.2px solid #ADB5BD;
+}
+.details .recentOrders table tbody tr:last-child{
+    border-bottom:none;
+}
+.details .recentOrders table tbody tr:hover{
+    color:#ADB5BD;
+}
+.details .recentOrders table tr td{
+    padding: 15px 5px;
+}
+.details .recentOrders table thead tr td:first-child,
+.details .recentOrders table tbody tr td:first-child{
+    text-align:start;
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+}
+.details .recentOrders table thead tr td:nth-child(2),
+.details .recentOrders table tbody tr td:nth-child(2){
+    text-align:right;
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+}
+.view_draft{
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 8px;
+
+    width: 120px;
+    height: 32px;
+    background:transparent;
+
+    /* Accent/Accent – Primary */
+
+    border: 1px solid #4FAFA2;
+    border-radius: 4px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+.span_draft{
+    width: 84px;
+    height: 16px;
+
+    /* Buttons/Regular Button */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-feature-settings: 'liga' off;
+
+    /* Accent/Accent – Primary */
+
+    color: #4FAFA2;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.edit_draft{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 8px;
+
+    width: 120px;
+    height: 32px;
+
+    /* Accent/Accent – Primary */
+
+    background: #4FAFA2;
+    border-radius: 4px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 1;
+}
+
+.span_edit{
+    width: 79px;
+    height: 16px;
+
+    /* Buttons/Regular Button */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-feature-settings: 'liga' off;
+
+    /* White/White – Primary */
+
+    color: #E6E9EE;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.view_completed {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+
+    width: 100%;
+    height: 32px;
+
+    /* Accent/Accent – Primary */
+
+    background: #4FAFA2;
+    border-radius: 4px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 1;
+}
+.span{
+    width: 84px;
+    height: 16px;
+
+    /* Buttons/Regular Button */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-feature-settings: 'liga' off;
+
+    /* White/White – Primary */
+
+    color: #E6E9EE;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+/*********** Draft View Button ************/
+.view_button{
+    width: 45%;
+    height:32px;
+    background:transparent;
+    top:287px;
+    border: 1px solid #4FAFA2;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+    padding: 8px 16px;
+    gap: 8px;
+}
+
+.view_button span{
+    width: 84px;
+    height: 16px;
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-feature-settings: 'liga' off;
+
+    /* Accent/Accent – Primary */
+
+    color: #4FAFA2;
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.edit_button{
+    display: flex;
+    text-align:left;
+    left:270px;
+    flex-direction: row;
+    margin-left:10%;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 8px;
+
+    width: 45%;
+    height: 32px;
+    /* Accent/Accent – Primary */
+
+    background: #4FAFA2;
+    border-radius: 4px;
+}
+
+.edit_button span{
+    width: 79px;
+    height: 16px;
+
+    /* Buttons/Regular Button */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-feature-settings: 'liga' off;
+
+    /* White/White – Primary */
+
+    color: #E6E9EE;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.dropdown-content {
+    display: none;
+    position:absolute;
+    font-size:14px;
+    background-color: #34373D;
+    color:#ADB5BD;
+    min-width: 180px;
+    overflow: auto;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: #ADB5BD;
+    padding: 10px 5px;
+    font-size:14px;
+    font-family:'ubuntu';
+    text-decoration: none;
+    display: block;
+    text-align:left;
+}
+.dropdown-content a i{
+    margin-left: 0.3rem;
+}
+.dropdown-content a i span{
+    padding-left:10px;
+}
+
+.dropdown a:hover {color: #A48750;}
+
+.show {display:block; color: #ADB5BD;}
+
+/******************************* Project A **********************************/
+.project_a_outer{
+    position: absolute;
+    width: 227px;
+    height: 584px;
+    left:20px;
+    top: 20px;
+
+    /* Black/Black – Secondary
+
+    Background 2
+    */
+    background: #1A1D23;
+    border-radius: 8px;
+}
+
+.project_a_inner{
+     margin-top:20px;
+     width: 100%;
+     height: 20px;
+}
+
+.project_a_inner img{
+    position: absolute;
+    left:20px;
+    Width: 24px;
+    Height: 24px;
+}
+
+.project_a_inner h2{
+    width: 97px;
+    height: 20px;
+    margin-left:60px;
+    margin-top:10px;
+    /* Headings/h6 */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+
+    display: flex;
+    align-items: flex-end;
+    /* Gray/Gray – Primary */
+
+    color: #ADB5BD;
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+.vl {
+  border-left: 2px dashed green;
+  height: 20px;
+  margin-left:30px;
+}
+
+/*********** Search Bar ************/
+.search_img_icon{
+    float: left;
+    width:100%;
+    margin-top: 3px;
+}
+.select_div{
+    float:left;
+    width:100%;
+}
+.graph_representation{
+    display: flex;
+    float:right;
+    margin-left:0px;
+    margin-right: 40px;
+}
+.grid{
+    border-color:#ADB5BD;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 12px;gap: 12px;
+    width: 40px;
+    height: 32px;
+    left: 0px;
+    top: 0px;
+    background: #23272E;
+    border: 1px solid #ADB5BD;
+    border-radius: 4px 0px 0px 4px;
+}
+.graph{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 12px;
+    width: 40px;
+    height: 32px;
+    left: 0px;
+    top: 0px;
+    background: #23272E;
+    border: 1px solid #6C757D;
+    border-radius: 0px 4px 4px 0px;
+}
+.select{
+    letter-spacing: 0em;
+    text-align: left;
+    border:none;
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    background-color: #23272E;
+    align-items: center;
+    color: #6C757D;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    padding-left:8px;
+}
+.select_completed{
+    letter-spacing: 0em;
+    text-align: left;
+    border:none;
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    background-color: #23272E;
+    align-items: center;
+    color: #6C757D;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.searchbar_body{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 96%;
+    height: 48px;
+    background: #23272E;
+    border-radius: 8px;
+    margin-top: 13px;
+    position: relative;
+    margin-left: 30px;
+}
+
+.searchbar-toggle_1{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 12px;
+    width: 40px;
+    height: 32px;
+    left: 0px;
+    top: 0px;
+    background: #23272E;
+    border: 1px solid #ADB5BD;
+    border-radius: 4px 0px 0px 4px;
+}
+
+.search_bar_toggle_2{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 12px;
+    width: 40px;
+    height: 32px;
+    left: 40px;
+    top: 0px;
+    background: #23272E;
+    border: 1px solid #6C757D;
+    border-radius: 0px 4px 4px 0px;
+}
+
+.search_outer_bar{
+    width:96%;
+    padding-left: 30px;
+    position: relative;
+}
+.search_outer_inner_bar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 16px;
+    gap: 16px;
+
+    position: absolute;
+    width: 100%;
+    height: 48px;
+    top: 8px;
+
+    /* Black/Black – Tertiary */
+
+    background: #23272E;
+    border-radius: 8px;
+}
+.images_grid{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    left:900px;
+    padding: 8px 12px;
+    gap: 12px;
+
+    position: absolute;
+    width: 40px;
+    height: 32px;
+    /* Black/Black – Tertiary */
+
+    background: #23272E;
+    /* Gray/Gray – Secondary */
+
+    border: 1px solid #6C757D;
+    border-radius: 4px 0px 0px 4px;
+
+}
+.images_graph{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 12px;
+
+    position: absolute;
+    width: 40px;
+    height: 32px;
+    left:940px;
+    top: 8px;
+
+    /* Black/Black – Tertiary */
+
+    background: #23272E;
+    /* Gray/Gray – Primary */
+
+    border: 1px solid #6C757D;
+    border-radius: 0px 4px 4px 0px;
+
+}
+.select_1{
+    position: relative;
+    text-align:left;
+    background-color:#23272E;
+    color: #6C757D;
+    border:none;
+    border-radius:0.2px;
+}
+.select_2{
+    position: relative;
+    background-color:#23272E;
+    color: #6C757D;
+    border:none;
+    border-radius:0.2px;
+}
+.mark_as_completed{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 32px;
+    gap: 24px;
+
+    position: absolute;
+    width: 493px;
+    height: 232px;
+    left: 437px;
+    top: 268px;
+
+    /* Gray/Gray – Tertiary */
+
+    background: #34373D;
+    /* Popup Elevation */
+
+    box-shadow: 2px 2px 8px rgba(18, 16, 16, 0.4);
+    border-radius: 8px;
+}
+/*
+.grid_class{
+    position: fixed;
+    width: 100%
+    padding:10px;
+    right: 10;
+}
+*/
+
+/*--------------------------------Vertical Progress Bar----------------------------------*/
+.navigation_menu {
+  font-family: 'ubuntu';
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.navigation_tabs {
+  counter-reset: step;
+  position: relative;
+  padding-left: 45px;
+  list-style: none;
+}
+
+.navigation_tabs::before {
+    display: inline-block;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 18px;
+    width: 10px;
+    height: 100%;
+    border-left: 2px dashed #CCC;
+  }
+
+.navigation_menu ul {
+    list-style-type: none;
+    padding-right: 0;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0px;
+    margin-bottom: 0;
+}
+
+.navigation_menu li {
+    position: relative;
+    counter-increment: list;
+    color: #000000;
+}
+
+.navigation_menu subtitle {
+    position: relative;
+    counter-increment: none;
+    background: #ADB5BD;
+}
+
+.navigation_menu li:before {
+      display: inline-block;
+      content: '';
+      position: absolute;
+      left: -30px;
+      height: 100%;
+      width: 10px;
+    }
+
+.navigation_menu li:after {
+      content: counter(step);
+      counter-increment: step;
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: -39px;
+      width: 25px;
+      height: 25px;
+      line-height: 26px;
+      border: 1px solid #DDD;
+      border-radius: 50%;
+      background-color:#ADB5BD;
+      display: block;
+      text-align: center;
+      margin: 0 auto 10px auto;
+ }
+
+.navigation_menu li:not(:last-child) {
+      padding-bottom: 18px;
+}
+
+.navigation_menu li.tab_inactive:before {
+        border-left: 2px dashed green;
+        margin-left: 3px;
+        height:2px;
+ }
+
+
+.navigation_menu li.tab_inactive:after {
+        content: "\2713";
+        font-size: 20px;
+        color: #FFF;
+        text-align: center;
+        border: 1px solid green;
+        background-color: green;
+}
+
+.navigation_tabs li a,
+.navigation_tabs li a {
+  display: block;
+  text-decoration: none;
+  color:white;
+}
+
+.navigation_tabs li.tab_inactive a{
+  color: green;
+  content:'';
+}
+
+.navigation_tabs li.tab_disabled a {
+  pointer-events: none;
+  cursor: default;
+  color:white;
+  text-decoration: none;
+}
+
+.navigation_tabs li.tab_active a:hover,
+.navigation_tabs li.tab_inactive a:hover {
+  font-weight: bold;
+}
+
+/*-------------------------------------Project Heading i.e Project A--------------------------------*/
+.header_div{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 260px;
+    top: 20px;
+}
+
+.header_project_a{
+    position: absolute;
+    width: 137px;
+    height: 36px;
+    left: 10px;
+    top: 10px;
+
+    /* Headings/h1 */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 36px;
+    /* identical to box height, or 112% */
+
+    display: flex;
+    align-items: flex-end;
+
+    /* White/White – Secondary */
+    color: #CED4DA;
+
+}
+.img_pencil{
+    position: absolute;
+    left: 350px;
+    right: 2.2%;
+    bottom: 8.25%;
+
+    /* Gray/Gray – Secondary */
+    color: #6C757D;
+    background: #6C757D;
+}
+.border_line{
+    position: absolute;
+    width: 396px;
+    height: 0px;
+    top: 50px;
+
+    /* Gray/Gray – Secondary */
+
+    border: 1.5px dashed #6C757D;
+}
+.paragraph{
+    position: absolute;
+    width: 500px;
+    height: 36px;
+    top: 80px;
+
+    /* Body Text/Body Text – Regular */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    /* or 129% */
+
+    display: flex;
+    align-items: flex-end;
+
+    /* Gray/Gray – Secondary */
+
+    color: #6C757D;
+}
+.start_subheading1{
+    position: absolute;
+    width:70%;
+    height:28px;
+    left: 10px;
+    top: 120px;
+    bottom: 0%;
+}
+.img_head1{
+    width:20px;
+    height:28px;
+    font-size:20px;
+}
+.sub_header{
+    padding-left:15px;
+    padding-top:50px;
+    width: 600px;
+    height: 28px;
+
+    /* Headings/h3 */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    /* identical to box height, or 117% */
+
+    display: flex;
+    align-items: flex-end;
+
+    /* Gray/Gray – Primary */
+
+    color: #ADB5BD;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.img_class_toggle{
+    position: absolute;
+    width:70%;
+    height:20px;
+    left: 690px;
+    font-size:20px;
+    bottom: 28.12%;
+
+    /* Gray/Gray – Primary */
+
+    color: #ADB5BD;
+}
+.img_class_toggle_2{
+    position: absolute;
+    width:70%;
+    height:20px;
+    left: 690px;
+    font-size:20px;
+    bottom: 28.12%;
+
+    /* Gray/Gray – Primary */
+
+    color: #ADB5BD;
+}
+.img_class_toggle_3{
+    position: absolute;
+    width:70%;
+    height:20px;
+    left: 690px;
+    font-size:20px;
+    bottom: 28.12%;
+
+    /* Gray/Gray – Primary */
+
+    color: #ADB5BD;
+}
+
+/*----------------------------------End Of Project Heading i.e Project A----------------------------*/
+/*----------------------------------------------build_phase-----------------------------------------*/
+.build_phase{
+    width: 87px;
+    height: 20px;
+
+    /* Headings/h5 */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height, or 125% */
+
+    display: flex;
+    align-items: flex-end;
+
+    /* Gray/Gray – Secondary */
+
+    color: #6C757D;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+.start_date{
+    width: 56px;
+    height: 16px;
+
+    /* Labels/Label Text – Regular */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+
+    /* Gray/Gray – Primary */
+
+    color: #ADB5BD;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+.end_date{
+    width: 50px;
+    height: 16px;
+
+    /* Labels/Label Text – Regular */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+
+    /* Gray/Gray – Primary */
+
+    color: #ADB5BD;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+/*----------------------------------------------End of build_phase-----------------------------------------*/
+
+.run_phase{
+    width: 77px;
+    height: 20px;
+
+    /* Headings/h5 */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height, or 125% */
+
+    display: flex;
+    align-items: flex-end;
+
+    /* Gray/Gray – Secondary */
+
+    color: #6C757D;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
