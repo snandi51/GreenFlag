@@ -7,7 +7,7 @@ urlpatterns = [
     path('logout', authentication_views.logout_user, name='logout'),
     path('projectA', management_views.projectA, name='projectA'),
     path('temp', management_views.test_graph, name='temp'),
-    path('forget_password', authentication_views.forget_password, name='forget_password'),
+    path('forgot_password', authentication_views.forgot_password, name='forgot_password'),
     path('change_password', authentication_views.change_password, name='change_password'),
     path('change_password_ok', authentication_views.change_password_ok, name='change_password_ok'),
 ]

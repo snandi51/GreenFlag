@@ -42,14 +42,14 @@ def logout_user(request):
     :return: Logout page
     """
     logout(request)
-    return render(request, 'login.html')
+    return render(request, 'logout.html')
 
 
-def forget_password(request):
+def forgot_password(request):
     context = {
         'password_change': True
     }
-    return render(request, 'forget_password.html', context)
+    return render(request, 'forgot_password.html', context)
 
 
 def change_password(request):

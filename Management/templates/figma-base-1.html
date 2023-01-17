@@ -20,7 +20,6 @@
   <link href="static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
 
   <!-- Template Main CSS File -->
   <link href="static/assets/css/style.css" rel="stylesheet">
@@ -28,6 +27,7 @@
     <link href="static/assets/css/v.css" rel="stylesheet">
     <link href="static/assets/css/p.css" rel="stylesheet">
     <link href="static/assets/css/s.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
   <!-- Template Main CSS File -->
@@ -92,7 +92,7 @@
                 <div>
                     <ul>
                       <li><img src="static/assets/img/logout-gf.png"></li>
-                      <li><a class="nav-link scrollto logout-button">Logout</a></li>
+                      <li><a href="{% url 'logout' %}" class="nav-link scrollto logout-button">Logout</a></li>
                     </ul>
                     {% endif %}
                 </div>
@@ -117,14 +117,14 @@
           </li>
           <li>
               <a href="#">
-                  <span class="icon"><img src="static/assets/img/help-icon.png"></span>
-                  <span class="title" id="title-3">Data Centers</span>
+                  <span class="icon"><img src="static/assets/img/data-center.png"></span>
+                  <span class="title" id="title-3">Data Center & Netw..</span>
               </a>
           </li>
           <li>
               <a href="#">
-                  <span class="icon"><img src="static/assets/img/help-icon.png"></span>
-                  <span class="title" id="title-4">Network Parameters</span>
+                  <span class="icon"><img src="static/assets/img/company-details.png"></span>
+                  <span class="title" id="title-4">Company Details</span>
               </a>
           </li>
           <li>
