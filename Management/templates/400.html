@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>400 Error</title>
+    <link href="static/assets/css/v.css" rel="stylesheet">
+    <link href="static/assets/css/figma-base-style.css" rel="stylesheet">
+</head>
+<body class="body-class error-class">
+   <div style="width: 100%;">
+     <div style="width: 50%; height: 95vh; float: left;">
+         <img src="static/assets/img/error_400.png" height="400" width="400" style="margin-top: 110px; margin-left: 50px;">
+     </div>
+     <div style="margin-left: 600px; height: 95vh;">
+        <div style="padding-top: 180px;">
+             <p class="static-font" style="color: #4FAFA2; font-size: 36px; font-weight: 500;">
+            Error 400: Bad Request
+         </p>
+         <p class="static-font" style="color: #ADB5BD; width: 400px; font-size: 14px;">
+            An error has been triggered by your last action. Please revert back to the home page.
+         </p>
+            <div style="padding-top: 20px;">
+                <a href="{% url 'login' %}"><button style="font-size: 12px; cursor: pointer; font-family: Ubuntu; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 144px; height: 32px; color: #E6E9EE; background-color: #4FAFA2;">GO TO HOMEPAGE</button></a>
+            </div>
+        </div>
+     </div>
+    </div>
+</body>
+</html>

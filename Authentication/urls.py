@@ -5,9 +5,18 @@ from Management import views as management_views
 urlpatterns = [
     path('', authentication_views.login_user, name='login'),
     path('logout', authentication_views.logout_user, name='logout'),
+    path('400', management_views.error_400, name='400'),
+    path('403', management_views.error_403, name='403'),
+    path('404', management_views.error_404, name='404'),
+    path('500', management_views.error_500, name='500'),
     path('projectA', management_views.projectA, name='projectA'),
     path('temp', management_views.test_graph, name='temp'),
     path('forgot_password', authentication_views.forgot_password, name='forgot_password'),
     path('change_password', authentication_views.change_password, name='change_password'),
     path('change_password_ok', authentication_views.change_password_ok, name='change_password_ok'),
 ]
+
+handler400 = "Management.views.error_400"
+handler403 = "Management.views.error_403"
+handler404 = "Management.views.error_404"
+handler500 = "Management.views.error_500"

@@ -23,6 +23,7 @@
   <!-- Vendor CSS Files -->
   <link href="static/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
   <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" rel="stylesheet">
   <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
@@ -39,42 +40,45 @@
 
 <body class="body-class">
 <div id="parent" style="border-radius: 0px;">
-  <div style="width: 45%; float: left; height: 100vh; border-radius: 0px;">
-    <div class="static-font" style="height: 30px; padding: 28px; margin-left: 50px; width: 100vh; font-size: 24px; line-height: 28px; font-weight: bold; color: #4FAFA2;">
-      GreenFlag
-    </div>
-    <div style="margin-left: 60px; padding: 22px; border-radius: 0px;">
-      <div style="border-radius: 0px;">
-          {% if text %}
-            <div style="height: 10px; width: 340px; text-align: center;">
-               <p style="font-size: 14px; color: red; text-align: center;">Invalid Username or Password!</p>
-            </div>
-          {% endif %}
-             {% csrf_token %}
-            <div style="margin-top: 250px;">
-                <p class="static-font" style="font-size: 24px; color: white;">
-                    You have been logged out ..!
-                </p>
-            </div>
-            <div class="button static-font" style="width: 375px; height: 34px;">
-               <a href="{% url 'login' %}"><button class="static-font" type="submit" style="background-color: #4FAFA2; height: 34px; font-family: Ubuntu">LOGIN AGAIN</button></a>
-            </div>
-              <div class="button static-font" style="width: 375px; height: 34px; margin-top: 110px;">
-               <p class="static-font" style="font-size: 12px; font-weight: 400; color: #6C757D;">If you face any issues, please contact the Solution Administrator at <b style="color: #6C757D;">abcdef@xyz.com.</b></p>
+      <div id="password_changed_ok" style="width: 45%; float: left; height: 100vh; border-radius: 0px;">
+        <div class="static-font" style="height: 30px; padding: 28px; margin-left: 50px; width: 100vh; font-size: 24px; line-height: 28px; font-weight: bold; color: #4FAFA2;">
+          GreenFlag
+        </div>
+        <div style="margin-top: 40px; margin-left: 60px; padding: 22px;">
+          <div class="static-font" style="margin-top: 10px; margin-left: 120px; font-size: 14px; color: #6C757D">
+              <i class="fa-regular fa-circle-check fa-10x" style="color: #489C69;"></i>
+          </div>
+        </div>
+        <div style="margin-left: 60px; padding: 22px;">
+          <div>
+              {% if text %}
+                <div style="height: 10px; width: 340px; text-align: center;">
+                   <p style="font-size: 14px; color: red; text-align: center;">Invalid Username or Password!</p>
+                </div>
+              {% endif %}
+                  <div class="form-group" style="width: 450px;">
+                    <label class="static-font" style="font-size: 28px; margin-left: 20px; color: #E6E9EE; weight: 500;">
+                        You have been successfully
+                    </label>
+                      <label class="static-font" style="font-size: 28px; color: #E6E9EE; weight: 500; margin-left: 120px;">logged out!</label>
+                      <label class="static-font" style="color: #ADB5BD; margin-top: 20px; font-size: 14px; margin-left: 110px;">You can now login again.</label>
+                  </div>
+                <div class="button static-font" style="width: 375px; height: 34px;">
+                   <a href="{% url 'login' %}"><button class="static-font" type="submit" style="background-color: #4FAFA2; height: 34px; font-family: Ubuntu">CONTINUE</button></a>
+                </div>
             </div>
         </div>
-    </div>
   </div>
   <div style="float: right; width: 55%; height: 100vh; border-radius: 0px;">
-     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" style="border-radius: 0px;">
-      <div class="carousel-inner" style="width: 100%; border-radius: 0px;">
-        <div class="carousel-item active" style="width: 100%; height: 100vh; border-radius: 0px;">
+     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner" style="width: 100%">
+        <div class="carousel-item active" style="width: 100%; height: 100vh;">
           <img class="d-block" src="static/assets/img/col1.png" height="100%" width="100%" alt="First slide" style="object-fit: fill;">
         </div>
-        <div class="carousel-item" style="width: 100%; border-radius: 0px;">
+        <div class="carousel-item" style="width: 100%">
           <img class="d-block" src="static/assets/img/col2.png" height="100%" width="100%" alt="Second slide" style="object-fit: contain;">
         </div>
-        <div class="carousel-item" style="width: 100%; border-radius: 0px;">
+        <div class="carousel-item" style="width: 100%">
           <img class="d-block" src="static/assets/img/col3.png" height="100%" width="100%" alt="Third slide" style="object-fit: contain;">
         </div>
       </div>

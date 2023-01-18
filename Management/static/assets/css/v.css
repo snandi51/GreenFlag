@@ -4,4 +4,9 @@
     @include 'coro.css';
 }
 
+
+.error-class {
+    background-color: #121010;
+}
+
 /* Vishal CSS styles end */
