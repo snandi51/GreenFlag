@@ -10,8 +10,10 @@ urlpatterns = [
     path('404', management_views.error_404, name='404'),
     path('500', management_views.error_500, name='500'),
     path('projectA', management_views.projectA, name='projectA'),
+    path('company_detail', management_views.company_detail, name='company_detail'),
     path('temp', management_views.test_graph, name='temp'),
     path('forgot_password', authentication_views.forgot_password, name='forgot_password'),
+    path('index', management_views.index, name='index'),
     path('change_password', authentication_views.change_password, name='change_password'),
     path('change_password_ok', authentication_views.change_password_ok, name='change_password_ok'),
 ]
