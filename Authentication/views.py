@@ -18,7 +18,7 @@ def login_user(request):
         request.session['username'] = username
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            context = {'username': username}
+            context = {'username': username, 'draft_db_projects': [1, 2, 3, 4, 5, 6], 'complete_db_projects': [1, 2, 3, 4, 5, 6]}
             login(request, user)
             return render(request, 'index.html', context)
         else:
@@ -28,7 +28,7 @@ def login_user(request):
             messages.success(request, 'Invalid Username or Password')
             return render(request, 'login.html', context)
     if request.user.is_authenticated:
-        context = {'username': request.session.get('username')}
+        context = {'username': request.session.get('username'), 'draft_db_projects': [1, 2, 3, 4, 5, 6], 'complete_db_projects': [1, 2, 3, 4, 5, 6]}
         return render(request, 'index.html', context)
     else:
         return render(request, 'login.html')

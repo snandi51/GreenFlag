@@ -245,6 +245,18 @@
     grid-template-columns:repeat(3, 1fr);
 }
 
+.details_1{
+    position:relative;
+    width:100%;
+    display:grid;
+    left:20px;
+    padding:10px;
+    grid-gap:10px;
+    bottom:100px;
+    grid-template-columns:2fr 2fr;
+    grid-template-columns:repeat(2, 1fr);
+}
+
 .details .recentOrders{
     position:relative;
     padding:10px;
@@ -253,6 +265,16 @@
     width:96%;
     padding-right:20px;
 }
+
+.details_1 .recentOrders{
+    position:relative;
+    padding:10px;
+    min-height:200px;
+    background:#1A1D23;
+    width:96%;
+    padding-right:20px;
+}
+
 .cardHeader{
     display:flex;
     justify-content:space-between;
@@ -322,6 +344,47 @@
 }
 .details .recentOrders table thead tr td:nth-child(2),
 .details .recentOrders table tbody tr td:nth-child(2){
+    text-align:right;
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.details_1 table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    color:#ADB5BD;
+}
+.details_1 table thread td{
+    font-width:600;
+    border-bottom: 1px solid;
+}
+.details_1 .recentOrders table tr{
+    border-bottom: 0.2px solid #ADB5BD;
+}
+.details_1 .recentOrders table tbody tr:last-child{
+    border-bottom:none;
+}
+.details_1 .recentOrders table tbody tr:hover{
+    color:#ADB5BD;
+}
+.details_1 .recentOrders table tr td{
+    padding: 15px 5px;
+}
+.details_1 .recentOrders table thead tr td:first-child,
+.details_1 .recentOrders table tbody tr td:first-child{
+    text-align:start;
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+}
+.details_1 .recentOrders table thead tr td:nth-child(2),
+.details_1 .recentOrders table tbody tr td:nth-child(2){
     text-align:right;
     font-family: 'Ubuntu';
     font-style: normal;
@@ -591,6 +654,7 @@
 }
 
 .dropdown-content {
+    margin-left: -180px;
     display: none;
     position:absolute;
     font-size:14px;
@@ -987,7 +1051,9 @@
       border: 1px solid #DDD;
       border-radius: 50%;
       background-color:#ADB5BD;
+      font-weight: 500;
       display: block;
+      cursor: pointer;
       text-align: center;
       margin: 0 auto 10px auto;
  }
@@ -1004,7 +1070,7 @@
 
 
 .navigation_menu li.tab_inactive:after {
-        content: "\2713";
+        content: "\2714";
         font-size: 20px;
         color: #FFF;
         text-align: center;
@@ -1072,7 +1138,7 @@
     position: absolute;
     left: 350px;
     right: 2.2%;
-    bottom: 8.25%;
+    bottom: 11.25%;
 
     /* Gray/Gray – Secondary */
     color: #6C757D;
