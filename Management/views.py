@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import django
-from MyProjects.models import PROJECT_DETAILS
+from MyProjects.models import ProjectDetails
 
 # Create your views here.
 
@@ -26,6 +26,9 @@ def index(request):
     return render(request, 'index.html')
 
 
+import pandas as pd
+
+
 def projectA(request):
     """
     Project Duration
@@ -44,6 +47,7 @@ def projectA(request):
         ps = request.POST.get('ps')
         bu = request.POST.get('bu')
         department = request.POST.get('department')
+        development = request.POST.get('development')
         type_project = request.POST.get('type_project')
 
         name = request.POST.get('name')
@@ -58,41 +62,52 @@ def projectA(request):
         director = request.POST.get('director')
         project = request.POST.get('project')
 
-        laptop = request.POST.get('laptop')
-        pc = request.POST.get('pc')
-        tablet = request.POST.get('tablet')
-        telephone = request.POST.get('telephone ')
-        printer = request.POST.get('printer')
-        speaker = request.POST.get('speaker')
-        projector = request.POST.get('projector')
-        monitor = request.POST.get('monitor')
+        WhichUserEquipment = request.POST.get('WhichUserEquipment')
+        # laptop = request.POST.get('laptop')
+        # pc = request.POST.get('pc')
+        # tablet = request.POST.get('tablet')
+        # telephone = request.POST.get('telephone ')
+        # printer = request.POST.get('printer')
+        # speaker = request.POST.get('speaker')
+        # projector = request.POST.get('projector')
+        # monitor = request.POST.get('monitor')
 
-        laptop1 = request.POST.get('laptop1')
-        camera = request.POST.get('camera')
-        sensor = request.POST.get('sensor')
-        lidar = request.POST.get('lidar')
+        WhichIndustrialEquipment = request.POST.get('WhichIndustrialEquipment')
+        # laptop1 = request.POST.get('laptop1')
+        # camera = request.POST.get('camera')
+        # sensor = request.POST.get('sensor')
+        # lidar = request.POST.get('lidar')
 
-        fuel = request.POST.get('fuel')
-        electricity = request.POST.get('electricity')
-        water = request.POST.get('water')
-        paper = request.POST.get('paper')
-        plastic = request.POST.get('plastic')
-        waste_material = request.POST.get('waste_material')
-        raw_material = request.POST.get('raw_material')
+        WhichParametersImplemented = request.POST.get('WhichParametersImplemented')
 
-        # project_details = PROJECT_DETAILS.objects.all()
-        # print(project_details)
+        # ProjId = request.user.id
 
-        # project_details_data = PROJECT_DETAILS(ProjectName=name, ProjectLocation=pl_1, Department=department,
-        #                                        WhichUserEquipment=(laptop, pc, tablet, telephone, printer,
-        #                                                            speaker, projector, monitor),
-        #                                        WhichIndustrialEquipment=(laptop1, camera, sensor, lidar),
-        #                                        WhichParametersImplemented=(fuel, electricity, water, paper, plastic,
-        #                                                                    waste_material, raw_material),
-        #                                        BUConcerned=bu, ProjectStatus=ps, PhaseType=type_project,
-        #                                        BuildStartDate=start_date_build, BuildEndDate=end_date_build,
-        #                                        RunStartDate=start_date_run, RunEndDate=end_date_run,)
-        # print(project_details_data)
+        # fuel = request.POST.get('fuel')
+        # electricity = request.POST.get('electricity')
+        # water = request.POST.get('water')
+        # paper = request.POST.get('paper')
+        # plastic = request.POST.get('plastic')
+        # waste_material = request.POST.get('waste_material')
+        # raw_material = request.POST.get('raw_material')
+        # import ipdb
+        # ipdb.set_trace()
+        ProjectDetails_db = ProjectDetails.objects.all()
+        print(ProjectDetails_db)
+        Year = 2022
+        Quarter = 2
+
+        project_details_data = ProjectDetails(projectname=name, projectlocation=pl_1,
+                                               department=department,
+                                               whichuserequipment=WhichUserEquipment,
+                                               whichindustrialequipment=WhichIndustrialEquipment,
+                                               whichparametersimplemented=WhichParametersImplemented,
+                                               buconcerned=bu, projectstatus=ps, phasetype=type_project,
+                                               buildstartdate=start_date_build, buildenddate=end_date_build,
+                                               runstartdate=start_date_run, runenddate=end_date_run,
+                                               year=Year, quarter=Quarter, create_timestamp=start_date_build,
+                                               update_timestamp=start_date_build)
+        project_details_data.save()
+        print(project_details_data)
 
         context = {
             'start_date_build': start_date_build,
@@ -114,25 +129,29 @@ def projectA(request):
             'it_front': it_front,
             'director': director,
             'project': project,
-            'laptop': laptop,
-            'pc': pc,
-            'tablet': tablet,
-            'telephone': telephone,
-            'printer': printer,
-            'speaker': speaker,
-            'projector': projector,
-            'monitor': monitor,
-            'laptop1': laptop1,
-            'camera': camera,
-            'sensor': sensor,
-            'lidar': lidar,
-            'fuel': fuel,
-            'electricity': electricity,
-            'water': water,
-            'paper': paper,
-            'plastic': plastic,
-            'waste_material': waste_material,
-            'raw_material': raw_material,
+            'WhichUserEquipment': WhichUserEquipment,
+            'WhichIndustrialEquipment': WhichIndustrialEquipment,
+            'WhichParametersImplemented': WhichParametersImplemented,
+            'development': development,
+            # 'laptop': laptop,
+            # 'pc': pc,
+            # 'tablet': tablet,
+            # 'telephone': telephone,
+            # 'printer': printer,
+            # 'speaker': speaker,
+            # 'projector': projector,
+            # 'monitor': monitor,
+            # 'laptop1': laptop1,
+            # 'camera': camera,
+            # 'sensor': sensor,
+            # 'lidar': lidar,
+            # 'fuel': fuel,
+            # 'electricity': electricity,
+            # 'water': water,
+            # 'paper': paper,
+            # 'plastic': plastic,
+            # 'waste_material': waste_material,
+            # 'raw_material': raw_material,
         }
         return render(request, 'projectA.html', context)
     return render(request, 'projectA.html')
@@ -140,6 +159,14 @@ def projectA(request):
 
 def company_detail(request):
     return render(request, 'company_detail.html')
+
+
+def Help(request):
+    return render(request, 'Help.html')
+
+
+def Indirect_Impact(request):
+    return render(request, 'Indirect_Impact.html')
 
 
 def test_graph(request):
