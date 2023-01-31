@@ -1,0 +1,298 @@
+{% extends 'figma-base-1.html' %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    $(function() {
+        $( "#datepicker" ).datepicker({dateFormat: 'yy'});
+    });
+
+    function toggleText2(){
+        var myText_2=document.getElementById("info2");
+        var displaySetting=myText_2.style.display;
+        var dp = document.getElementById("dp");
+        var down2 = document.getElementById("down2");
+        var up2 = document.getElementById("up2");
+
+        if(displaySetting == 'none'){
+            myText_2.style.display='block';
+            dp.style.color='#4FAFA2';
+            up2.style.display='block';
+            down2.style.display='none';
+        }
+        else{
+            myText_2.style.display='none';
+            dp.style.color='#ADB5BD';
+            up2.style.display='none';
+            down2.style.display='block';
+        }
+    }
+
+    function toggleText3(){
+        var myText_3=document.getElementById("info3");
+        var displaySetting=myText_3.style.display;
+        var num_emp = document.getElementById("num_emp");
+        var down3 = document.getElementById("down3");
+        var up3 = document.getElementById("up3");
+
+        if(displaySetting == 'none'){
+            myText_3.style.display='block';
+            num_emp.style.color='#4FAFA2';
+            up3.style.display='block';
+            down3.style.display='none';
+        }
+        else{
+            myText_3.style.display='none';
+            num_emp.style.color='#ADB5BD';
+            up3.style.display='none';
+            down3.style.display='block';
+        }
+    }
+
+    function toggleText4(){
+        var myText_4=document.getElementById("info4");
+        var displaySetting=myText_4.style.display;
+        var unit_prod = document.getElementById("unit_prod");
+        var down4 = document.getElementById("down4");
+        var up4 = document.getElementById("up4");
+
+        if(displaySetting == 'none'){
+            myText_4.style.display='block';
+            unit_prod.style.color='#4FAFA2';
+            up4.style.display='block';
+            down4.style.display='none';
+        }
+        else{
+            myText_4.style.display='none';
+            unit_prod.style.color='#ADB5BD';
+            up4.style.display='none';
+            down4.style.display='block';
+        }
+    }
+
+    function toggleText5(){
+        var myText_5=document.getElementById("info5");
+        var displaySetting=myText_5.style.display;
+        var prod_year = document.getElementById("prod_year");
+        var down5 = document.getElementById("down5");
+        var up5 = document.getElementById("up5");
+
+        if(displaySetting == 'none'){
+            myText_5.style.display='block';
+            prod_year.style.color='#4FAFA2';
+            up5.style.display='block';
+            down5.style.display='none';
+        }
+        else{
+            myText_5.style.display='none';
+            prod_year.style.color='#ADB5BD';
+            up5.style.display='none';
+            down5.style.display='block';
+        }
+    }
+
+    function toggleText6(){
+        var myText_6=document.getElementById("info6");
+        var displaySetting=myText_6.style.display;
+        var target_sbt = document.getElementById("target_sbt");
+        var down6 = document.getElementById("down6");
+        var up6 = document.getElementById("up6");
+
+        if(displaySetting == 'none'){
+            myText_6.style.display='block';
+            target_sbt.style.color='#4FAFA2';
+            up6.style.display='block';
+            down6.style.display='none';
+        }
+        else{
+            myText_6.style.display='none';
+            target_sbt.style.color='#ADB5BD';
+            up6.style.display='none';
+            down6.style.display='block';
+        }
+    }
+
+    function toggleText7(){
+        var myText_7=document.getElementById("info7");
+        var displaySetting=myText_7.style.display;
+        var precise = document.getElementById("precise");
+        var down7 = document.getElementById("down7");
+        var up7 = document.getElementById("up7");
+
+        if(displaySetting == 'none'){
+            myText_7.style.display='block';
+            precise.style.color='#4FAFA2';
+            up7.style.display='block';
+            down7.style.display='none';
+        }
+        else{
+            myText_7.style.display='none';
+            precise.style.color='#ADB5BD';
+            up7.style.display='none';
+            down7.style.display='block';
+        }
+    }
+</script>
+<body>
+<div id="main_width" class="main_width scroll" style="overflow-y : auto">
+    <form action="Help"  method="post">
+        {% csrf_token %}
+        <!---------------------------------------------Frequently Asked Questions--------------------------------------->
+        <div class="header_div_1" style="margin-left:80px;">
+            <div class="header_project_a" style="width:100%;">
+                <div>
+                    <h3>Frequently Asked Questions</h3>
+                    <div class="paragraph" style="top:35px;">
+                        <p>Have questions? We’re here to help.</p>
+                    </div>
+                    <div class="search_project" style="top:70px;">
+                        <input type="text" placeholder="Search Projects" name="search" style="font-size:14px; font-weight: 400; font-family: 'Ubuntu';background-color: black; border:none; height:20px; color:#6C757D; width: 90%;">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+            </div>
+
+            <div class="start_subheading2" style="margin-top:30px;">
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="text-align:inline; width:170%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="dp">Lorem ipsum dolor sit amet, consectetur adipiscing elit?</p>
+                    </div>
+                    <div id="down2" class="img_class_toggle_2" onclick="toggleText2()" style="display:block; width:70%; left:10.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn2').click()" alt="Info"></i>
+                    </div>
+                    <div id="up2" class="img_class_toggle_2" onclick="toggleText2()" style="display:none; width:70%; left:10.5%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn2').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 75%;">
+                <div id="info2" style="width:100%; padding-bottom:50px; display:none;">
+                    <div  style="width:77%; margin-top:50px;">
+                        <label class="project_location_header" style="padding-bottom:12px;">At that moment he had a thought that he’d never imagine he’d consider. “I could just cheat,” he thought, “and that would solve the problem.” He tried to move on from the thought but it was persistent. It didn't want to go away and, if he was honest with himself, he didn't want it to. At that moment he had a thought that he’d never imagine he’d consider. “I could just cheat,” he thought, “and that would solve the problem.” He tried to move on from the thought but it was persistent. It didn't want to go away and, if he was honest with himself, he didn't want it to.</label>
+                    </div>
+                    <hr style="border: 1px solid #ADB5BD; width: 75%; margin-top:50px;">
+                </div>
+                <!-------------------------------------------------End of Investment in Digital Projects------------------------------------->
+                <!------------------------------------------------Number Of Employees----------------------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="text-align:inline; width:170%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="num_emp">Lorem ipsum dolor sit amet, consectetur adipiscing elit?</p>
+                    </div>
+                    <div id="down3" class="img_class_toggle_3" onclick="toggleText3()" style="display:block; width:70%; left:10.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn3').click()" alt="Info"></i>
+                    </div>
+                    <div id="up3" class="img_class_toggle_3" onclick="toggleText3()" style="display:none; width:70%; left:10.5%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn3').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 75%;">
+                <div id="info3" style="width:100%; padding-bottom:50px; display:none;">
+                    <div  style="width:77%; margin-top:50px;">
+                        <label class="project_location_header" style="padding-bottom:12px;">At that moment he had a thought that he’d never imagine he’d consider. “I could just cheat,” he thought, “and that would solve the problem.” He tried to move on from the thought but it was persistent. It didn't want to go away and, if he was honest with himself, he didn't want it to. At that moment he had a thought that he’d never imagine he’d consider. “I could just cheat,” he thought, “and that would solve the problem.” He tried to move on from the thought but it was persistent. It didn't want to go away and, if he was honest with himself, he didn't want it to.</label>
+                    </div>
+                    <hr style="border: 1px solid #ADB5BD; width: 75%; margin-top:50px;">
+                </div>
+                <!-------------------------------------End of Number of employees---------------------------------------->
+                <!-------------------------------------Unit Of Production--------------------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="text-align:inline; width:170%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="unit_prod">Lorem ipsum dolor sit amet, consectetur adipiscing elit?</p>
+                    </div>
+                    <div id="down4" class="img_class_toggle_4" onclick="toggleText4()" style="display:block; width:70%; left:10.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn4').click()" alt="Info"></i>
+                    </div>
+                    <div id="up4" class="img_class_toggle_4" onclick="toggleText4()" style="display:none; width:70%; left:10.5%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn4').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 75%;">
+                <div id="info4" style="width:100%; padding-bottom:50px; display:none;">
+                    <div  style="width:77%; margin-top:50px;">
+                        <label class="project_location_header" style="padding-bottom:12px;">At that moment he had a thought that he’d never imagine he’d consider. “I could just cheat,” he thought, “and that would solve the problem.” He tried to move on from the thought but it was persistent. It didn't want to go away and, if he was honest with himself, he didn't want it to. At that moment he had a thought that he’d never imagine he’d consider. “I could just cheat,” he thought, “and that would solve the problem.” He tried to move on from the thought but it was persistent. It didn't want to go away and, if he was honest with himself, he didn't want it to.</label>
+                    </div>
+                    <hr style="border: 1px solid #ADB5BD; width: 75%; margin-top:50px;">
+                </div>
+                <!---------------------------------------------End of Unit Of Production------------------------------------------>
+                <!---------------------------------------------Production over the Years----------------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="text-align:inline; width:170%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="prod_year">Lorem ipsum dolor sit amet, consectetur adipiscing elit?</p>
+                    </div>
+                    <div id="down5" class="img_class_toggle_2" onclick="toggleText5()" style="display:block; width:70%; left:10.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn5').click()" alt="Info"></i>
+                    </div>
+                    <div id="up5" class="img_class_toggle_2" onclick="toggleText5()" style="display:none; width:70%; left:10.5%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn5').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 75%;">
+                <div id="info5" style="width:100%; padding-bottom:50px; display:none;">
+                    <div  style="width:77%; margin-top:50px;">
+                        <label class="project_location_header" style="padding-bottom:12px;">At that moment he had a thought that he’d never imagine he’d consider. “I could just cheat,” he thought, “and that would solve the problem.” He tried to move on from the thought but it was persistent. It didn't want to go away and, if he was honest with himself, he didn't want it to. At that moment he had a thought that he’d never imagine he’d consider. “I could just cheat,” he thought, “and that would solve the problem.” He tried to move on from the thought but it was persistent. It didn't want to go away and, if he was honest with himself, he didn't want it to.</label>
+                    </div>
+                    <hr style="border: 1px solid #ADB5BD; width: 75%; margin-top:50px;">
+                </div>
+                <!------------------------------------------------End of Production over the Years--------------------------------------------------->
+                <!------------------------------------------------Target trajectory (TCO2e) defined by the SBTi-------------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="text-align:inline; width:170%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="target_sbt">Lorem ipsum dolor sit amet, consectetur adipiscing elit?</p>
+                    </div>
+                    <div id="down6" class="img_class_toggle_2" onclick="toggleText6()" style="display:block; width:70%; left:10.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn6').click()" alt="Info"></i>
+                    </div>
+                    <div id="up6" class="img_class_toggle_2" onclick="toggleText6()" style="display:none; width:70%; left:10.5%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn6').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 75%;">
+                <div id="info6" style="width:100%; padding-bottom:50px; display:none;">
+                    <div  style="width:77%; margin-top:50px;">
+                        <label class="project_location_header" style="padding-bottom:12px;">At that moment he had a thought that he’d never imagine he’d consider. “I could just cheat,” he thought, “and that would solve the problem.” He tried to move on from the thought but it was persistent. It didn't want to go away and, if he was honest with himself, he didn't want it to. At that moment he had a thought that he’d never imagine he’d consider. “I could just cheat,” he thought, “and that would solve the problem.” He tried to move on from the thought but it was persistent. It didn't want to go away and, if he was honest with himself, he didn't want it to.</label>
+                    </div>
+                    <hr style="border: 1px solid #ADB5BD; width: 75%; margin-top:50px;">
+                </div>
+                <!-------------------------------------------------End of Target trajectory (TCO2e) defined by the SBTi---------------------------------------------->
+                <!----------------------------------------------------Intensity figure----------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="text-align:inline; width:170%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="precise">Lorem ipsum dolor sit amet, consectetur adipiscing elit?</p>
+                    </div>
+                    <div id="down7" class="img_class_toggle_2" onclick="toggleText7()" style="display:block; width:70%; left:10.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn7').click()" alt="Info"></i>
+                    </div>
+                    <div id="up7" class="img_class_toggle_2" onclick="toggleText7()" style="display:none; width:70%; left:10.5%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn7').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 75%;">
+                <div id="info7" style="width:100%; padding-bottom:50px; display:none;">
+                    <div  style="width:77%; margin-top:50px;">
+                        <label class="project_location_header" style="padding-bottom:12px;">At that moment he had a thought that he’d never imagine he’d consider. “I could just cheat,” he thought, “and that would solve the problem.” He tried to move on from the thought but it was persistent. It didn't want to go away and, if he was honest with himself, he didn't want it to. At that moment he had a thought that he’d never imagine he’d consider. “I could just cheat,” he thought, “and that would solve the problem.” He tried to move on from the thought but it was persistent. It didn't want to go away and, if he was honest with himself, he didn't want it to.</label>
+                    </div>
+                    <hr style="border: 1px solid #ADB5BD; width: 75%; margin-top:50px;">
+                </div>
+                <!-------------------------------------------End of Projection by 2050 of my digital contribution(TCO2e)---------------------------------------------------->
+<!--                <div class="footer" style="right:15px;">-->
+<!--                    <button type="submit" class="save" style="width:120px; margin-right:120px; float:right; border-radius:4px;  "><b class="continue" style="width:110px;">Save Details</b></button>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}
+</body>
+</html>

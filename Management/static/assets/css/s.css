@@ -2,6 +2,10 @@
 input::-webkit-calendar-picker-indicator:hover {
   cursor: pointer;
 }
+input::-webkit-calendar-picker-indicator: {
+  background: white;
+  border:1px solid white;
+}
 .div_class_1{
     position:relative;
     width:100%;
@@ -528,5 +532,352 @@ input::-webkit-calendar-picker-indicator:hover {
 
     flex: none;
     order: 0;
+    flex-grow: 0;
+}
+/*****************************Company Details****************/
+.company_name{
+    width: 100%;
+    height: 20px;
+
+    /* Headings/h5 */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height, or 125% */
+
+    display: flex;
+    align-items: flex-end;
+
+    /* Gray/Gray – Secondary */
+
+    color: #6C757D;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+.name{
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 8px;
+
+    width: 395px;
+    height: 32px;
+
+    /* Gray/Gray – Secondary */
+
+    border: 1px solid #6C757D;
+    border-radius: 4px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+.company_inner_name{
+    width: 86px;
+    height: 16px;
+
+    /* Labels/Label Text – Regular */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+
+    /* Gray/Gray – Primary */
+
+    color: #ADB5BD;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+.input_1{
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 8px;
+
+    width: 100%;
+    height: 32px;
+    background:transparent;
+
+    /* Gray/Gray – Secondary */
+
+    border: 1px solid #6C757D;
+    border-radius: 4px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+.time_period{
+    width: 100%;
+    height: 20px;
+
+    /* Headings/h5 */
+    margin-top:30px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height, or 125% */
+
+    display: flex;
+    align-items: flex-end;
+
+    /* Gray/Gray – Secondary */
+
+    color: #6C757D;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+
+.scroll::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 0 #ADB5BD;
+    border-radius: 4px;
+}
+
+/* Handle */
+.scroll::-webkit-scrollbar-thumb {
+    background:#ADB5BD ;
+    border-radius: 4px;
+}
+/* Handle on hover */
+.scroll::-webkit-scrollbar-thumb:hover {
+    background: #ADB5BD ;
+}
+.scroll::-webkit-scrollbar {
+    width:10px;
+    height:4px;
+}
+.table_select{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+
+    width: 238px;
+
+    /* Black/Black – Secondary
+
+    Background 2
+    */
+    background: #1A1D23;
+    /* Gray/Gray – Tertiary */
+
+    border: 1px solid #34373D;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
+.table_select_content{
+
+    /* Body Text/Body Text – Regular */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height, or 129% */
+
+    display: flex;
+
+    /* White/White – Secondary */
+
+    color: #CED4DA;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+.customize_button{
+
+    /* Buttons/Regular Button */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-feature-settings: 'liga' off;
+
+    /* Accent/Accent – Primary */
+
+    color: #4FAFA2;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.footer{
+    position: fixed;
+    padding: 10px 10px 0px 10px;
+    bottom: 0;
+    width: 100%;
+    height: 55px;
+    z-index: 1;
+    background: #1A1D23;
+}
+
+.header_div_1{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 50px;
+    top: 20px;
+}
+
+.start_subheading2{
+    position: absolute;
+    width:90%;
+    height:28px;
+    left: 10px;
+    top: 120px;
+    bottom: 0%;
+}
+.scope_1{
+    width: 87px;
+    height: 20px;
+
+    /* Headings/h5 */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height, or 125% */
+
+    display: flex;
+    align-items: flex-end;
+
+    /* Gray/Gray – Primary */
+
+    color: #ADB5BD;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+.scope{
+    text-align:inline;
+    width:90%;
+    padding:0px;
+    float:left;
+}
+.search_project{
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 12px 8px 16px;
+    gap: 8px;
+
+    position: absolute;
+    width:44%;
+    height: 32px;
+
+    /* Gray/Gray – Secondary */
+
+    border: 1px solid #6C757D;
+    border-radius: 4px;
+}
+
+.progress3{
+    background:#ADB5BD;
+    width:25%;
+    height:1.5px;
+    transition:0.1s;
+}
+.search_new{
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 12px 8px 16px;
+    gap: 8px;
+
+    width: 191.25px;
+    height: 32px;
+
+    /* Gray/Gray – Secondary */
+
+    border: 1px solid #6C757D;
+    border-radius: 4px;
+    background: #23272E;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
     flex-grow: 0;
 }

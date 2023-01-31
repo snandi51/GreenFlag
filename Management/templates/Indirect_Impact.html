@@ -1,0 +1,363 @@
+{% extends 'figma-base-1.html' %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+table {
+  font-family: ubuntu;
+  width: 70%;
+  color: #ADB5BD;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  border-radius: none;
+  border-collapse: separate;
+  border-spacing: 0 5px;
+}
+td {
+  text-align: left;
+  padding: 15px;
+  border-radius: 3px;
+<!--  background: #1A1D23;-->
+  background: #23272E;
+
+}
+th {
+  text-align: left;
+  padding: 15px;
+  border-radius: 3px;
+<!--  background: #1A1D23;-->
+  background: #23272E;
+}
+tr:nth-child() {
+  background: #23272E;
+  margin-top:100px;
+  border-radius: none;
+}
+
+
+
+</style>
+<script>
+    function openCity(evt, cityName) {
+      var i;
+      var x = document.getElementsByClassName('city');
+      var nav_button_1 = document.getElementById('nav_button_1');
+      var nav_button_2 = document.getElementById('nav_button_2');
+      console.log(evt)
+      console.log(cityName)
+      var progress2 = document.querySelector('.progress2')
+      if (cityName == 'Run'){
+        progress2.style.marginLeft = '80px';
+        nav_button_2.style.color = '#ADB5BD';
+        nav_button_1.style.color = '#6C757D';
+        nav_button_1.style.borderColor = 'transparent';
+        nav_button_2.style.borderColor = 'transparent';
+        nav_button_2.style.outline = 'thick solid #121010';
+        nav_button_1.style.outline = 'thick solid #121010';
+      } else{
+        progress2.style.marginLeft = '0px';
+        nav_button_1.style.color = '#ADB5BD';
+        nav_button_2.style.color = '#6C757D';
+        nav_button_1.style.borderColor = 'transparent';
+        nav_button_2.style.borderColor = 'transparent';
+        nav_button_2.style.outline = 'thick solid #121010';
+        nav_button_1.style.outline = 'thick solid #121010';
+      }
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = 'none';
+      }
+      document.getElementById(cityName).style.display = 'block';
+    }
+
+
+    function delete_complete(delete_complete_id){
+        var main_div = document.getElementById('main_width');
+        var edit_project_popup_div = document.getElementById('delete_project_popup_div');
+        console.log('mark_complete_dropdown ID: ' + delete_complete_id)
+        main_div.style.opacity = 0.5;
+        delete_project_popup_div.style.display = 'block';
+    }
+
+    function delete_take_me_back(){
+        var main_div = document.getElementById('main_width');
+        var edit_project_popup_div = document.getElementById('delete_project_popup_div');
+        main_div.style.opacity = 1;
+        edit_project_popup_div.style.display = 'none';
+    }
+
+
+</script>
+
+<script>
+    function active_tab(){
+    var project_details_sidebar_option1 = document.getElementById('project_details_sidebar_option1');
+    var project_details_sidebar_icon_option1 = document.getElementById('project_details_sidebar_icon_option1');
+    var project_details_sidebar_option2 = document.getElementById('project_details_sidebar_option2');
+    var project_details_sidebar_icon_option2 = document.getElementById('project_details_sidebar_icon_option2');
+    var project_details_sidebar_option3 = document.getElementById('project_details_sidebar_option3');
+    var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3');
+    var project_details_sidebar_option4 = document.getElementById('project_details_sidebar_option4');
+    var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4');
+    var project_details_sidebar_option5 = document.getElementById('project_details_sidebar_option5');
+    var project_details_sidebar_icon_option5 = document.getElementById('project_details_sidebar_icon_option5');
+      if (project_details_sidebar_option1.style.display === 'none') {
+        project_details_sidebar_option1.style.display = 'block';
+        project_details_sidebar_icon_option1.style.display = 'block';
+
+        project_details_sidebar_option2.style.display = 'block';
+        project_details_sidebar_icon_option2.style.display = 'block';
+
+        project_details_sidebar_option3.style.display = 'block';
+        project_details_sidebar_icon_option3.style.display = 'block';
+
+        project_details_sidebar_option4.style.display = 'block';
+        project_details_sidebar_icon_option4.style.display = 'block';
+
+        project_details_sidebar_option5.style.display = 'block';
+        project_details_sidebar_icon_option5.style.display = 'block';
+      } else {
+        project_details_sidebar_option1.style.display = 'none';
+        project_details_sidebar_icon_option1.style.display = 'none';
+
+        project_details_sidebar_option2.style.display = 'none';
+        project_details_sidebar_icon_option2.style.display = 'none';
+
+        project_details_sidebar_option3.style.display = 'none';
+        project_details_sidebar_icon_option3.style.display = 'none';
+
+        project_details_sidebar_option4.style.display = 'none';
+        project_details_sidebar_icon_option4.style.display = 'none';
+
+        project_details_sidebar_option5.style.display = 'none';
+        project_details_sidebar_icon_option5.style.display = 'none';
+      }
+    }
+</script>
+<body>
+<div id="main_width" class="main_width scroll" style="overflow-y : auto">
+        <!--------------------------------------Progress Bar Step--------------------------------->
+    <div class="project_a_outer static-font" >
+        <div class="project_a_inner">
+            <div class="navigation_menu" id="navigation_menu">
+                <ul class="navigation_tabs" id="navigation_tabs">
+                    <!--                        <li class="tab_inactive">-->
+                    <!--                            <a href="#">Project Details</a>-->
+                    <!--                        </li>-->
+                    <li class="tab_active">
+                        <a onclick="active_tab()" id="project_details_sidebar" style="color:#ADB5BD; cursor: pointer; font-size: 16px;">Project Details</a>
+                        <i class="fa fa-check-circle" id="project_details_sidebar_icon_option1" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a href="#" id="project_details_sidebar_option1" style="color:#6C757D; font-size: 12px; display: none; padding-top: 15px;">Project Duration</a>
+                        <i class="fa fa-check-circle" id="project_details_sidebar_icon_option2" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a href="#" id="project_details_sidebar_option2" style="color:#6C757D; font-size: 12px; display: none; padding-top: 15px;">Project Details</a>
+                        <i class="fa fa-check-circle" id="project_details_sidebar_icon_option3" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a href="#" id="project_details_sidebar_option3" style="color:#6C757D; font-size: 12px; display: none; padding-top: 15px;">Project Roles</a>
+                        <i class="fa fa-check-circle" id="project_details_sidebar_icon_option4" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a href="#" id="project_details_sidebar_option4" style="color:#6C757D; font-size: 12px; display: none; padding-top: 15px;">Direct Impact Parameters</a>
+                        <i class="fa fa-check-circle" id="project_details_sidebar_icon_option5" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a href="#" id="project_details_sidebar_option5" style="color:#6C757D; font-size: 12px; display: none; padding-top: 15px;">Indirect Impact Parameters</a>
+                    </li>
+                    <li class="tab_active">
+                        <a href="#" style="color:#ADB5BD; font-size: 16px;">Load Plan</a>
+                    </li>
+                    <li class="tab_active" style="display:none">
+                        <a href="#" style="color:#6C757D;">Build Phase</a>
+                    </li>
+                    <li class="tab_active"  style="display:none">
+                        <a href="#" style="color:#6C757D;">Run Phase</a>
+                    </li>
+                    <li class="tab_active">
+                        <a href="#" style="color:#ADB5BD; font-size: 16px;">Direct Impact</a>
+                    </li>
+                    <li class="tab_active">
+                        <a href="#" style="color:#ADB5BD; font-size: 16px;">Indirect Impact</a>
+                    </li>
+                    <!--                        <li class="tab_disabled">-->
+                    <!--                            <a href="#">Indirect Impact</a>-->
+                    <!--                        </li>-->
+                </ul>
+            </div>
+        </div>
+
+    </div>
+        <!-------------------------------------------End Of Progress Bar------------------------------------->
+        <!---------------------------------------------Indirect Impact--------------------------------------->
+        <div class="header_div" style="padding-bottom:220px;">
+            <div class="header_project_a" style="width:100%;">
+                <div>
+                    <h3>Indirect Impact</h3>
+                    <div class="paragraph" style="top:35px;">
+                        <p>Lorem Ipsum</p>
+                    </div>
+                    <div class="paragraph" style="top:80px;">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w3-bar static-font" style="width: 70%;margin-left: 10px; margin-top: 120px; font-weight: 400; font-size: 16px; line-height: 20px;">
+                <div style="position:absolute;  width:90%; float:left">
+                    <button id="nav_button_1" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Build');"  style="color: #ADB5BD; border:none; background-color:transparent" name="build" value="0">Build</button>
+                    <button id="nav_button_2" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Run');" style="color: #6C757D; border:none; background-color:transparent" name="run" value="1">Run</button>
+                </div>
+                <div style=" width:100%; text-align:end;">
+                    <button class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'customise');" style="color: #6C757D; border:none; background-color:transparent" name="customise" value="1"><p class="customize_button">Customise<img style="padding-left:5px;" src="static/assets/img/arrow_up.png"></p></button>
+                </div>
+                <div class="progress1">
+                    <div class="progress2">
+                        <hr class="line" size="3" width="100%" color="#6C757D">
+                    </div>
+                </div>
+            </div>
+
+            <form action="Indirect_Impact"  method="post">
+                {% csrf_token %}
+                <div id="Build" class="w3-container city" style="display:block; text-align: center; height: 400px; margin-top: 20px; margin-left: 20px;">
+                    <div style="width:100%; height:300px;">
+                        <table>
+<!-----------------------------------------------1st Data record--------------------------------------------------------->
+                            <tr>
+                                <th style="border-radius: 8px 0px 0px 8px; border: 1px solid #34373D;">Category</th>
+                                <th style="border: 1px solid #34373D;">Type of Transport</th>
+                                <th style="border: 1px solid #34373D;">Type of Data</th>
+                                <th style="border-radius: 0px 8px 8px 0px; border: 1px solid #34373D;">Unit</th>
+                            </tr>
+                            <tr>
+                                <td style="border-radius: 8px 0px 0px 8px; border: 1px solid #34373D;">Scope 3 aval - dec..</td>
+                                <td  style="border: 1px solid #34373D;" >
+                                    <select class="table_select" style="width:100%;  border: 0px; outline: 0px;  background-color: black; color: #CED4DA;" name="work_country" id="select_1" >
+                                        <option value="0">Avion</option>
+                                        <option value="1" disabled>India</option>
+                                    </select>
+                                </td>
+                                <td style="border: 1px solid #34373D;">
+                                    <select class="table_select" style="width:100%; border: 0px; outline: 0px; background-color: black; color: #CED4DA;" name="work_country" id="work_country" >
+                                        <option value="0">Placeholder</option>
+                                        <option value="1" disabled>India</option>
+                                    </select>
+                                </td>
+                                <td style="border: 1px solid #34373D;">
+                                    <select class="table_select" style="width:100%; border: 0px; outline: 0px; background-color: black; color: #CED4DA;" name="work_country" id="work_country" >
+                                        <option value="0">KM</option>
+                                        <option value="1" disabled>India</option>
+                                    </select>
+                                </td>
+                            </tr>
+<!--------------------------------------------------End Of 1st Data------------------------------------->
+<!---------------------------------------------------2nd Data------------------------------------------->
+                            <tr>
+                                <td style="border-radius: 8px 0px 0px 8px; border: 1px solid #34373D;">Scope 3 aval - dec..</td>
+                                <td style="border: 1px solid #34373D;">
+                                    <select class="table_select" style="width:100%; border: 0px; outline: 0px; background-color: black; color: #CED4DA;" name="work_country" id="work_country" >
+                                        <option value="0">Avion</option>
+                                        <option value="1" disabled>India</option>
+                                    </select>
+                                </td>
+                                <td style="border: 1px solid #34373D;">
+                                    <select class="table_select" style="width:100%; border: 0px; outline: 0px; background-color: black; color: #CED4DA;" name="work_country" id="work_country" >
+                                        <option value="0">Placeholder</option>
+                                        <option value="1" disabled>India</option>
+                                    </select>
+                                </td>
+                                <td style="border: 1px solid #34373D;">
+                                    <select class="table_select" style="width:100%; border: 0px; outline: 0px; background-color: black; color: #CED4DA;" name="work_country" id="work_country" >
+                                        <option value="0">KM</option>
+                                        <option value="1" disabled>India</option>
+                                    </select>
+                                </td>
+                            </tr>
+<!-------------------------------------------End Of 2nd Data---------------------------------->
+                        </table>
+                    </div>
+                </div>
+
+                <div id="Run" class="w3-container city"  style="display:none; text-align: center; height: 400px; margin-top: 20px; margin-left: 20px;">
+                    <div style="width:100%; height:300px;">
+                        <table>
+                            <!-----------------------------------------------1st Data record--------------------------------------------------------->
+                            <tr>
+                                <th style="border-radius: 8px 0px 0px 8px; border: 1px solid #34373D;  background-color: #1A1D23;">Category</th>
+                                <th style="border: 1px solid #34373D;  background-color: #1A1D23;">Type of Transport</th>
+                                <th style="border: 1px solid #34373D;  background-color: #1A1D23;">Type of Data</th>
+                                <th style="border-radius: 0px 8px 8px 0px; border: 1px solid #34373D;  background-color: #1A1D23;">Unit</th>
+                            </tr>
+                            <tr>
+                                <td style="border-radius: 8px 0px 0px 8px; border: 1px solid #34373D;  background-color: #1A1D23;">Scope 3 aval - dec..</td>
+                                <td  style="border: 1px solid #34373D;  background-color: #1A1D23;" >
+                                    <select class="table_select" style="width:100%;  border: 0px; outline: 0px;  background-color: #1A1D23; color: #CED4DA;" name="work_country" id="select_1" >
+                                        <option value="0">Avion</option>
+                                        <option value="1">India</option>
+                                    </select>
+                                </td>
+                                <td style="border: 1px solid #34373D;  background-color: #1A1D23;">
+                                    <select class="table_select" style="width:100%; border: 0px; outline: 0px; background-color: #1A1D23; color: #CED4DA;" name="work_country" id="work_country" >
+                                        <option value="0">Placeholder</option>
+                                        <option value="1">India</option>
+                                    </select>
+                                </td>
+                                <td style="border: 1px solid #34373D;  background-color: #1A1D23;">
+                                    <select class="table_select" style="width:100%; border: 0px; outline: 0px; background-color: #1A1D23; color: #CED4DA;" name="work_country" id="work_country" >
+                                        <option value="0">KM</option>
+                                        <option value="1">India</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <!--------------------------------------------------End Of 1st Data------------------------------------->
+                            <!---------------------------------------------------2nd Data------------------------------------------->
+                            <tr>
+                                <td style="border-radius: 8px 0px 0px 8px; border: 1px solid #34373D;  background-color: #1A1D23;">Scope 3 aval - dec..</td>
+                                <td style="border: 1px solid #34373D;  background-color: #1A1D23;">
+                                    <select class="table_select" style="width:100%; border: 0px; outline: 0px; background-color: #1A1D23; color: #CED4DA;" name="work_country" id="work_country" >
+                                        <option value="0">Avion</option>
+                                        <option value="1">India</option>
+                                    </select>
+                                </td>
+                                <td style="border: 1px solid #34373D;  background-color: #1A1D23;">
+                                    <select class="table_select" style="width:100%; border: 0px; outline: 0px; background-color: #1A1D23; color: #CED4DA;" name="work_country" id="work_country" >
+                                        <option value="0">Placeholder</option>
+                                        <option value="1">India</option>
+                                    </select>
+                                </td>
+                                <td style="border: 1px solid #34373D;  background-color: #1A1D23;">
+                                    <select class="table_select" style="width:100%; border: 0px; outline: 0px; background-color: #1A1D23; color: #CED4DA;" name="work_country" id="work_country" >
+                                        <option value="0">KM</option>
+                                        <option value="1">India</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <!-------------------------------------------End Of 2nd Data---------------------------------->
+                        </table>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+<!-----------------------------------------End Of Project Heading------------------------------------>
+</div>
+<div class="footer">
+    <div style="width:50%; float:left; text-align:center; margin-top:5px; ">
+        <button type="button" onclick="history.back()" style="display: none; color:Black;" id="back-btn" ></button>
+        <a href="#" style="color:#4FAFA2; "><img src="static/assets/img/back_button.png" style="margin-right:10px;" onclick="document.getElementById('back-btn').click()"  alt="Back"/>BACK</a>
+    </div>
+    <div style=" width:10%;  float:right; margin-top:5px;" >
+        <button onclick="delete_complete()" class="save" style="width:120px; text-align:end;   border-radius:4px;  "><b class="continue" style="width:100px;">Finish<img src="static/assets/img/right_tick.png" style="padding-left:8px;"></b></button>
+    </div>
+</div>
+<div id="delete_project_popup_div" style="width: 500px; font-family: Ubuntu; display: none; margin-top: auto; height: 220px; left:40%; top: 35%; background-color: #34373D; z-index: 1; margin: 0 auto; position: fixed;">
+    <img src="static/assets/img/right_click_green.png" height="25" width="25" style="position: absolute; margin-top: 25px; margin-left: 25px;"><label style="font-size: 20px; color: #ADB5BD; padding: 20px; margin-left: 50px; width: 430px; font-family: Ubuntu; font-weight: 500">You have successfully added the project!</label>
+    <label style="font-size: 14px; color: #ADB5BD; margin-left: 40px; width: 420px; font-family: Ubuntu;">Would you like to view the results or go back to the my projects page?</label>
+    <div style="margin: 0 auto; display: inline;">
+        <div style="margin: 0 auto; display: inline;">
+            <button class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 100px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent"><a style="color: #4FAFA2;" href="{% url 'projectA' %}">My Project</a></button>
+            <button class="action_btn cancel" style="font-size: 12px;  margin: 0 auto;  border: 2px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 100px; margin-left: 5px; height: 30px; color: #E6E9EE; border-color: #4FAFA2; background-color: #4FAFA2"><a href="{% url 'index' %}" style="color: #E6E9EE;">View Results</a></button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+</body>
+</html>
