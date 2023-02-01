@@ -160,14 +160,30 @@ def projectA(request):
 def company_detail(request):
     return render(request, 'company_detail.html')
 
+def load_plan(request):  
+    return render(request, 'load_plan.html')
+
+def di_daily_commute(request):  
+    return render(request, 'di_daily_commute.html')
+
+def di_business_travel(request):  
+    return render(request, 'di_business_travel.html')
 
 def Help(request):
     return render(request, 'Help.html')
 
 
-def Indirect_Impact(request):
-    return render(request, 'Indirect_Impact.html')
+def indirect_impact_fl(request):
+    return render(request, 'indirect_impact_fl.html')
 
+def indirect_impact_mc(request):
+    return render(request, 'indirect_impact_mc.html')
+
+def indirect_impact_el(request):
+    return render(request, 'indirect_impact_el.html')
+
+def indirect_impact_wt(request):
+    return render(request, 'indirect_impact_wt.html')
 
 def test_graph(request):
     return render(request, 'temp.html')
