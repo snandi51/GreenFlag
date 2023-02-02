@@ -1,3 +1,4 @@
+{% extends 'figma-base-1.html' %}
 {% block content %}
 {% load static %}
 
@@ -33,129 +34,10 @@
     <script src="static/assets/js/slim.js" crossorigin="anonymous"></script>
     <script src="static/assets/js/coro.js"  crossorigin="anonymous"></script>
 </head>
-<script>
-  window.onload = function() {
-  var xValues = [50,60,70,80,90,100,110,120,130,140,150];
-var yValues = [7,8,8,9,9,9,10,11,14,14,15];
-
-new Chart("myChart1", {
-  type: "line",
-  data: {
-    labels: xValues,
-    datasets: [{
-      backgroundColor: "rgba(0,0,0,1.0)",
-      borderColor: "rgba(0,0,0,0.1)",
-      data: yValues
-    }]
-  },
-});
-}
-</script>
-<script>
-    function graph(value){
-        console.log(value);
-        console.log('Inside JavaScript');
-        if (value == 1){
-            myChart.data.labels = ['Yearly'];
-            myChart.data.datasets[0].data = [125];
-            myChart.data.datasets[0].label = 'Year';
-            myChart.update();
-        }
-        else if (value == 2){
-            myChart.data.labels = ['Quarter 1', 'Quarter 2', 'Quarter 3', 'Quarter 4'];
-            myChart.data.datasets[0].data = [12, 19, 3, 5];
-            myChart.data.datasets[0].label = 'Quarter';
-            myChart.update();
-        }
-        else{
-            myChart.data.labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-            myChart.data.datasets[0].data = [3, 10, 7, 5, 20, 10, 3, 3, 4, 20, 30, 10];
-            myChart.data.datasets[0].label = 'Month';
-            myChart.data.datasets[0].backgroundColor = ['rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(153, 102, 255, 0.2)'
-                  ]
-            myChart.data.datasets[0].borderColor = ['rgba(255,99,132,1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255,99,132,1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255,99,132,1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(153, 102, 255, 1)']
-            myChart.update();
-        }
-    }
-
-</script>
-<body style="background-color: white;">
-    <div id="main_width" class="main_width" style="overflow-y:auto; overflow-x:hidden;">
-        <div style="margin-left: 350px; height: 550px; width:600px; padding: 20px; margin-top: 40px; border-style: ridge; border-width: thin;">
-            <div class="dropdown" style="position: absolute; margin-left: 500px;">
-                  <select id ="ddl" name="ddl" onchange="graph(this.value)">
-                      <option value='1'>Year</option>
-                      <option value='2'>Quarter</option>
-                      <option value='3'>Month</option>
-                  </select>
-                </div>
-            <div style="margin-right: 100px;">
-                 <canvas id="myChart" width="600" height="550"></canvas>
-            </div>
-        </div>
-        <script src="static/assets/js/chart.js"></script>
-    <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-          labels: ['2023'],
-          datasets: [{
-              label: 'Year',
-              data: [125],
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-              ],
-              borderColor: [
-                  'rgba(255,99,132,1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(153, 102, 255, 1)',
-              ],
-              borderWidth: 1
-          }]
-      },
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero:true
-                  }
-              }]
-          }
-      }
-  });
-</script>
-    </div>
-    <div style="height: 200px; margin-top: 100px; width: 600px;">
-            <canvas id="myChart1"></canvas>
-    </div>
+<body>
+<div class="main_width_clone" style="height: 200px; background-color: green;">
+    Hello
+</div>
 {% endblock %}
 </body>
-
 </html>

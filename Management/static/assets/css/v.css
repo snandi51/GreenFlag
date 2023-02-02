@@ -76,5 +76,28 @@
   transform: rotate(45deg);
 }
 
+.title:hover{
+
+}
+
+::-webkit-scrollbar{
+	background-color: #555;
+	width: 4px;
+	height: 20px;
+	}
+	/* Track */
+::-webkit-scrollbar-track{
+	background-color: gray !important;
+	border-radius: 4px;
+	}
+	/* Handle */
+::-webkit-scrollbar-thumb{
+	border-radius: 4px;
+	}
+	/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+ background: #555;
+}
+
 /* Vishal CSS styles end */
 

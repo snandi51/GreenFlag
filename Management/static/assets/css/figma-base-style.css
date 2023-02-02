@@ -130,18 +130,24 @@
     position:relative;
     width:100%;
     list-style:none;
+    margin-left:-25px;
 }
 
 .navigation ul li:hover{
-    background:#4FAFA2;
-    color:#4FAFA2;
+    border-style: ridge;
+    color:black;
+    transition:0.1s;
+    border-color: #4FAFA2;
+    border-width: medium;
 }
+
 
 .navigation ul li a{
     position:relative;
     display:block;
     width:100%;
     display:flex;
+    margin-left: 5px;
     text-decoration:none;
     color: #fff;
 }
@@ -175,7 +181,7 @@
     position: fixed;
     min-height:100vh;
     width:calc(100% - 252px);
-    left:252px;
+    left:262px;
     /*min-height:100vh;*/
     transition:0.5s;
 }
@@ -188,6 +194,32 @@
 
 
 .main_width .inside-body{
+    width:100%;
+    background:#fff;
+    height:60px;
+    padding: 0 10px;
+    display:flex;
+    justify-content:space-between;
+    align-item:center;
+}
+
+.main_width_clone{
+    position: fixed;
+    min-height:100vh;
+    width:calc(100% - 510px);
+    left:510px;
+    /*min-height:100vh;*/
+    transition:0.5s;
+}
+/*Screen Adjust*/
+.main_width_clone.active{
+    width: 75%;
+    left:27%;
+    transition:0.5s;
+}
+
+
+.main_width_clone .inside-body{
     width:100%;
     background:#fff;
     height:60px;
@@ -690,7 +722,7 @@
     position: absolute;
     width: 227px;
     height: 584px;
-    left:20px;
+    left:10px;
     top: 20px;
 
     /* Black/Black – Secondary
@@ -987,6 +1019,7 @@
 .navigation_menu {
   font-family: 'ubuntu';
   font-size: 14px;
+  font-weight: 500;
   margin-top: 5px;
 }
 
@@ -1021,6 +1054,7 @@
     position: relative;
     counter-increment: list;
     color: #000000;
+    font-weight: 500;
 }
 
 .navigation_menu subtitle {
@@ -1070,12 +1104,13 @@
 
 
 .navigation_menu li.tab_inactive:after {
-        content: "\2714";
-        font-size: 20px;
-        color: #FFF;
+        content: "\f058";
+        font-size: 25px;
+        color: #3D8588;
+        background-color: #1A1D23;
         text-align: center;
+        font-family: FontAwesome;
         border: 1px solid green;
-        background-color: green;
 }
 
 .navigation_tabs li a,
@@ -1107,7 +1142,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    left: 260px;
+    left: 20px;
     top: 20px;
 }
 
@@ -1185,14 +1220,14 @@
     bottom: 0%;
 }
 .img_head1{
-    width:20px;
-    height:28px;
+    width:30px;
+    height:30px;
     font-size:20px;
 }
 .sub_header{
     padding-left:15px;
     padding-top:50px;
-    width: 600px;
+    width: 90%;
     height: 28px;
 
     /* Headings/h3 */
@@ -1368,3 +1403,493 @@
     order: 0;
     flex-grow: 0;
 }
+
+
+/*-------------------------------------All Colors--------------------------------*/
+
+.black1_background{
+    background-color: #0D0B0B;
+}
+
+.black2_background{
+    background-color: #1A1D23;
+}
+
+.black3_background{
+    background-color: #23272E;
+}
+
+.white1_background{
+    background-color: #E6E9EE;
+}
+
+.white2_background{
+    background-color: #CED4DA;
+}
+
+.gray1_background{
+    background-color: #ADB5DB;
+}
+
+.gray2_background{
+    background-color: #6C757D;
+}
+
+.gray3_background{
+    background-color: #489C69;
+}
+
+.success_background{
+    background-color: #34373D;
+}
+
+.warning_background{
+    background-color: #A48750;
+}
+
+.error_background{
+    background-color: #BB5353;
+}
+
+.accent_primary_background{
+    background-color: #4AAB88 @85%;
+}
+
+.accent_dark_background{
+    background-color: #1A1D23;
+}
+
+/*-------------------------------------All Colors--------------------------------*/
+
+
+
+
+/*-------------------------------------All Headings--------------------------------*/
+
+.h1_header{
+    position: absolute;
+    width: 182px;
+    height: 36px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 36px;
+    /* identical to box height, or 112% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+}
+
+.h2_header{
+    width: 159px;
+    height: 32px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 32px;
+    /* identical to box height, or 114% */
+
+
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+}
+
+.h3_header{
+    width: 136px;
+    height: 28px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    /* identical to box height, or 117% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+}
+
+.h4_header{
+    width: 114px;
+    height: 24px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    /* identical to box height, or 120% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+
+}
+
+.h5_header{
+    width: 91px;
+    height: 20px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height, or 125% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+}
+
+.h5_header{
+    width: 80px;
+    height: 18px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height, or 129% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+}
+
+.lead{
+    width: 35px;
+    height: 24px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+
+    color: #3D8588;
+}
+
+.lead_bold{
+    width: 76px;
+    height: 24px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+
+}
+
+.body_header{
+    width: 33px;
+    height: 20px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+}
+
+.body_header_bold{
+    width: 68px;
+    height: 20px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+}
+
+
+.small{
+    width: 30px;
+    height: 16px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+
+}
+
+.small_bold{
+    width: 61px;
+    height: 16px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+
+}
+
+.label_heading{
+    width: 30px;
+    height: 16px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+
+}
+
+.label_heading_bold{
+    width: 61px;
+    height: 16px;
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+}
+
+.label_small_header{
+    width: 52px;
+    height: 16px;
+
+    /* Labels/Label Small – Regular */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 16px;
+    /* identical to box height, or 160% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+}
+
+.label_small_bold_header{
+    width: 51px;
+    height: 16px;
+
+    /* Labels/Label Small – Bold */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 10px;
+    line-height: 16px;
+    /* identical to box height, or 160% */
+
+    display: flex;
+    align-items: flex-end;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+
+}
+
+.button_text1{
+    width: 97px;
+    height: 18px;
+
+    /* Buttons/Large Button */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    /* identical to box height, or 129% */
+
+    display: flex;
+    align-items: flex-end;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+
+}
+
+.button_text2{
+    width: 83px;
+    height: 16px;
+
+    /* Buttons/Regular Button */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: flex-end;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+}
+
+.button_text3{
+    width: 69px;
+    height: 14px;
+
+    /* Buttons/Small Button */
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 14px;
+    /* identical to box height, or 140% */
+
+    display: flex;
+    align-items: flex-end;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-feature-settings: 'liga' off;
+    color: #3D8588;
+}
+
+/*-------------------------------------All Headings--------------------------------*/
+
+
+
+
+
+/*-------------------------------------All Buttons--------------------------------*/
+
+.default_primary_button{
+    position: absolute;
+    width: 90px;
+    height: 34px;
+
+    /* Accent/Accent – Primary */
+
+    background: #4FAFA2;
+    border-radius: 4px;
+}
+
+.accent_dark{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 8px;
+
+    position: absolute;
+    width: 90px;
+    height: 34px;
+    left: 190px;
+    top: 89px;
+
+    /* Accent/Accent – Dark */
+
+    background: #3D8588;
+    border-radius: 4px;
+}
+
+.primary_white_disabled{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px;
+    gap: 8px;
+
+    position: absolute;
+    width: 90px;
+    height: 34px;
+    left: 466px;
+    top: 89px;
+
+    /* Accent/Accent – Dark */
+    background: #3D8588;
+    opacity: 0.5;
+    border-radius: 4px;
+}
+
+.accent_primary_icon{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px 8px 12px;
+    gap: 8px;
+
+    position: absolute;
+    width: 118px;
+    height: 40px;
+    left: 52px;
+    top: 353px;
+
+    /* Accent/Accent – Primary */
+    background: #4FAFA2;
+    border-radius: 4px;
+}
+
+/*-------------------------------------All Buttons code class--------------------------------*/

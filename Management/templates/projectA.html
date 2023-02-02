@@ -1,4 +1,4 @@
-{% extends 'figma-base-1.html' %}
+{% extends 'progress-bar-figma.html' %}
 {% block content %}
 {% load static %}
 
@@ -8,83 +8,136 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+
+<style>
+.main_width_clone{
+  scroll-behavior: smooth;
+}
+</style>
+
 <script>
     function toggleText1(){
         var myText=document.getElementById('info1');
+        var project_details_sidebar_option1 = document.getElementById('project_details_sidebar_option1');
+        var project_details_sidebar_icon_option1 = document.getElementById('project_details_sidebar_icon_option1')
         var change_toggle_onclick_down1 = document.getElementById('change_toggle_onclick_down1')
         var displaySetting=myText.style.display;
+        var info1_header = document.getElementById('info1_header');
 
         if(displaySetting == 'none'){
             console.log('None selected')
             change_toggle_onclick_down1.className = 'fa fa-chevron-up';
+            project_details_sidebar_icon_option1.style.color = '#3D8588';
+            project_details_sidebar_option1.style.color = '#3D8588';
+            info1_header.scrollIntoView();
 
-
+            myText.style.transitionDuration = '2s';
             myText.style.display='block';
         }
         else{
             console.log('None not selected')
+             myText.style.transitionDuration = '2s';
             myText.style.display='none';
+            project_details_sidebar_icon_option1.style.color = '#6C757D';
+            project_details_sidebar_option1.style.color = '#6C757D';
             change_toggle_onclick_down1.className = 'fa fa-angle-down';
+            info1_header.scrollIntoView();
         }
     }
 
     function toggleText2(){
         var change_toggle_onclick_down2 = document.getElementById('change_toggle_onclick_down2')
+        var project_details_sidebar_option2 = document.getElementById('project_details_sidebar_option2');
+        var project_details_sidebar_icon_option2 = document.getElementById('project_details_sidebar_icon_option2')
         var myText_2=document.getElementById("info2");
+        var info5_header = document.getElementById('info2_header');
         var displaySetting=myText_2.style.display;
 
         if(displaySetting == 'none'){
             myText_2.style.display='block';
             change_toggle_onclick_down2.className = 'fa fa-chevron-up';
+            project_details_sidebar_icon_option2.style.color = '#3D8588';
+            project_details_sidebar_option2.style.color = '#3D8588';
+            info2_header.scrollIntoView();
         }
         else{
             myText_2.style.display='none';
             change_toggle_onclick_down2.className = 'fa fa-angle-down';
+            project_details_sidebar_icon_option2.style.color = '#6C757D';
+            project_details_sidebar_option2.style.color = '#6C757D';
+            info2_header.scrollIntoView();
         }
     }
 
     function toggleText3(){
         var change_toggle_onclick_down3 = document.getElementById('change_toggle_onclick_down3')
+        var project_details_sidebar_option3 = document.getElementById('project_details_sidebar_option3');
+        var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3')
         var myText_3=document.getElementById("info3");
+        var info5_header = document.getElementById('info3_header');
         var displaySetting=myText_3.style.display;
 
         if(displaySetting == 'none'){
             myText_3.style.display='block';
             change_toggle_onclick_down3.className = 'fa fa-chevron-up';
+            project_details_sidebar_icon_option3.style.color = '#3D8588';
+            project_details_sidebar_option3.style.color = '#3D8588';
+            info3_header.scrollIntoView();
         }
         else{
             myText_3.style.display='none';
             change_toggle_onclick_down3.className = 'fa fa-angle-down';
+            project_details_sidebar_icon_option3.style.color = '#6C757D';
+            project_details_sidebar_option3.style.color = '#6C757D';
+            info3_header.scrollIntoView();
         }
     }
 
     function toggleText4(){
         var change_toggle_onclick_down4 = document.getElementById('change_toggle_onclick_down4')
-        var myText_4=document.getElementById("info4");
+        var project_details_sidebar_option4 = document.getElementById('project_details_sidebar_option4');
+        var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4')
+        var myText_4=document.getElementById('info4');
+        var info5_header = document.getElementById('info4_header');
         var displaySetting=myText_4.style.display;
 
         if(displaySetting == 'none'){
             myText_4.style.display='block';
             change_toggle_onclick_down4.className = 'fa fa-chevron-up';
+            project_details_sidebar_icon_option4.style.color = '#3D8588';
+            project_details_sidebar_option4.style.color = '#3D8588';
+            info4_header.scrollIntoView();
         }
         else{
             myText_4.style.display='none';
             change_toggle_onclick_down4.className = 'fa fa-angle-down';
+            project_details_sidebar_icon_option4.style.color = '#6C757D';
+            project_details_sidebar_option4.style.color = '#6C757D';
+            info4_header.scrollIntoView();
         }
     }
 
     function toggleText5(){
         var change_toggle_onclick_down5 = document.getElementById('change_toggle_onclick_down5')
+        var project_details_sidebar_option5 = document.getElementById('project_details_sidebar_option5');
+        var project_details_sidebar_icon_option5 = document.getElementById('project_details_sidebar_icon_option5')
         var myText_5=document.getElementById("info5");
+        var info5_header = document.getElementById('info5_header');
         var displaySetting=myText_5.style.display;
 
         if(displaySetting == 'none'){
             myText_5.style.display='block';
             change_toggle_onclick_down5.className = 'fa fa-chevron-up';
+            project_details_sidebar_icon_option5.style.color = '#3D8588';
+            project_details_sidebar_option5.style.color = '#3D8588';
+            info5_header.scrollIntoView();
         }
         else{
             myText_5.style.display='none';
             change_toggle_onclick_down5.className = 'fa fa-angle-down';
+            project_details_sidebar_icon_option5.style.color = '#6C757D';
+            project_details_sidebar_option5.style.color = '#6C757D';
+            info5_header.scrollIntoView();
         }
     }
 
@@ -143,53 +196,187 @@
       }
     }
 </script>
+<script>
+    var all_input_count1 = false;
+    var all_input_count2 = false;
+    var all_input_count3 = false;
+    var all_input_count4 = false;
+    var all_input_count5 = false;
+    function project_duration_inputs(){
+        var start_date_build = document.getElementById('start_date_build');
+        var end_date_build = document.getElementById('end_date_build');
+        var start_date_run = document.getElementById('start_date_run');
+        var end_date_run = document.getElementById('end_date_run');
+
+        var project_details_sidebar_icon_option1 = document.getElementById('project_details_sidebar_icon_option1');
+
+        if ((start_date_build.value != '') && (end_date_build.value != '') && (start_date_run.value != '') && (end_date_run.value != '')){
+            project_details_sidebar_icon_option1.className = 'fa fa-check-circle';
+            console.log('completed form 1');
+            all_input_count1 = true;
+        }
+        else{
+            project_details_sidebar_icon_option1.className = 'fa fa-circle';
+            all_input_count1 = false;
+        }
+        console.log('project_duration');
+    }
+</script>
+<script>
+    function project_details_inputs(){
+        var select_1 = document.getElementById('select_1');
+        var select_2 = document.getElementById('select_2');
+        var select_3 = document.getElementById('select_3');
+        var select_4 = document.getElementById('select_4');
+        var select_5 = document.getElementById('select_5');
+        var select_6 = document.getElementById('select_6');
+        var project_details_sidebar_icon_option2 = document.getElementById('project_details_sidebar_icon_option2');
+
+        if ((select_1.value != '') && (select_2.value != '') && (select_3.value != '') && (select_4.value != '') && (select_5.value != '') && (select_6.value != '')){
+            project_details_sidebar_icon_option2.className = 'fa fa-check-circle';
+            all_input_count2 = true;
+        }
+        else{
+            project_details_sidebar_icon_option2.className = 'fa fa-circle';
+            all_input_count2 = false;
+        }
+    }
+</script>
+<script>
+    function project_roles_input(){
+        var name = document.getElementById('name');
+        var work_country = document.getElementById('work_country');
+        var one = document.getElementById('one');
+        var two = document.getElementById('two');
+        var three = document.getElementById('three');
+        var four = document.getElementById('four');
+        var five = document.getElementById('five');
+        var six = document.getElementById('six');
+        var seven = document.getElementById('seven');
+        var eight = document.getElementById('eight');
+        var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3');
+
+        if ((name.value != '' && work_country.value != '') && (one.checked || two.checked || three.checked ||
+        four.checked || five.checked || six.checked || seven.checked || eight.checked
+        )){
+            project_details_sidebar_icon_option3.className = 'fa fa-check-circle';
+            console.log('work_country_selected');
+            all_input_count3 = true;
+        }
+        else{
+            project_details_sidebar_icon_option3.className = 'fa fa-circle';
+            all_input_count3 = false;
+        }
+    }
+</script>
+<script>
+    function direct_impact_input(){
+        var laptop = document.getElementById('laptop');
+        var pc = document.getElementById('pc');
+        var tablet = document.getElementById('tablet');
+        var telephone = document.getElementById('telephone');
+        var printer = document.getElementById('printer');
+        var speaker = document.getElementById('speaker');
+        var projector = document.getElementById('projector');
+        var monitor = document.getElementById('monitor');
+
+        var laptop1 = document.getElementById('laptop1');
+        var camera = document.getElementById('camera');
+        var sensor = document.getElementById('sensor');
+        var lidar = document.getElementById('lidar');
+        var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4');
+
+        if ((laptop.checked || pc.checked || tablet.checked || telephone.checked || printer.checked ||
+            speaker.checked || projector.checked || monitor.checked) && (laptop1.checked || camera.checked ||
+            sensor.checked || lidar.checked)
+            ){
+                project_details_sidebar_icon_option4.className = 'fa fa-check-circle';
+                all_input_count4 = true;
+            }
+        else{
+                project_details_sidebar_icon_option4.className = 'fa fa-circle';
+                all_input_count4 = false;
+        }
+}
+</script>
+<script>
+    function indirect_impact_input(){
+    var fuel = document.getElementById('fuel');
+    var electricity = document.getElementById('electricity');
+    var water = document.getElementById('water');
+    var paper = document.getElementById('paper');
+    var plastic = document.getElementById('plastic');
+    var waste_material = document.getElementById('waste_material');
+    var raw_material = document.getElementById('raw_material');
+    var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4');
+    if (fuel.checked || electricity.checked || water.checked || paper.checked || plastic.checked || waste_material.checked || raw_material.checked){
+            project_details_sidebar_icon_option5.className = 'fa fa-check-circle';
+            all_input_count5 = true;
+        }
+    else{
+            project_details_sidebar_icon_option5.className = 'fa fa-circle';
+            console.log('more selected');
+            all_input_count5 = false;
+    }
+}
+</script>
+<script>
+    function all_input_count_fun(){
+        var project_details_tab = document.getElementById('project_details_tab');
+        if (all_input_count1 && all_input_count2 && all_input_count3 && all_input_count4 && all_input_count5){
+            console.log('all_input_count_clear');
+            project_details_tab.className = 'tab_inactive'
+        }
+        else{
+            console.log('all_input_not_filled_yet');
+            project_details_tab.className = 'tab_active'
+        }
+    }
+</script>
 <body>
-<div id="main_width" class="main_width" style="overflow-y:auto; overflow-x:hidden;">
+<div id="main_width" class="main_width_clone" style="overflow-y:auto; overflow-x:hidden;">
     <form action="projectA"  method="post">
         {% csrf_token %}
     <!--------------------------------------Progress Bar Step--------------------------------->
-        <div class="project_a_outer static-font">
-            <div class="project_a_inner">
-                <div class="navigation_menu" id="navigation_menu">
-                    <ul class="navigation_tabs" id="navigation_tabs">
-<!--                        <li class="tab_inactive">-->
-<!--                            <a href="#">Project Details</a>-->
+<!--        <div class="project_a_outer static-font">-->
+<!--            <div class="project_a_inner">-->
+<!--                <div class="navigation_menu" id="navigation_menu" style="margin-left: 15px;">-->
+<!--                    <ul class="navigation_tabs" id="navigation_tabs">-->
+<!--                        <li id="project_details_tab" class="tab_active" >-->
+<!--                            <a onclick="active_tab()" id="project_details_sidebar" style="color:#ADB5BD; cursor: pointer; font-size: 16px;">Project Details</a>-->
+<!--                            <i class="fa fa-circle" id="project_details_sidebar_icon_option1" style="position: absolute;  display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="toggleText1()" id="project_details_sidebar_option1" style="color:#6C757D; cursor: pointer; font-size: 12px; display: none; padding-top: 15px;">Project Duration</a>-->
+<!--                            <i class="fa fa-circle" id="project_details_sidebar_icon_option2" style="position: absolute;  display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="toggleText2()" id="project_details_sidebar_option2" style="color:#6C757D; cursor: pointer; font-size: 12px; display: none; padding-top: 15px;">Project Details</a>-->
+<!--                            <i class="fa fa-circle" id="project_details_sidebar_icon_option3" style="position: absolute;  display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="toggleText3()" id="project_details_sidebar_option3" style="color:#6C757D; cursor: pointer; font-size: 12px; display: none; padding-top: 15px;">Project Roles</a>-->
+<!--                            <i class="fa fa-circle" id="project_details_sidebar_icon_option4" style="position: absolute;  display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="toggleText4()" id="project_details_sidebar_option4" style="color:#6C757D; cursor: pointer; font-size: 12px; display: none; padding-top: 15px;">Direct Impact Parameters</a>-->
+<!--                            <i class="fa fa-circle" id="project_details_sidebar_icon_option5" style="position: absolute;  display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="toggleText5()" id="project_details_sidebar_option5" style="color:#6C757D; cursor: pointer; font-size: 12px; display: none; padding-top: 15px;">Indirect Impact Parameters</a>-->
 <!--                        </li>-->
-                        <li class="tab_active">
-                            <a onclick="active_tab()" id="project_details_sidebar" style="color:#ADB5BD; cursor: pointer; font-size: 16px;">Project Details</a>
-                            <i class="fa fa-check-circle" id="project_details_sidebar_icon_option1" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a href="#" id="project_details_sidebar_option1" style="color:#6C757D; font-size: 12px; display: none; padding-top: 15px;">Project Duration</a>
-                            <i class="fa fa-check-circle" id="project_details_sidebar_icon_option2" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a href="#" id="project_details_sidebar_option2" style="color:#6C757D; font-size: 12px; display: none; padding-top: 15px;">Project Details</a>
-                            <i class="fa fa-check-circle" id="project_details_sidebar_icon_option3" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a href="#" id="project_details_sidebar_option3" style="color:#6C757D; font-size: 12px; display: none; padding-top: 15px;">Project Roles</a>
-                            <i class="fa fa-check-circle" id="project_details_sidebar_icon_option4" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a href="#" id="project_details_sidebar_option4" style="color:#6C757D; font-size: 12px; display: none; padding-top: 15px;">Direct Impact Parameters</a>
-                            <i class="fa fa-check-circle" id="project_details_sidebar_icon_option5" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a href="#" id="project_details_sidebar_option5" style="color:#6C757D; font-size: 12px; display: none; padding-top: 15px;">Indirect Impact Parameters</a>
-                        </li>
-                        <li class="tab_active">
-                            <a href="#" style="color:#ADB5BD; font-size: 16px;">Load Plan</a>
-                        </li>
-                        <li class="tab_active" style="display:none">
-                            <a href="#" style="color:#6C757D;">Build Phase</a>
-                        </li>
-                        <li class="tab_active"  style="display:none">
-                            <a href="#" style="color:#6C757D;">Run Phase</a>
-                        </li>
-                        <li class="tab_active">
-                            <a href="#" style="color:#ADB5BD; font-size: 16px;">Direct Impact</a>
-                        </li>
-                        <li class="tab_active">
-                            <a href="#" style="color:#ADB5BD; font-size: 16px;">Indirect Impact</a>
-                        </li>
-<!--                        <li class="tab_disabled">-->
-<!--                            <a href="#">Indirect Impact</a>-->
+<!--                        <li class="tab_active">-->
+<!--                            <a href="#" style="color:#ADB5BD; font-size: 16px;">Load Plan</a>-->
 <!--                        </li>-->
-                    </ul>
-                </div>
-            </div>
+<!--                        <li class="tab_active" style="display:none">-->
+<!--                            <a href="#" style="color:#6C757D;">Build Phase</a>-->
+<!--                        </li>-->
+<!--                        <li class="tab_active"  style="display:none">-->
+<!--                            <a href="#" style="color:#6C757D;">Run Phase</a>-->
+<!--                        </li>-->
+<!--                        <li class="tab_active">-->
+<!--                            <a href="#" style="color:#ADB5BD; font-size: 16px;">Direct Impact</a>-->
+<!--                        </li>-->
+<!--                        <li class="tab_active">-->
+<!--                            <a href="{% url 'Indirect_Impact' %}" style="color:#ADB5BD; font-size: 16px;">Indirect Impact</a>-->
+<!--                        </li>-->
+<!--&lt;!&ndash;                        <li class="tab_disabled">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <a href="#">Indirect Impact</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </li>&ndash;&gt;-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
 
-        </div>
+<!--        </div>-->
     <!-------------------------------------------End Of Progress Bar------------------------------------->
     <!---------------------------------------------Project Heading--------------------------------------->
         <div class="header_div">
-            <div class="header_project_a">
+            <div id="info1_header" class="header_project_a">
                 <div>
                     <input id="auto_focus" style=" background: transparent; border: none; border: 0px; color: #CED4DA; font-size: 28px; font-weight: 500" value="Project A"></input>
                     <div class="img_pencil">
@@ -204,44 +391,44 @@
                 </div>
             </div>
     <!--------------------------------------------Project Duration--------------------------------->
-            <div class="start_subheading1" >
+            <div class="start_subheading1" onchange="all_input_count_fun()" style="margin-top: 10px;">
                 <div class="img_head1" style="float:left; color: #ADB5BD; margin-top:2px;">
-                    <img src="static/assets/img/project_duration.png" style="top:130px;">
+                    <img src="static/assets/img/project_duration.png" height="28" width="28" style="top:130px;">
 <!--                    <i class="fa fa-clock-o"aria-hidden="true" style="top:130px;"></i>-->
                 </div>
-                <div class="sub_header" style="float:center; ">
+                <div class="sub_header" style="float:center; width: 90%; ">
                     <p>Project Duration</p>
                 </div>
-                <div class="img_class_toggle" onclick="toggleText1()" style="left:640px; position:absolute">
+                <div class="img_class_toggle" id="img_class_toggle1" onclick="toggleText1()" style="left: 640px; width: 5%; position: absolute;">
                     <i class="fa fa-angle-down" id="change_toggle_onclick_down1" aria-hidden="true"></i>
                 </div>
-                <div id="info1" style="bottom:10px; display:none;">
-                    <div  style=" width:90%; height:80px;">
+                <div id="info1" onchange="project_duration_inputs()" style="bottom:10px; display:none;">
+                    <div  style=" width:100%; height:80px;">
                         <h5 class="build_phase">Build Phase</h5>
-                        <div style=" width:90%; height:100px; text-color: #6C757D;">
+                        <div style=" width:100%; height:100px; text-color: #6C757D;">
                           <div class="div_class_1">
                             <div  style="width:100%">
                                 <label class="start_date" style="padding-bottom: 12px;">Start Date</label>
-                                <input type="date" placeholder="DD/MM/YYYY" name="start_date_build" style="padding:10px; width:100%; height:30px; font-size: 14px; text-color: #6C757D; background:transparent ;color:#6C757D; color-scheme: dark; border: 1px solid #6C757D; border-radius: 4px;">
+                                <input type="date" placeholder="DD/MM/YYYY" id="start_date_build" name="start_date_build" style="padding:10px; width:100%; height:30px; font-size: 14px; text-color: #6C757D; background:transparent ;color:#6C757D; color-scheme: dark; border: 1px solid #6C757D; border-radius: 4px;">
                             </div>
                             <div style=" width:100%; text-align:center; text-color: #6C757D;">
                                 <label class="start_date" style="padding-bottom: 12px;">End Date</label>
-                                <input type="date" placeholder="DD/MM/YYYY" name="end_date_build" style="padding:10px; color-scheme: dark; height:30px; width:100%; font-size: 14px;  background:transparent; color:#6C757D; border: 1px solid #6C757D; border-radius: 4px;">
+                                <input type="date" placeholder="DD/MM/YYYY" id="end_date_build" name="end_date_build" style="padding:10px; color-scheme: dark; height:30px; width:100%; font-size: 14px;  background:transparent; color:#6C757D; border: 1px solid #6C757D; border-radius: 4px;">
                             </div>
                           </div>
                         </div>
                     </div>
-                    <div  style=" width:90%; height:80px; padding-top:20px;">
+                    <div  style=" width:100%; height:80px; padding-top:20px;">
                         <h5 class="run_phase">Run Phase</h5>
-                        <div style=" width:90%; height:80px; bottom:20px;">
+                        <div style=" width:100%; height:80px; bottom:20px;">
                             <div class="div_class_1">
                                 <div  style="width:100%">
                                     <label class="start_date" style="padding-bottom: 12px;">Start Date</label>
-                                    <input type="date" placeholder="DD/MM/YYYY" name="start_date_run" style="padding:10px; color-scheme: dark; width:100%; height:30px; font-size: 14px; text-color: #6C757D; background:transparent; color:#6C757D; border: 1px solid #6C757D; border-radius: 4px;">
+                                    <input type="date" placeholder="DD/MM/YYYY" id="start_date_run" name="start_date_run" style="padding:10px; color-scheme: dark; width:100%; height:30px; font-size: 14px; text-color: #6C757D; background:transparent; color:#6C757D; border: 1px solid #6C757D; border-radius: 4px;">
                                 </div>
                                 <div style=" width:100%; text-align:center; text-color: #6C757D;">
                                     <label class="start_date" style="padding-bottom: 12px;">End Date</label>
-                                    <input type="date" placeholder="DD/MM/YYYY" name="end_date_run" style="padding:10px; color-scheme: dark; height:30px; width:100%; font-size: 14px;  background:transparent; color:#6C757D; border: 1px solid #6C757D; border-radius: 4px;">
+                                    <input type="date" placeholder="DD/MM/YYYY" id="end_date_run" name="end_date_run" style="padding:10px; color-scheme: dark; height:30px; width:100%; font-size: 14px;  background:transparent; color:#6C757D; border: 1px solid #6C757D; border-radius: 4px;">
                                 </div>
                             </div>
                         </div>
@@ -251,28 +438,30 @@
     <!--------------------------------------------End Of Project Duration--------------------------------->
     <!---------------------------------------------Project Details----------------------------------------->
                 <div class="img_head1" style="float:left; color: #ADB5BD;">
-                    <img src="static/assets/img/project_detail.png" style="top:130px;">
+                    <img src="static/assets/img/project_details.png" height="25" width="22" style="top:130px; margin-top: 5px;">
                 </div>
-                <div class="sub_header" style="float:center; ">
+                <div id="info2_header" class="sub_header" style="float:center; ">
                     <p>Project Details</p>
                 </div>
                 <div class="img_class_toggle_2" onclick="toggleText2()" style="left:640px; position:relative; bottom:50px;">
                     <i class="fa fa-angle-down" id="change_toggle_onclick_down2" aria-hidden="true"></i>
                 </div>
-                <div id="info2" style="width:90%; bottom:10px; display:none;">
-                    <div class="div_class_1" style="width:90%;">
+                <div id="info2" onchange="project_details_inputs()" style="width:100%; bottom:10px; display:none;">
+                    <div class="div_class_1" style="width:100%;">
                         <label class="project_location_header">Project Location</label>
                         <select class="project_location_header_select" name="pl_1" id="select_1" >
                             <option value="BU">India</option>
                             <option value="1">Australia</option>
                         </select>
                         <label class="project_location_header_1">Project Status</label>
-                        <select class="project_location_header_select_1" name="ps" id="select_2" >
-                            <option value="BU">Australia</option>
-                            <option value="1">India</option>
+                        <select class="project_location_header_select_1" name="ps" id="select_2"  style="background-color: #121010; color: #6C757D;">
+                            <option value="Ideation">Ideation</option>
+                            <option value="Build">Build</option>
+                            <option value="Run">Run</option>
+                            <option value="Scale-up">Scale-up</option>
                         </select>
                     </div>
-                    <div  class="div_class_1" style="width:90%;">
+                    <div  class="div_class_1" style="width:100%;">
                         <p class="project_location_header" style="margin-top: 18px;">Business Unit</p>
                         <input type="text" class="project_location_header_select" placeholder="Invent" name="bu" id="select_3" style="margin-top: -10px; ">
                         <p class="project_location_header" style="margin-top: 18px;">Department</p>
@@ -282,18 +471,21 @@
 <!--                        <label class="project_location_header_3">Type of Project</label>-->
 <!--                        <input type="text" class="project_location_header_select" placeholder="Invent" name="type_project" id="select_5" style="margin-bottom: 30px; ">-->
 <!--                    </div>-->
-                    <div  class="div_class_1" style="width:90%;">
+                    <div  class="div_class_1" style="width:100%;">
                         <p class="project_location_header" style="margin-top: 18px;">Project Development – In-house/Outsource</p>
                         <input type="text" class="project_location_header_select" placeholder="Invent" name="bu" id="select_5" style="margin-top: -10px; ">
-                        <p class="project_location_header" style="margin-top: 18px;">Type of Project</p>
-                        <input type="text" class="project_location_header_select" placeholder="Invent" name="department" id="select_6" style="margin-top: -10px; ">
+                        <p class="project_location_header" style="margin-top: 18px;">Project Type</p>
+                        <select class="project_location_header_select_1" name="department" id="select_6" style="margin-top: -10px; background-color: #121010; color: #6C757D;">
+                            <option value="inhouse" >In-house</option>
+                            <option value="external" >External</option>
+                        </select>
                     </div>
                 </div>
                 <hr style="border: 1px solid #ADB5BD; width: 650px;">
     <!---------------------------------------------End of Project Details----------------------------------------->
     <!---------------------------------------------Project Roles----------------------------------------->
-                <div class="img_head1" style="float:left; color: #ADB5BD;">
-                    <img src="static/assets/img/project_role1.png" style="top:130px;">
+                <div id="info3_header" class="img_head1" style="float:left; color: #ADB5BD;">
+                    <img src="static/assets/img/project_role1.png" height="25" width="22" style="top:130px; margin-top: 5px;">
 <!--                    <i class="fa fa-clock-o"aria-hidden="true" ></i>-->
                 </div>
                 <div class="sub_header" style="float:center; ">
@@ -302,7 +494,7 @@
                 <div class="img_class_toggle_3" onclick="toggleText3()" style="left:640px; position:relative; bottom:50px;">
                     <i class="fa fa-angle-down" id="change_toggle_onclick_down3" aria-hidden="true" onclick="document.getElementById('info-btn3').click()" alt="Info"></i>
                 </div>
-                <div id="info3" style="width:90%; bottom:10px; display:none;">
+                <div id="info3" onchange="project_roles_input()" style="width:100%; bottom:10px; display:none;">
                     <div class="img_head1" style="float:left; color: #ADB5BD;">
                         <img src="static/assets/img/project_manager.png" style="top:130px;">
                         <!--                    <i class="fa fa-clock-o"aria-hidden="true" ></i>-->
@@ -310,10 +502,10 @@
                     <div class="sub_header_pro_manager" style="float:center; font-size:14px; font-family:'ubuntu' bottom:2px;">
                         <p >Project Manager</p>
                     </div>
-                    <div  style="width:90%; left:560px; position:relative; bottom:27px;">
+                    <div  style="width:100%; left:560px; position:relative; bottom:27px;">
                         <button class="add_new" type="submit"><strong class="add_new_content">+ Add New</strong></button>
                     </div>
-                    <div  class="div_class_1" style="width:90%;">
+                    <div  class="div_class_1" style="width:100%;">
                         <p class="project_location_header" style="width:100%;">Name</p>
                         <input type="text" style="width:100%; margin-top: -15px;" class="project_location_header_select" placeholder="Invent" name="name" id="name">
                         <p class="project_location_header" style=" width:100%; " >Work Country</p>
@@ -359,8 +551,8 @@
                 <hr style="border: 1px solid #ADB5BD; width: 650px;">
     <!---------------------------------------------End of Project Roles----------------------------------------->
     <!---------------------------------------------Direct Impact Parameters----------------------------------------->
-                <div class="img_head1" style="float:left; color: #ADB5BD;">
-                    <img src="static/assets/img/direct_impact.png" style="top:130px;">
+                <div id="info4_header" class="img_head1" style="float:left; color: #ADB5BD;">
+                    <img src="static/assets/img/direct_impact.png" height="25" width="22" style="top:130px; margin-top: 5px;">
 <!--                    <i class="fa fa-clock-o"aria-hidden="true" ></i>-->
                 </div>
                 <div class="sub_header" style="float:center; ">
@@ -369,42 +561,42 @@
                 <div class="img_class_toggle_3" onclick="toggleText4()" style="left:640px; position:relative; bottom:50px;">
                     <i class="fa fa-angle-down" id="change_toggle_onclick_down4" aria-hidden="true" onclick="document.getElementById('info-btn4').click()" alt="Info"></i>
                 </div>
-                <div id="info4" style="bottom:10px; display:none;">
+                <div id="info4" style="bottom:10px; display:none;" onchange="direct_impact_input()">
                     <div style="width:100%;">
                         <p class="tittle_new">Please select all the parameters that are applicable to your project.</p>
                         <p class="user_equ_heading">User Equipment</p>
                     </div>
                     <div class="form-check" style="margin-top:20px;">
                         <label class="static-font" for="one" style="font-size: 14px; color: #ADB5BD;">Laptop</label>
-                        <input type="checkbox" class="form-check-input" id="laptop" name="laptop" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="laptop" name="WhichUserEquipment" value="laptop" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="two" style="font-size: 14px; color: #ADB5BD;">PC</label>
-                        <input type="checkbox" class="form-check-input" id="pc" name="pc" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="pc" name="WhichUserEquipment" value="pc" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="three" style="font-size: 14px; color: #ADB5BD;">Tablet</label>
-                        <input type="checkbox" class="form-check-input" id="tablet" name="tablet" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="tablet" name="WhichUserEquipment" value="tablet" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="four" style="font-size: 14px; color: #ADB5BD;">Telephone</label>
-                        <input type="checkbox" class="form-check-input" id="telephone" name="telephone" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="telephone" name="WhichUserEquipment" value="telephone" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="five" style="font-size: 14px; color: #ADB5BD;">Printer</label>
-                        <input type="checkbox" class="form-check-input" id="printer" name="printer" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="printer" name="WhichUserEquipment" value="printer" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="six" style="font-size: 14px; color: #ADB5BD;">Bluetooth Speaker</label>
-                        <input type="checkbox" class="form-check-input" id="speaker" name="speaker" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="speaker" name="WhichUserEquipment" value="speaker" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="seven" style="font-size: 14px; color: #ADB5BD;">Projector</label>
-                        <input type="checkbox" class="form-check-input" id="projector" name="projector" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="projector" name="WhichUserEquipment" value="projector" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="eight" style="font-size: 14px; color: #ADB5BD;">Screen/Monitor</label>
-                        <input type="checkbox" class="form-check-input" id="monitor" name="monitor" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="monitor" name="WhichUserEquipment" value="monitor" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <button type="submit" class="add_new_role" style="width:150px; height: 25px; padding:5px; border-radius:4px;  "><b class="add_new_role_content" style="width:150px;">+ Add New Parameter</b></button>
                     <div>
@@ -412,67 +604,67 @@
                     </div>
                     <div class="form-check" style="margin-top:20px;">
                         <label class="static-font" for="one" style="font-size: 14px; color: #ADB5BD;">Laptop</label>
-                        <input type="checkbox" class="form-check-input" id="laptop1" name="laptop1" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="laptop1" name="WhichIndustrialEquipment" value="laptop1" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="two" style="font-size: 14px; color: #ADB5BD;">Camera</label>
-                        <input type="checkbox" class="form-check-input" id="camera" name="camera" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="camera" name="WhichIndustrialEquipment" value="camera" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="three" style="font-size: 14px; color: #ADB5BD;">Connected Sensors</label>
-                        <input type="checkbox" class="form-check-input" id="sensor" name="sensor" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="sensor" name="WhichIndustrialEquipment" value="sensor" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="four" style="font-size: 14px; color: #ADB5BD;">LiDAR</label>
-                        <input type="checkbox" class="form-check-input" id="lidar" name="lidar" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="lidar" name="WhichIndustrialEquipment" value="lidar" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <button type="submit" class="add_new_role" style="width:150px; padding:5px; height: 25px; border-radius:4px;  "><b class="add_new_role_content" style="width:150px;">+ Add New Parameter</b></button>
                 </div>
                 <hr style="border: 1px solid #ADB5BD; width: 650px;">
     <!---------------------------------------------End of Direct Impact Parameters----------------------------------------->
     <!---------------------------------------------Indirect Impact Parameters----------------------------------------->
-                <div style="">
+                <div>
                     <div class="img_head1" style="float:left; color: #ADB5BD; ">
-                        <img src="static/assets/img/indirect_impact.png" style="top:130px;">
+                        <img src="static/assets/img/indirect_impact.png" height="25" width="22" style="top:130px; margin-top: 5px;">
     <!--                    <i class="fa fa-clock-o"aria-hidden="true" ></i>-->
                     </div>
-                    <div class="sub_header" style="float:center; ">
+                    <div id="info5_header" class="sub_header" style="float:center; ">
                         <p>Indirect Impact Parameters</p>
                     </div>
                     <div class="img_class_toggle_3" onclick="toggleText5()" style="left:640px; position:relative; bottom:50px;">
                         <i class="fa fa-angle-down" id="change_toggle_onclick_down5" aria-hidden="true" onclick="document.getElementById('info-btn5').click()" alt="Info"></i>
                     </div>
-                    <div id="info5" style="bottom:10px; display:none;">
+                    <div id="info5" style="bottom:10px; display:none;" onchange="indirect_impact_input()">
                         <div style="width:100%;">
                             <p class="tittle_new">Please select all the parameters that are applicable to your project.</p>
                         </div>
                         <div class="form-check" style="margin-top:20px;">
                             <label class="static-font" for="one" style="font-size: 14px; color: #ADB5BD;">Fuel</label>
-                            <input type="checkbox" class="form-check-input" id="fuel" name="fuel" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                            <input type="checkbox" class="form-check-input" id="fuel" name="WhichParametersImplemented" value="fuel" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         </div>
                         <div class="form-check" style="margin-top:10px;">
                             <label class="static-font" for="two" style="font-size: 14px; color: #ADB5BD;">Electricity</label>
-                            <input type="checkbox" class="form-check-input" id="electricity" name="electricity" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                            <input type="checkbox" class="form-check-input" id="electricity" name="WhichParametersImplemented" value="electricity" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         </div>
                         <div class="form-check" style="margin-top:10px;">
                             <label class="static-font" for="three" style="font-size: 14px; color: #ADB5BD;">Water</label>
-                            <input type="checkbox" class="form-check-input" id="water" name="water" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                            <input type="checkbox" class="form-check-input" id="water" name="WhichParametersImplemented" value="water" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         </div>
                         <div class="form-check" style="margin-top:10px;">
                             <label class="static-font" for="four" style="font-size: 14px; color: #ADB5BD;">Paper</label>
-                            <input type="checkbox" class="form-check-input" id="paper" name="paper" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                            <input type="checkbox" class="form-check-input" id="paper" name="WhichParametersImplemented" value="paper" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         </div>
                         <div class="form-check" style="margin-top:10px;">
                             <label class="static-font" for="five" style="font-size: 14px; color: #ADB5BD;">Plastic</label>
-                            <input type="checkbox" class="form-check-input" id="plastic" name="plastic" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                            <input type="checkbox" class="form-check-input" id="plastic" name="WhichParametersImplemented" value="plastic" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         </div>
                         <div class="form-check" style="margin-top:10px;">
                             <label class="static-font" for="six" style="font-size: 14px; color: #ADB5BD;">Waste Material</label>
-                            <input type="checkbox" class="form-check-input" id="waste_material" name="waste_material" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                            <input type="checkbox" class="form-check-input" id="waste_material" name="WhichParametersImplemented" value="waste_material" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         </div>
                         <div class="form-check" style="margin-top:10px;">
                             <label class="static-font" for="seven" style="font-size: 14px; color: #ADB5BD;">Raw Material</label>
-                            <input type="checkbox" class="form-check-input" id="raw_material" name="raw_material" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                            <input type="checkbox" class="form-check-input" id="raw_material" name="WhichParametersImplemented" value="raw_material" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         </div>
                         <button type="submit" class="add_new_role" style="width:150px; height: 25px; padding:5px; border-radius:4px;  "><b class="add_new_role_content" style="width:150px;">+ Add New Parameter</b></button>
                     </div>
