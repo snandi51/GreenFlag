@@ -53,10 +53,10 @@
         let toggle = document.querySelector('.toggle');
         var menu_img = document.getElementById('menu_img')
         let main_width = document.querySelector('.main_width');
-<!--        let main_width_clone = document.querySelector('.main_width_clone');-->
+        let main_width_clone = document.querySelector('.main_width_clone');
         let title = document.querySelector('.title');
         main_width.classList.toggle('active');
-<!--        main_width_clone.classList.toggle('active');-->
+        main_width_clone.classList.toggle('active');
         let navigation = document.querySelector('.navigation');
         toggle.classList.toggle('active');
         title.classList.toggle('active');
@@ -162,8 +162,47 @@
     </div>
     {% endif %}
     <main id="main">
-        {% block content %}
-        {% endblock %}
+        {% if progress_bar %}
+        <div class="main_width" style=" width: 250px;">
+            <div class="project_a_outer static-font">
+                <div class="project_a_inner">
+                    <div class="navigation_menu" id="navigation_menu" style="margin-left: 15px;">
+                        <ul class="navigation_tabs" id="navigation_tabs">
+                            <li id="project_details_tab" class="tab_active" >
+                                <a onclick="active_tab()" id="project_details_sidebar" style="color:#ADB5BD; cursor: pointer; font-size: 16px;">Project Details</a>
+                                <i class="fa fa-circle" id="project_details_sidebar_icon_option1" style="position: absolute;  display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="toggleText1()" id="project_details_sidebar_option1" style="color:#6C757D; cursor: pointer; font-size: 12px; display: none; padding-top: 15px;">Project Duration</a>
+                                <i class="fa fa-circle" id="project_details_sidebar_icon_option2" style="position: absolute;  display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="toggleText2()" id="project_details_sidebar_option2" style="color:#6C757D; cursor: pointer; font-size: 12px; display: none; padding-top: 15px;">Project Details</a>
+                                <i class="fa fa-circle" id="project_details_sidebar_icon_option3" style="position: absolute;  display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="toggleText3()" id="project_details_sidebar_option3" style="color:#6C757D; cursor: pointer; font-size: 12px; display: none; padding-top: 15px;">Project Roles</a>
+                                <i class="fa fa-circle" id="project_details_sidebar_icon_option4" style="position: absolute;  display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="toggleText4()" id="project_details_sidebar_option4" style="color:#6C757D; cursor: pointer; font-size: 12px; display: none; padding-top: 15px;">Direct Impact Parameters</a>
+                                <i class="fa fa-circle" id="project_details_sidebar_icon_option5" style="position: absolute;  display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="toggleText5()" id="project_details_sidebar_option5" style="color:#6C757D; cursor: pointer; font-size: 12px; display: none; padding-top: 15px;">Indirect Impact Parameters</a>
+                            </li>
+                            <li class="tab_active">
+                                <a href="#" style="color:#ADB5BD; font-size: 16px;">Load Plan</a>
+                            </li>
+                            <li class="tab_active" style="display:none">
+                                <a href="#" style="color:#6C757D;">Build Phase</a>
+                            </li>
+                            <li class="tab_active"  style="display:none">
+                                <a href="#" style="color:#6C757D;">Run Phase</a>
+                            </li>
+                            <li class="tab_active">
+                                <a href="#" style="color:#ADB5BD; font-size: 16px;">Direct Impact</a>
+                            </li>
+                            <li class="tab_active">
+                                <a href="{% url 'Indirect_Impact' %}" style="color:#ADB5BD; font-size: 16px;">Indirect Impact</a>
+                            </li>
+    <!--                        <li class="tab_disabled">-->
+    <!--                            <a href="#">Indirect Impact</a>-->
+    <!--                        </li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+            {% block content %}
+            {% endblock %}
+
     </main>
 </body>
 </html>

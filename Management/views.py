@@ -152,13 +152,28 @@ def projectA(request):
             # 'plastic': plastic,
             # 'waste_material': waste_material,
             # 'raw_material': raw_material,
+            'progress_bar': True,
         }
         return render(request, 'projectA.html', context)
-    return render(request, 'projectA.html')
+    context = {
+        'progress_bar': True,
+    }
+    return render(request, 'projectA.html', context)
 
 
 def company_detail(request):
     return render(request, 'company_detail.html')
+
+def load_plan(request):  
+    return render(request, 'load_plan.html')
+
+
+def di_daily_commute(request):  
+    return render(request, 'di_daily_commute.html')
+
+
+def di_business_travel(request):  
+    return render(request, 'di_business_travel.html')
 
 
 def Help(request):
@@ -166,7 +181,10 @@ def Help(request):
 
 
 def Indirect_Impact(request):
-    return render(request, 'Indirect_Impact.html')
+    context = {
+        'progress_bar': True,
+    }
+    return render(request, 'Indirect_Impact.html', context)
 
 
 def test_graph(request):

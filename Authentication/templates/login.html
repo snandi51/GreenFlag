@@ -38,14 +38,14 @@
 <body class="body-class">
 <div id="parent" style="border-radius: 0px;">
   <div style="width: 45%; float: left; height: 100vh; border-radius: 0px;">
-    <div class="static-font" style="height: 30px; padding: 28px; margin-left: 50px; width: 100vh; font-size: 24px; line-height: 28px; font-weight: bold; color: #4FAFA2;">
+    <div class="static-font h2_header" style="height: 30px; padding: 28px; margin-left: 50px; width: 100vh; font-size: 24px; line-height: 28px; font-weight: bold; color: #4FAFA2;">
       GreenFlag
     </div>
     <div style="margin-top: 40px; margin-left: 60px; padding: 22px;">
-       <label class="static-font" style="font-size: 22px; line-height: 32px; font-weight: 500; color: white;">Account Login</label><br>
-      <label class="static-font" style="margin-top: 10px; font-size: 14px; color: #6C757D">Please enter your credentials to login in.</label>
+       <label class="static-font h2_header" style="width: 250px; color: #FFFFFF">Account Login</label><br>
+      <label class="static-font body_header" style="font-size: 14px; margin-top: 10px; width: 400px; color: #6C757D">Please enter your credentials to login in.</label>
     </div>
-    <div style="margin-left: 60px; padding: 22px; border-radius: 0px;">
+    <div class="static-font" style="margin-left: 60px; padding: 22px; border-radius: 0px;">
       <div style="border-radius: 0px;">
           {% if text %}
             <div style="height: 10px; width: 340px; text-align: center;">
@@ -60,8 +60,8 @@
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword" style="color: #ADB5BD; margin-bottom: 5px; font-size: 12px; font-family: Ubuntu">Password</label>
-                  <span class="showPassword" style="position: absolute; margin-top: 32px; margin-left: 280px;"><i class="fa fa-eye-slash" id="eye" aria-hidden="true"></i></span>
-                <input type="password" name="password" style="width: 375px; height: 34px; color: white; background-color: transparent; font-size: 14px;" class="form-control password" id="exampleInputPassword"  aria-describedby="emailHelp" placeholder="*************">
+                  <span class="showPassword" style="position: absolute; margin-top: 30px; margin-left: 290px;"><img id="eye_image" src="static/assets/img/eye_button.png" height="15" width="18"></span>
+                <input type="password" name="password" style="width: 375px; padding-top: 10px; height: 34px; color: white; background-color: transparent; font-size: 14px;" class="form-control password" id="exampleInputPassword"  aria-describedby="emailHelp" placeholder="*************">
               </div>
               <div class="form-check">
                   <label class="static-font" for="exampleCheck1" style="font-size: 14px; color: #ADB5BD;">Remember me</label>
@@ -74,22 +74,23 @@
              <div class="button static-font" style="width: 175px; margin-left: 90px; height: 34px; margin-top: -10px;">
                <a href="{% url 'forgot_password' %}"><button class="static-font" style="background-color: transparent; height: 34px; font-family: Ubuntu; color: #3D8588; font-size: 12px; font-weight: 500;">FORGOT PASSWORD?</button></a>
             </div>
-              <div class="button static-font" style="width: 375px; height: 34px; margin-top: 35px;">
+              <div class="button static-font" style="width: 375px; height: 34px; margin-top: 15px;">
                <p class="static-font" style="font-size: 12px; font-weight: 400; color: #6C757D;">If you face any issues, please contact the Solution Administrator at <b style="color: #6C757D;">abcdef@xyz.com.</b></p>
             </div>
              <script>
                  var input = document.querySelector('.password');
                  var show = document.querySelector('.showPassword');
                  var eye = document.getElementById('eye');
+                 var eye_id = document.getElementById('eye_image');
                  show.addEventListener('click', active);
                  console.log('Enter your password')
                  function active(){
                    if(input.type === 'password'){
                      input.type = 'text';
-                     show.style.color = 'white';
+                     eye_id.src = 'static/assets/img/open_eye_button.png';
                    }else{
                      input.type = 'password';
-                     show.style.color = '#6C757D';
+                     eye_id.src = 'static/assets/img/eye_button.png';
                    }
                  }
              </script>
