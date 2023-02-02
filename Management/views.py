@@ -164,6 +164,23 @@ def projectA(request):
 def company_detail(request):
     return render(request, 'company_detail.html')
 
+
+def emission_lib(request):
+    i = [1, 2];
+    context = {
+        'i': i,
+    }
+    return render(request, 'emission_lib.html', context)
+
+
+def indirect_impact_fl(request):
+    return render(request, 'indirect_impact_fl.html')
+
+
+def indirect_impact_el(request):
+    return render(request, 'indirect_impact_el.html')
+
+
 def load_plan(request):  
     return render(request, 'load_plan.html')
 
