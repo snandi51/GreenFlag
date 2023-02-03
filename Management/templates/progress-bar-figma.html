@@ -135,7 +135,7 @@
               </a>
           </li>
           <li>
-              <a href="#">
+              <a href="{% url 'emission_lib' %}">
                   <span class="icon"><img src="static/assets/img/emmision_icon.png" height="22" width="28" style="margin-top: 5px;"></span>
                   <span class="title" id="title-2" style="color: #6C757D">Emission Library</span>
               </a>
@@ -176,7 +176,7 @@
                                 <i class="fa fa-circle" id="project_details_sidebar_icon_option5" style="position: absolute;  display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="toggleText5()" id="project_details_sidebar_option5" style="color:#6C757D; cursor: pointer; font-size: 12px; display: none; padding-top: 15px;">Indirect Impact Parameters</a>
                             </li>
                             <li class="tab_active">
-                                <a href="#" style="color:#ADB5BD; font-size: 16px;">Load Plan</a>
+                                <a href="{% url 'load_plan'%}" style="color:#ADB5BD; font-size: 16px;">Load Plan</a>
                             </li>
                             <li class="tab_active" style="display:none">
                                 <a href="#" style="color:#6C757D;">Build Phase</a>
@@ -188,7 +188,7 @@
                                 <a href="#" style="color:#ADB5BD; font-size: 16px;">Direct Impact</a>
                             </li>
                             <li class="tab_active">
-                                <a href="{% url 'Indirect_Impact' %}" style="color:#ADB5BD; font-size: 16px;">Indirect Impact</a>
+                                <a href="{% url 'indirect_impact_mc' %}" style="color:#ADB5BD; font-size: 16px;">Indirect Impact</a>
                             </li>
     <!--                        <li class="tab_disabled">-->
     <!--                            <a href="#">Indirect Impact</a>-->

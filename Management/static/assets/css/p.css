@@ -1,6 +1,4 @@
-
-
-    .load_heading{
+.load_heading{
         /* Headings/h1 */
         font-family: 'Ubuntu';
         font-style: normal;
@@ -8,7 +6,7 @@
         font-size: 32px;
         line-height: 36px;
         /* identical to box height, or 112% */
-        margin-left: 270px;
+        margin-left: 20px;
         margin-top: 15px;
         /* White/White – Secondary */
         color: #CED4DA;

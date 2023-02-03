@@ -166,7 +166,7 @@ def company_detail(request):
 
 
 def emission_lib(request):
-    i = [1, 2];
+    i = [1, 2]
     context = {
         'i': i,
     }
@@ -202,6 +202,22 @@ def Indirect_Impact(request):
         'progress_bar': True,
     }
     return render(request, 'Indirect_Impact.html', context)
+
+
+def indirect_impact_fl(request):
+    return render(request, 'indirect_impact_fl.html')
+
+
+def indirect_impact_mc(request):
+    return render(request, 'indirect_impact_mc.html')
+
+
+def indirect_impact_el(request):
+    return render(request, 'indirect_impact_el.html')
+
+
+def indirect_impact_wt(request):
+    return render(request, 'indirect_impact_wt.html')
 
 
 def test_graph(request):
