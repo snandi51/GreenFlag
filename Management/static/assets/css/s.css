@@ -365,7 +365,7 @@ input::-webkit-calendar-picker-indicator: {
 }
 .add_new_role_content{
     width: 110px;
-    height: 20px;
+    height: 30px;
     padding-left:8px;
 
     /* Buttons/Small Button */
