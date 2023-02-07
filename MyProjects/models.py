@@ -19,10 +19,11 @@ class ProjectDetails(models.Model):
     buildenddate = models.DateField(db_column='BuildEndDate')  # Field name made lowercase.
     runstartdate = models.DateField(db_column='RunStartDate')  # Field name made lowercase.
     runenddate = models.DateField(db_column='RunEndDate')  # Field name made lowercase.
-    year = models.IntegerField(db_column='Year', blank=True, null=True)  # Field name made lowercase.
-    quarter = models.IntegerField(db_column='Quarter', blank=True, null=True)  # Field name made lowercase.
     create_timestamp = models.DateTimeField(db_column='Create_Timestamp')  # Field name made lowercase.
     update_timestamp = models.DateTimeField(db_column='Update_Timestamp')  # Field name made lowercase.
+    whichindirectparameters = models.CharField(db_column='WhichIndirectParameters', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    projecttype = models.CharField(db_column='ProjectType', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    projectrole = models.CharField(db_column='ProjectRole', max_length=50, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
