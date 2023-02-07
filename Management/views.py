@@ -27,7 +27,8 @@ def index(request):
 
 
 import pandas as pd
-
+import time
+from datetime import datetime
 
 def projectA(request):
     """
@@ -53,14 +54,16 @@ def projectA(request):
         name = request.POST.get('name')
         work_country = request.POST.get('work_country')
 
-        pro_manager = request.POST.get('pro_manager')
-        proxy = request.POST.get('proxy')
-        data = request.POST.get('data')
-        it_1 = request.POST.get('it_1')
-        it_2 = request.POST.get('it_2')
-        it_front = request.POST.get('it_front')
-        director = request.POST.get('director')
-        project = request.POST.get('project')
+        role = request.POST.get('role')
+
+        # pro_manager = request.POST.get('pro_manager')
+        # proxy = request.POST.get('proxy')
+        # data = request.POST.get('data')
+        # it_1 = request.POST.get('it_1')
+        # it_2 = request.POST.get('it_2')
+        # it_front = request.POST.get('it_front')
+        # director = request.POST.get('director')
+        # project = request.POST.get('project')
 
         WhichUserEquipment = request.POST.get('WhichUserEquipment')
         # laptop = request.POST.get('laptop')
@@ -93,21 +96,30 @@ def projectA(request):
         # ipdb.set_trace()
         ProjectDetails_db = ProjectDetails.objects.all()
         print(ProjectDetails_db)
-        Year = 2022
-        Quarter = 2
 
-        project_details_data = ProjectDetails(projectname=name, projectlocation=pl_1,
-                                               department=department,
-                                               whichuserequipment=WhichUserEquipment,
-                                               whichindustrialequipment=WhichIndustrialEquipment,
-                                               whichparametersimplemented=WhichParametersImplemented,
-                                               buconcerned=bu, projectstatus=ps, phasetype=type_project,
-                                               buildstartdate=start_date_build, buildenddate=end_date_build,
-                                               runstartdate=start_date_run, runenddate=end_date_run,
-                                               year=Year, quarter=Quarter, create_timestamp=start_date_build,
-                                               update_timestamp=start_date_build)
-        project_details_data.save()
-        print(project_details_data)
+        # create_timestamp = time.ctime()
+        # update_timestamp = time.ctime()
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+        # print(update_timestamp)
+
+        try:
+            project_details_data = ProjectDetails(projectname=name, projectlocation=pl_1,
+                                                   department=department,
+                                                   whichuserequipment=WhichUserEquipment,
+                                                   whichindustrialequipment=WhichIndustrialEquipment,
+                                                   whichparametersimplemented=WhichParametersImplemented,
+                                                   buconcerned=bu, projectstatus=ps, phasetype=ps,
+                                                   buildstartdate=start_date_build, buildenddate=end_date_build,
+                                                   runstartdate=start_date_run, runenddate=end_date_run,
+                                                   create_timestamp=create_timestamp,
+                                                   update_timestamp=start_date_build,
+                                                   whichindirectparameters=WhichParametersImplemented,
+                                                   projecttype=type_project, projectrole=role)
+            project_details_data.save()
+            print(project_details_data)
+        except Exception as e:
+            print(e)
 
         context = {
             'start_date_build': start_date_build,
@@ -133,6 +145,7 @@ def projectA(request):
             'WhichIndustrialEquipment': WhichIndustrialEquipment,
             'WhichParametersImplemented': WhichParametersImplemented,
             'development': development,
+            'role': role,
             # 'laptop': laptop,
             # 'pc': pc,
             # 'tablet': tablet,
@@ -171,6 +184,14 @@ def emission_lib(request):
         'i': i,
     }
     return render(request, 'emission_lib.html', context)
+
+
+def datacenter_network(request):
+    i = [1, 2, 3, 4];
+    context = {
+        'i': i,
+    }
+    return render(request, 'datacenter_network.html', context)
 
 
 def indirect_impact_fl(request):

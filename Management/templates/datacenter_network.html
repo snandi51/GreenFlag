@@ -1,0 +1,547 @@
+{% extends 'figma-base-1.html' %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link href="multiselect.css" rel="stylesheet">
+
+<style>
+table {
+  font-family: ubuntu;
+  width: 70%;
+  color: #ADB5BD;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  border-radius: none;
+  border-collapse: collapse;
+  border-spacing: 0 5px;
+}
+td {
+  text-align: left;
+  padding: 15px;
+  border-radius: 3px;
+<!--  background: #1A1D23;-->
+  background: #23272E;
+  width:239.25px;
+
+}
+th {
+  text-align: left;
+  padding: 15px;
+  width:239.25px;
+  border-radius: 3px;
+
+
+<!--  background: #1A1D23;-->
+  background: #23272E;
+}
+tr:nth-child() {
+  background: #23272E;
+  width:239.25px;
+  margin-top:100px;
+  border-radius: none;
+}
+</style>
+
+<script src="multiselect.min.js"></script>
+
+<script>
+    function openCity(evt, cityName) {
+      var i;
+      var x = document.getElementsByClassName('city');
+      var nav_button_1 = document.getElementById('nav_button_1');
+      var nav_button_2 = document.getElementById('nav_button_2');
+      console.log(evt)
+      console.log(cityName)
+      var progress3 = document.querySelector('.progress3')
+      if (cityName == 'Run'){
+        progress3.style.marginLeft = '180px';
+        nav_button_2.style.color = '#ADB5BD';
+        nav_button_1.style.color = '#6C757D';
+        nav_button_1.style.borderColor = 'transparent';
+        nav_button_2.style.borderColor = 'transparent';
+        nav_button_2.style.outline = 'thick solid #121010';
+        nav_button_1.style.outline = 'thick solid #121010';
+      } else{
+        progress3.style.marginLeft = '0px';
+        nav_button_1.style.color = '#ADB5BD';
+        nav_button_2.style.color = '#6C757D';
+        nav_button_1.style.borderColor = 'transparent';
+        nav_button_2.style.borderColor = 'transparent';
+        nav_button_2.style.outline = 'thick solid #121010';
+        nav_button_1.style.outline = 'thick solid #121010';
+      }
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = 'none';
+        console.log(x.length)
+      }
+      console.log('In')
+      document.getElementById(cityName).style.display = 'block';
+    }
+
+    function openPhase(evt, phase) {
+      var x = document.getElementsByClassName('city');
+      var nav_button_3 = document.getElementById('nav_button_3');
+      var nav_button_4 = document.getElementById('nav_button_4');
+      var Direct = document.getElementById('Direct');
+      var Indirect = document.getElementById('Indirect');
+      console.log(phase)
+      if (phase == 'Indirect'){
+        nav_button_4.style.color = '#ADB5BD';
+        nav_button_3.style.color = '#6C757D';
+        Direct.style.display = 'none';
+        Indirect.style.display = 'block';
+      } else{
+        nav_button_3.style.color = '#ADB5BD';
+        nav_button_4.style.color = '#6C757D';
+        Direct.style.display = 'block';
+        Indirect.style.display = 'none';
+      }
+    }
+
+
+</script>
+<body>
+<div id="main_width" class="main_width " style="overflow-y : auto">
+    <div style="width:50%; float:left; text-align:start;  margin-top:20px; margin-left:57px;">
+        <button type="button" onclick="history.back()" style="display: none; color:Black; font-size: 10px; font-family:'ubuntu'" id="back-btn" ></button>
+        <a href="#" style="color:#4FAFA2; font-size: 10px; font-family:'ubuntu'"><img src="static/assets/img/back_button.png" style="margin-right:10px;" onclick="document.getElementById('back-btn').click()"  alt="Back"/>BACK TO LAST PAGE</a>
+    </div>
+
+    <!---------------------------------------------Emission Factors Library--------------------------------------->
+    <div class="header_div_1" style="margin-top:30px;">
+        <div class="header_project_a" style="width:100%;">
+            <div>
+                <h3 style="font-size:32px; line-height: 36px; font-family: 'Ubuntu'; font-weight: 500;">Parameters</h3>
+                <div class="paragraph" style="top:50px; font-size: 14px; font-family: 'Ubuntu'; font-weight: 400; width: 815px;">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-bar static-font" style="width: 70%;margin-left: 10px; margin-top: 100px; font-weight: 400; font-size: 16px; line-height: 20px;">
+            <div style="position:absolute;  width:90%; float:left">
+                <button id="nav_button_1" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Build');"  style="color: #ADB5BD; border:none; background-color:transparent" name="build" value="0">Pre-defined Library</button>
+                <button id="nav_button_2" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Run');" style="color: #6C757D; border:none; background-color:transparent" name="run" value="1">Company’s X Library</button>
+            </div>
+            <div style=" width:100%; text-align:end;">
+                <button class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'customise');" style="color: #6C757D; border:none; background-color:transparent" name="customise" value="1"><p class="customize_button"></p></button>
+            </div>
+            <div class="progress1" style="width: 150%;">
+                <div class="progress3">
+                    <hr class="line" size="3" width="100%" color="#6C757D">
+                </div>
+            </div>
+        </div>
+
+
+        <div id="Build" class="w3-container city " style="overflow-x:auto; width:90%;  display:block; ">
+            <div class="div_class_8" style=" border-collapse: collapse; margin-top:20px;">
+                <div class="para_name_div">
+                </div>
+                <div class="para_name_div2">
+                </div>
+                <div class="para_name_div3">
+                </div>
+                <div class="para_name_div4">
+                </div>
+                <div class="para_name_div5">
+                    <p class="content_para_1">Manufacturing - Carbon footprint by component (in KgCO2e)</p>
+                </div>
+                <div class="para_name_div6">
+                    <p class="content_para_2">Usage - Energy consumption by component</p>
+                </div>
+                <div class="para_name_div7">
+                    <p class="content_para_3">Manufacturing - Carbon footprint by component (in KgCO2e)</p>
+                </div>
+                <div class="para_name_div8">
+                </div>
+
+            </div>
+            <div class="div_class_14" style=" border-collapse: collapse; ">
+                <div class="para_name_div name_para_11" >
+                    <center>
+                        <p class="product_type" style="margin-left:18px">
+                            Project Type
+                        </p>
+                        <div class="search_para_box">
+                            <input class="input_search_pt" style="border:none" type="text" placeholder="Search..." name="search">
+                            <img src="static/assets/img/search_Icon.png" >
+                        </div>
+                    </center>
+                </div>
+                <div class="para_name_div2 name_para_12">
+                    <center>
+                        <p class="product_type" style="width: 109px;">
+                            Component Type
+                        </p>
+                        <div class="search_para_box">
+                            <input class="input_search_pt" style="border:none" type="text" placeholder="Search..." name="search">
+                            <img src="static/assets/img/search_Icon.png" >
+                        </div>
+                    </center>
+                </div>
+                <div class="para_name_div3 name_para_13">
+                    <center>
+                        <p class="product_type" style="width: 116px;">
+                            Component Name
+                        </p>
+                        <div class="search_para_box">
+                            <input class="input_search_pt" style="border:none" type="text" placeholder="Search..." name="search">
+                            <img src="static/assets/img/search_Icon.png" >
+                        </div>
+                    </center>
+                </div>
+                <div class="para_name_div4 name_para_14">
+                    <p class="unit">
+                        Unit
+                    </p>
+                </div>
+                <div class="name_para_15">
+                    <center>
+                        <p class="product_type" style="width: 183px;">
+                            Lifetime emissions (KgCO2e)
+                        </p>
+                    </center>
+                </div>
+                <div class=" name_para_16">
+                    <center>
+                        <p class="product_type" style="width: 183px;">
+                            Lifespan (years)
+                        </p>
+                    </center>
+                </div>
+                <div class=" name_para_17">
+                    <center>
+                        <p class="product_type" style="width: 183px;">
+                            Value per hour
+                        </p>
+                    </center>
+                </div>
+                <div class=" name_para_18">
+                    <center>
+                        <p class="product_type" style="width: 36px;">
+                            Value
+                        </p>
+                    </center>
+                </div>
+                <div class=" name_para_19">
+                    <center>
+                        <p class="product_type" style="width: 27px;">
+                            Unit
+                        </p>
+                    </center>
+                </div>
+                <div class="name_para_20">
+                    <center>
+                        <p class="product_type" style="width: 128px;">
+                            Value in Build phase
+                        </p>
+                    </center>
+                </div>
+                <div class="name_para_21">
+                    <center>
+                        <p class="product_type" style="width: 120px;">
+                            Value in Run phase
+                        </p>
+                    </center>
+                </div>
+                <div class="name_para_22">
+                    <center>
+                        <p class="product_type" style="width: 27px;">
+                            Unit
+                        </p>
+                    </center>
+                </div>
+                <div class="name_para_23">
+                    <center>
+                        <p class="product_type" style="width: 166px;">
+                            Server uptime (hours/day)
+                        </p>
+                    </center>
+                </div>
+                <div class="name_para_24">
+                    <center>
+                        <p class="product_type" style="width: 44px;">
+                            Source
+                        </p>
+                    </center>
+                </div>
+            </div>
+
+            <form action="datacenter_network"  method="post">
+                {% csrf_token %}
+            <!---------------------------------Input Parameters-------------------------------->
+
+                <div class="div_class_14" style="height:100px; width:100%;">
+                    {% for r in i %}
+                    <div class="para_1" style="width: 146.3px; height:50px; ">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    <div class="para_1" style="width: 158px; height:50px;">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    <div class="para_1" style="width: 165px; height:50px;">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    <div class="para_1" style="width: 75px; height:50px;">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    <div class="para_1" style="width: 231px; height:50px;">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    <div class="para_1" style="width: 148px; height:50px;">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    <div class="para_1" style="width: 142px; height:50px;">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    <div class="para_1" style="width: 161.5px; height:50px;">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    <div class="para_1" style="width: 161.5px; height:50px;">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    <div class="para_1" style="width: 176px; height:50px;">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    <div class="para_1" style="width: 168px; height:50px;">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    <div class="para_1" style="width: 124px; height:50px;">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    <div class="para_1" style="width: 214px; height:50px;">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    <div class="para_1" style="width: 124px; height:50px;">
+                        <input class="para_text" type="text" placeholder="parameter"  style="text-align:center; color: #CED4DA;">
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </form>
+        </div>
+
+
+        <div id="Run" class="w3-container city"  style="width:90%; overflow-x: auto; display:none; text-align: center; margin-top:20px; height: 400px;">
+            <div class="div_class_10" style="border-collapse: collapse;">
+                <div class="run_para_1" style="border-radius:8px 0px 0px 0px;"></div>
+                <div class="run_para_1" style="width: 146px; border-radius:0px 0px 0px 0px;"></div>
+                <div class="run_para_1" style="width: 157px; border-radius:0px 0px 0px 0px;"></div>
+                <div class="run_para_1" style="width: 164px; border-radius:0px 0px 0px 0px;"></div>
+                <div class="run_para_1" style="width: 75px; border-radius:0px 0px 0px 0px;"></div>
+                <div class="run_para_1" style="width: 521px; border-radius:0px 0px 0px 0px;">
+                    <p class="content_para_1">Manufacturing - Carbon footprint by component (in KgCO2e)</p>
+                </div>
+                <div class="run_para_1" style="width: 323px; border-radius:0px 0px 0px 0px;">
+                    <p class="content_para_2">Usage - Energy consumption by component</p>
+                </div>
+                <div class="run_para_1" style="width: 682px; border-radius:0px 0px 0px 0px;">
+                    <p class="content_para_3">Manufacturing - Carbon footprint by component (in KgCO2e)</p>
+                </div>
+                <div class="run_para_1" style="width: 124px; border-radius:0px 0px 0px 0px;"></div>
+                <div class="run_para_1" style="width: 203.4px; border-radius:0px 8px 0px 0px;"></div>
+            </div>
+
+            <div class="div_class_16" style="border-collapse: collapse;">
+                <div class="run_para_1 a1" style="border-radius:0px 0px 0px 0px;">
+                    <input type="checkbox" class="form-check-input" id="two" name="proxy" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                </div>
+                <div class="run_para_1 a2" style="border-radius:0px 0px 0px 0px;">
+                    <p class="product_type" style="margin-left:10px;">
+                        Project Type
+                    </p>
+                    <div class="search_para_box">
+                        <input class="input_search_pt" style="border:none" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+                <div class="run_para_1 a3" style="border-radius:0px 0px 0px 0px;">
+                    <p class="product_type" style="width: 116px;">
+                        Component Name
+                    </p>
+                    <div class="search_para_box">
+                        <input class="input_search_pt" style="border:none" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+                <div class="run_para_1 a4" style="border-radius:0px 0px 0px 0px;">
+                    <p class="product_type" style="width: 116px;">
+                        Component Name
+                    </p>
+                    <div class="search_para_box">
+                        <input class="input_search_pt" style="border:none" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+                <div class="run_para_1 a5" style="border-radius:0px 0px 0px 0px;">
+                    <p class="unit">
+                        Unit
+                    </p>
+                </div>
+                <div class="run_para_1 a5" style="width: 231px; border-radius:0px 0px 0px 0px;">
+                    <p class="unit" style="width: 183px;">
+                        Lifetime emissions (KgCO2e)
+                    </p>
+                </div>
+                <div class="run_para_1 a5" style="width: 148px; border-radius:0px 0px 0px 0px;">
+                    <p class="unit" style="width: 100px;">
+                        Lifespan (years)
+                    </p>
+                </div>
+                <div class="run_para_1 a5" style="width: 142px; border-radius:0px 0px 0px 0px;">
+                    <p class="unit" style="width: 94px;">
+                        Value per hour
+                    </p>
+                </div>
+                <div class="run_para_1 a5" style="width: 161.5px; border-radius:0px 0px 0px 0px;">
+                    <p class="unit" style="width: 36px;">
+                        Value
+                    </p>
+                </div>
+                <div class="run_para_1 a5" style="width: 161.5px; border-radius:0px 0px 0px 0px;">
+                    <p class="unit" style="width: 27px;">
+                        Unit
+                    </p>
+                </div>
+                <div class="run_para_1 a5" style="width: 176px; border-radius:0px 0px 0px 0px;">
+                    <p class="unit" style="width: 128px;">
+                        Value in Build phase
+                    </p>
+                </div>
+                <div class="run_para_1 a5" style="width: 168px; border-radius:0px 0px 0px 0px;">
+                    <p class="unit" style="width: 120px;">
+                        Value in Run phase
+                    </p>
+                </div>
+                <div class="run_para_1 a5" style="width: 124px; border-radius:0px 0px 0px 0px;">
+                    <p class="unit" style="width: 27px;">
+                        Unit
+                    </p>
+                </div>
+                <div class="run_para_1 a5" style="width: 214px; border-radius:0px 0px 0px 0px;">
+                    <p class="unit" style="width: 166px;">
+                        Server uptime (hours/day)
+                    </p>
+                </div>
+                <div class="run_para_1 a5" style="width: 124px; border-radius:0px 0px 0px 0px;">
+                    <p class="unit" style="width: 44px;">
+                        Source
+                    </p>
+                </div>
+                <div class="run_para_1 a5" style="width: 203.4px; border-radius:0px 0px 0px 0px;">
+                    <p class="unit" style="width: 155.4px;">
+                        Projects using this emission factor
+                    </p>
+                </div>
+            </div>
+            <form action="datacenter_network"  method="post">
+                {% csrf_token %}
+                {% for r in i %}
+                <div class="div_class_16">
+                    <div class="checkbox_1" style="border-radius:0px 0px 0px 0px; height:50px; background:#1A1D23;">
+                        <input type="checkbox" class="form-check-input" id="two" name="proxy" style="text-align:center; color: #CED4DA; height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                    </div>
+                    <div class="para_1" style="height:50px; width: 146px;">
+                        <center>
+                            <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 157px;">
+                        <center>
+                         <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 164px;">
+                        <center>
+                            <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 75px;">
+                        <center>
+                            <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 231px;">
+                        <center>
+                            <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 148px;">
+                        <center>
+                            <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 142px;">
+                        <center>
+                            <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 161.5px;">
+                        <center>
+                            <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 161.5px;">
+                        <center>
+                            <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 176px;">
+                        <center>
+                            <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 168px;">
+                        <center>
+                            <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 124px;">
+                        <center>
+                            <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 214px;">
+                        <center>
+                            <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 124px;">
+                        <center>
+                            <input class="para_text" type="text" placeholder="parameter" style="text-align:center; color: #CED4DA;">
+                        </center>
+                    </div>
+                    <div class="para_1" style="height:50px; width: 203.4px;">
+                        <select id='testSelect1' style="border:none; color: #CED4DA; width:100%; background:black;">
+                            <option value='Project_a'>Project A</option>
+                            <option value='Project_b'>Project B</option>
+                            <option value='Project_c'>Project C</option>
+                            <option value='Project_d'>Project D</option>
+                            <option value='Project_e'>Project E</option>
+                        </select>
+                    </div>
+                </div>
+                {% endfor %}
+            </form>
+        </div>
+        <div style="padding-bottom:120px;">
+
+        </div>
+    </div>
+
+    <!-----------------------------------------End Of Project Heading------------------------------------>
+</div>
+
+
+{% endblock %}
+</body>
+</html>
