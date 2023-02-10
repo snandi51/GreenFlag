@@ -163,6 +163,60 @@
     {    x[i].style.display = 'none';  }
     document.getElementById(cityName).style.display = 'block';}
 </script>
+<script>
+    function active_tab(){
+    var project_details_sidebar_option1 = document.getElementById('project_details_sidebar_option1');
+    var project_details_sidebar_icon_option1 = document.getElementById('project_details_sidebar_icon_option1');
+    var project_details_sidebar_option2 = document.getElementById('project_details_sidebar_option2');
+    var project_details_sidebar_icon_option2 = document.getElementById('project_details_sidebar_icon_option2');
+    var project_details_sidebar_option3 = document.getElementById('project_details_sidebar_option3');
+    var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3');
+    var project_details_sidebar_option4 = document.getElementById('project_details_sidebar_option4');
+    var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4');
+    var project_details_sidebar_option5 = document.getElementById('project_details_sidebar_option5');
+    var project_details_sidebar_icon_option5 = document.getElementById('project_details_sidebar_icon_option5');
+      if (project_details_sidebar_option1.style.display === 'none') {
+        project_details_sidebar_option1.style.display = 'block';
+        project_details_sidebar_icon_option1.style.display = 'block';
+
+        project_details_sidebar_option2.style.display = 'block';
+        project_details_sidebar_icon_option2.style.display = 'block';
+
+        project_details_sidebar_option3.style.display = 'block';
+        project_details_sidebar_icon_option3.style.display = 'block';
+
+        project_details_sidebar_option4.style.display = 'block';
+        project_details_sidebar_icon_option4.style.display = 'block';
+
+        project_details_sidebar_option5.style.display = 'block';
+        project_details_sidebar_icon_option5.style.display = 'block';
+      } else {
+        project_details_sidebar_option1.style.display = 'none';
+        project_details_sidebar_icon_option1.style.display = 'none';
+
+        project_details_sidebar_option2.style.display = 'none';
+        project_details_sidebar_icon_option2.style.display = 'none';
+
+        project_details_sidebar_option3.style.display = 'none';
+        project_details_sidebar_icon_option3.style.display = 'none';
+
+        project_details_sidebar_option4.style.display = 'none';
+        project_details_sidebar_icon_option4.style.display = 'none';
+
+        project_details_sidebar_option5.style.display = 'none';
+        project_details_sidebar_icon_option5.style.display = 'none';
+      }
+    }
+</script>
+<script>
+    function load_plan_active_tab(){
+        var load_plan_opt1 = document.getElementById('load_plan_opt1');
+        var load_plan_opt2 = document.getElementById('load_plan_opt2');
+        var load_plan_opt_text1 = document.getElementById('load_plan_opt_text1');
+        var load_plan_opt_text2 = document.getElementById('load_plan_opt_text2');
+        console.log(load_plan_opt1)
+    }
+</script>
 <div id="main_width" class="main_width_clone">
     <div class="load_heading">
         Load Plan

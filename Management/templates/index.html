@@ -24,9 +24,12 @@
 
 window.onload = function() {
 
-var db_instance = {{complete_db_projects}}
+var db_instance = {{db_instance}}
 var xValues = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
 var yValues = [1 , 3, 5, 7, 13, 4, 2, 13];
+
+
+console.log('This is a test');
 
 var y1Values = [1 , 7, 2, 4, 2, 8, 6, 4];
 
@@ -141,7 +144,7 @@ for (let a=1; a <= db_instance.length; a++) {
    function toggle_grid(name) {
       console.log(name)
       var grid = document.getElementById('grid');
-      var db_instance = {{complete_db_projects}}
+      var db_instance = {{db_instance}}
       var img_grid = document.getElementById('img_grid');
       var graph = document.getElementById('graph');
       var details_1 = document.getElementById('details_1')
@@ -173,9 +176,6 @@ for (let a=1; a <= db_instance.length; a++) {
 </script>
 
 <script>
-    function mark_draft(mark_complete_id){
-        console.log('mark_complete_dropdown ID: ' + mark_complete_id)
-    }
     function edit_complete(edit_complete_id){
         var main_div = document.getElementById('main_width');
         var edit_project_popup_div = document.getElementById('edit_project_popup_div');
@@ -226,27 +226,95 @@ for (let a=1; a <= db_instance.length; a++) {
 
 <script>
 function mySearchFunction() {
-    var searchbar_input, filter, ul, li, a, i, txtValue;
-    searchbar_input = document.getElementById('searchbar_input');
+    var input, filter, div, li, a, i, txtValue;
+    input = document.getElementById('searchbar_input');
+    input_value = input.value;
     filter = input.value.toUpperCase();
-    ul = document.getElementById('myUL');
-    li = ul.getElementsByTagName('li');
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName('a')[0];
-        txtValue = a.textContent || a.innerText;
+
+    div = document.getElementById('draft_div');
+    h2_tags = div.getElementsByTagName('h2');
+
+
+    console.log(input_value)
+    console.log(filter)
+
+    for (i = 1; i < h2_tags.length; i++) {
+        txtValue = h2_tags[i].textContent || h2_tags[i].innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = '';
-        } else {
-            li[i].style.display = 'none';
+            console.log('Enter if')
+            console.log('Value of IF i: ', i)
+            document.getElementById('Project '+ i).style.display = '';
+        }
+        else {
+            console.log('Enter else')
+            console.log('Value of ELSE i: ', i)
+            document.getElementById('Project '+ i).style.display = 'none';
         }
     }
 }
 </script>
+<script>
+    function showPop(id) {
+        document.getElementById('myDropdown_' + id).classList.toggle('show');
+    }
+</script>
+<script>
+    function mark_complete(id) {
+        var mark_complete_project_popup_div_draft = document.getElementById('mark_complete_project_popup_div_draft');
+
+        var main_div = document.getElementById('main_width');
+        main_div.style.opacity = 0.5;
+
+        mark_complete_project_popup_div_draft.style.display = 'block';
+
+    }
+
+    function duplicate_draft() {
+        var duplicate_project_popup_div_draft = document.getElementById('duplicate_project_popup_div_draft');
+
+        var main_div = document.getElementById('main_width');
+        main_div.style.opacity = 0.5;
+
+        duplicate_project_popup_div_draft.style.display = 'block';
+
+    }
+
+    function delete_draft() {
+        var mark_complete_project_popup_div_draft = document.getElementById('mark_complete_project_popup_div_draft');
+
+        var main_div = document.getElementById('main_width');
+        main_div.style.opacity = 0.5;
+
+        mark_complete_project_popup_div_draft.style.display = 'block';
+
+    }
+
+    function edit_take_me_back_draft(){
+        var main_div = document.getElementById('main_width');
+        var edit_project_popup_div_draft = document.getElementById('edit_project_popup_div_draft');
+        main_div.style.opacity = 1;
+        edit_project_popup_div_draft.style.display = 'none';
+    }
+
+    function duplicate_take_me_back_draft(){
+        var main_div = document.getElementById('main_width');
+        var duplicate_project_popup_div_draft = document.getElementById('duplicate_project_popup_div_draft');
+        main_div.style.opacity = 1;
+        duplicate_project_popup_div_draft.style.display = 'none';
+    }
+
+    function delete_take_me_back_draft(){
+        var main_div = document.getElementById('main_width');
+        var delete_project_popup_div_draft = document.getElementById('delete_project_popup_div_draft');
+        main_div.style.opacity = 1;
+        delete_project_popup_div_draft.style.display = 'none';
+    }
+</script>
 <body >
     <div id="main_width" class="main_width" style="overflow-y:auto; overflow-x:hidden;">
         <div style="width: 100%; display: flex; height: 40px; margin-top: 15px;">
-            <div class="custom-nav-box" style="line-height: 28px; font-family: 'Ubuntu'; color: #ADB5BD; font-size: 24px; text-align: center; padding-top: 8px; width: 300px; height: 50px;">
-                Project Dashboard(6)
+            <div class="custom-nav-box" style="line-height: 28px; font-family: 'Ubuntu'; font-weight: 500; color: #ADB5BD; font-size: 24px; text-align: center; padding-top: 8px; width: 300px; height: 50px;">
+                Project Dashboard (6)
             </div>
             <div style="margin-right: 20px; line-height: 16px; float: right; align-item: center; margin-left: auto; font-family: 'Ubuntu'; color: #ADB5BD; text-align: center; padding-top: 8px; width: 200px; height: 50px;">
                 <a href="{% url 'projectA' %}">
@@ -389,18 +457,18 @@ function mySearchFunction() {
                 <!------------------------------------End of 'OOPs' Statement--------------------------------->
 
                 <!-------------------------------------Data Enter in database--------------------------------->
-                <div class="details" style="padding-bottom: 180px;">
-                    {% for i in draft_db_projects %}
-                    <div class="recentOrders" style="padding-bottom: 20px;">
+                <div id="draft_div" class="details" style="padding-bottom: 180px;">
+                    {% for i in session_dict.values %}
+                    <div id="Project {{i}}" class="recentOrders" style="padding-bottom: 20px;">
                         <div class="cardHeader">
-                            <h2 class="header">Project {{i}}</h2>
+                            <h2 id="draft_card_header_{{i}}" class="header">{{i.projectname}}</h2>
                             <hr  size="7" width="20%" color="#6C757D">
                             <div class="dropdown">
-                                <div class="fa fa-ellipsis-v" id="{{i}}" onclick="showDropdown_draft(this.id)" aria-hidden="true" style="padding-top:10px; color:#ADB5BD;">
-                                    <div id="myDropdown_{{i}}" class="dropdown-content" style="width: 150px; font-weight: 400; padding: 10px;">
-                                        <a href="#home" id="draft_mark_as_complete_{{i}}" onclick="mark_complete(this.id)"><img src="static/assets/img/ok_icon.png" height="20" width="20" style="margin-right: 10px;"><span style="font-family: 'Ubuntu'; font-size: 12px;">Mark as complete</span></a>
-                                        <a href="#about"><img src="static/assets/img/duplicate_icon.png" height="20" width="20" style="margin-right: 10px;"><span style="font-family: 'Ubuntu'; font-size: 12px;">Duplicate this project</span></a>
-                                        <a href="#contact"><img src="static/assets/img/delete_icon.png" height="20" width="20" style="margin-right: 10px;"><span style="font-family: 'Ubuntu'; font-size: 12px;">Delete this project</span></a>
+                                <div class="fa fa-ellipsis-v" id="{{i.projectname}}" onclick="showPop(this.id)" aria-hidden="true" style="padding-top:10px; color:#ADB5BD;">
+                                    <div id="myDropdown_{{i.projectname}}" class="dropdown-content" style="width: 150px; font-weight: 400; padding: 10px;">
+                                        <a style="cursor: pointer" id="draft_mark_as_complete_{{i.name}}" onclick="mark_complete(this.id)"><img src="static/assets/img/ok_icon.png" height="20" width="20" style="margin-right: 10px;"><span style="font-family: 'Ubuntu'; font-size: 12px;">Mark as complete</span></a>
+                                        <a onclick="duplicate_draft()" style="cursor: pointer"><img src="static/assets/img/duplicate_icon.png" height="20" width="20" style="margin-right: 10px;"><span style="font-family: 'Ubuntu'; font-size: 12px;">Duplicate this project</span></a>
+                                        <a onclick="delete_draft()" style="cursor: pointer"><img src="static/assets/img/delete_icon.png" height="20" width="20" style="margin-right: 10px;"><span style="font-family: 'Ubuntu'; font-size: 12px;">Delete this project</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -435,14 +503,12 @@ function mySearchFunction() {
             </div>
 
             <div id="Completed" class="w3-container city" style="display:none; text-align: center; height: 100px; margin-top: 170px;">
-                <!--            <h2 style="font-size: 20px; font-family: 'Ubuntu'; weight: 500; line-height: 28px; color: #ADB5BD" >Oops, looks like you don’t have any projects set up!</h2>-->
-                <!--            <p style="font-size: 16px; font-family: 'Ubuntu'; weight: 500; line-height: 24px; color: #6C757D">Add a new project to start viewing the results.</p>-->
                 <!-------------------------------Card Based On Projects------------------------------->
                 <div id="details_1" class="details_1" style="grid-template-columns:repeat(3, 1fr);">
-                    {% for i in complete_db_projects %}
+                    {% for i in session_dict.values %}
                     <div class="recentOrders" style="padding-bottom: 15px;">
                         <div class="cardHeader">
-                            <h2 class="header">Project {{i}}</h2>
+                            <h2 class="header">{{i.projectname}}</h2>
                             <div class="dropdown">
                                 <div class="fa fa-ellipsis-v" id="complete_{{i}}" onclick="showDropdown_complete(this.id)" aria-hidden="true" style="padding-top:10px; color:#ADB5BD; ">
                                     <div id="Complete_myDropdown_{{i}}" class="dropdown-content" style="padding: 10px;">
@@ -485,6 +551,8 @@ function mySearchFunction() {
             </div>
         </form>
     </div>
+
+<!--    complete popup divs -->
     <div id="edit_project_popup_div" style="width: 500px; font-family: Ubuntu; display: none; margin-top: auto; height: 220px; left:40%; top: 35%; background-color: #34373D; z-index: 1; margin: 0 auto; position: fixed;">
             <img src="static/assets/img/edit_orange.png" height="25" width="25" style="position: absolute; margin-top: 25px; margin-left: 25px;"><label style="font-size: 20px; color: #ADB5BD; padding: 20px; margin-left: 50px; width: 430px; font-family: Ubuntu; font-weight: 500">Are you sure you want to edit this project?</label>
             <label style="font-size: 14px; color: #ADB5BD; margin-left: 40px; width: 420px; font-family: Ubuntu;">If you proceed, your project will be moved to the drafts section. Do you want to proceed?</label>
@@ -511,6 +579,38 @@ function mySearchFunction() {
             <div style="margin: 0 auto; display: inline;">
                 <div style="margin: 0 auto; display: inline;">
                     <button onclick="delete_take_me_back()" class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 144px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent">NO, TAKE ME BACK.</button>
+                    <button onclick="yes()" class="action_btn cancel" style="font-size: 12px;  margin: 0 auto;  border: 2px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 70px; margin-left: 5px; height: 30px; color: #E6E9EE; border-color: #4FAFA2; background-color: #4FAFA2">YES</button>
+                </div>
+            </div>
+    </div>
+
+<!--    Draft popup divs-->
+    <div id="mark_complete_project_popup_div_draft" style="width: 500px; font-family: Ubuntu; display: none; margin-top: auto; height: 220px; left:40%; top: 35%; background-color: #34373D; z-index: 1; margin: 0 auto; position: fixed;">
+            <img src="static/assets/img/edit_orange.png" height="25" width="25" style="position: absolute; margin-top: 25px; margin-left: 25px;"><label style="font-size: 20px; color: #ADB5BD; padding: 20px; margin-left: 50px; width: 430px; font-family: Ubuntu; font-weight: 500">Are you sure you want to edit this project?</label>
+            <label style="font-size: 14px; color: #ADB5BD; margin-left: 40px; width: 420px; font-family: Ubuntu;">If you proceed, your project will be moved to the drafts section. Do you want to proceed?</label>
+            <div style="margin: 0 auto; display: inline;">
+                <div style="margin: 0 auto; display: inline;">
+                    <button onclick="edit_take_me_back_draft()" class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 144px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent">NO, TAKE ME BACK.</button>
+                    <button onclick="yes()" class="action_btn cancel" style="font-size: 12px;  margin: 0 auto;  border: 2px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 70px; margin-left: 5px; height: 30px; color: #E6E9EE; border-color: #4FAFA2; background-color: #4FAFA2">YES</button>
+                </div>
+            </div>
+    </div>
+    <div id="duplicate_project_popup_div_draft" style="width: 500px; font-family: Ubuntu; display: none; margin-top: auto; height: 220px; left:40%; top: 35%; background-color: #34373D; z-index: 1; margin: 0 auto; position: fixed;">
+            <img src="static/assets/img/duplicate_icon.png" height="25" width="25" style="position: absolute; margin-top: 25px; margin-left: 25px;"><label style="font-size: 20px; color: #ADB5BD; padding: 20px; margin-left: 50px; width: 430px; font-family: Ubuntu; font-weight: 500">Are you sure you want to duplicate this project?</label>
+            <label style="font-size: 14px; color: #ADB5BD; margin-left: 40px; width: 420px; font-family: Ubuntu;">If you proceed, your entire project will be duplicated in the drafts section. Do you want to proceed?</label>
+            <div style="margin: 0 auto; display: inline;">
+                <div style="margin: 0 auto; display: inline;">
+                    <button onclick="duplicate_take_me_back_draft()" class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 144px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent">NO, TAKE ME BACK.</button>
+                    <button onclick="yes()" class="action_btn cancel" style="font-size: 12px;  margin: 0 auto;  border: 2px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 70px; margin-left: 5px; height: 30px; color: #E6E9EE; border-color: #4FAFA2; background-color: #4FAFA2">YES</button>
+                </div>
+            </div>
+    </div>
+    <div id="delete_project_popup_div_draft" style="width: 500px; font-family: Ubuntu; display: none; margin-top: auto; height: 220px; left:40%; top: 35%; background-color: #34373D; z-index: 1; margin: 0 auto; position: fixed;">
+            <img src="static/assets/img/delete_icon.png" height="25" width="25" style="position: absolute; margin-top: 25px; margin-left: 25px;"><label style="font-size: 20px; color: #ADB5BD; padding: 20px; margin-left: 50px; width: 430px; font-family: Ubuntu; font-weight: 500">Are you sure you want to delete this project?</label>
+            <label style="font-size: 14px; color: #ADB5BD; margin-left: 40px; width: 420px; font-family: Ubuntu;">If you proceed, your project will be deleted permanently. Do you want to proceed?</label>
+            <div style="margin: 0 auto; display: inline;">
+                <div style="margin: 0 auto; display: inline;">
+                    <button onclick="delete_take_me_back_draft()" class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 144px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent">NO, TAKE ME BACK.</button>
                     <button onclick="yes()" class="action_btn cancel" style="font-size: 12px;  margin: 0 auto;  border: 2px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 70px; margin-left: 5px; height: 30px; color: #E6E9EE; border-color: #4FAFA2; background-color: #4FAFA2">YES</button>
                 </div>
             </div>

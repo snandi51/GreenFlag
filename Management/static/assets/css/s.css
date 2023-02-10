@@ -330,7 +330,7 @@ input::-webkit-calendar-picker-indicator: {
     flex-grow: 0;
 }
 .add_new_role{
-    width: 110px;
+    width: 160px;
     height: 20px;
     margin-top:20px;
     background:transparent;
@@ -364,9 +364,8 @@ input::-webkit-calendar-picker-indicator: {
     flex-grow: 0;
 }
 .add_new_role_content{
-    width: 110px;
+    width: 160px;
     height: 30px;
-    padding-left:8px;
 
     /* Buttons/Small Button */
 

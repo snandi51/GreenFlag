@@ -14,6 +14,7 @@ urlpatterns = [
     path('Indirect_Impact', management_views.Indirect_Impact, name='Indirect_Impact'),
     path('indirect_impact_mc', management_views.indirect_impact_mc, name='indirect_impact_mc'),
     path('load_plan', management_views.load_plan, name='load_plan'),
+    path('di_daily_commute', management_views.di_daily_commute, name='di_daily_commute'),
     path('Help', management_views.Help, name='Help'),
     path('emission_lib', management_views.emission_lib, name='emission_lib'),
     path('datacenter_network', management_views.datacenter_network, name='datacenter_network'),

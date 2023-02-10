@@ -151,191 +151,9 @@
         document.getElementById('auto_focus').style.outline = 'none';
     }
 </script>
-<script>
-    function active_tab(){
-    var project_details_sidebar_option1 = document.getElementById('project_details_sidebar_option1');
-    var project_details_sidebar_icon_option1 = document.getElementById('project_details_sidebar_icon_option1');
-    var project_details_sidebar_option2 = document.getElementById('project_details_sidebar_option2');
-    var project_details_sidebar_icon_option2 = document.getElementById('project_details_sidebar_icon_option2');
-    var project_details_sidebar_option3 = document.getElementById('project_details_sidebar_option3');
-    var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3');
-    var project_details_sidebar_option4 = document.getElementById('project_details_sidebar_option4');
-    var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4');
-    var project_details_sidebar_option5 = document.getElementById('project_details_sidebar_option5');
-    var project_details_sidebar_icon_option5 = document.getElementById('project_details_sidebar_icon_option5');
-      if (project_details_sidebar_option1.style.display === 'none') {
-        project_details_sidebar_option1.style.display = 'block';
-        project_details_sidebar_icon_option1.style.display = 'block';
-
-        project_details_sidebar_option2.style.display = 'block';
-        project_details_sidebar_icon_option2.style.display = 'block';
-
-        project_details_sidebar_option3.style.display = 'block';
-        project_details_sidebar_icon_option3.style.display = 'block';
-
-        project_details_sidebar_option4.style.display = 'block';
-        project_details_sidebar_icon_option4.style.display = 'block';
-
-        project_details_sidebar_option5.style.display = 'block';
-        project_details_sidebar_icon_option5.style.display = 'block';
-      } else {
-        project_details_sidebar_option1.style.display = 'none';
-        project_details_sidebar_icon_option1.style.display = 'none';
-
-        project_details_sidebar_option2.style.display = 'none';
-        project_details_sidebar_icon_option2.style.display = 'none';
-
-        project_details_sidebar_option3.style.display = 'none';
-        project_details_sidebar_icon_option3.style.display = 'none';
-
-        project_details_sidebar_option4.style.display = 'none';
-        project_details_sidebar_icon_option4.style.display = 'none';
-
-        project_details_sidebar_option5.style.display = 'none';
-        project_details_sidebar_icon_option5.style.display = 'none';
-      }
-    }
-</script>
-<script>
-    var all_input_count1 = false;
-    var all_input_count2 = false;
-    var all_input_count3 = false;
-    var all_input_count4 = false;
-    var all_input_count5 = false;
-    function project_duration_inputs(){
-        var start_date_build = document.getElementById('start_date_build');
-        var end_date_build = document.getElementById('end_date_build');
-        var start_date_run = document.getElementById('start_date_run');
-        var end_date_run = document.getElementById('end_date_run');
-
-        var project_details_sidebar_icon_option1 = document.getElementById('project_details_sidebar_icon_option1');
-
-        if ((start_date_build.value != '') && (end_date_build.value != '') && (start_date_run.value != '') && (end_date_run.value != '')){
-            project_details_sidebar_icon_option1.className = 'fa fa-check-circle';
-            console.log('completed form 1');
-            all_input_count1 = true;
-        }
-        else{
-            project_details_sidebar_icon_option1.className = 'fa fa-circle';
-            all_input_count1 = false;
-        }
-        console.log('project_duration');
-    }
-</script>
-<script>
-    function project_details_inputs(){
-        var select_1 = document.getElementById('select_1');
-        var select_2 = document.getElementById('select_2');
-        var select_3 = document.getElementById('select_3');
-        var select_4 = document.getElementById('select_4');
-        var select_5 = document.getElementById('select_5');
-        var select_6 = document.getElementById('select_6');
-        var project_details_sidebar_icon_option2 = document.getElementById('project_details_sidebar_icon_option2');
-
-        if ((select_1.value != '') && (select_2.value != '') && (select_3.value != '') && (select_4.value != '') && (select_5.value != '') && (select_6.value != '')){
-            project_details_sidebar_icon_option2.className = 'fa fa-check-circle';
-            all_input_count2 = true;
-        }
-        else{
-            project_details_sidebar_icon_option2.className = 'fa fa-circle';
-            all_input_count2 = false;
-        }
-    }
-</script>
-<script>
-    function project_roles_input(){
-        var name = document.getElementById('name');
-        var work_country = document.getElementById('work_country');
-        var one = document.getElementById('one');
-        var two = document.getElementById('two');
-        var three = document.getElementById('three');
-        var four = document.getElementById('four');
-        var five = document.getElementById('five');
-        var six = document.getElementById('six');
-        var seven = document.getElementById('seven');
-        var eight = document.getElementById('eight');
-        var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3');
-
-        if ((name.value != '' && work_country.value != '') && (one.checked || two.checked || three.checked ||
-        four.checked || five.checked || six.checked || seven.checked || eight.checked
-        )){
-            project_details_sidebar_icon_option3.className = 'fa fa-check-circle';
-            console.log('work_country_selected');
-            all_input_count3 = true;
-        }
-        else{
-            project_details_sidebar_icon_option3.className = 'fa fa-circle';
-            all_input_count3 = false;
-        }
-    }
-</script>
-<script>
-    function direct_impact_input(){
-        var laptop = document.getElementById('laptop');
-        var pc = document.getElementById('pc');
-        var tablet = document.getElementById('tablet');
-        var telephone = document.getElementById('telephone');
-        var printer = document.getElementById('printer');
-        var speaker = document.getElementById('speaker');
-        var projector = document.getElementById('projector');
-        var monitor = document.getElementById('monitor');
-
-        var laptop1 = document.getElementById('laptop1');
-        var camera = document.getElementById('camera');
-        var sensor = document.getElementById('sensor');
-        var lidar = document.getElementById('lidar');
-        var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4');
-
-        if ((laptop.checked || pc.checked || tablet.checked || telephone.checked || printer.checked ||
-            speaker.checked || projector.checked || monitor.checked) && (laptop1.checked || camera.checked ||
-            sensor.checked || lidar.checked)
-            ){
-                project_details_sidebar_icon_option4.className = 'fa fa-check-circle';
-                all_input_count4 = true;
-            }
-        else{
-                project_details_sidebar_icon_option4.className = 'fa fa-circle';
-                all_input_count4 = false;
-        }
-}
-</script>
-<script>
-    function indirect_impact_input(){
-    var fuel = document.getElementById('fuel');
-    var electricity = document.getElementById('electricity');
-    var water = document.getElementById('water');
-    var paper = document.getElementById('paper');
-    var plastic = document.getElementById('plastic');
-    var waste_material = document.getElementById('waste_material');
-    var raw_material = document.getElementById('raw_material');
-    var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4');
-    if (fuel.checked || electricity.checked || water.checked || paper.checked || plastic.checked || waste_material.checked || raw_material.checked){
-            project_details_sidebar_icon_option5.className = 'fa fa-check-circle';
-            all_input_count5 = true;
-        }
-    else{
-            project_details_sidebar_icon_option5.className = 'fa fa-circle';
-            console.log('more selected');
-            all_input_count5 = false;
-    }
-}
-</script>
-<script>
-    function all_input_count_fun(){
-        var project_details_tab = document.getElementById('project_details_tab');
-        if (all_input_count1 && all_input_count2 && all_input_count3 && all_input_count4 && all_input_count5){
-            console.log('all_input_count_clear');
-            project_details_tab.className = 'tab_inactive'
-        }
-        else{
-            console.log('all_input_not_filled_yet');
-            project_details_tab.className = 'tab_active'
-        }
-    }
-</script>
 <body>
 <div id="main_width" class="main_width_clone" style="overflow-y:auto; overflow-x:hidden;">
-    <form action="projectA"  method="post">
+    <form action="projectA"  method="POST">
         {% csrf_token %}
     <!--------------------------------------Progress Bar Step--------------------------------->
 <!--        <div class="project_a_outer static-font">-->
@@ -378,7 +196,7 @@
         <div class="header_div">
             <div id="info1_header" class="header_project_a">
                 <div>
-                    <input id="auto_focus" style=" background: transparent; border: none; border: 0px; color: #CED4DA; font-size: 28px; font-weight: 500" value="Project A"></input>
+                    <input id="auto_focus" name="name" style=" background: transparent; border: none; border: 0px; color: #CED4DA; font-size: 28px; font-weight: 500" value="Project A"></input>
                     <div class="img_pencil">
                         <a style="cursor: pointer;" onclick="focus_input()"><img src="static/assets/img/project_a_pencil.png" height="25" width="25" autofocus></a>
                     </div>
@@ -471,11 +289,11 @@
 <!--                        <label class="project_location_header_3">Type of Project</label>-->
 <!--                        <input type="text" class="project_location_header_select" placeholder="Invent" name="type_project" id="select_5" style="margin-bottom: 30px; ">-->
 <!--                    </div>-->
-                    <div  class="div_class_1" style="width:100%;">
-                        <p class="project_location_header" style="margin-top: 18px;">Project Development – In-house/Outsource</p>
-                        <input type="text" class="project_location_header_select" placeholder="Invent" name="bu" id="select_5" style="margin-top: -10px; ">
-                        <p class="project_location_header" style="margin-top: 18px;">Project Type</p>
-                        <select class="project_location_header_select_1" name="department" id="select_6" style="margin-top: -10px; background-color: #121010; color: #6C757D;">
+                    <div style="width:50%;">
+<!--                        <p class="project_location_header" style="margin-top: 18px;">Project Development – In-house/Outsource</p>-->
+<!--                        <input type="text" class="project_location_header_select" placeholder="Invent" name="bu" id="select_5" style="margin-top: -10px; ">-->
+                        <p class="project_location_header" style="margin-top: 25px;">Project Development – In-house/Outsource</p>
+                        <select class="project_location_header_select_1" name="type_project" id="select_6" style="margin-top: 10px; background-color: #121010; color: #6C757D;">
                             <option value="inhouse" >In-house</option>
                             <option value="external" >External</option>
                         </select>
@@ -507,7 +325,7 @@
                     </div>
                     <div  class="div_class_1" style="width:100%;">
                         <p class="project_location_header" style="width:100%;">Name</p>
-                        <input type="text" style="width:100%; margin-top: -15px;" class="project_location_header_select" placeholder="Invent" name="name" id="name">
+                        <input type="text" style="width:100%; margin-top: -15px;" class="project_location_header_select" placeholder="Invent" id="name">
                         <p class="project_location_header" style=" width:100%; " >Work Country</p>
                         <select class="project_location_header_select_1" style="width:100%; margin-top: -15px;" name="work_country" id="work_country" >
                             <option value="0">Australia</option>
@@ -516,37 +334,37 @@
                     </div>
                     <div class="form-check" style="margin-top:20px;">
                         <label class="static-font" for="one" style="font-size: 14px; color: #ADB5BD;">Product Manager</label>
-                        <input type="checkbox" class="form-check-input" id="one" name="pro_manager" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="one"  value="pro_manager" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="two" style="font-size: 14px; color: #ADB5BD;">Proxy PO</label>
-                        <input type="checkbox" class="form-check-input" id="two" name="proxy" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="two" value="proxy" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="three" style="font-size: 14px; color: #ADB5BD;">Data Scientist</label>
-                        <input type="checkbox" class="form-check-input" id="three" name="data" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="three" value="data" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="four" style="font-size: 14px; color: #ADB5BD;">IT Leader 1</label>
-                        <input type="checkbox" class="form-check-input" id="four" name="it_1" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="four" value="it_1" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="five" style="font-size: 14px; color: #ADB5BD;">IT Leader 2</label>
-                        <input type="checkbox" class="form-check-input" id="five" name="it_2" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="five" value="it_2" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="six" style="font-size: 14px; color: #ADB5BD;">IT Front</label>
-                        <input type="checkbox" class="form-check-input" id="six" name="it_front" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="six" value="it_front" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="seven" style="font-size: 14px; color: #ADB5BD;">Director of Data Science</label>
-                        <input type="checkbox" class="form-check-input" id="seven" name="director" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="seven" value="director" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="eight" style="font-size: 14px; color: #ADB5BD;">Project Manager</label>
-                        <input type="checkbox" class="form-check-input" id="eight" name="project" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="eight" value="project" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
-                    <button type="submit" class="add_new_role" style="border-radius:4px; height: 25px; "><b class="add_new_role_content">+ Add New Role</b></button>
+                    <button type="submit" class="add_new_role" style="border-radius:4px; width: 125px; height: 25px; padding-left: 15px; "><b class="add_new_role_content">+ Add New Role</b></button>
                 </div>
                 <hr style="border: 1px solid #ADB5BD; width: 650px;">
     <!---------------------------------------------End of Project Roles----------------------------------------->
@@ -598,9 +416,9 @@
                         <label class="static-font" for="eight" style="font-size: 14px; color: #ADB5BD;">Screen/Monitor</label>
                         <input type="checkbox" class="form-check-input" id="monitor" name="WhichUserEquipment" value="monitor" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
-                    <button type="submit" class="add_new_role" style="width:150px; height: 25px; padding:5px; border-radius:4px;  "><b class="add_new_role_content" style="width:150px;">+ Add New Parameter</b></button>
+                    <button type="submit" class="add_new_role" style="width:150px; height: 25px; padding:5px; width:135px; border-radius:4px;  "><b class="add_new_role_content" style="width:150px;">+ Add New Parameter</b></button>
                     <label class="static-font" style="font-size: 12px; margin-top: 10px; color: #6C757D">For new parameters you are required to add custom emission factors in the emission library page. Please note new parameter should be saved here before adding the custom emission factor.</label>
-                    <button type="submit" class="add_new_role" style="width:250px; margin-left: -7px;  height: 25px; border: 0px; "><b class="add_new_role_content" style="width:250px; text-transform: none; font-size: 12px;">Emission Factors Library<img src="static/assets/img/go_to_2.png" height="15" width="15" style="margin-left: 5px;"></b></button>
+                    <button type="submit" class="add_new_role" style="width:250px; height: 25px; border: 0px; "><b class="add_new_role_content" style="width:250px; text-transform: none; font-size: 12px;">Emission Factors Library<img src="static/assets/img/go_to_2.png" height="15" width="15" style="margin-left: 5px;"></b></button>
                     <div>
                         <p class="industry_equ_heading">Industrial Equipment</p>
                     </div>
@@ -620,9 +438,9 @@
                         <label class="static-font" for="four" style="font-size: 14px; color: #ADB5BD;">LiDAR</label>
                         <input type="checkbox" class="form-check-input" id="lidar" name="WhichIndustrialEquipment" value="lidar" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
-                    <button type="submit" class="add_new_role" style="width:150px; padding:5px; height: 25px; border-radius:4px;  "><b class="add_new_role_content" style="width:150px;">+ Add New Parameter</b></button>
+                    <button type="submit" class="add_new_role" style="width:135px; padding-left: 15px; padding:5px; height: 25px; border-radius:4px;  "><b class="add_new_role_content" style="width:150px;">+ Add New Parameter</b></button>
                     <label class="static-font" style="font-size: 12px; margin-top: 10px; color: #6C757D">For new parameters you are required to add custom emission factors in the emission library page. Please note new parameter should be saved here before adding the custom emission factor.</label>
-                    <button type="submit" class="add_new_role" style="width:250px; margin-left: -7px;  height: 25px; border: 0px; "><b class="add_new_role_content" style="width:250px; text-transform: none; font-size: 12px;">Emission Factors Library<img src="static/assets/img/go_to_2.png" height="15" width="15" style="margin-left: 5px;"></b></button>
+                    <button type="submit" class="add_new_role" style="width:250px;  height: 25px; border: 0px; "><b class="add_new_role_content" style="width:250px; text-transform: none; font-size: 12px;">Emission Factors Library<img src="static/assets/img/go_to_2.png" height="15" width="15" style="margin-left: 5px;"></b></button>
                 </div>
                 <hr style="border: 1px solid #ADB5BD; width: 650px;">
     <!---------------------------------------------End of Direct Impact Parameters----------------------------------------->
@@ -643,8 +461,12 @@
                             <p class="tittle_new">Please select all the parameters that are applicable to your project.</p>
                         </div>
                         <div class="form-check" style="margin-top:20px;">
-                            <label class="static-font" for="one" style="font-size: 14px; color: #ADB5BD;">Fuel</label>
-                            <input type="checkbox" class="form-check-input" id="fuel" name="WhichParametersImplemented" value="fuel" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                            <label class="static-font" for="one" style="font-size: 14px; color: #ADB5BD;">Stationary Combustion</label>
+                            <input type="checkbox" class="form-check-input" id="fuel" name="WhichParametersImplemented" value="stationary_combustion" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        </div>
+                        <div class="form-check" style="margin-top:10px;">
+                            <label class="static-font" for="two" style="font-size: 14px; color: #ADB5BD;">Mobile Combustion</label>
+                            <input type="checkbox" class="form-check-input" id="mobile_combustion" name="WhichParametersImplemented" value="mobile_combustion" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         </div>
                         <div class="form-check" style="margin-top:10px;">
                             <label class="static-font" for="two" style="font-size: 14px; color: #ADB5BD;">Electricity</label>
@@ -658,10 +480,10 @@
                             <label class="static-font" for="four" style="font-size: 14px; color: #ADB5BD;">Paper</label>
                             <input type="checkbox" class="form-check-input" id="paper" name="WhichParametersImplemented" value="paper" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         </div>
-                        <div class="form-check" style="margin-top:10px;">
-                            <label class="static-font" for="five" style="font-size: 14px; color: #ADB5BD;">Plastic</label>
-                            <input type="checkbox" class="form-check-input" id="plastic" name="WhichParametersImplemented" value="plastic" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
-                        </div>
+<!--                        <div class="form-check" style="margin-top:10px;">-->
+<!--                            <label class="static-font" for="five" style="font-size: 14px; color: #ADB5BD;">Plastic</label>-->
+<!--                            <input type="checkbox" class="form-check-input" id="plastic" name="WhichParametersImplemented" value="plastic" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">-->
+<!--                        </div>-->
                         <div class="form-check" style="margin-top:10px;">
                             <label class="static-font" for="six" style="font-size: 14px; color: #ADB5BD;">Waste Material</label>
                             <input type="checkbox" class="form-check-input" id="waste_material" name="WhichParametersImplemented" value="waste_material" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
@@ -670,13 +492,12 @@
                             <label class="static-font" for="seven" style="font-size: 14px; color: #ADB5BD;">Raw Material</label>
                             <input type="checkbox" class="form-check-input" id="raw_material" name="WhichParametersImplemented" value="raw_material" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         </div>
-                        <button type="submit" class="add_new_role" style="width:150px; height: 25px; padding:5px; border-radius:4px;  "><b class="add_new_role_content" style="width:150px;">+ Add New Parameter</b></button>
                     </div>
                     <hr style="border: 1px solid #ADB5BD; width: 650px;">
                 </div>
     <!---------------------------------------------End of Indirect Impact Parameters----------------------------------------->
-                <div style="padding-bottom:120px;">
-                    <button type="submit" class="save" style="float:right; border-radius:4px;  "><b class="continue" style="width:150px;">Save & Continue</b></button>
+                <div style="padding-bottom:120px; margin-left: 500px;">
+                    <button type="submit" class="save" style=" border-radius:4px;  "><b class="continue" style="width:150px;">Save & Continue</b></button>
                 </div>
             </div>
         </div>

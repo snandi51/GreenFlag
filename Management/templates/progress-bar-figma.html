@@ -35,6 +35,9 @@
     <script src="static/assets/js/slim.js" crossorigin="anonymous"></script>
     <script src="static/assets/js/coro.js"  crossorigin="anonymous"></script>
     <script src="static/assets/js/chart.js" crossorigin="anonymous"></script>
+    <script src="static/assets/js/bootstrap_min.js" crossorigin="anonymous"></script>
+
+
 
 
 
@@ -47,6 +50,11 @@
 .main_width{
   scroll-behavior: smooth;
 }
+</style>
+<style>
+    window.onload = function(){
+        console.log('Inside Progress bar Figma');
+    }
 </style>
 <script>
     function sideToggle(){
@@ -64,20 +72,20 @@
 
         if (toggle.classList.contains('active')){
             console.log('enter in if condition')
-            document.getElementById('title-1').style.visibility = 'hidden';
-            document.getElementById('title-2').style.visibility = 'hidden';
-            document.getElementById('title-3').style.visibility = 'hidden';
-            document.getElementById('title-4').style.visibility = 'hidden';
-            document.getElementById('title-5').style.visibility = 'hidden';
+            document.getElementById('title_1').style.visibility = 'hidden';
+            document.getElementById('title_2').style.visibility = 'hidden';
+            document.getElementById('title_3').style.visibility = 'hidden';
+            document.getElementById('title_4').style.visibility = 'hidden';
+            document.getElementById('title_5').style.visibility = 'hidden';
             menu_img.src = 'static/assets/img/menu_line.png';
 
         }
         else{
-            document.getElementById('title-1').style.visibility = 'visible';
-            document.getElementById('title-2').style.visibility = 'visible';
-            document.getElementById('title-3').style.visibility = 'visible';
-            document.getElementById('title-4').style.visibility = 'visible';
-            document.getElementById('title-5').style.visibility = 'visible';
+            document.getElementById('title_1').style.visibility = 'visible';
+            document.getElementById('title_2').style.visibility = 'visible';
+            document.getElementById('title_3').style.visibility = 'visible';
+            document.getElementById('title_4').style.visibility = 'visible';
+            document.getElementById('title_5').style.visibility = 'visible';
             menu_img.src = 'static/assets/img/menu_icon.png'
         }
     }
@@ -87,6 +95,431 @@
         console.log('slide_left');
     }
 </script>
+<script>
+    var all_input_count1 = false;
+    var all_input_count2 = false;
+    var all_input_count3 = false;
+    var all_input_count4 = false;
+    var all_input_count5 = false;
+    function project_duration_inputs(){
+        var start_date_build = document.getElementById('start_date_build');
+        var end_date_build = document.getElementById('end_date_build');
+        var start_date_run = document.getElementById('start_date_run');
+        var end_date_run = document.getElementById('end_date_run');
+
+        var project_details_sidebar_icon_option1 = document.getElementById('project_details_sidebar_icon_option1');
+
+        if ((start_date_build.value != '') && (end_date_build.value != '') && (start_date_run.value != '') && (end_date_run.value != '')){
+            project_details_sidebar_icon_option1.className = 'fa fa-check-circle';
+            console.log('completed form 1');
+            all_input_count1 = true;
+        }
+        else{
+            project_details_sidebar_icon_option1.className = 'fa fa-circle';
+            all_input_count1 = false;
+        }
+        console.log('project_duration');
+    }
+</script>
+<script>
+    function project_details_inputs(){
+        var select_1 = document.getElementById('select_1');
+        var select_2 = document.getElementById('select_2');
+        var select_3 = document.getElementById('select_3');
+        var select_4 = document.getElementById('select_4');
+        var select_6 = document.getElementById('select_6');
+        var project_details_sidebar_icon_option2 = document.getElementById('project_details_sidebar_icon_option2');
+
+        if ((select_1.value != '') && (select_2.value != '') && (select_3.value != '') && (select_4.value != '') && (select_6.value != '')){
+            project_details_sidebar_icon_option2.className = 'fa fa-check-circle';
+            all_input_count2 = true;
+        }
+        else{
+            project_details_sidebar_icon_option2.className = 'fa fa-circle';
+            all_input_count2 = false;
+        }
+    }
+</script>
+<script>
+    function project_roles_input(){
+        var name = document.getElementById('name');
+        var work_country = document.getElementById('work_country');
+        var one = document.getElementById('one');
+        var two = document.getElementById('two');
+        var three = document.getElementById('three');
+        var four = document.getElementById('four');
+        var five = document.getElementById('five');
+        var six = document.getElementById('six');
+        var seven = document.getElementById('seven');
+        var eight = document.getElementById('eight');
+        var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3');
+
+        if ((name.value != '' && work_country.value != '') && (one.checked || two.checked || three.checked ||
+        four.checked || five.checked || six.checked || seven.checked || eight.checked
+        )){
+            project_details_sidebar_icon_option3.className = 'fa fa-check-circle';
+            console.log('work_country_selected');
+            all_input_count3 = true;
+        }
+        else{
+            project_details_sidebar_icon_option3.className = 'fa fa-circle';
+            all_input_count3 = false;
+        }
+    }
+</script>
+<script>
+    function direct_impact_input(){
+        var laptop = document.getElementById('laptop');
+        var pc = document.getElementById('pc');
+        var tablet = document.getElementById('tablet');
+        var telephone = document.getElementById('telephone');
+        var printer = document.getElementById('printer');
+        var speaker = document.getElementById('speaker');
+        var projector = document.getElementById('projector');
+        var monitor = document.getElementById('monitor');
+
+        var laptop1 = document.getElementById('laptop1');
+        var camera = document.getElementById('camera');
+        var sensor = document.getElementById('sensor');
+        var lidar = document.getElementById('lidar');
+        var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4');
+
+        if ((laptop.checked || pc.checked || tablet.checked || telephone.checked || printer.checked ||
+            speaker.checked || projector.checked || monitor.checked) && (laptop1.checked || camera.checked ||
+            sensor.checked || lidar.checked)
+            ){
+                project_details_sidebar_icon_option4.className = 'fa fa-check-circle';
+                all_input_count4 = true;
+            }
+        else{
+                project_details_sidebar_icon_option4.className = 'fa fa-circle';
+                all_input_count4 = false;
+        }
+}
+</script>
+<script>
+    function indirect_impact_input(){
+    var fuel = document.getElementById('fuel');
+    var mobile_combustion = document.getElementById('mobile_combustion');
+    var electricity = document.getElementById('electricity');
+    var water = document.getElementById('water');
+    var paper = document.getElementById('paper');
+    var plastic = document.getElementById('plastic');
+    var waste_material = document.getElementById('waste_material');
+    var raw_material = document.getElementById('raw_material');
+    var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4');
+    if (fuel.checked || electricity.checked || mobile_combustion.checked || water.checked || paper.checked || plastic.checked || waste_material.checked || raw_material.checked){
+            project_details_sidebar_icon_option5.className = 'fa fa-check-circle';
+            all_input_count5 = true;
+        }
+    else{
+            project_details_sidebar_icon_option5.className = 'fa fa-circle';
+            console.log('more selected');
+            all_input_count5 = false;
+    }
+}
+</script>
+<script>
+    function all_input_count_fun(){
+        var project_details_tab = document.getElementById('project_details_tab');
+        if (all_input_count1 && all_input_count2 && all_input_count3 && all_input_count4 && all_input_count5){
+            console.log('all_input_count_clear');
+            project_details_tab.className = 'tab_inactive'
+        }
+        else{
+            console.log('all_input_not_filled_yet');
+            project_details_tab.className = 'tab_active'
+        }
+    }
+</script>
+<script>
+    function load_plan_active_tab(){
+        var load_plan_opt1 = document.getElementById('load_plan_opt1');
+        var load_plan_opt2 = document.getElementById('load_plan_opt2');
+        var load_plan_opt_text1 = document.getElementById('load_plan_opt_text1');
+        var load_plan_opt_text2 = document.getElementById('load_plan_opt_text2');
+
+
+        if (load_plan_opt1.style.display === 'none'){
+            load_plan_opt1.style.display = 'block';
+            load_plan_opt_text1.style.display = 'block';
+
+            load_plan_opt2.style.display = 'block';
+            load_plan_opt_text2.style.display = 'block';
+        }
+        else{
+            load_plan_opt1.style.display = 'none';
+            load_plan_opt_text1.style.display = 'none';
+
+            load_plan_opt2.style.display = 'none';
+            load_plan_opt_text2.style.display = 'none';
+        }
+
+    }
+</script>
+<script>
+    function direct_impact_active_tab(){
+        var direct_impact_opt1 = document.getElementById('direct_impact_opt1');
+        var direct_impact_opt2 = document.getElementById('direct_impact_opt2');
+        var direct_impact_opt3 = document.getElementById('direct_impact_opt3');
+        var direct_impact_opt4 = document.getElementById('direct_impact_opt4');
+
+        var direct_impact_opt_text1 = document.getElementById('direct_impact_opt_text1');
+        var direct_impact_opt_text2 = document.getElementById('direct_impact_opt_text2');
+        var direct_impact_opt_text3 = document.getElementById('direct_impact_opt_text3');
+        var direct_impact_opt_text4 = document.getElementById('direct_impact_opt_text4');
+
+        var direct_impact_opt1_sub1 = document.getElementById('direct_impact_opt1_sub1');
+        var direct_impact_opt1_sub2 = document.getElementById('direct_impact_opt1_sub2');
+
+        var direct_impact_opt_text_sub1 = document.getElementById('direct_impact_opt_text_sub1');
+        var direct_impact_opt_text_sub1 = document.getElementById('direct_impact_opt_text_sub1');
+        var hide_div_temp = document.getElementById('hide_div_temp');
+
+        if (direct_impact_opt1.style.display === 'none'){
+            direct_impact_opt1.style.display = 'block';
+            direct_impact_opt2.style.display = 'block';
+            direct_impact_opt3.style.display = 'block';
+            direct_impact_opt4.style.display = 'block';
+
+            direct_impact_opt_text1.style.display = 'block';
+            direct_impact_opt_text2.style.display = 'block';
+            direct_impact_opt_text3.style.display = 'block';
+            direct_impact_opt_text4.style.display = 'block';
+
+        }
+        else{
+            direct_impact_opt1.style.display = 'none';
+            direct_impact_opt2.style.display = 'none';
+            direct_impact_opt3.style.display = 'none';
+            direct_impact_opt4.style.display = 'none';
+
+            direct_impact_opt_text1.style.display = 'none';
+            direct_impact_opt_text2.style.display = 'none';
+            direct_impact_opt_text3.style.display = 'none';
+            direct_impact_opt_text4.style.display = 'none';
+
+            direct_impact_opt1_sub1.style.display = 'none';
+            direct_impact_opt1_sub2.style.display = 'none';
+            hide_div_temp.style.display = 'none';
+
+            direct_impact_opt_text_sub1.style.display = 'none';
+            direct_impact_opt_text_sub2.style.display = 'none';
+        }
+    }
+</script>
+
+<script>
+    function active_tab(){
+    var project_details_sidebar_option1 = document.getElementById('project_details_sidebar_option1');
+    var project_details_sidebar_icon_option1 = document.getElementById('project_details_sidebar_icon_option1');
+    var project_details_sidebar_option2 = document.getElementById('project_details_sidebar_option2');
+    var project_details_sidebar_icon_option2 = document.getElementById('project_details_sidebar_icon_option2');
+    var project_details_sidebar_option3 = document.getElementById('project_details_sidebar_option3');
+    var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3');
+    var project_details_sidebar_option4 = document.getElementById('project_details_sidebar_option4');
+    var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4');
+    var project_details_sidebar_option5 = document.getElementById('project_details_sidebar_option5');
+    var project_details_sidebar_icon_option5 = document.getElementById('project_details_sidebar_icon_option5');
+      if (project_details_sidebar_option1.style.display === 'none') {
+        project_details_sidebar_option1.style.display = 'block';
+        project_details_sidebar_icon_option1.style.display = 'block';
+
+        project_details_sidebar_option2.style.display = 'block';
+        project_details_sidebar_icon_option2.style.display = 'block';
+
+        project_details_sidebar_option3.style.display = 'block';
+        project_details_sidebar_icon_option3.style.display = 'block';
+
+        project_details_sidebar_option4.style.display = 'block';
+        project_details_sidebar_icon_option4.style.display = 'block';
+
+        project_details_sidebar_option5.style.display = 'block';
+        project_details_sidebar_icon_option5.style.display = 'block';
+      } else {
+        project_details_sidebar_option1.style.display = 'none';
+        project_details_sidebar_icon_option1.style.display = 'none';
+
+        project_details_sidebar_option2.style.display = 'none';
+        project_details_sidebar_icon_option2.style.display = 'none';
+
+        project_details_sidebar_option3.style.display = 'none';
+        project_details_sidebar_icon_option3.style.display = 'none';
+
+        project_details_sidebar_option4.style.display = 'none';
+        project_details_sidebar_icon_option4.style.display = 'none';
+
+        project_details_sidebar_option5.style.display = 'none';
+        project_details_sidebar_icon_option5.style.display = 'none';
+      }
+    }
+</script>
+<script>
+    function User_eq_toggleText1(){
+        var direct_impact_opt1_sub1 = document.getElementById('direct_impact_opt1_sub1');
+        var direct_impact_opt1_sub2 = document.getElementById('direct_impact_opt1_sub2');
+        var direct_impact_opt2 = document.getElementById('direct_impact_opt2');
+
+        var direct_impact_opt_text_sub1 = document.getElementById('direct_impact_opt_text_sub1');
+        var direct_impact_opt_text_sub1 = document.getElementById('direct_impact_opt_text_sub1');
+        var hide_div_temp = document.getElementById('hide_div_temp');
+
+        if(direct_impact_opt1_sub1.style.display === 'none'){
+            direct_impact_opt1_sub1.style.display = 'block';
+            direct_impact_opt1_sub2.style.display = 'block';
+            hide_div_temp.style.display = 'block';
+            direct_impact_opt2.className = 'fa-solid fa-circle-minus';
+
+            direct_impact_opt_text_sub1.style.display = 'block';
+            direct_impact_opt_text_sub2.style.display = 'block';
+        }
+        else{
+            direct_impact_opt1_sub1.style.display = 'none';
+            direct_impact_opt1_sub2.style.display = 'none';
+            hide_div_temp.style.display = 'none';
+            direct_impact_opt2.className = 'fa-solid fa-circle-plus';
+
+            direct_impact_opt_text_sub1.style.display = 'none';
+            direct_impact_opt_text_sub2.style.display = 'none';
+        }
+    }
+</script>
+
+<script>
+    function People_toggleText1(){
+        var direct_impact_opt1_sub1_daily_commute = document.getElementById('direct_impact_opt1_sub1_daily_commute');
+        var direct_impact_opt1_sub2_business_travel = document.getElementById('direct_impact_opt1_sub2_business_travel');
+
+        direct_impact_opt_daily_commute = document.getElementById('direct_impact_opt_daily_commute');
+        direct_impact_opt_business_travel = document.getElementById('direct_impact_opt_business_travel');
+
+        var direct_impact_opt1 = document.getElementById('direct_impact_opt1');
+
+        var direct_impact_opt_text_sub1 = document.getElementById('direct_impact_opt_text_sub1');
+        var direct_impact_opt_text_sub1 = document.getElementById('direct_impact_opt_text_sub1');
+
+        var hide_div_temp1 = document.getElementById('hide_div_temp1');
+        var direct_impact_opt1 = document.getElementById('direct_impact_opt1');
+
+        if(direct_impact_opt1_sub1_daily_commute.style.display === 'none'){
+            console.log('if block');
+            hide_div_temp1.style.display = 'block';
+            direct_impact_opt1_sub1_daily_commute.style.display = 'block';
+            direct_impact_opt1_sub2_business_travel.style.display = 'block';
+
+            direct_impact_opt_daily_commute.style.display = 'block';
+            direct_impact_opt_business_travel.style.display = 'block';
+
+            direct_impact_opt1.className = 'fa-solid fa-circle-minus';
+
+        }
+        else{
+            console.log('else block')
+            hide_div_temp1.style.display = 'none';
+            direct_impact_opt1_sub1_daily_commute.style.display = 'none';
+            direct_impact_opt1_sub2_business_travel.style.display = 'none';
+
+            direct_impact_opt_daily_commute.style.display = 'none';
+            direct_impact_opt_business_travel.style.display = 'none';
+
+            direct_impact_opt1.className = 'fa-solid fa-circle-plus';
+        }
+    }
+</script>
+<script>
+    function industrial_fun(){
+        var hide_div_temp2 = document.getElementById('hide_div_temp2');
+        var direct_impact_opt3 = document.getElementById('direct_impact_opt3');
+        var direct_impact_opt1_sub1_drone = document.getElementById('direct_impact_opt1_sub1_drone');
+        var direct_impact_opt3_text_sub1_drone = document.getElementById('direct_impact_opt3_text_sub1_drone');
+        if (direct_impact_opt1_sub1_drone.style.display === 'none'){
+            direct_impact_opt1_sub1_drone.style.display = 'block';
+            direct_impact_opt3_text_sub1_drone.style.display = 'block';
+            direct_impact_opt3.className = 'fa-solid fa-circle-minus';
+            hide_div_temp2.style.display = 'block';
+            }
+
+        else{
+            direct_impact_opt1_sub1_drone.style.display = 'none';
+            direct_impact_opt3_text_sub1_drone.style.display = 'none';
+            direct_impact_opt3.className = 'fa-solid fa-circle-plus';
+            hide_div_temp2.style.display = 'none';
+        }
+
+    }
+</script>
+<script>
+    function indirect_impact_active_tab(){
+        console.log('indirect_impact_active_tab');
+        var fuel_opt = document.getElementById('fuel_opt');
+        var mobile_opt = document.getElementById('mobile_opt');
+        var electricity_opt = document.getElementById('electricity_opt');
+        var water_opt = document.getElementById('water_opt');
+        var waste_opt = document.getElementById('waste_opt');
+        var raw_opt = document.getElementById('raw_opt');
+        var plastic_opt = document.getElementById('plastic_opt');
+        var paper_opt = document.getElementById('paper_opt');
+
+        var fuel_opt1 = document.getElementById('fuel_opt1');
+        var mobile_opt1 = document.getElementById('mobile_opt1');
+        var electricity_opt1 = document.getElementById('electricity_opt1');
+        var water_opt1 = document.getElementById('water_opt1');
+        var waste_opt1 = document.getElementById('waste_opt1');
+        var raw_opt1 = document.getElementById('raw_opt1');
+        var plastic_opt1 = document.getElementById('plastic_opt1');
+        var paper_opt1 = document.getElementById('paper_opt1');
+
+        if (fuel_opt.style.display === 'none'){
+            fuel_opt.style.display = 'block';
+            fuel_opt1.style.display = 'block';
+
+            mobile_opt.style.display = 'block';
+            mobile_opt1.style.display = 'block';
+
+            electricity_opt.style.display = 'block';
+            electricity_opt1.style.display = 'block';
+
+            water_opt.style.display = 'block';
+            water_opt1.style.display = 'block';
+
+            waste_opt.style.display = 'block';
+            waste_opt1.style.display = 'block';
+
+            raw_opt.style.display = 'block';
+            raw_opt1.style.display = 'block';
+
+            paper_opt.style.display = 'block';
+            paper_opt1.style.display = 'block';
+        }
+        else{
+            fuel_opt.style.display = 'none';
+            fuel_opt1.style.display = 'none';
+
+            mobile_opt.style.display = 'none';
+            mobile_opt1.style.display = 'none';
+
+            electricity_opt.style.display = 'none';
+            electricity_opt1.style.display = 'none';
+
+            water_opt.style.display = 'none';
+            water_opt1.style.display = 'none';
+
+            waste_opt.style.display = 'none';
+            waste_opt1.style.display = 'none';
+
+            raw_opt.style.display = 'none';
+            raw_opt1.style.display = 'none';
+
+            paper_opt.style.display = 'none';
+            paper_opt1.style.display = 'none';
+        }
+
+
+
+
+    }
+</script>
+
 <head>
     <meta charset="UTF-8">
 </head>
@@ -131,31 +564,31 @@
           <li>
               <a href="{% url 'login' %}">
                   <span class="icon"><img src="static/assets/img/home_green.png" height="22" width="25" style="margin-top: 5px;"></span>
-                  <span class="title" id="title-1" style="color: #6C757D">My Project</span>
+                  <span class="title" id="title_1" style="color: #6C757D">My Project</span>
               </a>
           </li>
           <li>
               <a href="{% url 'emission_lib' %}">
                   <span class="icon"><img src="static/assets/img/emmision_icon.png" height="22" width="28" style="margin-top: 5px;"></span>
-                  <span class="title" id="title-2" style="color: #6C757D">Emission Library</span>
+                  <span class="title" id="title_2" style="color: #6C757D">Emission Library</span>
               </a>
           </li>
           <li>
               <a href="#" onmouseover="slide_left()">
                   <span class="icon"><img src="static/assets/img/data_center_icon.png" height="22" width="25" style="margin-top: 5px;"></span>
-                  <span class="title" id="title-3" style="color: #6C757D">Data Center & Netw..</span>
+                  <span class="title" id="title_3" style="color: #6C757D">Data Center & Netw..</span>
               </a>
           </li>
           <li>
               <a href="{% url 'company_detail' %}">
                   <span class="icon"><img src="static/assets/img/company_details_icon.png" height="28" width="25" style="margin-top: 5px;"></span>
-                  <span class="title" id="title-4" style="color: #6C757D">Company Details</span>
+                  <span class="title" id="title_4" style="color: #6C757D">Company Details</span>
               </a>
           </li>
           <li>
               <a href="{% url 'Help' %}">
                   <span class="icon"><img src="static/assets/img/help_icon.png" height="25" width="25" style="margin-top: 5px;"></span>
-                  <span class="title" id="title-5" style="color: #6C757D">Help</span>
+                  <span class="title" id="title_5" style="color: #6C757D">Help</span>
               </a>
           </li>
       </ul>
@@ -176,24 +609,48 @@
                                 <i class="fa fa-circle" id="project_details_sidebar_icon_option5" style="position: absolute;  display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="toggleText5()" id="project_details_sidebar_option5" style="color:#6C757D; cursor: pointer; font-size: 12px; display: none; padding-top: 15px;">Indirect Impact Parameters</a>
                             </li>
                             <li class="tab_active">
-                                <a href="{% url 'load_plan'%}" style="color:#ADB5BD; font-size: 16px;">Load Plan</a>
-                            </li>
-                            <li class="tab_active" style="display:none">
-                                <a href="#" style="color:#6C757D;">Build Phase</a>
+                                <a  onclick="load_plan_active_tab()" style="color:#ADB5BD; cursor: pointer; font-size: 16px;">Load Plan</a>
+                                <i class="fa fa-circle" id="load_plan_opt1" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a href="{% url 'load_plan'%}" onclick="Build_toggleText1()" id="load_plan_opt_text1" style="color:#6C757D; display: none; cursor: pointer; font-size: 12px; padding-top: 15px;">Build Phase</a>
+                                <i class="fa fa-circle" id="load_plan_opt2" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a href="{% url 'load_plan'%}" onclick="Run_toggleText1()" id="load_plan_opt_text2" style="color:#6C757D; display: none; cursor: pointer; font-size: 12px;  padding-top: 15px;">Run Phase</a>
                             </li>
                             <li class="tab_active"  style="display:none">
                                 <a href="#" style="color:#6C757D;">Run Phase</a>
                             </li>
                             <li class="tab_active">
-                                <a href="#" style="color:#ADB5BD; font-size: 16px;">Direct Impact</a>
+                                <a onclick="direct_impact_active_tab()" style="color:#ADB5BD; font-size: 16px; cursor: pointer">Direct Impact</a>
+                                <i class="fa-solid fa-circle-plus" id="direct_impact_opt1" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="People_toggleText1()" id="direct_impact_opt_text1" style="color:#6C757D; display: none; cursor: pointer; font-size: 12px; padding-top: 15px;">People</a>
+                                <i class="fa fa-circle" id="direct_impact_opt1_sub1_daily_commute" style="position: absolute; font-size: 10px; display: none; margin-top: 14px; color: #6C757D; "></i><a id="direct_impact_opt_daily_commute" style="position: absolute; display: none; cursor: pointer; color: #6C757D; margin-top: 10px; font-size: 12px; margin-left: 20px;">Daily Commute</a>
+                                <i class="fa fa-circle" id="direct_impact_opt1_sub2_business_travel" style="position: absolute; font-size: 10px; display: none; margin-top: 42px; color: #6C757D; "></i><a id="direct_impact_opt_business_travel" style="position: absolute; display: none; cursor: pointer; color: #6C757D; margin-top: 38px; font-size: 12px; margin-left: 20px;">Business Travel</a>
+                                <div id="hide_div_temp1" style="height: 55px; display: none;"></div>
+
+                                <i class="fa-solid fa-circle-plus" id="direct_impact_opt2" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="User_eq_toggleText1()" id="direct_impact_opt_text2" style="color:#6C757D; display: none; cursor: pointer; font-size: 12px;  padding-top: 15px;">User Equipment</a>
+
+                                <i class="fa fa-circle" id="direct_impact_opt1_sub1" style="position: absolute; font-size: 10px; display: none; margin-top: 14px; color: #6C757D; "></i><a id="direct_impact_opt_text_sub1" style="position: absolute; display: none; cursor: pointer; color: #6C757D; margin-top: 10px; font-size: 12px; margin-left: 20px;">Laptop</a>
+                                <i class="fa fa-circle" id="direct_impact_opt1_sub2" style="position: absolute; font-size: 10px; display: none; margin-top: 42px; color: #6C757D; "></i><a id="direct_impact_opt_text_sub2" style="position: absolute; display: none; cursor: pointer; color: #6C757D; margin-top: 38px; font-size: 12px; margin-left: 20px;">Monitor</a>
+                                <div id="hide_div_temp" style="height: 50px; display: none;"></div>
+
+                                <i class="fa-solid fa-circle-plus" id="direct_impact_opt3" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a  onclick="industrial_fun()" id="direct_impact_opt_text3" style="color:#6C757D; display: none; cursor: pointer; font-size: 12px; padding-top: 15px;">Industrial Equipment</a>
+                                <i class="fa fa-circle" id="direct_impact_opt1_sub1_drone" style="position: absolute; font-size: 10px; display: none; margin-top: 14px; color: #6C757D; "></i><a id="direct_impact_opt3_text_sub1_drone" style="position: absolute; display: none; cursor: pointer; color: #6C757D; margin-top: 10px; font-size: 12px; margin-left: 20px;">Drone</a>
+                                <div id="hide_div_temp2" style="height: 25px; display: none;"></div>
+                                <i class="fa fa-circle" id="direct_impact_opt4" style="position: absolute; display: none; font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="Data_center_toggleText1()" id="direct_impact_opt_text4" style="color:#6C757D; display: none; cursor: pointer; font-size: 12px;  padding-top: 15px;">Data Centre & Network</a>
                             </li>
                             <li class="tab_active">
-                                <a href="{% url 'indirect_impact_mc' %}" style="color:#ADB5BD; font-size: 16px;">Indirect Impact</a>
+                                <a onclick="indirect_impact_active_tab()" style="color:#ADB5BD; font-size: 16px; cursor: pointer;">Indirect Impact</a>
+                                <i class="fa fa-circle" id="fuel_opt" style="position: absolute; display: none;  font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="Build_toggleText1()" id="fuel_opt1" style="color:#6C757D; display: none;   cursor: pointer; font-size: 12px; padding-top: 15px;">Stationary combustion</a>
+                                <i class="fa fa-circle" id="mobile_opt" style="position: absolute; display: none;   font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="Run_toggleText1()" id="mobile_opt1" style="color:#6C757D; display: none;   cursor: pointer; font-size: 12px;  padding-top: 15px;">Mobile Combustion</a>
+                                <i class="fa fa-circle" id="electricity_opt" style="position: absolute; display: none;   font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="Run_toggleText1()" id="electricity_opt1" style="color:#6C757D; display: none;   cursor: pointer; font-size: 12px;  padding-top: 15px;">Electricity</a>
+                                <i class="fa fa-circle" id="water_opt" style="position: absolute; display: none;   font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="Run_toggleText1()" id="water_opt1" style="color:#6C757D; display: none;   cursor: pointer; font-size: 12px;  padding-top: 15px;">Water</a>
+                                <i class="fa fa-circle" id="waste_opt" style="position: absolute; display: none;   font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="Run_toggleText1()" id="waste_opt1" style="color:#6C757D; display: none;   cursor: pointer; font-size: 12px;  padding-top: 15px;">Paper</a>
+                                <i class="fa fa-circle" id="raw_opt" style="position: absolute; display: none;   font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="Run_toggleText1()" id="raw_opt1" style="color:#6C757D; display: none;   cursor: pointer; font-size: 12px;  padding-top: 15px;">Waste Material</a>
+                                <i class="fa fa-circle" id="paper_opt" style="position: absolute; display: none;   font-size: 18px; margin-top: 15px; margin-left: -35px; color: #6C757D; background-color:black;"></i><a onclick="Run_toggleText1()" id="paper_opt1" style="color:#6C757D; display: none;   cursor: pointer; font-size: 12px;  padding-top: 15px;">Raw Material</a>
                             </li>
     <!--                        <li class="tab_disabled">-->
     <!--                            <a href="#">Indirect Impact</a>-->
     <!--                        </li>-->
                         </ul>
+                    </div>
+                    <div style="position: absolute; align-text: center; margin-top: 40px;  margin-left: 32px; margin-top: 270px;">
+                        <button type="submit" class="add_new_role" style="border-radius:4px; height: 25px; z-index: -1;"><b class="add_new_role_content" style="text-align: center; padding-left: 28px;">COMPUTE RESULTS</b></button>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,8 @@
 from django.shortcuts import render
 import django
-from MyProjects.models import ProjectDetails
+from Management.models import ProjectDetails
+from Management.models import RefCarbonfootprint
+from datetime import datetime
 
 # Create your views here.
 
@@ -47,14 +49,13 @@ def projectA(request):
         pl_1 = request.POST.get('pl_1')
         ps = request.POST.get('ps')
         bu = request.POST.get('bu')
+        role = request.POST.get('role')
         department = request.POST.get('department')
         development = request.POST.get('development')
         type_project = request.POST.get('type_project')
 
         name = request.POST.get('name')
         work_country = request.POST.get('work_country')
-
-        role = request.POST.get('role')
 
         # pro_manager = request.POST.get('pro_manager')
         # proxy = request.POST.get('proxy')
@@ -83,6 +84,8 @@ def projectA(request):
 
         WhichParametersImplemented = request.POST.get('WhichParametersImplemented')
 
+        import ipdb
+        ipdb.set_trace()
         # ProjId = request.user.id
 
         # fuel = request.POST.get('fuel')
@@ -94,6 +97,8 @@ def projectA(request):
         # raw_material = request.POST.get('raw_material')
         # import ipdb
         # ipdb.set_trace()
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
         ProjectDetails_db = ProjectDetails.objects.all()
         print(ProjectDetails_db)
 
@@ -104,21 +109,26 @@ def projectA(request):
         # print(update_timestamp)
 
         try:
-            project_details_data = ProjectDetails(projectname=name, projectlocation=pl_1,
-                                                   department=department,
-                                                   whichuserequipment=WhichUserEquipment,
-                                                   whichindustrialequipment=WhichIndustrialEquipment,
-                                                   whichparametersimplemented=WhichParametersImplemented,
-                                                   buconcerned=bu, projectstatus=ps, phasetype=ps,
-                                                   buildstartdate=start_date_build, buildenddate=end_date_build,
-                                                   runstartdate=start_date_run, runenddate=end_date_run,
-                                                   create_timestamp=create_timestamp,
-                                                   update_timestamp=start_date_build,
-                                                   whichindirectparameters=WhichParametersImplemented,
-                                                   projecttype=type_project, projectrole=role)
+            project_details_data = ProjectDetails(projectname=name,
+                                                  projectlocation=pl_1,
+                                                  department=department,
+                                                  whichuserequipment=WhichUserEquipment,
+                                                  whichindustrialequipment=WhichIndustrialEquipment,
+                                                  buconcerned=bu,
+                                                  projectstatus=ps,
+                                                  phasetype=ps,
+                                                  buildstartdate=start_date_build,
+                                                  buildenddate=end_date_build,
+                                                  runstartdate=start_date_run,
+                                                  runenddate=end_date_run,
+                                                  create_timestamp=create_timestamp,
+                                                  update_timestamp=start_date_build,
+                                                  whichindirectparameters=WhichParametersImplemented,
+                                                  projectrole=role)
             project_details_data.save()
             print(project_details_data)
         except Exception as e:
+            print("================================ Exception Raised during adding data in DB =======================")
             print(e)
 
         context = {
@@ -133,41 +143,14 @@ def projectA(request):
             'type_project': type_project,
             'name': name,
             'work_country': work_country,
-            'pro_manager': pro_manager,
-            'proxy': proxy,
-            'data': data,
-            'it_1': it_1,
-            'it_2': it_2,
-            'it_front': it_front,
-            'director': director,
-            'project': project,
             'WhichUserEquipment': WhichUserEquipment,
             'WhichIndustrialEquipment': WhichIndustrialEquipment,
             'WhichParametersImplemented': WhichParametersImplemented,
             'development': development,
             'role': role,
-            # 'laptop': laptop,
-            # 'pc': pc,
-            # 'tablet': tablet,
-            # 'telephone': telephone,
-            # 'printer': printer,
-            # 'speaker': speaker,
-            # 'projector': projector,
-            # 'monitor': monitor,
-            # 'laptop1': laptop1,
-            # 'camera': camera,
-            # 'sensor': sensor,
-            # 'lidar': lidar,
-            # 'fuel': fuel,
-            # 'electricity': electricity,
-            # 'water': water,
-            # 'paper': paper,
-            # 'plastic': plastic,
-            # 'waste_material': waste_material,
-            # 'raw_material': raw_material,
             'progress_bar': True,
         }
-        return render(request, 'projectA.html', context)
+        return render(request, 'load_plan.html', context)
     context = {
         'progress_bar': True,
     }
@@ -202,11 +185,11 @@ def indirect_impact_el(request):
     return render(request, 'indirect_impact_el.html')
 
 
-def load_plan(request):  
+def load_plan(request):
     return render(request, 'load_plan.html')
 
 
-def di_daily_commute(request):  
+def di_daily_commute(request):
     return render(request, 'di_daily_commute.html')
 
 
@@ -225,16 +208,8 @@ def Indirect_Impact(request):
     return render(request, 'Indirect_Impact.html', context)
 
 
-def indirect_impact_fl(request):
-    return render(request, 'indirect_impact_fl.html')
-
-
 def indirect_impact_mc(request):
     return render(request, 'indirect_impact_mc.html')
-
-
-def indirect_impact_el(request):
-    return render(request, 'indirect_impact_el.html')
 
 
 def indirect_impact_wt(request):
