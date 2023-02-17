@@ -123,6 +123,7 @@
 </script>
 <script>
     function project_details_inputs(){
+        console.log('Yeah');
         var select_1 = document.getElementById('select_1');
         var select_2 = document.getElementById('select_2');
         var select_3 = document.getElementById('select_3');
@@ -141,34 +142,8 @@
     }
 </script>
 <script>
-    function project_roles_input(){
-        var name = document.getElementById('name');
-        var work_country = document.getElementById('work_country');
-        var one = document.getElementById('one');
-        var two = document.getElementById('two');
-        var three = document.getElementById('three');
-        var four = document.getElementById('four');
-        var five = document.getElementById('five');
-        var six = document.getElementById('six');
-        var seven = document.getElementById('seven');
-        var eight = document.getElementById('eight');
-        var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3');
-
-        if ((name.value != '' && work_country.value != '') && (one.checked || two.checked || three.checked ||
-        four.checked || five.checked || six.checked || seven.checked || eight.checked
-        )){
-            project_details_sidebar_icon_option3.className = 'fa fa-check-circle';
-            console.log('work_country_selected');
-            all_input_count3 = true;
-        }
-        else{
-            project_details_sidebar_icon_option3.className = 'fa fa-circle';
-            all_input_count3 = false;
-        }
-    }
-</script>
-<script>
     function direct_impact_input(){
+        console.log('direct_impact_input_laptop_called')
         var laptop = document.getElementById('laptop');
         var pc = document.getElementById('pc');
         var tablet = document.getElementById('tablet');
@@ -178,7 +153,7 @@
         var projector = document.getElementById('projector');
         var monitor = document.getElementById('monitor');
 
-        var laptop1 = document.getElementById('laptop1');
+        var laptop1 = document.getElementById('drones');
         var camera = document.getElementById('camera');
         var sensor = document.getElementById('sensor');
         var lidar = document.getElementById('lidar');
@@ -199,6 +174,7 @@
 </script>
 <script>
     function indirect_impact_input(){
+    console.log('indirect_impact_input called');
     var fuel = document.getElementById('fuel');
     var mobile_combustion = document.getElementById('mobile_combustion');
     var electricity = document.getElementById('electricity');
@@ -519,7 +495,47 @@
 
     }
 </script>
+<script>
+    function role_checked(){
+        console.log('role_checked_method_called new time');
+        var add_new_role_dynamically = document.getElementById('add_new_role_dynamically')
+        var role_name = document.getElementById('role_name');
+        var work_country = document.getElementById('work_country');
 
+        var user_group_data_scientist = document.getElementById('user_group_data_scientist');
+        var user_group_director_data_scientist = document.getElementById('user_group_director_data_scientist');
+        var user_group_it_front = document.getElementById('user_group_it_front');
+        var user_group_it_leader1 = document.getElementById('user_group_it_leader1');
+        var user_group_it_leader2 = document.getElementById('user_group_it_leader2');
+        var user_group_product_manager = document.getElementById('user_group_product_manager');
+        var user_group_project_manager = document.getElementById('user_group_project_manager');
+        var user_group_proxy_po = document.getElementById('user_group_proxy_po');
+
+        console.log('Project roll called')
+        var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3');
+
+         if (user_group_data_scientist.checked
+        || user_group_director_data_scientist.checked || user_group_it_front.checked || user_group_it_leader1.checked || user_group_it_leader2.checked || user_group_product_manager.checked || user_group_project_manager.checked || user_group_proxy_po.checked){
+            project_details_sidebar_icon_option3.className = 'fa fa-check-circle';
+            console.log('work_country_selected');
+            all_input_count3 = true;
+        }
+        else{
+            project_details_sidebar_icon_option3.className = 'fa fa-circle';
+            all_input_count3 = false;
+        }
+
+        if(add_new_role_dynamically){
+            project_details_sidebar_icon_option3.className = 'fa fa-check-circle';
+            console.log('work_country_selected');
+            all_input_count3 = true;
+        }
+        else{
+            project_details_sidebar_icon_option3.className = 'fa fa-circle';
+            all_input_count3 = false;
+        }
+    }
+</script>
 <head>
     <meta charset="UTF-8">
 </head>

@@ -99,5 +99,12 @@
  background: #555;
 }
 
+.check-box-custom{
+	height: 16px;
+	width: 16px;
+	background-color: transparent;
+	border:1px solid #6C757D;
+}
+
 /* Vishal CSS styles end */
 

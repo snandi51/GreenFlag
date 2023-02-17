@@ -47,7 +47,7 @@ def login_user(request):
         # ipdb.set_trace()
         print(pro_details)
         if user is not None:
-            context = {'username': username, 'draft_db_projects': [1, 2, 3, 4, 5, 6], 'db_instance': len(pro_details), 'session_dict': session_dict}
+            context = {'username': username, 'db_instance': len(pro_details), 'session_dict': session_dict}
             login(request, user)
             return render(request, 'index.html', context)
         else:
@@ -120,6 +120,8 @@ def change_password_ok(request):
         'password_change_ok': True
     }
     return render(request, 'change_password_ok.html', context)
+
+
 
 
 

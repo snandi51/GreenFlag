@@ -142,7 +142,7 @@ tr:nth-child() {
         </div>
 
 
-        <div id="Build" class="w3-container city " style="overflow-x:auto; width:90%;  display:block; ">
+        <div id="Build" class="w3-container city " style="overflow-x:auto; width:94%;  display:block; ">
             <div class="div_class_5" style=" border-collapse: collapse; margin-top:20px; ">
                 <div class="name_div" style="position:sticky;">
                     <div class="name_1">
@@ -209,6 +209,11 @@ tr:nth-child() {
                         day (KgCO2eq/day)
                     </div>
                 </div>
+                <div class="footprint_div">
+                    <div class="name_1">
+                       Unit
+                    </div>
+                </div>
                 <div class="year_div">
                     <div class="name_1">
                         Year
@@ -227,67 +232,68 @@ tr:nth-child() {
             <form action="emission_lib"  method="post">
                 {% csrf_token %}
                 <!---------------------------------Input Parameters-------------------------------->
-                {% for r in i %}
-                <div class="div_class_5" style="height:100px; width:100%; background-color:gray; ">
-                    <div class="para_1" style=" height:100px; position:sticky;">
-                        <input class="para_text" type="text" placeholder="parameter" >
+                {% for item in emission_library_list %}
+                <div class="div_class_5" style="height:50px; width:100%; background-color:gray; ">
+                    <div class="para_1" style=" height:50px; position:sticky;">
+                        <div class="cal_class">
+                            {{item.name}}
+                        </div>
                     </div>
-                    <div  class="para_2" style=" height:100px;">
+                    <div  class="para_2" style=" height:50px;">
                         <!--                            <div id="Direct" style="display:block;">-->
-                        <select class="select_para_1" id ="ddl" name="ddl" onchange="graph(this.value)">
-                            <option value='1'>parameter</option>
-                            <option value='2'>Quarter</option>
-                            <option value='3'>Month</option>
-                        </select>
+                        <div class="cal_class">
+                            {{item.typeofimpact}}
+                        </div>
                         <!--                            </div>-->
                     </div>
 
-                    <div class="para_1" style="height:100px;">
-                        <select class="select_para_1" id ="ddl" name="ddl" onchange="graph(this.value)">
-                            <option value='1'>parameter</option>
-                            <option value='2'>Quarter</option>
-                            <option value='3'>Month</option>
-                        </select>
-                    </div>
-                    <div class="para_1" style="height:100px;">
-                        <select class="select_para_1" id ="ddl" name="ddl" onchange="graph(this.value)">
-                            <option value='1'>parameter</option>
-                            <option value='2'>Quarter</option>
-                            <option value='3'>Month</option>
-                        </select>
-                    </div>
-                    <div class="para_1" style="height:100px;">
+                    <div class="para_1" style="height:50px;">
                         <div class="cal_class">
-                            0.124323
+                            {{item.category}}
                         </div>
                     </div>
-                    <div class="para_1" style="height:100px;">
-                        <select class="select_para_1" id ="ddl" name="ddl" onchange="graph(this.value)">
-                            <option value='1'>parameter</option>
-                            <option value='2'>Quarter</option>
-                            <option value='3'>Month</option>
-                        </select>
-                    </div>
-                    <div class="para_1" style="height:100px;">
-                        <input class="para_text" type="text" placeholder="parameter" >
-                    </div>
-                    <div class="para_1" style="height:100px;">
-                        <div class="cal_class">
-                            0.124323
+                    <div class="para_1" style="height:50px;">
+                          <div class="cal_class">
+                             {{item.subcategory}}
                         </div>
                     </div>
-                    <div class="para_1" style="height:100px;">
+                    <div class="para_1" style="height:50px;">
                         <div class="cal_class">
-                            2022
+                            {{item.lcemissionfactor}}
                         </div>
                     </div>
-                    <div class="para_1" style="height:100px;">
-                        <select id='testSelect1' multiple style="border:none; color: #CED4DA; width:100%; background:transparent;">
-                            <option value='Project_a'>Project A</option>
-                            <option value='Project_b'>Project B</option>
-                            <option value='Project_c'>Project C</option>
-                            <option value='Project_d'>Project D</option>
-                            <option value='Project_e'>Project E</option>
+                    <div class="para_1" style="height:50px;">
+                        <div class="cal_class">
+                            Placeholder
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:50px;">
+                        <div class="cal_class">
+                           {{item.lifespanyrs}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:50px;">
+                         <div class="cal_class">
+                             {{item.carbonfootprintperday}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:50px;">
+                        <div class="cal_class">
+                            {{item.unit}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:50px;">
+                        <div class="cal_class">
+                           {{item.yearpublished}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:50px;">
+                        <select id='testSelect1' style="border:none; color: #CED4DA; width:100%; background:transparent;">
+                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_a'>Project A</option>
+                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_b'>Project B</option>
+                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_c'>Project C</option>
+                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_d'>Project D</option>
+                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_e'>Project E</option>
                         </select>
                     </div>
                 </div>
@@ -452,7 +458,7 @@ tr:nth-child() {
                         </div>
                     </div>
                     <div class="para_1" style="height:100px;">
-                        <select id='testSelect1' multiple style="border:none; color: #CED4DA; width:100%; background:transparent;">
+                        <select id='testSelect2' multiple style="border:none; color: #CED4DA; width:100%; background:transparent;">
                             <option value='Project_a'>Project A</option>
                             <option value='Project_b'>Project B</option>
                             <option value='Project_c'>Project C</option>

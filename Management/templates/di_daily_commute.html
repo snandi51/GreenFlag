@@ -368,33 +368,6 @@
 </script>
 <script>
     function project_roles_input(){
-        var name = document.getElementById('name');
-        var work_country = document.getElementById('work_country');
-        var one = document.getElementById('one');
-        var two = document.getElementById('two');
-        var three = document.getElementById('three');
-        var four = document.getElementById('four');
-        var five = document.getElementById('five');
-        var six = document.getElementById('six');
-        var seven = document.getElementById('seven');
-        var eight = document.getElementById('eight');
-        var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3');
-
-        if ((name.value != '' && work_country.value != '') && (one.checked || two.checked || three.checked ||
-        four.checked || five.checked || six.checked || seven.checked || eight.checked
-        )){
-            project_details_sidebar_icon_option3.className = 'fa fa-check-circle';
-            console.log('work_country_selected');
-            all_input_count3 = true;
-        }
-        else{
-            project_details_sidebar_icon_option3.className = 'fa fa-circle';
-            all_input_count3 = false;
-        }
-    }
-</script>
-<script>
-    function direct_impact_input(){
         var laptop = document.getElementById('laptop');
         var pc = document.getElementById('pc');
         var tablet = document.getElementById('tablet');

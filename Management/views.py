@@ -2,6 +2,10 @@ from django.shortcuts import render
 import django
 from Management.models import ProjectDetails
 from Management.models import RefCarbonfootprint
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import User
+from django.conf import settings
+from Management.models import RefCarbonfootprint
 from datetime import datetime
 
 # Create your views here.
@@ -32,6 +36,7 @@ import pandas as pd
 import time
 from datetime import datetime
 
+
 def projectA(request):
     """
     Project Duration
@@ -40,63 +45,64 @@ def projectA(request):
     Direct Impact Parameters
     Indirect Impact Parameters
     """
+    session_data = get_session_data(request)
+    user_data = User.objects.all()
+    country_list = settings.COUNTRY_LIST
+
     if request.method == 'POST':
         start_date_build = request.POST.get('start_date_build')
         end_date_build = request.POST.get('start_date_build')
         start_date_run = request.POST.get('start_date_run')
         end_date_run = request.POST.get('end_date_run')
-
         pl_1 = request.POST.get('pl_1')
         ps = request.POST.get('ps')
         bu = request.POST.get('bu')
-        role = request.POST.get('role')
+        role = request.POST.getlist('role')
         department = request.POST.get('department')
         development = request.POST.get('development')
         type_project = request.POST.get('type_project')
-
         name = request.POST.get('name')
         work_country = request.POST.get('work_country')
+        WhichUserEquipment = request.POST.getlist('WhichUserEquipment')
+        WhichIndustrialEquipment = request.POST.getlist('WhichIndustrialEquipment')
+        WhichParametersImplemented = request.POST.getlist('WhichParametersImplemented')
 
-        # pro_manager = request.POST.get('pro_manager')
-        # proxy = request.POST.get('proxy')
-        # data = request.POST.get('data')
-        # it_1 = request.POST.get('it_1')
-        # it_2 = request.POST.get('it_2')
-        # it_front = request.POST.get('it_front')
-        # director = request.POST.get('director')
-        # project = request.POST.get('project')
+        separate_role = ''
+        separate_WhichUserEquipment = ''
+        separate_WhichIndustrialEquipment = ''
+        separate_WhichParametersImplemented = ''
 
-        WhichUserEquipment = request.POST.get('WhichUserEquipment')
-        # laptop = request.POST.get('laptop')
-        # pc = request.POST.get('pc')
-        # tablet = request.POST.get('tablet')
-        # telephone = request.POST.get('telephone ')
-        # printer = request.POST.get('printer')
-        # speaker = request.POST.get('speaker')
-        # projector = request.POST.get('projector')
-        # monitor = request.POST.get('monitor')
+        for i in role:
+            separate_role = separate_role + i + ', '
 
-        WhichIndustrialEquipment = request.POST.get('WhichIndustrialEquipment')
-        # laptop1 = request.POST.get('laptop1')
-        # camera = request.POST.get('camera')
-        # sensor = request.POST.get('sensor')
-        # lidar = request.POST.get('lidar')
+        for i in WhichUserEquipment:
+            separate_WhichUserEquipment = separate_WhichUserEquipment + i + ', '
 
-        WhichParametersImplemented = request.POST.get('WhichParametersImplemented')
+        for i in WhichIndustrialEquipment:
+            separate_WhichIndustrialEquipment = separate_WhichIndustrialEquipment + i + ', '
 
-        import ipdb
-        ipdb.set_trace()
-        # ProjId = request.user.id
+        for i in WhichParametersImplemented:
+            separate_WhichParametersImplemented = separate_WhichParametersImplemented + i + ', '
 
-        # fuel = request.POST.get('fuel')
-        # electricity = request.POST.get('electricity')
-        # water = request.POST.get('water')
-        # paper = request.POST.get('paper')
-        # plastic = request.POST.get('plastic')
-        # waste_material = request.POST.get('waste_material')
-        # raw_material = request.POST.get('raw_material')
-        # import ipdb
-        # ipdb.set_trace()
+
+        # Get all above data in session
+        request.session['start_date_build'] = start_date_build
+        request.session['end_date_build'] = end_date_build
+        request.session['start_date_run'] = start_date_run
+        request.session['end_date_run'] = end_date_run
+        request.session['pl_1'] = pl_1
+        request.session['ps'] = ps
+        request.session['bu'] = bu
+        request.session['role'] = separate_role
+        request.session['type_project'] = type_project
+        request.session['development'] = development
+        request.session['department'] = department
+        request.session['name'] = name
+        request.session['work_country'] = work_country
+        request.session['WhichUserEquipment'] = separate_WhichUserEquipment
+        request.session['WhichIndustrialEquipment'] = separate_WhichIndustrialEquipment
+        request.session['WhichParametersImplemented'] = separate_WhichParametersImplemented
+
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
         ProjectDetails_db = ProjectDetails.objects.all()
@@ -112,8 +118,8 @@ def projectA(request):
             project_details_data = ProjectDetails(projectname=name,
                                                   projectlocation=pl_1,
                                                   department=department,
-                                                  whichuserequipment=WhichUserEquipment,
-                                                  whichindustrialequipment=WhichIndustrialEquipment,
+                                                  whichuserequipment=separate_WhichUserEquipment,
+                                                  whichindustrialequipment=separate_WhichIndustrialEquipment,
                                                   buconcerned=bu,
                                                   projectstatus=ps,
                                                   phasetype=ps,
@@ -123,8 +129,8 @@ def projectA(request):
                                                   runenddate=end_date_run,
                                                   create_timestamp=create_timestamp,
                                                   update_timestamp=start_date_build,
-                                                  whichindirectparameters=WhichParametersImplemented,
-                                                  projectrole=role)
+                                                  whichindirectparameters=separate_WhichParametersImplemented,
+                                                  projectrole=separate_role)
             project_details_data.save()
             print(project_details_data)
         except Exception as e:
@@ -148,11 +154,13 @@ def projectA(request):
             'WhichParametersImplemented': WhichParametersImplemented,
             'development': development,
             'role': role,
+            'country_list': country_list,
             'progress_bar': True,
         }
         return render(request, 'load_plan.html', context)
     context = {
         'progress_bar': True,
+        'country_list': country_list,
     }
     return render(request, 'projectA.html', context)
 
@@ -163,8 +171,11 @@ def company_detail(request):
 
 def emission_lib(request):
     i = [1, 2]
+    get_emission_library = get_emission_library_data(request)
     context = {
         'i': i,
+        'progress_bar': True,
+        'emission_library_list': get_emission_library
     }
     return render(request, 'emission_lib.html', context)
 
@@ -218,6 +229,40 @@ def indirect_impact_wt(request):
 
 def test_graph(request):
     return render(request, 'temp.html')
+
+
+def get_session_data(request):
+    session_data = ProjectDetails.objects.all()
+    dict_count = 1
+    session_dict = {}
+    for items in session_data:
+        session_dict['session_dict_{}'.format(dict_count)] = items.__dict__
+        session_dict.get('session_dict_{}'.format(dict_count))['_state'] = str(
+            session_dict.get('session_dict_{}'.format(dict_count))['_state'])
+        session_dict.get('session_dict_{}'.format(dict_count))['create_timestamp'] = \
+            session_dict.get('session_dict_{}'.format(dict_count))['create_timestamp'].strftime("%d %B %Y")
+        session_dict.get('session_dict_{}'.format(dict_count))['update_timestamp'] = \
+            session_dict.get('session_dict_{}'.format(dict_count))['update_timestamp'].strftime("%d %B %Y")
+        dict_count += 1
+    return session_dict
+
+
+def get_user_groups(request):
+    user_groups = Group.objects.all()
+    user_groups_dict = []
+    for instance in user_groups:
+        user_groups_dict.append(instance.__dict__)
+    return user_groups_dict
+
+
+def get_emission_library_data(request):
+    emission_library_data = RefCarbonfootprint.objects.all()
+    emission_library_data_list = []
+    for item in emission_library_data:
+        emission_library_data_list.append(item.__dict__)
+    return emission_library_data_list
+
+
 
 
 def error_400(request, exception):

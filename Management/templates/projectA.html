@@ -151,6 +151,209 @@
         document.getElementById('auto_focus').style.outline = 'none';
     }
 </script>
+<script>
+    function ds_checked(){
+        var user_group_data_scientist = document.getElementById('user_group_data_scientist');
+        var data_scientist_hide_div = document.getElementById('data_scientist_hide_div')
+             console.log('called data_scientist')
+        if (user_group_data_scientist.checked){
+            data_scientist_hide_div.style.display = 'block';
+        }
+        else{
+            data_scientist_hide_div.style.display = 'none';
+        }
+    }
+</script>
+<script>
+    function director_ds_checked(){
+        var user_group_director_data_scientist = document.getElementById('user_group_director_data_scientist');
+        var director_data_scientist_hide_div = document.getElementById('director_data_scientist_hide_div');
+
+        if (user_group_director_data_scientist.checked){
+            director_data_scientist_hide_div.style.display = 'block';
+        }
+        else{
+            director_data_scientist_hide_div.style.display = 'none';
+        }
+
+    }
+    function it_front_checked(){
+        var user_group_it_front = document.getElementById('user_group_it_front');
+        var it_front_div = document.getElementById('it_front_div');
+
+        if (user_group_it_front.checked){
+            it_front_div.style.display = 'block';
+        }
+        else{
+            it_front_div.style.display = 'none';
+        }
+    }
+    function it_leader_1(){
+        var user_group_it_leader1 = document.getElementById('user_group_it_leader1');
+        var it_leader1_div = document.getElementById('it_leader1_div');
+
+        if (user_group_it_leader1.checked){
+            it_leader1_div.style.display = 'block';
+        }
+        else{
+            it_leader1_div.style.display = 'none';
+        }
+    }
+    function it_leader_2(){
+        var user_group_it_leader2 = document.getElementById('user_group_it_leader2');
+        var it_leader2_div = document.getElementById('it_leader2_div');
+
+        if (user_group_it_leader2.checked){
+            it_leader2_div.style.display = 'block';
+        }
+        else{
+            it_leader2_div.style.display = 'none';
+        }
+    }
+    function product_manager(){
+        var user_group_product_manager = document.getElementById('user_group_product_manager');
+        var product_manager_div = document.getElementById('product_manager_div');
+
+        if (user_group_product_manager.checked){
+            product_manager_div.style.display = 'block';
+        }
+        else{
+            product_manager_div.style.display = 'none';
+        }
+    }
+    function project_manager(){
+        var user_group_project_manager = document.getElementById('user_group_project_manager');
+        var project_manager_div = document.getElementById('project_manager_div');
+
+        if (user_group_project_manager.checked){
+            project_manager_div.style.display = 'block';
+        }
+        else{
+            project_manager_div.style.display = 'none';
+        }
+    }
+    function proxy_po(){
+        var user_group_proxy_po = document.getElementById('user_group_proxy_po');
+        var proxy_div = document.getElementById('proxy_div');
+
+        if (user_group_proxy_po.checked){
+            proxy_div.style.display = 'block';
+        }
+        else{
+            proxy_div.style.display = 'none';
+        }
+    }
+</script>
+<script>
+    function add_new_role(){
+        console.log('add new role');
+        var add_new_role = document.getElementById('add_new_role');
+        add_new_role.style.display = 'block'
+
+        var create_new_div = document.getElementById('create_new_div');
+        console.log(create_new_div)
+    }
+    function add_new_checkbox(){
+        var create_add_new_role = document.getElementById('create_add_new_role');
+        console.log(create_add_new_role.value)
+        var add_new_role = document.getElementById('add_new_role');
+        var get_label = document.getElementById('create_add_new_role');
+        const div = document.createElement('div');
+        const label = document.createElement('p');
+        const input = document.createElement('input');
+        div.class = 'form-check';
+        div.id = 'form_check_id';
+        input.setAttribute('type', 'checkbox');
+        input.classList = 'check-box-custom'
+        input.name = 'role';
+        input.value = create_add_new_role.value;
+        input.classList = 'form-check-input'
+        input.style.borderColor = '#6C757D';
+        input.name = 'role';
+        input.id = 'add_new_role_dynamically';
+        input.style.marginTop = '10px';
+        label.innerText = get_label.value;
+        label.style.color = '#ADB5BD';
+        label.classList = 'static-font';
+        label.style.marginTop = '-20px';
+        label.style.fontSize = '14px';
+        label.style.marginLeft = '25px';
+        label.style.textDecoration = 'none';
+        input.style.backgroundColor = 'transparent';
+        create_new_div.appendChild(div);
+        var form_check_id = document.getElementById('form_check_id')
+        add_new_role.style.display = 'none';
+        form_check_id.appendChild(input)
+        form_check_id.appendChild(label)
+    }
+</script>
+<script>
+    function data_scientist_add_role(){
+        console.log('data_scientist_add_role called')
+        var data_scientist_hide_div = document.getElementById('data_scientist_hide_div');
+        data_scientist_hide_div.insertAdjacentHTML('afterbegin',
+                '<div class="div_class_1" id="data_scientist_hide_div" style="width:700px; display: flex;"><div style="display: inline-block; padding: 5px;"><p class="project_location_header" style="width:300px;">Name</p><input type="text" style="width:300px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="role_name"></div><div style="display: inline-block; padding: 5px;"><p class="project_location_header" style=" width:300px; " >Work Country</p><select class="project_location_header_select_1" style="width:300px; background-color: #121010; color: #6C757D; margin-top: -5px;" name="work_country" id="work_country" >{% for i in country_list %}<option id="country_list_ds_{{i}}" value="{{i}}" >{{i}}</option>{% endfor %}</select></div><div  style="width:100%; left:550px; color: white; position:relative;">Hii</div></div>');
+    }
+    function director_of_data_science_add_role(){
+        var director_data_scientist_hide_div = document.getElementById('director_data_scientist_hide_div');
+        director_data_scientist_hide_div.insertAdjacentHTML('afterbegin',
+                '<div class="div_class_1" id="data_scientist_hide_div" style="width:700px; display: flex;"><div style="display: inline-block; padding: 5px;"><p class="project_location_header" style="width:300px;">Name</p><input type="text" style="width:300px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="role_name"></div><div style="display: inline-block; padding: 5px;"><p class="project_location_header" style=" width:300px; " >Work Country</p><select class="project_location_header_select_1" style="width:300px; background-color: #121010; color: #6C757D; margin-top: -5px;" name="work_country" id="work_country" >{% for i in country_list %}<option id="country_list_ds_{{i}}" value="{{i}}" >{{i}}</option>{% endfor %}</select></div><div  style="width:100%; left:550px; color: white; position:relative;">Hii</div></div>');
+
+    }
+    function it_front_add_role(){
+        var it_front_div = document.getElementById('it_front_div');
+        it_front_div.insertAdjacentHTML('afterbegin',
+                '<div class="div_class_1" id="data_scientist_hide_div" style="width:700px; display: flex;"><div style="display: inline-block; padding: 5px;"><p class="project_location_header" style="width:300px;">Name</p><input type="text" style="width:300px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="role_name"></div><div style="display: inline-block; padding: 5px;"><p class="project_location_header" style=" width:300px; " >Work Country</p><select class="project_location_header_select_1" style="width:300px; background-color: #121010; color: #6C757D; margin-top: -5px;" name="work_country" id="work_country" >{% for i in country_list %}<option id="country_list_ds_{{i}}" value="{{i}}" >{{i}}</option>{% endfor %}</select></div><div  style="width:100%; left:550px; color: white; position:relative;">Hii</div></div>');
+
+    }
+    function it_leader_1_add_role(){
+        var it_leader_div = document.getElementById('it_leader_div');
+        it_leader_div.insertAdjacentHTML('afterbegin',
+                '<div class="div_class_1" id="data_scientist_hide_div" style="width:700px; display: flex;"><div style="display: inline-block; padding: 5px;"><p class="project_location_header" style="width:300px;">Name</p><input type="text" style="width:300px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="role_name"></div><div style="display: inline-block; padding: 5px;"><p class="project_location_header" style=" width:300px; " >Work Country</p><select class="project_location_header_select_1" style="width:300px; background-color: #121010; color: #6C757D; margin-top: -5px;" name="work_country" id="work_country" >{% for i in country_list %}<option id="country_list_ds_{{i}}" value="{{i}}" >{{i}}</option>{% endfor %}</select></div><div  style="width:100%; left:550px; color: white; position:relative;">Hii</div></div>');
+    }
+</script>
+<script>
+    function direct_impact_new_parameters(){
+        var equipment_name_div = document.getElementById('equipment_name_div');
+        var equipment_name_id = document.getElementById('equipment_name_id')
+        console.log(equipment_name_id)
+        var add_new_parameter_id = document.getElementById('add_new_parameter_id');
+        var equipment_name_id = document.getElementById('equipment_name_id');
+        console.log(equipment_name_id.value);
+        equipment_name_div.style.display = 'none';
+        add_new_parameter_id.insertAdjacentHTML('beforebegin', '<div class="form-check" style="margin-top:10px;"><label id="change_text" class="static-font" for="eight" style="font-size: 14px; color: #ADB5BD;">Text</label><input type="checkbox" class="form-check-input" id="screen" name="WhichUserEquipment" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; "></div>');
+
+        var change_text = document.getElementById('change_text');
+        change_text.innerText = equipment_name_id.value;
+        equipment_name_div.style.display = 'none';
+    }
+</script>
+<script>
+    function direct_impact_new_parameters2(){
+        var equipment_name_div2 = document.getElementById('equipment_name_div2');
+        var add_new_parameter_ie = document.getElementById('add_new_parameter_ie');
+        var equipment_name_id2 = document.getElementById('equipment_name_id2');
+        console.log(equipment_name_div2.value)
+        equipment_name_div2.style.display = 'none';
+        add_new_parameter_ie.insertAdjacentHTML('beforebegin', '<div class="form-check" style="margin-top:10px;"><label id="change_text2" class="static-font" for="eight" style="font-size: 14px; color: #ADB5BD;">Text</label><input type="checkbox" class="form-check-input" id="custom_checkbox1" name="WhichUserEquipment" value="monitor" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; "></div>');
+
+        var change_text2 = document.getElementById('change_text2');
+        change_text2.innerText = equipment_name_id2.value;
+        equipment_name_div2.style.display = 'none';
+    }
+</script>
+<script>
+    function DI_add_new_parameter(){
+        var add_new_parameter_id = document.getElementById('add_new_parameter_id');
+        add_new_parameter_id.insertAdjacentHTML('beforebegin','<div id="equipment_name_div" style="display: inline-block; padding: 5px; margin-left: -5px; margin-top: 5px;"><p class="project_location_header" style="width:200px;">Equipment Name</p><input type="text" style="width:200px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="equipment_name_id" name="WhichUserEquipment"><div  style="width:100%; left:200px; position:relative; margin-top: -30px;"><a class="add_new" style="border: none; cursor: pointer" onclick="direct_impact_new_parameters()"><strong class="add_new_content">+ Add</strong></a></div></div>')
+    }
+</script>
+<script>
+    function IE_add_new_parameter(){
+        var add_new_parameter_ie = document.getElementById('add_new_parameter_ie');
+        add_new_parameter_ie.insertAdjacentHTML('beforebegin','<div id="equipment_name_div2" style="display: inline-block; padding: 5px; margin-left: -5px; margin-top: 5px;"><p class="project_location_header" style="width:200px;">Equipment Name</p><input type="text" style="width:200px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="equipment_name_id2"><div  style="width:100%; left:200px; position:relative; margin-top: -30px;"><a class="add_new" style="border: none; cursor: pointer" onclick="direct_impact_new_parameters2()"><strong class="add_new_content">+ Add</strong></a></div></div>')
+    }
+</script>
 <body>
 <div id="main_width" class="main_width_clone" style="overflow-y:auto; overflow-x:hidden;">
     <form action="projectA"  method="POST">
@@ -267,9 +470,10 @@
                 <div id="info2" onchange="project_details_inputs()" style="width:100%; bottom:10px; display:none;">
                     <div class="div_class_1" style="width:100%;">
                         <label class="project_location_header">Project Location</label>
-                        <select class="project_location_header_select" name="pl_1" id="select_1" >
-                            <option value="BU">India</option>
-                            <option value="1">Australia</option>
+                        <select class="project_location_header_select" name="pl_1" id="select_1" style="background-color: #121010; color: #6C757D;">
+                            {% for i in country_list %}
+                                <option value="{{i}}">{{i}}</option>
+                            {% endfor %}
                         </select>
                         <label class="project_location_header_1">Project Status</label>
                         <select class="project_location_header_select_1" name="ps" id="select_2"  style="background-color: #121010; color: #6C757D;">
@@ -312,59 +516,218 @@
                 <div class="img_class_toggle_3" onclick="toggleText3()" style="left:640px; position:relative; bottom:50px;">
                     <i class="fa fa-angle-down" id="change_toggle_onclick_down3" aria-hidden="true" onclick="document.getElementById('info-btn3').click()" alt="Info"></i>
                 </div>
-                <div id="info3" onchange="project_roles_input()" style="width:100%; bottom:10px; display:none;">
-                    <div class="img_head1" style="float:left; color: #ADB5BD;">
-                        <img src="static/assets/img/project_manager.png" style="top:130px;">
-                        <!--                    <i class="fa fa-clock-o"aria-hidden="true" ></i>-->
+                <div id="info3" style="width:100%; bottom:10px; display:none;" onchange="role_checked()">
+                    <div class="form-check" id style="margin-top:10px;" onchange="ds_checked()">
+                        <label class="static-font" style="font-size: 14px; color: #ADB5BD;">Data Scientist</label>
+                        <input type="checkbox" class="form-check-input" id="user_group_data_scientist" name="role" value="Data Scientist"  style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
-                    <div class="sub_header_pro_manager" style="float:center; font-size:14px; font-family:'ubuntu' bottom:2px;">
-                        <p >Project Manager</p>
+
+                    <div class="div_class_1" onchange="role_checked()" id="data_scientist_hide_div" style="width:700px; display: flex; display:none; margin-top: 10px;">
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style="width:300px;">Name</p>
+                            <input type="text" style="width:300px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="role_name">
+                        </div>
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style=" width:300px; margin-left: 5px; " >Work Country</p>
+                            <select class="project_location_header_select_1" style="width:300px; margin-left: 5px; background-color: #121010; color: #6C757D; margin-top: -5px;" name="work_country" id="work_country" >
+                                {% for i in country_list %}
+                                    <option id="country_list_ds_{{i}}" value="{{i}}" >{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div  style="width:100%; left:550px; position:relative;">
+                            <a onclick="data_scientist_add_role()" class="add_new" style="border: none; cursor: pointer" ><strong class="add_new_content">+ Add New</strong></a>
+                        </div>
                     </div>
-                    <div  style="width:100%; left:560px; position:relative; bottom:27px;">
-                        <button class="add_new" type="submit"><strong class="add_new_content">+ Add New</strong></button>
+
+                    <div class="form-check" id style="margin-top:10px;" onchange="director_ds_checked()">
+                        <label class="static-font" style="font-size: 14px; color: #ADB5BD;">Director of Data Science</label>
+                        <input type="checkbox" class="form-check-input" id="user_group_director_data_scientist" name="role" value="Director of Data Science"  style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
-                    <div  class="div_class_1" style="width:100%;">
-                        <p class="project_location_header" style="width:100%;">Name</p>
-                        <input type="text" style="width:100%; margin-top: -15px;" class="project_location_header_select" placeholder="Invent" id="name">
-                        <p class="project_location_header" style=" width:100%; " >Work Country</p>
-                        <select class="project_location_header_select_1" style="width:100%; margin-top: -15px;" name="work_country" id="work_country" >
-                            <option value="0">Australia</option>
-                            <option value="1">India</option>
-                        </select>
+
+                    <div class="div_class_1" id="director_data_scientist_hide_div" style="width:700px; display: flex; display:none; margin-top: 10px;">
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style="width:300px;">Name</p>
+                            <input type="text" style="width:300px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="role_name">
+                        </div>
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style=" width:300px; margin-left: 5px; " >Work Country</p>
+                            <select class="project_location_header_select_1" style="width:300px; background-color: #121010; color: #6C757D; margin-top: -5px;" name="work_country" id="work_country" >
+                                {% for i in country_list %}
+                                    <option id="country_list_dir_ds{{i}}" value="{{i}}" >{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div  style="width:100%; left:550px; position:relative;">
+                        <a  class="add_new" style="border: none; cursor: pointer" onclick="director_of_data_science_add_role()"><strong class="add_new_content">+ Add New</strong></a>
+                        </div>
                     </div>
-                    <div class="form-check" style="margin-top:20px;">
-                        <label class="static-font" for="one" style="font-size: 14px; color: #ADB5BD;">Product Manager</label>
-                        <input type="checkbox" class="form-check-input" id="one"  value="pro_manager" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+
+                    <div class="form-check" id style="margin-top:10px;" onchange="it_front_checked()">
+                        <label class="static-font" style="font-size: 14px; color: #ADB5BD;">IT Front</label>
+                        <input type="checkbox" class="form-check-input" id="user_group_it_front" name="role" value="IT_Front" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
-                    <div class="form-check" style="margin-top:10px;">
-                        <label class="static-font" for="two" style="font-size: 14px; color: #ADB5BD;">Proxy PO</label>
-                        <input type="checkbox" class="form-check-input" id="two" value="proxy" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+
+                    <div class="div_class_1" onchange="role_checked()" id="it_front_div" style="width:700px; display: flex; display:none; margin-top: 10px;">
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style="width:300px;">Name</p>
+                            <input type="text" style="width:300px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="role_name">
+                        </div>
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style=" width:300px; margin-left: 5px;" >Work Country</p>
+                            <select class="project_location_header_select_1" style="width:300px; background-color: #121010; color: #6C757D; margin-top: -5px;" name="work_country" id="work_country" >
+                                {% for i in country_list %}
+                                    <option id="country_list_dir_it_front{{i}}" value="{{i}}" >{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div  style="width:100%; left:550px; position:relative;">
+                        <a class="add_new" style="border: none; cursor: pointer" onclick="it_front_add_role()"><strong class="add_new_content">+ Add New</strong></a>
+                        </div>
                     </div>
-                    <div class="form-check" style="margin-top:10px;">
-                        <label class="static-font" for="three" style="font-size: 14px; color: #ADB5BD;">Data Scientist</label>
-                        <input type="checkbox" class="form-check-input" id="three" value="data" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+
+                    <div class="form-check" id style="margin-top:10px;" onchange="it_leader_1()">
+                        <label class="static-font" style="font-size: 14px; color: #ADB5BD;">IT Leader 1</label>
+                        <input type="checkbox" class="form-check-input" id="user_group_it_leader1" name="role" value="it_leader_1"  style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
-                    <div class="form-check" style="margin-top:10px;">
-                        <label class="static-font" for="four" style="font-size: 14px; color: #ADB5BD;">IT Leader 1</label>
-                        <input type="checkbox" class="form-check-input" id="four" value="it_1" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+
+                    <div class="div_class_1" onchange="role_checked()" id="it_leader1_div" style="width:700px; display: flex; display:none; margin-top: 10px;">
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style="width:300px;">Name</p>
+                            <input type="text" style="width:300px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="role_name">
+                        </div>
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style=" width:300px; margin-left: 5px;" >Work Country</p>
+                            <select class="project_location_header_select_1" style="width:300px; background-color: #121010; color: #6C757D; margin-top: -5px;" name="work_country" id="work_country" >
+                                {% for i in country_list %}
+                                    <option id="country_list_dir_it_leader_1{{i}}" value="{{i}}" >{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div  style="width:100%; left:550px; position:relative;">
+                        <a class="add_new" style="border: none; cursor: pointer" onclick="it_leader_1_add_role()"><strong class="add_new_content">+ Add New</strong></a>
+                        </div>
                     </div>
-                    <div class="form-check" style="margin-top:10px;">
-                        <label class="static-font" for="five" style="font-size: 14px; color: #ADB5BD;">IT Leader 2</label>
-                        <input type="checkbox" class="form-check-input" id="five" value="it_2" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+
+                    <div class="form-check" id style="margin-top:10px;" onchange="it_leader_2()">
+                        <label class="static-font" style="font-size: 14px; color: #ADB5BD;">IT Leader 2</label>
+                        <input type="checkbox" class="form-check-input" id="user_group_it_leader2" name="role" value="it_leader_2"  style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
-                    <div class="form-check" style="margin-top:10px;">
-                        <label class="static-font" for="six" style="font-size: 14px; color: #ADB5BD;">IT Front</label>
-                        <input type="checkbox" class="form-check-input" id="six" value="it_front" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+
+                    <div class="div_class_1" onchange="role_checked()" id="it_leader2_div" style="width:700px; display: flex; display:none; margin-top: 10px;">
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style="width:300px;">Name</p>
+                            <input type="text" style="width:300px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="role_name">
+                        </div>
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style=" width:300px; margin-left: 5px;" >Work Country</p>
+                            <select class="project_location_header_select_1" style="width:300px; background-color: #121010; color: #6C757D; margin-top: -5px;" name="work_country" id="work_country" >
+                                {% for i in country_list %}
+                                    <option id="country_list_it_leader_2{{i}}" value="{{i}}" >{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div  style="width:100%; left:550px; position:relative;">
+                        <a class="add_new" style="border: none; cursor: pointer" onclick="it_leader_2_add_role()"><strong class="add_new_content">+ Add New</strong></a>
+                        </div>
                     </div>
-                    <div class="form-check" style="margin-top:10px;">
-                        <label class="static-font" for="seven" style="font-size: 14px; color: #ADB5BD;">Director of Data Science</label>
-                        <input type="checkbox" class="form-check-input" id="seven" value="director" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+
+                    <div class="form-check" id style="margin-top:10px;" onclick="product_manager()">
+                        <label class="static-font" style="font-size: 14px; color: #ADB5BD;">Product Manager</label>
+                        <input type="checkbox" class="form-check-input" id="user_group_product_manager" name="role" value="product_manager" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
-                    <div class="form-check" style="margin-top:10px;">
-                        <label class="static-font" for="eight" style="font-size: 14px; color: #ADB5BD;">Project Manager</label>
-                        <input type="checkbox" class="form-check-input" id="eight" value="project" name="role" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+
+                    <div class="div_class_1" onchange="role_checked()" id="product_manager_div" style="width:700px; display: flex; display:none; margin-top: 10px;">
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style="width:300px;">Name</p>
+                            <input type="text" style="width:300px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="role_name">
+                        </div>
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style=" width:300px; margin-left: 5px;" >Work Country</p>
+                            <select class="project_location_header_select_1" style="width:300px; background-color: #121010; color: #6C757D; margin-top: -5px;" name="work_country" id="work_country" >
+                                {% for i in country_list %}
+                                    <option id="country_list_product_manager{{i}}" value="{{i}}" >{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div  style="width:100%; left:550px; position:relative;">
+                        <a class="add_new" style="border: none; cursor: pointer" onclick="product_manager_add_role()"><strong class="add_new_content">+ Add New</strong></a>
+                        </div>
                     </div>
-                    <button type="submit" class="add_new_role" style="border-radius:4px; width: 125px; height: 25px; padding-left: 15px; "><b class="add_new_role_content">+ Add New Role</b></button>
+
+                    <div class="form-check" id style="margin-top:10px;" onclick="project_manager()">
+                        <label class="static-font" style="font-size: 14px; color: #ADB5BD;">Project Manager</label>
+                        <input type="checkbox" class="form-check-input" id="user_group_project_manager" name="role" value="project_manager"  style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                    </div>
+
+                    <div class="div_class_1" onchange="role_checked()" id="project_manager_div" style="width:700px; display: flex; display:none; margin-top: 10px;">
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style="width:300px;">Name</p>
+                            <input type="text" style="width:300px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="role_name">
+                        </div>
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style=" width:300px; margin-left: 5px;" >Work Country</p>
+                            <select class="project_location_header_select_1" style="width:300px; background-color: #121010; color: #6C757D; margin-top: -5px;" name="work_country" id="work_country" >
+                                {% for i in country_list %}
+                                    <option id="country_list_project_manager{{i}}" value="{{i}}" >{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div  style="width:100%; left:550px; position:relative;">
+                        <a class="add_new" style="border: none; cursor: pointer" onclick="project_manager_add_role()"><strong class="add_new_content">+ Add New</strong></a>
+                        </div>
+                    </div>
+
+                    <div class="form-check" style="margin-top:10px;" onclick="proxy_po()">
+                        <label class="static-font" style="font-size: 14px; color: #ADB5BD;">Proxy PO</label>
+                        <input type="checkbox" class="form-check-input" id="user_group_proxy_po" name="role" value="proxy_po"  style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                    </div>
+                    <div id="create_new_div">
+
+                    </div>
+                    <div class="div_class_1" onchange="role_checked()" id="proxy_div" style="width:700px; display: flex; display:none; margin-top: 10px;">
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style="width:300px;">Name</p>
+                            <input type="text" style="width:300px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="role_name">
+                        </div>
+                        <div style="display: inline-block; padding: 5px;">
+                            <p class="project_location_header" style=" width:300px; margin-left: 5px;" >Work Country</p>
+                            <select class="project_location_header_select_1" style="width:300px; background-color: #121010; color: #6C757D; margin-top: -5px;" name="work_country" id="work_country" >
+                                {% for i in country_list %}
+                                    <option id="country_list_proxy{{i}}" value="{{i}}" >{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div  style="width:100%; left:550px; position:relative;">
+                        <a class="add_new" style="border: none; cursor: pointer" onclick="proxy_po_add_role()"><strong class="add_new_content">+ Add New</strong></a>
+                        </div>
+                    </div>
+                    <div class="div_class_1" onchange="role_checked()" id="add_new_role" style="width:700px; display: flex; display:none; margin-top: 10px;">
+                        <div style="display: inline-block; padding: 5px; width:200px;">
+                            <p class="project_location_header" style="width:200px;">Role</p>
+                            <input type="text" style="width:200px; margin-top: -5px;" class="project_location_header_select" placeholder="Manager" id="create_add_new_role">
+                        </div>
+                        <div style="display: inline-block; padding: 5px; width:220px;">
+                            <p class="project_location_header" style="width:220px;">Name</p>
+                            <input type="text" style="width:220px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="add_new_role_name">
+                        </div>
+                        <div style="display: inline-block; padding: 5px; width:180px;">
+                            <p class="project_location_header" style=" width:180px; margin-left: 5px;" >Work Country</p>
+                            <select class="project_location_header_select_1" style="width:180px; background-color: #121010; color: #6C757D; margin-top: -5px;" name="work_country" id="work_country" >
+                                {% for i in country_list %}
+                                    <option id="country_list_add_new_role{{i}}" value="{{i}}" >{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-check" id="check_box_hide_div" style="margin-top:10px; display: none">
+                            <label class="static-font" id="check_box_label_1" style="font-size: 14px; color: #ADB5BD;"></label>
+                            <input type="checkbox" class="form-check-input" id="check_box_1"  name="role"  style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        </div>
+                        <div style="display: inline-block; padding: 5px; width:50px;">
+                            <a class="add_new" id="test_checkbox" style="border: none; font-size: 14px; font-weight: 600; cursor: pointer" onclick="add_new_checkbox()"><strong class="add_new_content">+ Add</strong></a>
+                        </div>
+                    </div>
+                    <a class="add_new_role" onclick="add_new_role()" style="border-radius:4px; width: 125px; cursor: pointer; height: 25px; padding-left: 15px; "><b class="add_new_role_content">+ Add New Role</b></a>
                 </div>
                 <hr style="border: 1px solid #ADB5BD; width: 650px;">
     <!---------------------------------------------End of Project Roles----------------------------------------->
@@ -401,30 +764,30 @@
                         <input type="checkbox" class="form-check-input" id="telephone" name="WhichUserEquipment" value="telephone" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
-                        <label class="static-font" for="five" style="font-size: 14px; color: #ADB5BD;">Printer</label>
-                        <input type="checkbox" class="form-check-input" id="printer" name="WhichUserEquipment" value="printer" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <label class="static-font" for="seven" style="font-size: 14px; color: #ADB5BD;">Printer</label>
+                        <input type="checkbox" class="form-check-input" id="printer" name="WhichUserEquipment" value="projector" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
-                        <label class="static-font" for="six" style="font-size: 14px; color: #ADB5BD;">Bluetooth Speaker</label>
-                        <input type="checkbox" class="form-check-input" id="speaker" name="WhichUserEquipment" value="speaker" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <label class="static-font" for="eight" style="font-size: 14px; color: #ADB5BD;">Bluetooth speaker</label>
+                        <input type="checkbox" class="form-check-input" id="bluetooth" name="WhichUserEquipment" value="monitor" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
-                        <label class="static-font" for="seven" style="font-size: 14px; color: #ADB5BD;">Projector</label>
-                        <input type="checkbox" class="form-check-input" id="projector" name="WhichUserEquipment" value="projector" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <label class="static-font" for="eight" style="font-size: 14px; color: #ADB5BD;">Video projector</label>
+                        <input type="checkbox" class="form-check-input" id="video" name="WhichUserEquipment" value="Video" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="eight" style="font-size: 14px; color: #ADB5BD;">Screen/Monitor</label>
-                        <input type="checkbox" class="form-check-input" id="monitor" name="WhichUserEquipment" value="monitor" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="screen" name="WhichUserEquipment" value="screen" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
-                    <button type="submit" class="add_new_role" style="width:150px; height: 25px; padding:5px; width:135px; border-radius:4px;  "><b class="add_new_role_content" style="width:150px;">+ Add New Parameter</b></button>
+                    <a id="add_new_parameter_id" onclick="DI_add_new_parameter()" class="add_new_role" style="width:150px; cursor: pointer; height: 25px; padding:5px; width:135px; border-radius:4px;  "><b class="add_new_role_content" style="width:150px;">+ Add New Parameter</b></a>
                     <label class="static-font" style="font-size: 12px; margin-top: 10px; color: #6C757D">For new parameters you are required to add custom emission factors in the emission library page. Please note new parameter should be saved here before adding the custom emission factor.</label>
                     <button type="submit" class="add_new_role" style="width:250px; height: 25px; border: 0px; "><b class="add_new_role_content" style="width:250px; text-transform: none; font-size: 12px;">Emission Factors Library<img src="static/assets/img/go_to_2.png" height="15" width="15" style="margin-left: 5px;"></b></button>
                     <div>
                         <p class="industry_equ_heading">Industrial Equipment</p>
                     </div>
                     <div class="form-check" style="margin-top:20px;">
-                        <label class="static-font" for="one" style="font-size: 14px; color: #ADB5BD;">Laptop</label>
-                        <input type="checkbox" class="form-check-input" id="laptop1" name="WhichIndustrialEquipment" value="laptop1" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <label class="static-font" for="one" style="font-size: 14px; color: #ADB5BD;">Drones</label>
+                        <input type="checkbox" class="form-check-input" id="drones" name="WhichIndustrialEquipment" value="drone" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="two" style="font-size: 14px; color: #ADB5BD;">Camera</label>
@@ -438,7 +801,11 @@
                         <label class="static-font" for="four" style="font-size: 14px; color: #ADB5BD;">LiDAR</label>
                         <input type="checkbox" class="form-check-input" id="lidar" name="WhichIndustrialEquipment" value="lidar" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
-                    <button type="submit" class="add_new_role" style="width:135px; padding-left: 15px; padding:5px; height: 25px; border-radius:4px;  "><b class="add_new_role_content" style="width:150px;">+ Add New Parameter</b></button>
+                    <div class="form-check" style="margin-top:10px;">
+                        <label class="static-font" for="four" style="font-size: 14px; color: #ADB5BD;">Raspberry PI</label>
+                        <input type="checkbox" class="form-check-input" id="raspberry" name="WhichIndustrialEquipment" value="lidar" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                    </div>
+                    <a id="add_new_parameter_ie" onclick="IE_add_new_parameter()" class="add_new_role" style="width:135px; cursor:pointer; padding-left: 15px; padding:5px; height: 25px; border-radius:4px;  "><b class="add_new_role_content" style="width:150px;">+ Add New Parameter</b></a>
                     <label class="static-font" style="font-size: 12px; margin-top: 10px; color: #6C757D">For new parameters you are required to add custom emission factors in the emission library page. Please note new parameter should be saved here before adding the custom emission factor.</label>
                     <button type="submit" class="add_new_role" style="width:250px;  height: 25px; border: 0px; "><b class="add_new_role_content" style="width:250px; text-transform: none; font-size: 12px;">Emission Factors Library<img src="static/assets/img/go_to_2.png" height="15" width="15" style="margin-left: 5px;"></b></button>
                 </div>
@@ -461,7 +828,7 @@
                             <p class="tittle_new">Please select all the parameters that are applicable to your project.</p>
                         </div>
                         <div class="form-check" style="margin-top:20px;">
-                            <label class="static-font" for="one" style="font-size: 14px; color: #ADB5BD;">Stationary Combustion</label>
+                            <label class="static-font" for="one" style="font-size: 14px; color: #ADB5BD;">Fuel - Stationary Combustion</label>
                             <input type="checkbox" class="form-check-input" id="fuel" name="WhichParametersImplemented" value="stationary_combustion" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         </div>
                         <div class="form-check" style="margin-top:10px;">
@@ -480,12 +847,8 @@
                             <label class="static-font" for="four" style="font-size: 14px; color: #ADB5BD;">Paper</label>
                             <input type="checkbox" class="form-check-input" id="paper" name="WhichParametersImplemented" value="paper" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         </div>
-<!--                        <div class="form-check" style="margin-top:10px;">-->
-<!--                            <label class="static-font" for="five" style="font-size: 14px; color: #ADB5BD;">Plastic</label>-->
-<!--                            <input type="checkbox" class="form-check-input" id="plastic" name="WhichParametersImplemented" value="plastic" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">-->
-<!--                        </div>-->
                         <div class="form-check" style="margin-top:10px;">
-                            <label class="static-font" for="six" style="font-size: 14px; color: #ADB5BD;">Waste Material</label>
+                            <label class="static-font" for="six" style="font-size: 14px; color: #ADB5BD;">Waste</label>
                             <input type="checkbox" class="form-check-input" id="waste_material" name="WhichParametersImplemented" value="waste_material" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         </div>
                         <div class="form-check" style="margin-top:10px;">
@@ -497,7 +860,7 @@
                 </div>
     <!---------------------------------------------End of Indirect Impact Parameters----------------------------------------->
                 <div style="padding-bottom:120px; margin-left: 500px;">
-                    <button type="submit" class="save" style=" border-radius:4px;  "><b class="continue" style="width:150px;">Save & Continue</b></button>
+                    <button type="submit" class="save" style=" border-radius:4px;  "><b class="continue" style="width:150px;">Save & Continue &nbsp;<i class="fa-solid fa-chevron-right"></i></b></button>
                 </div>
             </div>
         </div>

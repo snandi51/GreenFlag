@@ -272,6 +272,7 @@
     left:20px;
     padding:10px;
     grid-gap:10px;
+    padding-right: 5px;
     bottom:100px;
     grid-template-columns:2fr 2fr;
     grid-template-columns:repeat(3, 1fr);

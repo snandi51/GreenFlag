@@ -6,38 +6,397 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
-    <link href="static/assets/js/chart-js-original.js" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <!-- Vendor CSS Files -->
-  <link href="static/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-  <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="static/assets/css/style.css" rel="stylesheet">
-    <link href="static/assets/css/figma-base-style.css" rel="stylesheet">
-    <link href="static/assets/css/v.css" rel="stylesheet">
-    <link href="static/assets/css/p.css" rel="stylesheet">
-    <link href="static/assets/css/s.css" rel="stylesheet">
-    <link href="static/assets/fontawesome/css/fontawesome.css" rel="stylesheet">
-    <link href="static/assets/fontawesome/css/brands.css" rel="stylesheet">
-    <link href="static/assets/fontawesome/css/solid.css" rel="stylesheet">
-    <link href="static/assets/fontawesome/css/all.min.css" rel="stylesheet">
-    <link href="static/assets/css/coro.css" rel="stylesheet">
-    <script src="static/assets/js/slim.js" crossorigin="anonymous"></script>
-    <script src="static/assets/js/coro.js"  crossorigin="anonymous"></script>
+    <title>Title</title>
 </head>
+<link href="multiselect.css" rel="stylesheet">
+
+<style>
+table {
+  font-family: ubuntu;
+  width: 70%;
+  color: #ADB5BD;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  border-radius: none;
+  border-collapse: collapse;
+  border-spacing: 0 5px;
+}
+td {
+  text-align: left;
+  padding: 15px;
+  border-radius: 3px;
+<!--  background: #1A1D23;-->
+  background: #23272E;
+  width:239.25px;
+
+}
+th {
+  text-align: left;
+  padding: 15px;
+  width:239.25px;
+  border-radius: 3px;
+
+
+<!--  background: #1A1D23;-->
+  background: #23272E;
+}
+tr:nth-child() {
+  background: #23272E;
+  width:239.25px;
+  margin-top:100px;
+  border-radius: none;
+}
+</style>
+
+<script src="multiselect.min.js"></script>
+
+<script>
+    function openCity(evt, cityName) {
+      var i;
+      var x = document.getElementsByClassName('city');
+      var nav_button_1 = document.getElementById('nav_button_1');
+      var nav_button_2 = document.getElementById('nav_button_2');
+      console.log(evt)
+      console.log(cityName)
+      var progress3 = document.querySelector('.progress3')
+      if (cityName == 'Run'){
+        progress3.style.marginLeft = '180px';
+        nav_button_2.style.color = '#ADB5BD';
+        nav_button_1.style.color = '#6C757D';
+        nav_button_1.style.borderColor = 'transparent';
+        nav_button_2.style.borderColor = 'transparent';
+        nav_button_2.style.outline = 'thick solid #121010';
+        nav_button_1.style.outline = 'thick solid #121010';
+      } else{
+        progress3.style.marginLeft = '0px';
+        nav_button_1.style.color = '#ADB5BD';
+        nav_button_2.style.color = '#6C757D';
+        nav_button_1.style.borderColor = 'transparent';
+        nav_button_2.style.borderColor = 'transparent';
+        nav_button_2.style.outline = 'thick solid #121010';
+        nav_button_1.style.outline = 'thick solid #121010';
+      }
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = 'none';
+        console.log(x.length)
+      }
+      console.log('In')
+      document.getElementById(cityName).style.display = 'block';
+    }
+
+    function openPhase(evt, phase) {
+      var x = document.getElementsByClassName('city');
+      var nav_button_3 = document.getElementById('nav_button_3');
+      var nav_button_4 = document.getElementById('nav_button_4');
+      var Direct = document.getElementById('Direct');
+      var Indirect = document.getElementById('Indirect');
+      console.log(phase)
+      if (phase == 'Indirect'){
+        nav_button_4.style.color = '#ADB5BD';
+        nav_button_3.style.color = '#6C757D';
+        Direct.style.display = 'none';
+        Indirect.style.display = 'block';
+      } else{
+        nav_button_3.style.color = '#ADB5BD';
+        nav_button_4.style.color = '#6C757D';
+        Direct.style.display = 'block';
+        Indirect.style.display = 'none';
+      }
+    }
+
+
+</script>
 <body>
-<div class="main_width_clone" style="height: 200px; background-color: green;">
-    Hello
+<div id="main_width" class="main_width scroll" style="overflow-y : auto">
+    <div style="width:50%; float:left; text-align:start;  margin-top:20px; margin-left:57px;">
+        <button type="button" onclick="history.back()" style="display: none; color:Black; font-size: 10px; font-family:'ubuntu'" id="back-btn" ></button>
+        <a href="#" style="color:#4FAFA2; font-size: 10px; font-family:'ubuntu'"><img src="static/assets/img/back_button.png" style="margin-right:10px;" onclick="document.getElementById('back-btn').click()"  alt="Back"/>BACK TO LAST PAGE</a>
+    </div>
+
+    <!---------------------------------------------Emission Factors Library--------------------------------------->
+    <div class="header_div_1" style="margin-top:30px;">
+        <div class="header_project_a" style="width:100%;">
+            <div>
+                <h3 style="font-size:32px; font-family: 'Ubuntu'; font-weight: 500;">Emission Factors Library</h3>
+                <div class="paragraph" style="top:50px; font-size: 14px; font-family: 'Ubuntu'; font-weight: 400; width: 815px;">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="w3-bar static-font" style="width: 70%;margin-left: 10px; margin-top: 100px; font-weight: 400; font-size: 16px; line-height: 20px;">
+            <div style="position:absolute;  width:90%; float:left">
+                <button id="nav_button_1" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Build');"  style="color: #ADB5BD; border:none; background-color:transparent" name="build" value="0">Pre-defined Library</button>
+                <button id="nav_button_2" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Run');" style="color: #6C757D; border:none; background-color:transparent" name="run" value="1">Company’s X Library</button>
+            </div>
+            <div style=" width:100%; text-align:end;">
+                <button class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'customise');" style="color: #6C757D; border:none; background-color:transparent" name="customise" value="1"><p class="customize_button"></p></button>
+            </div>
+            <div class="progress1" style="width: 150%;">
+                <div class="progress3">
+                    <hr class="line" size="3" width="100%" color="#6C757D">
+                </div>
+            </div>
+        </div>
+
+
+        <div id="Build" class="w3-container city " style="overflow-x:auto; width:94%;  display:block; ">
+            <div class="div_class_5" style=" border-collapse: collapse; margin-top:20px; ">
+                <div class="name_div" style="position:sticky;">
+                </div>
+            </div>
+            <form action="emission_lib"  method="post">
+                {% csrf_token %}
+                <!---------------------------------Input Parameters-------------------------------->
+                {% for item in emission_library_list %}
+                <div class="div_class_5" style="height:50px; width:100%; background-color:gray; ">
+                    <div class="para_1" style=" height:50px; position:sticky;">
+                        <div class="cal_class">
+                            {{item.name}}
+                        </div>
+                    </div>
+                    <div  class="para_2" style=" height:50px;">
+                        <!--                            <div id="Direct" style="display:block;">-->
+                        <div class="cal_class">
+                            {{item.typeofimpact}}
+                        </div>
+                        <!--                            </div>-->
+                    </div>
+
+                    <div class="para_1" style="height:50px;">
+                        <div class="cal_class">
+                            {{item.category}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:50px;">
+                          <div class="cal_class">
+                             {{item.subcategory}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:50px;">
+                        <div class="cal_class">
+                            {{item.lcemissionfactor}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:50px;">
+                        <div class="cal_class">
+                            Placeholder
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:50px;">
+                        <div class="cal_class">
+                           {{item.lifespanyrs}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:50px;">
+                         <div class="cal_class">
+                             {{item.carbonfootprintperday}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:50px;">
+                        <div class="cal_class">
+                            {{item.unit}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:50px;">
+                        <div class="cal_class">
+                           {{item.yearpublished}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:50px;">
+                        <select id='testSelect1' style="border:none; color: #CED4DA; width:100%; background:transparent;">
+                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_a'>Project A</option>
+                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_b'>Project B</option>
+                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_c'>Project C</option>
+                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_d'>Project D</option>
+                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_e'>Project E</option>
+                        </select>
+                    </div>
+                </div>
+                {% endfor %}
+            </form>
+
+        </div>
+
+
+        <div id="Run" class="w3-container city"  style="width:90%; overflow-x: auto; display:none; text-align: center; margin-top:20px; height: 400px;">
+            <div>
+                <div class="Add_new_row" style="margin-left:20px;">
+                    <button class="content_button_row" onclick="myFunction()" type="button">+ ADD ROW</button>
+                </div>
+                <div class="delete_row">
+                    <button class="delete_button_row" onclick="myDeleteFunction()" type="submit">- DELETE ROW</button>
+                </div>
+            </div>
+            <div class="div_class_11" style="margin-top:50px;">
+                <div class="checkbox_1" style="border:none; border-radius:8px 0px 0px 0px;">
+                    <input type="checkbox" class="form-check-input" id="two" name="proxy" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                    <!--                    <img class="check_11" src="static/assets/img/check_box.png">-->
+                    <!--                    <i class="fa fa-square-o" aria-hidden="true"></i>-->
+                </div>
+                <div class="name_div" style="position:sticky; border-radius: 0px 0px 0px 0px;">
+                    <div class="name_1">
+                        Name
+                    </div>
+                    <div class="search_box" style="right:5px; ">
+                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+                <div class="impact_type_div" >
+                    <div class="name_1">
+                        Type of Impact
+                    </div>
+                    <div class="header_table" style="position:relative; width:130%; margin-top:5px; left:30px; ">
+                        <button id="nav_button_3" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openPhase(event, 'Direct');"  style="font-size: 12px; color: #ADB5BD; width:40%; box-sizing: border-box; border-radius: 50px; border: 1px solid #6C757D; background: #34373D;" name="direct" value="0" >Direct Impact</button>
+                        <button id="nav_button_4" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openPhase(event, 'Indirect');" style="font-size: 12px; color: #ADB5BD; width:40%; box-sizing: border-box; border-radius: 50px; border: 1px solid #6C757D; background: #34373D;" name="indirect" value="1">Indirect Impact</button>
+                    </div>
+                </div>
+                <div class="category_div">
+                    <div class="name_1">
+                        Category
+                    </div>
+                    <div class="search_box">
+                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+                <div class="sub_category_div" >
+                    <div class="name_1">
+                        Sub-category
+                    </div>
+                    <div class="search_box">
+                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+                <div class="emission_fac_div">
+                    <div class="name_1">
+                        Lifecycle emission factor (Kg CO2e)
+                    </div>
+                </div>
+                <div class="lifespan_div">
+                    <div class="name_1">
+                        Lifecycle Stage Included
+                    </div>
+                    <div class="search_box">
+                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+                <div class="lifespan_div">
+                    <div class="name_1">
+                        Lifespan (Years)
+                    </div>
+                    <div class="search_box">
+                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+                <div class="footprint_div">
+                    <div class="name_1">
+                        Carbon footprint per
+                        day (KgCO2eq/day)
+                    </div>
+                </div>
+                <div class="year_div">
+                    <div class="name_1">
+                        Year
+                    </div>
+                    <div class="search_box">
+                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+                <div class="project_emission_div">
+                    <div class="name_1">
+                        Projects using this emission factor
+                    </div>
+                </div>
+            </div>
+            <form action="emission_lib"  method="post">
+                {% csrf_token %}
+                <!---------------------------------Input Parameters-------------------------------->
+                {% for r in i %}
+                <div id="table_row" class="div_class_11" style="height:100px; width:100%; ">
+                    <div class="checkbox_1" style="border-radius:0px 0px 0px 0px; height:100px;">
+                        <input type="checkbox" class="form-check-input" id="two" name="proxy" style=" height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <!--                        <img class="check_11" src="static/assets/img/check_box.png">-->
+                        <!--                    <i class="fa fa-square-o" aria-hidden="true"></i>-->
+                    </div>
+                    <div class="para_1" style="height:100px; position:sticky;">
+                        <input class="para_text" type="text" placeholder="parameter" >
+                    </div>
+                    <div class="para_2" style="height:100px;">
+                        <select class="select_para_1" id ="ddl" name="ddl" onchange="graph(this.value)">
+                            <option value='1'>parameter</option>
+                            <option value='2'>Quarter</option>
+                            <option value='3'>Month</option>
+                        </select>
+                    </div>
+                    <div class="para_1" style="height:100px;">
+                        <select class="select_para_1" id ="ddl" name="ddl" onchange="graph(this.value)">
+                            <option value='1'>parameter</option>
+                            <option value='2'>Quarter</option>
+                            <option value='3'>Month</option>
+                        </select>
+                    </div>
+                    <div class="para_1" style="height:100px;">
+                        <select class="select_para_1" id ="ddl" name="ddl" onchange="graph(this.value)">
+                            <option value='1'>parameter</option>
+                            <option value='2'>Quarter</option>
+                            <option value='3'>Month</option>
+                        </select>
+                    </div>
+                    <div class="para_1" style="height:100px;">
+                        <div class="cal_class">
+                            0.124323
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:100px;">
+                        <select class="select_para_1" id ="ddl" name="ddl" onchange="graph(this.value)">
+                            <option value='1'>parameter</option>
+                            <option value='2'>Quarter</option>
+                            <option value='3'>Month</option>
+                        </select>
+                    </div>
+                    <div class="para_1" style="height:100px;">
+                        <input class="para_text" type="text" placeholder="parameter" >
+                    </div>
+                    <div class="para_1" style="height:100px;">
+                        <div class="cal_class">
+                            0.124323
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:100px;">
+                        <div class="cal_class">
+                            2022
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:100px;">
+                        <select id='testSelect2' multiple style="border:none; color: #CED4DA; width:100%; background:transparent;">
+                            <option value='Project_a'>Project A</option>
+                            <option value='Project_b'>Project B</option>
+                            <option value='Project_c'>Project C</option>
+                            <option value='Project_d'>Project D</option>
+                            <option value='Project_e'>Project E</option>
+                        </select>
+                    </div>
+                </div>
+                {% endfor %}
+            </form>
+        </div>
+        <div style="padding-bottom:120px;">
+
+        </div>
+    </div>
+
+    <!-----------------------------------------End Of Project Heading------------------------------------>
 </div>
+
+
 {% endblock %}
 </body>
 </html>
