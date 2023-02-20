@@ -126,11 +126,9 @@ class LoadPlan(models.Model):
 class RefCarbonfootprint(models.Model):
     carbonid = models.BigAutoField(db_column='CarbonId', primary_key=True)  # Field name made lowercase.
     projid = models.ForeignKey(ProjectDetails, models.DO_NOTHING, db_column='ProjId', blank=True, null=True)  # Field name made lowercase.
-    source = models.CharField(db_column='Source', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    name = models.CharField(db_column='Name', max_length=100, blank=True, null=True)  # Field name made lowercase.
     category = models.CharField(db_column='Category', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    typeoftransport = models.CharField(db_column='TypeOfTransport', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    sourceorganism = models.CharField(db_column='SourceOrganism', max_length=50, blank=True, null=True)  # Field name made lowercase.
-    sourcelink = models.TextField(db_column='SourceLink', blank=True, null=True)  # Field name made lowercase.
+    subcategory = models.CharField(db_column='SubCategory', max_length=50, blank=True, null=True)  # Field name made lowercase.
     lcprod = models.CharField(db_column='LCProd', max_length=50, blank=True, null=True)  # Field name made lowercase.
     lctransport = models.CharField(db_column='LCTransport', max_length=50, blank=True, null=True)  # Field name made lowercase.
     lcusage = models.CharField(db_column='LCUsage', max_length=50, blank=True, null=True)  # Field name made lowercase.
@@ -138,10 +136,16 @@ class RefCarbonfootprint(models.Model):
     lifespanyrs = models.IntegerField(db_column='LifespanYrs', blank=True, null=True)  # Field name made lowercase.
     emissionfactor = models.FloatField(db_column='EmissionFactor', blank=True, null=True)  # Field name made lowercase.
     unit = models.TextField(db_column='Unit', blank=True, null=True)  # Field name made lowercase.
-    lifelongcarbonfootprint = models.FloatField(db_column='LifeLongCarbonFootprint', blank=True, null=True)  # Field name made lowercase.
+    carbonfootprintperday = models.FloatField(db_column='CarbonFootprintPerDay', blank=True, null=True)  # Field name made lowercase.
+    lcunit = models.TextField(db_column='LCUnit', blank=True, null=True)  # Field name made lowercase.
+    lcemissionfactor = models.FloatField(db_column='LCEmissionFactor', blank=True, null=True)  # Field name made lowercase.
+    yearpublished = models.IntegerField(db_column='YearPublished', blank=True, null=True)  # Field name made lowercase.
+    projectusingef = models.TextField(db_column='ProjectUsingEF', blank=True, null=True)  # Field name made lowercase.
+    scope = models.CharField(db_column='Scope', max_length=30, blank=True, null=True)  # Field name made lowercase.
     create_timestamp = models.DateTimeField(db_column='Create_Timestamp')  # Field name made lowercase.
     update_timestamp = models.DateTimeField(db_column='Update_Timestamp')  # Field name made lowercase.
-    status = models.CharField(db_column='Status', max_length=100)  # Field name made lowercase.
+    status = models.CharField(db_column='Status', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    typeofimpact = models.CharField(db_column='TypeOfImpact', max_length=50, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
