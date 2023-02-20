@@ -1432,7 +1432,7 @@ input::-webkit-calendar-picker-indicator: {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 8px 16px 8px 12px;
+    padding: 8px 16px 8px 18px;
     gap: 8px;
 
     position: absolute;
@@ -1478,13 +1478,13 @@ input::-webkit-calendar-picker-indicator: {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 8px 16px 8px 12px;
+    padding: 8px 16px 8px 15px;
     gap: 8px;
 
     position: absolute;
     width: 133px;
     height: 34px;
-    left: 162px;
+    left: 150px;
 
     /* Accent/Accent – Primary */
 
@@ -1812,7 +1812,7 @@ input::-webkit-calendar-picker-indicator: {
     gap: 16px;
     border-radius:0px 0px 0px 0px;
 
-    width: 75px;
+    width: 77px;
     height: 50px;
 
     /* Black/Black – Tertiary */
@@ -1833,6 +1833,7 @@ input::-webkit-calendar-picker-indicator: {
     /* Auto layout */
 
     display: flex;
+    margin-left: 0px;
     flex-direction: row;
     justify-content: center;
     align-items: center;
