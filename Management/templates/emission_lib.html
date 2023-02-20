@@ -142,6 +142,10 @@ function myNameSearchFunction() {
       }
     }
 
+    function myDeleteFunction() {
+      document.getElementById("check_1").deleteRow(1);
+    }
+
 
 </script>
 <body>
@@ -316,11 +320,11 @@ function myNameSearchFunction() {
                 <div class="Add_new_row" style="margin-left:15px;">
                     <button class="content_button_row" onclick="myFunction()" type="button">+ ADD ROW</button>
                 </div>
-                <div class="delete_row">
-                    <button class="delete_button_row" onclick="myDeleteFunction()" type="submit">- DELETE ROW</button>
+                <div class="delete_row" onclick="myDeleteFunction()">
+                    <button class="delete_button_row" type="submit">- DELETE ROW</button>
                 </div>
             </div>
-            <div class="div_class_11" style="margin-top:50px;">
+            <div class="div_class_11"  style="margin-top:50px;">
                 <div class="checkbox_1" style="border:none; border-radius:8px 0px 0px 0px;">
                     <input type="checkbox" class="form-check-input" id="two" name="proxy" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     <!--                    <img class="check_11" src="static/assets/img/check_box.png">-->
@@ -412,7 +416,7 @@ function myNameSearchFunction() {
                 {% for i in emission_library_list %}
                 <div id="table_row" class="div_class_11" style="height:100px; width:100%; ">
                     <div class="checkbox_1" style="border-radius:0px 0px 0px 0px; height:100px;">
-                        <input type="checkbox" class="form-check-input" id="two" name="proxy" style=" height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="check_1" name="proxy" style=" height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         <!--                        <img class="check_11" src="static/assets/img/check_box.png">-->
                         <!--                    <i class="fa fa-square-o" aria-hidden="true"></i>-->
                     </div>

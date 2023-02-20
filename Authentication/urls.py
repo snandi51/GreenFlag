@@ -18,7 +18,6 @@ urlpatterns = [
     path('Help', management_views.Help, name='Help'),
     path('emission_lib', management_views.emission_lib, name='emission_lib'),
     path('datacenter_network', management_views.datacenter_network, name='datacenter_network'),
-    path('indirect_impact_fl', management_views.indirect_impact_fl, name='indirect_impact_fl'),
     path('indirect_impact_el', management_views.indirect_impact_el, name='indirect_impact_el'),
     path('temp', management_views.test_graph, name='temp'),
     path('forgot_password', authentication_views.forgot_password, name='forgot_password'),

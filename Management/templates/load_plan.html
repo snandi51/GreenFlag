@@ -11,8 +11,9 @@
 </head>
 <style>
   .load_view {
-    margin: auto;
+
     width: 100%;
+    height:100%;
   }
   .load_table{
     border-collapse:separate;
@@ -52,11 +53,12 @@
 
 .fixed-col {
   width: 154px;
-  height: 30px;
+  height: 40px;
   background: #23272E;
   border: 1px solid #34373D;
   border-radius: 8px 0px 0px 8px;
-  text-align: center;
+<!--  padding-left:20px;-->
+  text-align: start;
 }
 .load_cell_th {
   width: 268px;
@@ -74,7 +76,7 @@
 }
 .load_cell_ip{
   width: 67px;
-  height: 30px;
+  height: 40px;
   text-align: center;
   border: 1px solid #34373D;
   background-color: #1A1D23;
@@ -85,7 +87,6 @@
 ::-webkit-scrollbar {
   background-color: #555;
   height: 4px;
-
 }
 
 /* Track */
@@ -103,15 +104,7 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-#footer {
-  position: fixed;
-  padding: 10px 10px 0px 10px;
-  bottom: 0;
-  width: 100%;
-  height: 55px;
-  z-index: 1;
 
-}
 .nebtn{
   width: 159px;
   height: 32px;
@@ -129,6 +122,20 @@
   margin-left: 200px;
   position: fixed;
   float: right;
+}
+
+.displayText {
+    visibility:hidden;
+    position:relative;
+}
+.displayText::before {
+    content: "";
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent ;
+}
+.show {
+    visibility:visible;
 }
 
 </style>
@@ -158,10 +165,77 @@
       nav_button_2.style.borderColor = 'transparent';
       nav_button_2.style.outline = 'thick solid #121010';
       nav_button_1.style.outline = 'thick solid #121010';
-      }
+    }
     for (i = 0; i < x.length; i++)
     {    x[i].style.display = 'none';  }
-    document.getElementById(cityName).style.display = 'block';}
+    document.getElementById(cityName).style.display = 'block';
+  }
+
+  window.onload = function(){
+        console.log('inside the function')
+        role = {{role|safe}}
+        console.log('role', role)
+        var quater_month = ''
+        end_date_month = {{end_date_month|safe}}
+        list = {{list|safe}}
+        console.log('list', list)
+        console.log('end_date_month is:' + end_date_month)
+
+        for (var k = 0; k < (role.length); k++) {
+            var role_new = document.getElementById('role_'+ role[k])
+            console.log('role_new:', role_new)
+            for(var i = 1; i < (list.length + 1); i++){
+                console.log(role[k])
+                console.log('cell_' + i)
+                var cell_i = document.getElementById('cell_' + role[k] + '_' + i)
+                console.log('cell_i', cell_i)
+
+                cell_i.style.backgroundColor = 'transparent';
+            }
+        }
+        if (end_date_month < 4){
+            quater_month = 'q1'
+            console.log('q1:' + end_date_month)
+        } else if (end_date_month < 7){
+            quater_month = 'q2'
+
+        } else if (end_date_month < 10){
+            quater_month = 'q3'
+            console.log('q3:' + end_date_month)
+        } else if (end_date_month < 13){
+            quater_month = 'q4'
+            console.log('q4:' + end_date_month)
+
+        }
+        console.log('quater_month', quater_month)
+  }
+
+<!--  function cell(){-->
+<!--        var t = document.getElementById('cell');-->
+<!--        t.style.backgroundColor = 'transparent';-->
+<!--  }-->
+
+
+   function tooltip(id){
+        console.log('id', id)
+   }
+
+   function month (id) {
+       console.log(id)
+       var popup = document.getElementById("displayText_" + id);
+       console.log(popup)
+       popup.classList.toggle("show");
+       if (id == '1'){
+            popup.innerText ='Jan, Feb, Mar';
+       } else if (id == '2') {
+            popup.innerText ='Apr, May, Jun';
+       } else if (id == '3') {
+            popup.innerText ='Juy, Aug, Sep';
+       } else {
+            popup.innerText ='Oct, Nov, Dec';
+       }
+   }
+
 </script>
 <script>
     function active_tab(){
@@ -217,304 +291,188 @@
         console.log(load_plan_opt1)
     }
 </script>
-<div id="main_width" class="main_width_clone">
-    <div class="load_heading">
-        Load Plan
-    </div>
-    <div class="w3-bar static-font" style="margin-top: 7px; font-weight: 400; font-size: 16px;margin-left: 20px;">
-      <button id="nav_button_1" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Build');"  style="color: #ADB5BD; border:none; background-color:transparent">Build</button>
-      <button id="nav_button_2" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Run');" style="color: #6C757D; border:none; background-color:transparent">Run</button>
-      <div class="progress1">
-          <div class="progress2">
-              <hr class="line" size="3" width="100%" color="#6C757D">
+<div id="main_width" class="main_width_clone " style="overflow-y: scroll;">
+    <div class="header_div" style="margin-left:-20px; padding-bottom:220px;">
+        <div class="load_heading">
+            Load Plan
+            <div class="paragraph" style="z-index:1; top:80px; font-size: 14px; font-family: 'Ubuntu'; font-weight: 400; width: 648px;">
+                <p>Please provide the total number of days allocated in a quarter to each resource in the table below. </p>
+            </div>
+        </div>
+        <div class="w3-bar static-font" style="margin-top: 50px; font-weight: 400; font-size: 16px;margin-left: 20px;">
+          <button id="nav_button_1" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Build');"  style="color: #ADB5BD; border:none; background-color:transparent">Build</button>
+          <button id="nav_button_2" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Run');" style="color: #6C757D; border:none; background-color:transparent">Run</button>
+          <div class="progress1">
+              <div class="progress2" style="margin-top:-10px;">
+                  <hr class="line" size="3" width="100%" color="#6C757D">
+              </div>
           </div>
-      </div>
-    </div>
-    <div class="load_view city" id="Build" style="display: block;margin-left:20px;width: auto;margin-top: 5px;">
-        <div class="load_wrapper">
-          <table class="load_table">
-            <thead>
-                <tr>
-                    <th class="sticky-col first-col-fix fixed-col">Roles</th>
-                    <th colspan="4" class="load_cell_th">Year 2020</th>
-                    <th colspan="4" class="load_cell_th">Year 2021</th>
-                    <th colspan="4" class="load_cell_th">Year 2022</th>
+        </div>
+        <form action="load_plan"  method="post">
+            {% csrf_token %}
+            <div class="load_view city" id="Build" style="display: block;margin-left:20px;width: auto;margin-top: 5px;">
+                <div class="load_wrapper">
+                  <table class="load_table">
+                      {% if span_build_list > 0 %}
+                        <colgroup><col span="1" ><col span="{{span_build_list}}" style="visibility:collapse;"></colgroup>
+                      {% endif %}
+<!--                        <colgroup><col span="{{second_build_end_span}}" ><col span="{{span_buildend_list}}" style="visibility:collapse;"></colgroup>-->
+<!--                      <colgroup><col span="2" ><col span="2" style="visibility:collapse;"></colgroup>-->
+<!--                      {% if quarter_build_list == 'q1' %}-->
+<!--                        <colgroup><col span="4" ></colgroup>-->
+<!--                      {% elif quarter_build_list == 'q2' %}-->
+<!--                        <colgroup><col span="1" ><col span="{{span_build_list}}" style="visibility:collapse;"></colgroup>-->
+<!--                      {% else %}-->
+<!--                        <colgroup><col span="1" ><col span="{{span_build_list}}" style="visibility:collapse;"></colgroup>-->
+<!--                      {% endif %}-->
+<!--                      {% if quarter_buildend_list == 'q1' %}-->
+<!--                        <colgroup><col span="5" ><col span="{{span_buildend_list}}" ><col span="1" ><col span="{{span_buildend_list}}" style="visibility:collapse;"></colgroup>-->
+<!--                      {% else %}-->
+<!--                        <colgroup><col span="5" ><col span="{{span_buildend_list}}" ><col span="1" style="visibility:collapse;"></colgroup>-->
+<!--                      {% endif %}-->
 
-                </tr>
-                <tr>
-                    <th  class="sticky-col first-col-fix fixed-col" style="background-color: #121010;border-color: black; border-radius: 0px;">&nbsp;</th>
-                    <th  class="sticky-col first-col load_cell">Q1</th>
-                    <th  class="sticky-col first-col load_cell">Q2</th>
-                    <th  class="sticky-col first-col load_cell">Q3</th>
-                    <th  class="sticky-col first-col load_cell">Q4</th>
-                    <th  class="sticky-col first-col load_cell">Q1</th>
-                    <th  class="sticky-col first-col load_cell">Q2</th>
-                    <th  class="sticky-col first-col load_cell">Q3</th>
-                    <th  class="sticky-col first-col load_cell">Q4</th>
-                    <th  class="sticky-col first-col load_cell">Q1</th>
-                    <th  class="sticky-col first-col load_cell">Q2</th>
-                    <th  class="sticky-col first-col load_cell">Q3</th>
-                    <th  class="sticky-col first-col load_cell">Q4</th>
-                </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="sticky-col first-col-fix fixed-col">Product Owner</td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-              </tr>
-              <tr>
-                <td class="sticky-col first-col-fix fixed-col">Proxy PO</td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-              </tr>
-              <tr>
-                <td class="sticky-col first-col-fix fixed-col">IT Leader 1</td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-              </tr>
-              <tr>
-                <td class="sticky-col first-col-fix fixed-col">IT Leader 2</td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-              </tr>
-              <tr>
-                <td class="sticky-col first-col-fix fixed-col">IT Front</td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-              </tr>
-              <tr>
-                <td class="sticky-col first-col-fix fixed-col">Dir. Data Science</td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-              </tr>
-              <tr>
-                <td class="sticky-col first-col-fix fixed-col">Project Manager</td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-                <td class="load_cell"><input class="load_cell_ip"></td>
-              </tr>
 
-            </tbody>
-          </table>
+
+<!--                        <colgroup><col span="{{span_buildend_list}}" ><col span="3" style="visibility:collapse;"></colgroup>-->
+
+<!--                      <colgroup><col span="5" ><col span="4" ><col span="{{span_buildend_list}}" style="visibility:collapse;"></colgroup>-->
+<!--                      <colgroup><col span="5" ><col span="4" ><col span="4" ><col span="{{span_buildend_list}}" style="visibility:collapse;"></colgroup>-->
+                      <thead>
+                        <tr>
+                            <th class="sticky-col first-col-fix fixed-col" style="margin-left:20px;">Roles</th>
+                            <th colspan="4" class="load_cell_th">Year {{start_date_year}}</th>
+                            {% for r in totalyear_loop %}
+                              <th colspan="4" class="load_cell_th" id="year_{{r}}">Year {{r}}</th>
+    <!--                          <th colspan="4" class="load_cell_th">Year {{end_date_year}}</th>-->
+                            {% endfor %}
+                        </tr>
+                        <tr id="lock">
+                            <th  class="sticky-col first-col-fix fixed-col" style="height:10px;background-color: #121010;border-color: black; border-radius: 0px;">&nbsp;</th>
+                            {% for i in list_count %}
+                            <th class="displayText sticky-col first-col load_cell" style="width:150px;" id="displayText_{{i}}"></th>
+                            {% endfor %}
+<!--                            <th class="displayText sticky-col first-col load_cell" style="width:100px;" id="displayText">Jan</th>-->
+
+                        </tr>
+                        <tr>
+                            <th  class="sticky-col first-col-fix fixed-col" style="background-color: #121010;border-color: black; border-radius: 0px;">&nbsp;</th>
+                            {% for i in list_count %}
+                                <th id="{{i}}" class="sticky-col first-col load_cell" style="cursor:pointer;" onclick="month(('{{i}}'))">Q{{i}}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                    {% for i in role %}
+                        <th class="sticky-col first-col-fix fixed-col" style="z-index:-1;"><input value="{{i}}" id="role_{{i}}" name="role" style="color:white; border:none; width: 54px;" class="sticky-col first-col-fix fixed-col"></th>
+                        {% for cell in list %}
+                            <td class="load_cell" id="cell" ><input type="number" class="form-control load_cell_ip" id="cell_{{i}}_{{cell}}" name="{{i}}_{{cell}}" min="0" max="66" ></td>
+                        {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+            <div class="footer"  style="margin-left:-500px; width:150%">
+                <!--    <div style="width:50%; float:left; text-align:center; margin-top:5px; ">-->
+                <!--        <button type="button" onclick="history.back()" style="display: none; color:Black;" id="back-btn" ></button>-->
+                <!--        <a href="#" style="color:#4FAFA2; "><img src="static/assets/img/back_button.png" style="margin-right:10px;" onclick="document.getElementById('back-btn').click()"  alt="Back"/>BACK</a>-->
+                <!--    </div>-->
+                <!--    <div style="float:right; width:100%; margin-top:5px; " >-->
+                <!--        <button type="submit" class="nebtn" style="width:10%; border-radius:4px;"><b  style="width:110px;">SAVE & CONTINUE</b></button>-->
+                <!--    </div>-->
+                <div style=" width:10%;   margin-top:5px; padding-left:1050px;" >
+                    <button type="submit" class="save" style="width:150px; text-align:end; border-radius:4px;  "><b class="continue" style="width:140px;">SAVE & CONTINUE</b></button>
+                </div>
+
+            </div>
+
+            <!---------------------Run Table  ------------------------>
+            <div id="Run" class="load_view city" style="display:none;margin-left:20px;width: auto;margin-top: 5px;">
+              <div class="load_wrapper">
+                <table class="load_table">
+                    {% if span_build_list_run > 0 %}
+                        <colgroup><col span="1" ><col span="{{span_build_list_run}}" style="visibility:collapse;"></colgroup>
+                    {% endif %}
+                  <thead>
+                      <tr>
+                          <th class="sticky-col first-col-fix fixed-col">Roles</th>
+                          <th colspan="4" class="load_cell_th">Year {{start_date_year_run}}</th>
+                          {% for r in totalyear_loop_run %}
+                            <th colspan="4" class="load_cell_th">Year {{r}}</th>
+                          {% endfor %}
+    <!--                      <th colspan="4" class="load_cell_th">Year 2022</th>-->
+
+                      </tr>
+                      <tr>
+                          <th  class="sticky-col first-col-fix fixed-col" style="background-color: #121010;border-color: black; border-radius: 0px;">&nbsp;</th>
+                          {% for i in list_run %}
+                            <th  class="sticky-col first-col load_cell">Q{{i}}</th>
+                          {% endfor %}
+                      </tr>
+                  </thead>
+                  <tbody>
+                  {% for role_list in role %}
+                    <tr>
+                      <th class="sticky-col first-col-fix fixed-col" style="z-index:-1;">{{role_list}}</th>
+                        {% for run_list in list_run %}
+                            <td class="load_cell"><input type="number" class="load_cell_ip" id="cell_{{run_list}}" name="run{{role_list}}_{{run_list}}" min="0" max="66" ></td>
+                        {% endfor %}
+                    </tr>
+                  {% endfor %}
+
+<!--                <tr>-->
+<!--                  <td class="sticky-col first-col-fix fixed-col" style="z-index:-1;">Proxy PO</td>-->
+<!--                    {% for i in list_run %}-->
+<!--                         <td class="load_cell"><input class="load_cell_ip"></td>-->
+<!--                    {% endfor %}-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                  <td class="sticky-col first-col-fix fixed-col" style="z-index:-1;">IT Leader 1</td>-->
+<!--                    {% for i in list_run %}-->
+<!--                        <td class="load_cell"><input class="load_cell_ip"></td>-->
+<!--                    {% endfor %}-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                  <td class="sticky-col first-col-fix fixed-col" style="z-index:-1;">IT Leader 2</td>-->
+<!--                    {% for i in list_run %}-->
+<!--                        <td class="load_cell"><input class="load_cell_ip"></td>-->
+<!--                    {% endfor %}-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                  <td class="sticky-col first-col-fix fixed-col" style="z-index:-1;">IT Front</td>-->
+<!--                    {% for i in list_run %}-->
+<!--                        <td class="load_cell"><input class="load_cell_ip"></td>-->
+<!--                    {% endfor %}-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                  <td class="sticky-col first-col-fix fixed-col" style="z-index:-1;">Dir. Data Science</td>-->
+<!--                    {% for i in list_run %}-->
+<!--                        <td class="load_cell"><input class="load_cell_ip"></td>-->
+<!--                    {% endfor %}-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                  <td class="sticky-col first-col-fix fixed-col" style="z-index:-1;">Project Manager</td>-->
+<!--                    {% for i in list_run %}-->
+<!--                         <td class="load_cell"><input class="load_cell_ip"></td>-->
+<!--                    {% endfor %}-->
+<!--                </tr>-->
+
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+        </form>
+
+        <div style="padding-bottom: 155px; margin-top:20px; width: 100%;">
         </div>
 
     </div>
-    <!---------------------Run Table  ------------------------>
-    <div id="Run" class="load_view city" style="display:none;margin-left:20px;width: auto;margin-top: 5px;">
-      <div class="load_wrapper">
-        <table class="load_table">
-          <thead>
-              <tr>
-                  <th class="sticky-col first-col-fix fixed-col">Roles</th>
-                  <th colspan="4" class="load_cell_th">Year 2020</th>
-                  <th colspan="4" class="load_cell_th">Year 2021</th>
-                  <th colspan="4" class="load_cell_th">Year 2022</th>
-
-              </tr>
-              <tr>
-                  <th  class="sticky-col first-col-fix fixed-col" style="background-color: #121010;border-color: black; border-radius: 0px;">&nbsp;</th>
-                  <th  class="sticky-col first-col load_cell">Q1</th>
-                  <th  class="sticky-col first-col load_cell">Q2</th>
-                  <th  class="sticky-col first-col load_cell">Q3</th>
-                  <th  class="sticky-col first-col load_cell">Q4</th>
-                  <th  class="sticky-col first-col load_cell">Q1</th>
-                  <th  class="sticky-col first-col load_cell">Q2</th>
-                  <th  class="sticky-col first-col load_cell">Q3</th>
-                  <th  class="sticky-col first-col load_cell">Q4</th>
-                  <th  class="sticky-col first-col load_cell">Q1</th>
-                  <th  class="sticky-col first-col load_cell">Q2</th>
-                  <th  class="sticky-col first-col load_cell">Q3</th>
-                  <th  class="sticky-col first-col load_cell">Q4</th>
-              </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="sticky-col first-col-fix fixed-col">Product Owner</td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-            </tr>
-            <tr>
-              <td class="sticky-col first-col-fix fixed-col">Proxy PO</td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-            </tr>
-            <tr>
-              <td class="sticky-col first-col-fix fixed-col">IT Leader 1</td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-            </tr>
-            <tr>
-              <td class="sticky-col first-col-fix fixed-col">IT Leader 2</td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-            </tr>
-            <tr>
-              <td class="sticky-col first-col-fix fixed-col">IT Front</td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-            </tr>
-            <tr>
-              <td class="sticky-col first-col-fix fixed-col">Dir. Data Science</td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-            </tr>
-            <tr>
-              <td class="sticky-col first-col-fix fixed-col">Project Manager</td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-              <td class="load_cell"><input class="load_cell_ip"></td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-    <div id="footer">
-        <button type="submit" class="nebtn" style="width:120px;border-radius:4px; "><b  style="width:110px;">SAVE & CONTINUE</b></button>
-    </div>
-
 
 
 </div>
+
 {% endblock %}
 </html>
