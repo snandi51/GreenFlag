@@ -51,7 +51,7 @@ def projectA(request):
 
     if request.method == 'POST':
         start_date_build = request.POST.get('start_date_build')
-        end_date_build = request.POST.get('start_date_build')
+        end_date_build = request.POST.get('end_date_build')
         start_date_run = request.POST.get('start_date_run')
         end_date_run = request.POST.get('end_date_run')
         pl_1 = request.POST.get('pl_1')
@@ -105,6 +105,13 @@ def projectA(request):
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        get_all_years = get_year(request, start_date_build, end_date_build, start_date_run, end_date_run)
+        current_year = str(datetime.now()).split('-')[0]
+        phase = get_current_phase(request, get_all_years, current_year)
+        print(get_all_years)
+        print(phase)
+        request.session['current_phase'] = phase
         ProjectDetails_db = ProjectDetails.objects.all()
         print(ProjectDetails_db)
 
@@ -122,7 +129,7 @@ def projectA(request):
                                                   whichindustrialequipment=separate_WhichIndustrialEquipment,
                                                   buconcerned=bu,
                                                   projectstatus=ps,
-                                                  phasetype=ps,
+                                                  phasetype=phase,
                                                   buildstartdate=start_date_build,
                                                   buildenddate=end_date_build,
                                                   runstartdate=start_date_run,
@@ -169,6 +176,52 @@ def company_detail(request):
     return render(request, 'company_detail.html')
 
 
+def get_year(request, build_start_date, build_end_date, run_start_date, run_end_date):
+    # import ipdb
+    # ipdb.set_trace()
+    build_start_date_year = build_start_date.split('-')[0]
+    build_end_date_year = build_end_date.split('-')[0]
+    run_start_date_year = run_start_date.split('-')[0]
+    run_end_date_year = run_end_date.split('-')[0]
+
+    return build_start_date_year, build_end_date_year, run_start_date_year, run_end_date_year
+
+
+def get_current_phase(request, all_years, current_year):
+
+    build_start_year = all_years[0]
+    build_end_year = all_years[1]
+
+    run_start_year = all_years[2]
+    run_end_year = all_years[3]
+
+    current_year = current_year
+
+    build_year_list = []
+
+    get_build_num_of_year = int(build_end_year) - int(build_start_year)
+    for i in range(get_build_num_of_year + 1):
+        build_year_list.append(int(build_start_year) + i)
+
+    print('Build Year list: ', build_year_list)
+
+    run_year_list = []
+
+    get_run_num_of_year = int(run_end_year) - int(run_start_year)
+    for i in range(get_run_num_of_year + 1):
+        run_year_list.append(int(run_start_year) + i)
+
+    print('Run Year list: ', run_year_list)
+
+    if int(current_year) in build_year_list:
+        phase = 'Build Phase'
+    else:
+        phase = 'Run Phase'
+
+    print('Current Phase is: ', phase)
+
+    return phase
+
 def emission_lib(request):
     i = [1, 2]
     get_emission_library = get_emission_library_data(request)
@@ -181,7 +234,7 @@ def emission_lib(request):
 
 
 def datacenter_network(request):
-    i = [1, 2, 3, 4];
+    i = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     context = {
         'i': i,
     }
@@ -228,7 +281,12 @@ def indirect_impact_wt(request):
 
 
 def test_graph(request):
-    return render(request, 'temp.html')
+    get_emission_library = get_emission_library_data(request)
+    context = {
+        'progress_bar': True,
+        'emission_library_list': get_emission_library
+    }
+    return render(request, 'temp.html', context)
 
 
 def get_session_data(request):

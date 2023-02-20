@@ -50,7 +50,43 @@ tr:nth-child() {
 }
 </style>
 
-<script src="multiselect.min.js"></script>
+<style>
+    input:focus, textarea:focus, select:focus{
+        outline: none;
+        border: none;
+    }
+</style>
+
+
+<script>
+function myNameSearchFunction() {
+  // Declare variables
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById('name_search_id');
+  console.log('Input text is: ', input.value);
+  filter = input.value.toUpperCase();
+  outer_div = document.getElementById('outer_div_1');
+  console.log('Outer div is: ', table);
+  table = outer_div.getElementsByTagName('div');
+  console.log('Inner div is: ', table);
+  tr = table;
+
+  console.log('Label is: ', tr);
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = '';
+      } else {
+        tr[i].style.display = 'none';
+      }
+    }
+  }
+}
+</script>
 
 <script>
     function openCity(evt, cityName) {
@@ -145,74 +181,128 @@ tr:nth-child() {
         <div id="Build" class="w3-container city " style="overflow-x:auto; width:94%;  display:block; ">
             <div class="div_class_5" style=" border-collapse: collapse; margin-top:20px; ">
                 <div class="name_div" style="position:sticky;">
+                    <div class="name_1">
+                        Name
+                    </div>
+                    <div class="search_box" style="right:5px; ">
+                        <input class="input_search_1" id="name_search_id" onkeyup="myNameSearchFunction()" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png">
+                    </div>
+                </div>
+                <div class="impact_type_div">
+                    <div class="name_1">
+                        Type of Impact
+                    </div>
+                    <div class="header_table" style="position:relative; width:130%; margin-top:5px; left:30px; ">
+                        <button id="nav_button_3" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openPhase(event, 'Direct');"  style="font-size: 12px; color: #ADB5BD; width:40%; box-sizing: border-box; border-radius: 50px; border: 1px solid #6C757D; background: #34373D;" name="direct" value="0" >Direct Impact</button>
+                        <button id="nav_button_4" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openPhase(event, 'Indirect');" style="font-size: 12px; color: #ADB5BD; width:40%; box-sizing: border-box; border-radius: 50px; border: 1px solid #6C757D; background: #34373D;" name="indirect" value="1">Indirect Impact</button>
+                    </div>
+                </div>
+                <div class="category_div">
+                    <div class="name_1">
+                        Category
+                    </div>
+                    <div class="search_box">
+                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+                <div class="sub_category_div" >
+                    <div class="name_1">
+                        Sub-category
+                    </div>
+                    <div class="search_box">
+                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+                <div class="emission_fac_div">
+                    <div class="name_1">
+                        Lifecycle emission factor (Kg CO2e)
+                    </div>
+                </div>
+                <div class="lifespan_div">
+                    <div class="name_1">
+                        Lifecycle Stage Included
+                    </div>
+                    <div class="search_box">
+                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+                <div class="lifespan_div">
+                    <div class="name_1">
+                        Lifespan (Years)
+                    </div>
+                    <div class="search_box">
+                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
+                        <img src="static/assets/img/search_Icon.png" >
+                    </div>
+                </div>
+                <div class="footprint_div">
+                    <div class="name_1">
+                        Carbon footprint per
+                        day (KgCO2eq/day)
+                    </div>
+                </div>
+                <div class="footprint_div">
+                    <div class="name_1">
+                       Unit
+                    </div>
                 </div>
             </div>
             <form action="emission_lib"  method="post">
                 {% csrf_token %}
                 <!---------------------------------Input Parameters-------------------------------->
                 {% for item in emission_library_list %}
-                <div class="div_class_5" style="height:50px; width:100%; background-color:gray; ">
-                    <div class="para_1" style=" height:50px; position:sticky;">
+                <div class="div_class_5" style="height:50px; width:100%; background-color:gray; " id="outer_div_1">
+                    <div class="para_1" id="para_1" style=" height:50px; position:sticky;">
                         <div class="cal_class">
                             {{item.name}}
                         </div>
                     </div>
-                    <div  class="para_2" style=" height:50px;">
+                    <div  class="para_2" id="para_2" style=" height:50px;">
                         <!--                            <div id="Direct" style="display:block;">-->
-                        <div class="cal_class">
+                        <label class="cal_class">
                             {{item.typeofimpact}}
-                        </div>
+                        </label>
                         <!--                            </div>-->
                     </div>
 
-                    <div class="para_1" style="height:50px;">
-                        <div class="cal_class">
+                    <div class="para_1" id="para_3" style="height:50px;">
+                        <label class="cal_class">
                             {{item.category}}
-                        </div>
+                        </label>
                     </div>
-                    <div class="para_1" style="height:50px;">
-                          <div class="cal_class">
+                    <div class="para_1" id="para_4" style="height:50px;">
+                          <label class="cal_class">
                              {{item.subcategory}}
-                        </div>
+                        </label>
                     </div>
-                    <div class="para_1" style="height:50px;">
-                        <div class="cal_class">
-                            {{item.lcemissionfactor}}
-                        </div>
+                    <div class="para_1" id="para_5" style="height:50px;">
+                        <label class="cal_class">
+                            {{item.emissionfactor}}
+                        </label>
                     </div>
-                    <div class="para_1" style="height:50px;">
-                        <div class="cal_class">
+                    <div class="para_1" id="para_6" style="height:50px;">
+                        <label class="cal_class">
                             Placeholder
-                        </div>
+                        </label>
                     </div>
-                    <div class="para_1" style="height:50px;">
-                        <div class="cal_class">
+                    <div class="para_1" id="para_7" style="height:50px;">
+                        <label class="cal_class">
                            {{item.lifespanyrs}}
-                        </div>
+                        </label>
                     </div>
-                    <div class="para_1" style="height:50px;">
-                         <div class="cal_class">
+                    <div class="para_1" id="para_8" style="height:50px;">
+                         <label class="cal_class">
                              {{item.carbonfootprintperday}}
-                        </div>
+                        </label>
                     </div>
-                    <div class="para_1" style="height:50px;">
-                        <div class="cal_class">
+                    <div class="para_1" id="para_9" style="height:50px;">
+                        <label class="cal_class">
                             {{item.unit}}
-                        </div>
-                    </div>
-                    <div class="para_1" style="height:50px;">
-                        <div class="cal_class">
-                           {{item.yearpublished}}
-                        </div>
-                    </div>
-                    <div class="para_1" style="height:50px;">
-                        <select id='testSelect1' style="border:none; color: #CED4DA; width:100%; background:transparent;">
-                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_a'>Project A</option>
-                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_b'>Project B</option>
-                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_c'>Project C</option>
-                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_d'>Project D</option>
-                            <option style="border:none; color: #CED4DA; width:100%; background:#1A1D23;" value='Project_e'>Project E</option>
-                        </select>
+                        </label>
                     </div>
                 </div>
                 {% endfor %}
@@ -221,9 +311,9 @@ tr:nth-child() {
         </div>
 
 
-        <div id="Run" class="w3-container city"  style="width:90%; overflow-x: auto; display:none; text-align: center; margin-top:20px; height: 400px;">
+        <div id="Run" class="w3-container city"  style="width:95%; overflow-x: auto; display:none; text-align: center; margin-top:20px; height: 400px;">
             <div>
-                <div class="Add_new_row" style="margin-left:20px;">
+                <div class="Add_new_row" style="margin-left:15px;">
                     <button class="content_button_row" onclick="myFunction()" type="button">+ ADD ROW</button>
                 </div>
                 <div class="delete_row">
@@ -303,7 +393,7 @@ tr:nth-child() {
                 </div>
                 <div class="year_div">
                     <div class="name_1">
-                        Year
+                        Unit
                     </div>
                     <div class="search_box">
                         <input class="input_search_1" type="text" placeholder="Search..." name="search">
@@ -319,69 +409,66 @@ tr:nth-child() {
             <form action="emission_lib"  method="post">
                 {% csrf_token %}
                 <!---------------------------------Input Parameters-------------------------------->
-                {% for r in i %}
+                {% for i in emission_library_list %}
                 <div id="table_row" class="div_class_11" style="height:100px; width:100%; ">
                     <div class="checkbox_1" style="border-radius:0px 0px 0px 0px; height:100px;">
                         <input type="checkbox" class="form-check-input" id="two" name="proxy" style=" height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                         <!--                        <img class="check_11" src="static/assets/img/check_box.png">-->
                         <!--                    <i class="fa fa-square-o" aria-hidden="true"></i>-->
                     </div>
-                    <div class="para_1" style="height:100px; position:sticky;">
-                        <input class="para_text" type="text" placeholder="parameter" >
+                    <div class="para_1" style=" height:100px; position:sticky;">
+                        <div class="cal_class">
+                            {{i.name}}
+                        </div>
                     </div>
-                    <div class="para_2" style="height:100px;">
-                        <select class="select_para_1" id ="ddl" name="ddl" onchange="graph(this.value)">
-                            <option value='1'>parameter</option>
-                            <option value='2'>Quarter</option>
-                            <option value='3'>Month</option>
-                        </select>
+                    <div  class="para_2" style=" height:100px;">
+                        <!--                            <div id="Direct" style="display:block;">-->
+                        <div class="cal_class">
+                            {{i.typeofimpact}}
+                        </div>
+                        <!--                            </div>-->
                     </div>
-                    <div class="para_1" style="height:100px;">
-                        <select class="select_para_1" id ="ddl" name="ddl" onchange="graph(this.value)">
-                            <option value='1'>parameter</option>
-                            <option value='2'>Quarter</option>
-                            <option value='3'>Month</option>
-                        </select>
-                    </div>
-                    <div class="para_1" style="height:100px;">
-                        <select class="select_para_1" id ="ddl" name="ddl" onchange="graph(this.value)">
-                            <option value='1'>parameter</option>
-                            <option value='2'>Quarter</option>
-                            <option value='3'>Month</option>
-                        </select>
-                    </div>
+
                     <div class="para_1" style="height:100px;">
                         <div class="cal_class">
-                            0.124323
+                            {{i.category}}
                         </div>
                     </div>
                     <div class="para_1" style="height:100px;">
-                        <select class="select_para_1" id ="ddl" name="ddl" onchange="graph(this.value)">
-                            <option value='1'>parameter</option>
-                            <option value='2'>Quarter</option>
-                            <option value='3'>Month</option>
-                        </select>
-                    </div>
-                    <div class="para_1" style="height:100px;">
-                        <input class="para_text" type="text" placeholder="parameter" >
-                    </div>
-                    <div class="para_1" style="height:100px;">
-                        <div class="cal_class">
-                            0.124323
+                          <div class="cal_class">
+                             {{i.subcategory}}
                         </div>
                     </div>
                     <div class="para_1" style="height:100px;">
                         <div class="cal_class">
-                            2022
+                            {{i.emissionfactor}}
                         </div>
                     </div>
                     <div class="para_1" style="height:100px;">
-                        <select id='testSelect2' multiple style="border:none; color: #CED4DA; width:100%; background:transparent;">
-                            <option value='Project_a'>Project A</option>
-                            <option value='Project_b'>Project B</option>
-                            <option value='Project_c'>Project C</option>
-                            <option value='Project_d'>Project D</option>
-                            <option value='Project_e'>Project E</option>
+                        <div class="cal_class">
+                            Placeholder
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:100px;">
+                        <div class="cal_class">
+                           {{i.lifespanyrs}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:100px;">
+                         <div class="cal_class">
+                             {{i.carbonfootprintperday}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:100px;">
+                        <div class="cal_class">
+                            {{i.unit}}
+                        </div>
+                    </div>
+                    <div class="para_1" style="height:100px;">
+                        <select class="cal_class" style="text-decoration: none; background-color: transparent;">
+                           <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
                         </select>
                     </div>
                 </div>

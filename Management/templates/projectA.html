@@ -15,9 +15,22 @@
 }
 </style>
 
+<style>
+    input:focus, textarea:focus, select:focus{
+        outline: none;
+    }
+</style>
+
+<script>
+    window.onload = function() {
+        active_tab();
+    }
+</script>
+
 <script>
     function toggleText1(){
         var myText=document.getElementById('info1');
+        var project_duration_id = document.getElementById('project_duration_id');
         var project_details_sidebar_option1 = document.getElementById('project_details_sidebar_option1');
         var project_details_sidebar_icon_option1 = document.getElementById('project_details_sidebar_icon_option1')
         var change_toggle_onclick_down1 = document.getElementById('change_toggle_onclick_down1')
@@ -29,6 +42,7 @@
             change_toggle_onclick_down1.className = 'fa fa-chevron-up';
             project_details_sidebar_icon_option1.style.color = '#3D8588';
             project_details_sidebar_option1.style.color = '#3D8588';
+            project_duration_id.style.color = '#4FAFA2';
             info1_header.scrollIntoView();
 
             myText.style.transitionDuration = '2s';
@@ -41,12 +55,14 @@
             project_details_sidebar_icon_option1.style.color = '#6C757D';
             project_details_sidebar_option1.style.color = '#6C757D';
             change_toggle_onclick_down1.className = 'fa fa-angle-down';
+            project_duration_id.style.color = '#ADB5BD';
             info1_header.scrollIntoView();
         }
     }
 
     function toggleText2(){
-        var change_toggle_onclick_down2 = document.getElementById('change_toggle_onclick_down2')
+        var change_toggle_onclick_down2 = document.getElementById('change_toggle_onclick_down2');
+        var project_details_id = document.getElementById('project_details_id');
         var project_details_sidebar_option2 = document.getElementById('project_details_sidebar_option2');
         var project_details_sidebar_icon_option2 = document.getElementById('project_details_sidebar_icon_option2')
         var myText_2=document.getElementById("info2");
@@ -58,6 +74,7 @@
             change_toggle_onclick_down2.className = 'fa fa-chevron-up';
             project_details_sidebar_icon_option2.style.color = '#3D8588';
             project_details_sidebar_option2.style.color = '#3D8588';
+            project_details_id.style.color = '#4FAFA2';
             info2_header.scrollIntoView();
         }
         else{
@@ -65,12 +82,14 @@
             change_toggle_onclick_down2.className = 'fa fa-angle-down';
             project_details_sidebar_icon_option2.style.color = '#6C757D';
             project_details_sidebar_option2.style.color = '#6C757D';
+            project_details_id.style.color = '#ADB5BD';
             info2_header.scrollIntoView();
         }
     }
 
     function toggleText3(){
-        var change_toggle_onclick_down3 = document.getElementById('change_toggle_onclick_down3')
+        var change_toggle_onclick_down3 = document.getElementById('change_toggle_onclick_down3');
+        var project_roles_id = document.getElementById('project_roles_id');
         var project_details_sidebar_option3 = document.getElementById('project_details_sidebar_option3');
         var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3')
         var myText_3=document.getElementById("info3");
@@ -82,6 +101,7 @@
             change_toggle_onclick_down3.className = 'fa fa-chevron-up';
             project_details_sidebar_icon_option3.style.color = '#3D8588';
             project_details_sidebar_option3.style.color = '#3D8588';
+            project_roles_id.style.color = '#4FAFA2';
             info3_header.scrollIntoView();
         }
         else{
@@ -89,12 +109,14 @@
             change_toggle_onclick_down3.className = 'fa fa-angle-down';
             project_details_sidebar_icon_option3.style.color = '#6C757D';
             project_details_sidebar_option3.style.color = '#6C757D';
+            project_roles_id.style.color = '#ADB5BD';
             info3_header.scrollIntoView();
         }
     }
 
     function toggleText4(){
-        var change_toggle_onclick_down4 = document.getElementById('change_toggle_onclick_down4')
+        var change_toggle_onclick_down4 = document.getElementById('change_toggle_onclick_down4');
+        var direct_impact_id = document.getElementById('direct_impact_id');
         var project_details_sidebar_option4 = document.getElementById('project_details_sidebar_option4');
         var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4')
         var myText_4=document.getElementById('info4');
@@ -106,6 +128,7 @@
             change_toggle_onclick_down4.className = 'fa fa-chevron-up';
             project_details_sidebar_icon_option4.style.color = '#3D8588';
             project_details_sidebar_option4.style.color = '#3D8588';
+            direct_impact_id.style.color = '#4FAFA2';
             info4_header.scrollIntoView();
         }
         else{
@@ -113,12 +136,14 @@
             change_toggle_onclick_down4.className = 'fa fa-angle-down';
             project_details_sidebar_icon_option4.style.color = '#6C757D';
             project_details_sidebar_option4.style.color = '#6C757D';
+            direct_impact_id.style.color = '#ADB5BD';
             info4_header.scrollIntoView();
         }
     }
 
     function toggleText5(){
-        var change_toggle_onclick_down5 = document.getElementById('change_toggle_onclick_down5')
+        var change_toggle_onclick_down5 = document.getElementById('change_toggle_onclick_down5');
+        var indirect_impact_id = document.getElementById('indirect_impact_id');
         var project_details_sidebar_option5 = document.getElementById('project_details_sidebar_option5');
         var project_details_sidebar_icon_option5 = document.getElementById('project_details_sidebar_icon_option5')
         var myText_5=document.getElementById("info5");
@@ -130,6 +155,7 @@
             change_toggle_onclick_down5.className = 'fa fa-chevron-up';
             project_details_sidebar_icon_option5.style.color = '#3D8588';
             project_details_sidebar_option5.style.color = '#3D8588';
+            indirect_impact_id.style.color = '#4FAFA2';
             info5_header.scrollIntoView();
         }
         else{
@@ -137,6 +163,7 @@
             change_toggle_onclick_down5.className = 'fa fa-angle-down';
             project_details_sidebar_icon_option5.style.color = '#6C757D';
             project_details_sidebar_option5.style.color = '#6C757D';
+            indirect_impact_id.style.color = '#ADB5BD';
             info5_header.scrollIntoView();
         }
     }
@@ -399,7 +426,7 @@
         <div class="header_div">
             <div id="info1_header" class="header_project_a">
                 <div>
-                    <input id="auto_focus" name="name" style=" background: transparent; border: none; border: 0px; color: #CED4DA; font-size: 28px; font-weight: 500" value="Project A"></input>
+                    <input id="auto_focus" name="name" style=" background: transparent; border: none; border: 0px; color: #CED4DA; font-size: 28px; font-weight: 500" placeholder="Project Name" required></input>
                     <div class="img_pencil">
                         <a style="cursor: pointer;" onclick="focus_input()"><img src="static/assets/img/project_a_pencil.png" height="25" width="25" autofocus></a>
                     </div>
@@ -417,8 +444,8 @@
                     <img src="static/assets/img/project_duration.png" height="28" width="28" style="top:130px;">
 <!--                    <i class="fa fa-clock-o"aria-hidden="true" style="top:130px;"></i>-->
                 </div>
-                <div class="sub_header" style="float:center; width: 90%; ">
-                    <p>Project Duration</p>
+                <div class="sub_header" style="float:center; width: 90%; cursor: pointer" onclick="toggleText1()" data-toggle="tooltip" data-placement="bottom" title="Tooltip">
+                    <p id="project_duration_id">Project Duration</p>
                 </div>
                 <div class="img_class_toggle" id="img_class_toggle1" onclick="toggleText1()" style="left: 640px; width: 5%; position: absolute;">
                     <i class="fa fa-angle-down" id="change_toggle_onclick_down1" aria-hidden="true"></i>
@@ -430,11 +457,11 @@
                           <div class="div_class_1">
                             <div  style="width:100%">
                                 <label class="start_date" style="padding-bottom: 12px;">Start Date</label>
-                                <input type="date" placeholder="DD/MM/YYYY" id="start_date_build" name="start_date_build" style="padding:10px; width:100%; height:30px; font-size: 14px; text-color: #6C757D; background:transparent ;color:#6C757D; color-scheme: dark; border: 1px solid #6C757D; border-radius: 4px;">
+                                <input type="date" placeholder="DD/MM/YYYY" id="start_date_build" name="start_date_build" style="padding:10px; width:100%; height:30px; font-size: 14px; text-color: #6C757D; background:transparent ;color:#6C757D; color-scheme: dark; border: 1px solid #6C757D; border-radius: 4px;" required>
                             </div>
                             <div style=" width:100%; text-align:center; text-color: #6C757D;">
                                 <label class="start_date" style="padding-bottom: 12px;">End Date</label>
-                                <input type="date" placeholder="DD/MM/YYYY" id="end_date_build" name="end_date_build" style="padding:10px; color-scheme: dark; height:30px; width:100%; font-size: 14px;  background:transparent; color:#6C757D; border: 1px solid #6C757D; border-radius: 4px;">
+                                <input type="date" placeholder="DD/MM/YYYY" id="end_date_build" name="end_date_build" style="padding:10px; color-scheme: dark; height:30px; width:100%; font-size: 14px;  background:transparent; color:#6C757D; border: 1px solid #6C757D; border-radius: 4px;" required>
                             </div>
                           </div>
                         </div>
@@ -445,11 +472,11 @@
                             <div class="div_class_1">
                                 <div  style="width:100%">
                                     <label class="start_date" style="padding-bottom: 12px;">Start Date</label>
-                                    <input type="date" placeholder="DD/MM/YYYY" id="start_date_run" name="start_date_run" style="padding:10px; color-scheme: dark; width:100%; height:30px; font-size: 14px; text-color: #6C757D; background:transparent; color:#6C757D; border: 1px solid #6C757D; border-radius: 4px;">
+                                    <input type="date" placeholder="DD/MM/YYYY" id="start_date_run" name="start_date_run" style="padding:10px; color-scheme: dark; width:100%; height:30px; font-size: 14px; text-color: #6C757D; background:transparent; color:#6C757D; border: 1px solid #6C757D; border-radius: 4px;" required>
                                 </div>
                                 <div style=" width:100%; text-align:center; text-color: #6C757D;">
                                     <label class="start_date" style="padding-bottom: 12px;">End Date</label>
-                                    <input type="date" placeholder="DD/MM/YYYY" id="end_date_run" name="end_date_run" style="padding:10px; color-scheme: dark; height:30px; width:100%; font-size: 14px;  background:transparent; color:#6C757D; border: 1px solid #6C757D; border-radius: 4px;">
+                                    <input type="date" placeholder="DD/MM/YYYY" id="end_date_run" name="end_date_run" style="padding:10px; color-scheme: dark; height:30px; width:100%; font-size: 14px;  background:transparent; color:#6C757D; border: 1px solid #6C757D; border-radius: 4px;" required>
                                 </div>
                             </div>
                         </div>
@@ -461,8 +488,8 @@
                 <div class="img_head1" style="float:left; color: #ADB5BD;">
                     <img src="static/assets/img/project_details.png" height="25" width="22" style="top:130px; margin-top: 5px;">
                 </div>
-                <div id="info2_header" class="sub_header" style="float:center; ">
-                    <p>Project Details</p>
+                <div id="info2_header" class="sub_header" style="float:center; cursor: pointer" onclick="toggleText2()" data-toggle="tooltip" data-placement="bottom" title="Tooltip">
+                    <p id="project_details_id">Project Details</p>
                 </div>
                 <div class="img_class_toggle_2" onclick="toggleText2()" style="left:640px; position:relative; bottom:50px;">
                     <i class="fa fa-angle-down" id="change_toggle_onclick_down2" aria-hidden="true"></i>
@@ -510,8 +537,8 @@
                     <img src="static/assets/img/project_role1.png" height="25" width="22" style="top:130px; margin-top: 5px;">
 <!--                    <i class="fa fa-clock-o"aria-hidden="true" ></i>-->
                 </div>
-                <div class="sub_header" style="float:center; ">
-                    <p>Project Roles</p>
+                <div class="sub_header" style="float:center; cursor: pointer" onclick="toggleText3()" data-toggle="tooltip" data-placement="bottom" title="Tooltip">
+                    <p id="project_roles_id">Project Roles</p>
                 </div>
                 <div class="img_class_toggle_3" onclick="toggleText3()" style="left:640px; position:relative; bottom:50px;">
                     <i class="fa fa-angle-down" id="change_toggle_onclick_down3" aria-hidden="true" onclick="document.getElementById('info-btn3').click()" alt="Info"></i>
@@ -736,8 +763,8 @@
                     <img src="static/assets/img/direct_impact.png" height="25" width="22" style="top:130px; margin-top: 5px;">
 <!--                    <i class="fa fa-clock-o"aria-hidden="true" ></i>-->
                 </div>
-                <div class="sub_header" style="float:center; ">
-                    <p>Direct Impact Parameters</p>
+                <div class="sub_header" style="float:center; cursor: pointer" onclick="toggleText4()" data-toggle="tooltip" data-placement="bottom" title="Tooltip">
+                    <p id="direct_impact_id">Direct Impact Parameters</p>
                 </div>
                 <div class="img_class_toggle_3" onclick="toggleText4()" style="left:640px; position:relative; bottom:50px;">
                     <i class="fa fa-angle-down" id="change_toggle_onclick_down4" aria-hidden="true" onclick="document.getElementById('info-btn4').click()" alt="Info"></i>
@@ -817,8 +844,8 @@
                         <img src="static/assets/img/indirect_impact.png" height="25" width="22" style="top:130px; margin-top: 5px;">
     <!--                    <i class="fa fa-clock-o"aria-hidden="true" ></i>-->
                     </div>
-                    <div id="info5_header" class="sub_header" style="float:center; ">
-                        <p>Indirect Impact Parameters</p>
+                    <div id="info5_header" class="sub_header" style="float:center; cursor: pointer" onclick="toggleText5()" data-toggle="tooltip" data-placement="bottom" title="Tooltip">
+                        <p id="indirect_impact_id">Indirect Impact Parameters</p>
                     </div>
                     <div class="img_class_toggle_3" onclick="toggleText5()" style="left:640px; position:relative; bottom:50px;">
                         <i class="fa fa-angle-down" id="change_toggle_onclick_down5" aria-hidden="true" onclick="document.getElementById('info-btn5').click()" alt="Info"></i>
