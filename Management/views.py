@@ -5965,107 +5965,112 @@ def di_camera(request):
         }
         # import ipdb
         # ipdb.set_trace()
-
         if len(WhichUserEquipment)>=1:
-            match WhichUserEquipment[0]:
+            if WhichUserEquipment[0] == 'laptop':
+                WhichUserEquipment.pop(0)
+                return render(request,'di_laptop.html',context)
+            elif WhichUserEquipment[0] == 'pc':
+                WhichUserEquipment.pop(0)
+                return render(request,'di_pc.html',context)
+            elif WhichUserEquipment[0] == 'tablet':
+                WhichUserEquipment.pop(0)
+                return render(request,'di_tablet.html',context)
+            elif WhichUserEquipment[0] == 'telephone':
+                WhichUserEquipment.pop(0)
+                return render(request,'di_telephone.html',context)
+            elif WhichUserEquipment[0] == 'projector':
+                WhichUserEquipment.pop(0)
+                return render(request,'di_printer.html',context)
+            elif WhichUserEquipment[0] == 'monitor':
+                WhichUserEquipment.pop(0)
+                return render(request,'di_bt_speaker.html',context)
+            elif WhichUserEquipment[0] == 'Video':
+                WhichUserEquipment.pop(0)
+                return render(request,'di_projector.html',context)
+            else :
+                WhichUserEquipment.pop(0)
+                if len(WhichUserEquipment)>=1:
+                    return render(request,'di_monitor.html',context)
+                else:
+                    if len(WhichIndustrialEquipment)>=1:
 
-                case 'laptop':
-                    WhichUserEquipment.pop(0)
-                    return render(request,'di_laptop.html',context)
-                case 'pc':
-                    WhichUserEquipment.pop(0)
-                    return render(request,'di_pc.html',context)
-                case 'tablet':
-                    WhichUserEquipment.pop(0)
-                    return render(request,'di_tablet.html',context)
-                case 'telephone':
-                    WhichUserEquipment.pop(0)
-                    return render(request,'di_telephone.html',context)
-                case 'projector':
-                    WhichUserEquipment.pop(0)
-                    return render(request,'di_printer.html',context)
-                case 'monitor':
-                    WhichUserEquipment.pop(0)
-                    return render(request,'di_bt_speaker.html',context)
-                case 'Video':
-                    WhichUserEquipment.pop(0)
-                    return render(request,'di_projector.html',context)
-                case 'screen':
-                    WhichUserEquipment.pop(0)
-                    if len(WhichUserEquipment)>=1:
-                        return render(request,'di_monitor.html',context)
-                    else:
-                        if len(WhichIndustrialEquipment)>=1:
-
-                            match WhichIndustrialEquipment[0]:
-                                case 'drone':
-                                    WhichIndustrialEquipment.pop(0)
-                                    return render(request,'di_drone.html',context)
-                                case 'camera':
-                                    WhichIndustrialEquipment.pop(0)
-                                    return render(request,'di_camera.html',context)
-                                case 'sensor':
-                                    WhichIndustrialEquipment.pop(0)
-                                    return render(request,'di_connected_sensor.html',context)
-                                case 'lidar':
-                                    WhichIndustrialEquipment.pop(0)
-                                    return render(request,'di_lidar',context) 
-                                case 'lidar':
-                                    WhichIndustrialEquipment.pop(0)
-                                    return render(request,'di_raspberrypi.html',context)
-                            return render(request, 'di_drone.html',context)
+                        if WhichIndustrialEquipment[0] == 'drone':
+                            WhichIndustrialEquipment.pop(0)
+                            return render(request,'di_drone.html',context)
+                        elif 'camera':
+                            WhichIndustrialEquipment.pop(0)
+                            return render(request,'di_camera.html',context)
+                        elif 'sensor':
+                            WhichIndustrialEquipment.pop(0)
+                            return render(request,'di_connected_sensor.html',context)
+                        elif 'lidar':
+                            WhichIndustrialEquipment.pop(0)
+                            return render(request,'di_lidar',context) 
+                        else :
+                            WhichIndustrialEquipment.pop(0)
+                            return render(request,'di_raspberrypi.html',context)
+                        return render(request, 'di_drone.html',context)
+                        
 
             return render(request, 'di_drone.html',context)
 
         elif len(WhichIndustrialEquipment)>=1:
 
-            match WhichIndustrialEquipment[0]:
-                case 'drone':
+            if len(WhichIndustrialEquipment)>=1:
+
+                if WhichIndustrialEquipment[0] == 'drone':
                     WhichIndustrialEquipment.pop(0)
                     return render(request,'di_drone.html',context)
-                case 'camera':
+                elif 'camera':
                     WhichIndustrialEquipment.pop(0)
                     return render(request,'di_camera.html',context)
-                case 'sensor':
+                elif 'sensor':
                     WhichIndustrialEquipment.pop(0)
                     return render(request,'di_connected_sensor.html',context)
-                case 'lidar':
+                elif 'lidar':
                     WhichIndustrialEquipment.pop(0)
                     return render(request,'di_lidar',context) 
-                case 'lidar':
+                else :
                     WhichIndustrialEquipment.pop(0)
                     return render(request,'di_raspberrypi.html',context)
+                return render(request, 'di_drone.html',context)
             return render(request, 'di_drone.html',context)
 
         else:
             if len(WhichParametersImplemented)>=1:
-                match WhichParametersImplemented[0]:
-                    case 'stationary_combustion':
-                        WhichParametersImplemented.pop(0)
-                        if len(WhichParametersImplemented)>=1:
-                            return render(request,'indirect_impact_fl.html',context)
-                        else:
-                            if len(WhichParametersImplemented)>=1:
-                                match WhichParametersImplemented[0]:
-                                    case 'mobile_combustion':
-                                        WhichParametersImplemented.pop(0)
-                                        return render(request,'indirect_impact_mc.html',context)
-                                    case 'electricity':
-                                        WhichParametersImplemented.pop(0)
-                                        return render(request,'indirect_impact_el.html',context)
-                                    case 'water':
-                                        WhichParametersImplemented.pop(0)
-                                        return render(request,'indirect_impact_wt.html',context) 
-                                    case 'paper':
-                                        WhichParametersImplemented.pop(0)
-                                        return render(request,'indirect_impact_paper.html',context)
-                                    case 'waste_material':
-                                        WhichParametersImplemented.pop(0)
-                                        return render(request,'indirect_impact_wt.html',context)
-                                    case 'raw_material':
-                                        WhichParametersImplemented.pop(0)
-
+                if WhichParametersImplemented[0] == 'stationary_combustion':
+                    WhichParametersImplemented.pop(0)
+                    if len(WhichParametersImplemented)>=1:
                         return render(request,'indirect_impact_fl.html',context)
+                    else:
+                        if len(WhichParametersImplemented)>=1:
+
+                            if WhichParametersImplemented[0] == 'stationary_combustion':
+                                WhichParametersImplemented.pop(0)
+                                return render(request,'indirect_impact_fl.html',context)
+                            elif 'mobile_combustion':
+                                WhichParametersImplemented.pop(0)
+                                return render(request,'indirect_impact_mc.html',context)
+                            elif 'electricity':
+                                WhichParametersImplemented.pop(0)
+                                return render(request,'indirect_impact_el.html',context)
+                            elif 'water':
+                                WhichParametersImplemented.pop(0)
+                                return render(request,'indirect_impact_wt.html',context) 
+                            elif 'paper':
+                                WhichParametersImplemented.pop(0)
+                                return render(request,'indirect_impact_paper.html',context)
+                            elif 'waste_material':
+                                WhichParametersImplemented.pop(0)
+                                return render(request,'indirect_impact_wt.html',context)
+                            else:
+                                WhichParametersImplemented.pop(0)
+
+                                return render(request,'indirect_impact_rm.html',context)
+                
+
+
+                    return render(request,'indirect_impact_fl.html',context)
 
                 return render(request, 'di_drone.html',context)
         
