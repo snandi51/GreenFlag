@@ -78,12 +78,11 @@ tr:nth-child() {
     }
 
 
-    function delete_complete(delete_complete_id){
+    function customise(){
         var main_div = document.getElementById('main_width');
-        var edit_project_popup_div = document.getElementById('delete_project_popup_div');
-        console.log('mark_complete_dropdown ID: ' + delete_complete_id)
+        var edit_project_popup_div = document.getElementById('custmise_popup_div');
         main_div.style.opacity = 0.5;
-        delete_project_popup_div.style.display = 'block';
+        custmise_popup_div.style.display = 'block';
     }
 
     function delete_take_me_back(){
@@ -166,7 +165,7 @@ tr:nth-child() {
                     <button id="nav_button_2" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Run');" style="color: #6C757D; border:none; background-color:transparent" name="run" value="1">Run</button>
                 </div>
                 <div style=" width:100%; text-align:end;">
-                    <button class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'customise');" style="color: #6C757D; border:none; background-color:transparent" name="customise" value="1"><p class="customize_button">Customise<img style="padding-left:5px;" src="static/assets/img/arrow_up.png"></p></button>
+                    <button class="btn btn-outline-secondary tablink w3-bottombar" onclick="customise()" style="color: #6C757D; border:none; background-color:transparent" name="customise" value="1"><p class="customize_button">Customise<img style="padding-left:5px;" src="static/assets/img/arrow_up.png"></p></button>
                 </div>
                 <div class="progress1">
                     <div class="progress2">
@@ -309,13 +308,13 @@ tr:nth-child() {
         <button onclick="delete_complete()" class="save" style="width:120px; text-align:end;   border-radius:4px;  "><b class="continue" style="width:100px;">Finish<img src="static/assets/img/right_tick.png" style="padding-left:8px;"></b></button>
     </div>
 </div>
-<div id="delete_project_popup_div" style="width: 500px; font-family: Ubuntu; display: none; margin-top: auto; height: 220px; left:40%; top: 35%; background-color: #34373D; z-index: 1; margin: 0 auto; position: fixed;">
-    <img src="static/assets/img/right_click_green.png" height="25" width="25" style="position: absolute; margin-top: 25px; margin-left: 25px;"><label style="font-size: 20px; color: #ADB5BD; padding: 20px; margin-left: 50px; width: 430px; font-family: Ubuntu; font-weight: 500">You have successfully added the project!</label>
-    <label style="font-size: 14px; color: #ADB5BD; margin-left: 40px; width: 420px; font-family: Ubuntu;">Would you like to view the results or go back to the my projects page?</label>
+<div id="custmise_popup_div" style="width: 493px; font-family: Ubuntu; display: none; margin-top: auto; height: 220px; left:40%; top: 35%; background-color: #34373D; z-index: 1; margin: 0 auto; position: fixed;">
+    <img src="static/assets/img/go_to.png" height="25" width="25" style="position: absolute; margin-top: 25px; margin-left: 25px;"><label style="font-size: 20px; color: #ADB5BD; padding: 20px; margin-left: 50px; width: 430px; font-family: Ubuntu; font-weight: 500">Do you want to customise emission factor?</label>
+    <label style="font-size: 14px; color: #ADB5BD; margin-left: 40px; width: 420px; font-family: Ubuntu;">You will be directed to emission factor library to add the custom emission factor</label>
     <div style="margin: 0 auto; display: inline;">
         <div style="margin: 0 auto; display: inline;">
-            <button class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 100px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent"><a style="color: #4FAFA2;" href="{% url 'projectA' %}">My Project</a></button>
-            <button class="action_btn cancel" style="font-size: 12px;  margin: 0 auto;  border: 2px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 100px; margin-left: 5px; height: 30px; color: #E6E9EE; border-color: #4FAFA2; background-color: #4FAFA2"><a href="{% url 'index' %}" style="color: #E6E9EE;">View Results</a></button>
+            <button class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 148px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent"><a style="color: #4FAFA2;" href="{% url 'Indirect_Impact' %}">No, take me back.</a></button>
+            <button class="action_btn cancel" style="font-size: 12px;  margin: 0 auto;  border: 2px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 54px; margin-left: 5px; height: 30px; color: #E6E9EE; border-color: #4FAFA2; background-color: #4FAFA2"><a href="{% url 'index' %}" style="color: #E6E9EE;">Yes</a></button>
         </div>
     </div>
 </div>

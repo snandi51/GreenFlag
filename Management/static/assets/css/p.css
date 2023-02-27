@@ -11,13 +11,6 @@
         /* White/White – Secondary */
         color: #CED4DA;
     }
-    .footer{
-        background: #C92CA2;
-        color: #fff;
-        font-family: 'Ubuntu';
-        font-style: normal;
-        margin-top: 570px;
-    }
     /* width */
     .load_wrapper::-webkit-scrollbar {
         width: 5px;
@@ -314,3 +307,66 @@
       position: fixed;
       float: right;
     }
+
+    /* .parent_drop {
+      display: block;
+      position: relative;
+      float: left;
+      line-height: 30px;
+      background-color:  #1A1D23;
+      
+      
+    }
+    
+    .parent_drop a {
+      margin: 10px;
+      color: #ADB5BD;
+      text-decoration: none;
+      z-index: 1;
+    }
+    
+    .parent_drop:hover>ul {
+      display: block;
+      position: absolute;
+      z-index: 1;
+    }
+    
+    .child_drop {
+      display: none;
+    }
+    
+    .child_drop li {
+      background-color:  #34373D;
+      line-height: 30px;
+      width: 100%;
+    }
+    
+    .child_drop li a {
+      color:#ADB5BD;;
+    }
+    
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0px;
+      min-width: 10em;
+    }
+    
+    ul ul ul {
+      left: 100%;
+      top: 0;
+      margin-left: 1px;
+    }
+    
+    li:hover {
+      background-color:#4FAFA2;
+    }
+    
+    .expand {
+      font-size: 12px;
+      float: right;
+      margin-right: 5px;
+    } */
+
+
+    

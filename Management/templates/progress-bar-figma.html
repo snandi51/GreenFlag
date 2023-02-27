@@ -526,12 +526,19 @@
         }
 
     }
+
+    function div(){
+        document.getElementById('key_fun').style.display = 'block';
+    }
+    function cancel(){
+        document.getElementById('key_fun').style.display = 'none';
+    }
 </script>
 <head>
     <meta charset="UTF-8">
 </head>
 <body class="body-class">
-{% if user.is_authenticated %}
+
     <nav class="navbar navbar-expand-lg custom-nav">
         <div class="custom-nav-box" style='height: 100%; width: 6%;'>
             <div class="toggle" style="text-align: center; padding: 22px 0; margin-left: -30px; cursor: pointer;" onclick="sideToggle()">
@@ -553,19 +560,19 @@
         </div>
         <div style='height: 100%; width: 10%; margin-left: auto; margin-right: 10px; position: relative;'>
             <div style="padding: 22px 0;">
-                {% if user.is_authenticated %}
+                
                 <div>
                     <ul>
                       <li><img src="static/assets/img/logout-gf.png"></li>
                       <li><a href="{% url 'logout' %}" class="nav-link scrollto logout-button">Logout</a></li>
                     </ul>
-                    {% endif %}
+                    
                 </div>
             </div>
         </div>
     </nav>
-    {% endif %}
-    {% if user.is_authenticated %}
+
+    
     <div class="navigation" style="position:absolute; overflow-x:hidden;">
       <ul>
           <li>
@@ -600,7 +607,79 @@
           </li>
       </ul>
     </div>
-    {% endif %}
+    
+    <div class="navigation" id="key_fun" style="position:absolute; overflow-x:hidden; display:none;">
+        <div style="width:100%; margin-top:20px;">
+            <div style="margin-left:10px; width:80%; font-family: 'Ubuntu'; font-weight: 500;color: #CED4DA; height: 32px; font-size: 24px; line-height: 32px; float:left;">
+                Key Figures
+            </div>
+            <div style="width:15%; float:right;">
+                <img src="static/assets/img/cancel.png" onclick="cancel()" style="cursor:pointer;" height="18" width="18">
+            </div>
+        </div>
+<!--        <div class="box_1" style="width:90%;">-->
+            <div style=" margin-left:10px; margin-top:80px; width: 90%; height:80px; border-radius: 8px; background: #1A1D23; border: 1px solid #6C757D; ">
+                <div style="width:100%; margin-left:20px; margin-top:10px;">
+                    <img src="static/assets/img/fig_key.png" height="18" width="18">
+                    <label style="margin-left:10px; font-family: 'Ubuntu'; font-style: normal; font-weight: 500; font-size: 12px; line-height: 20px; color:#3D8588;">Laptop</label>
+                </div>
+                <div style="float:left ; margin-top:5px; color:#ADB5BD; margin-left:20px; width: 110px; height:40px; font-weight: 700; font-size: 42px; line-height: 40px;">
+                    0.044
+                </div>
+                <div style="float:right; height:20px; margin-top:15px; margin-left:3px; margin-right:5px;">
+                    <label style="font-style: normal; font-family: 'Ubuntu';font-weight: 300; font-size: 20px; color: #ADB5BD;">kgCO2e</label>
+                </div>
+            </div>
+<!--        </div>-->
+<!--        <div class="box_1" style="width:90%; margin-left:10px; margin-top:20px;">-->
+            <div style=" width: 90%; height:80px; margin-left:10px; margin-top:20px; border-radius: 8px; background: #1A1D23; border: 1px solid #6C757D; ">
+                <div style="width:100%; margin-left:20px; margin-top:10px;">
+                    <img src="static/assets/img/fig_key.png" height="18" width="18">
+                    <label style="margin-left:10px; font-family: 'Ubuntu'; font-style: normal; font-weight: 500; font-size: 12px; line-height: 20px; color:#3D8588;">User Equipment</label>
+                </div>
+                <div style="float:left ; margin-top:5px; color:#ADB5BD; margin-left:20px; width: 110px; height:40px; font-weight: 700; font-size: 40px; line-height: 40px;">
+                    0.044
+                </div>
+                <div style="float:right; height:20px; margin-top:15px; margin-left:3px; margin-right:5px;">
+                    <label style="font-style: normal; font-family: 'Ubuntu';font-weight: 300; font-size: 20px; color: #ADB5BD;">kgCO2e</label>
+                </div>
+            </div>
+<!--        </div>-->
+<!--        <div class="box_1" style="width:90%; margin-left:10px; margin-top:20px;">-->
+            <div style=" width: 90%; height:80px; margin-left:10px; margin-top:20px; border-radius: 8px; background: #1A1D23; border: 1px solid #6C757D; ">
+                <div style="width:100%; margin-left:20px; margin-top:10px;">
+                    <img src="static/assets/img/fig_key.png" height="18" width="18">
+                    <label style="margin-left:10px; font-family: 'Ubuntu'; font-style: normal; font-weight: 500; font-size: 12px; line-height: 20px; color:#3D8588;">Direct Impact</label>
+                </div>
+                <div style="float:left ; margin-top:5px; color:#ADB5BD; margin-left:20px; width: 110px; height:40px; font-weight: 700; font-size: 40px; line-height: 40px;">
+                    0.044
+                </div>
+                <div style="float:right; height:20px; margin-top:15px; margin-left:3px; margin-right:5px;">
+                    <label style="font-style: normal; font-family: 'Ubuntu';font-weight: 300; font-size: 20px; color: #ADB5BD;">kgCO2e</label>
+                </div>
+            </div>
+<!--        </div>-->
+<!--        <div class="box_1" style="width:90%; margin-left:10px; margin-top:20px;">-->
+            <div style=" width: 90%; height:80px; margin-left:10px; margin-top:20px; border-radius: 8px; background: #1A1D23; border: 1px solid #6C757D; ">
+                <div style="width:100%; margin-left:20px; margin-top:10px;">
+                    <img src="static/assets/img/fig_key.png" height="18" width="18">
+                    <label style="margin-left:10px; font-family: 'Ubuntu'; font-style: normal; font-weight: 500; font-size: 12px; line-height: 20px; color:#3D8588;">Net Impact</label>
+                </div>
+                <div style="float:left ; margin-top:5px; color:#ADB5BD; margin-left:20px; width: 110px; height:40px; font-weight: 700; font-size: 40px; line-height: 40px;">
+                    0.044
+                </div>
+                <div style="float:right; height:20px; margin-top:15px; margin-left:3px; margin-right:5px;">
+                    <label style="font-style: normal; font-family: 'Ubuntu';font-weight: 300; font-size: 20px; color: #ADB5BD;">kgCO2e</label>
+                </div>
+            </div>
+<!--        </div>-->
+<!--        <div style="z-index:1; margin-top:20px; width: 272px; border-radius: 4px; background: #4FAFA2; height: 32px; padding: 8px 12px 8px 16px; gap: 8px; align-items: center;">-->
+<!--&lt;!&ndash;            <center>&ndash;&gt;-->
+<!--&lt;!&ndash;                <button type="submit" style="letter-spacing: 0.02em; text-transform: uppercase; background:none; border:none; color: white; font-size: 12px; line-height: 16px; font-family: 'Ubuntu'; margin-right:10px;">view detailed results</button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </center>&ndash;&gt;-->
+<!--        </div>-->
+        <button class="view_completed" style="margin-top:20px; z-index:999;"><span class="span" style="margin-left:40px; font-size:12px; width:80%;">view detailed results</span></button>
+    </div>
     <main id="main">
         <div class="main_width" style=" width: 250px;">
             <div class="project_a_outer static-font">
@@ -656,9 +735,10 @@
     <!--                        </li>-->
                         </ul>
                     </div>
-                    <div style="position: fixed; z-index: 1; align-text: center; margin-top: 40px;  margin-left: 32px; margin-top: 270px;">
-                        <a class="add_new_role" style="border-radius:4px; height: 25px; z-index: -1;"><b class="add_new_role_content" style="text-align: center; padding-left: 28px;">COMPUTE RESULTS</b></a>
+                    <div style="position: fixed; z-index: 1; align-text: center; margin-top: 40px;  margin-left: 32px; margin-top: 200px;">
+                        <a class="add_new_role" style="border-radius:4px; height: 25px; z-index: -1;"><b class="add_new_role_content" style="text-align: center; padding-left: 28px; cursor:pointer;" onclick="div()">COMPUTE RESULTS</b></a>
                     </div>
+
                 </div>
             </div>
         </div>
