@@ -1,0 +1,331 @@
+{% extends 'progress-bar-figma.html' %}
+{% block content %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+  .load_view {
+    margin: auto;
+    width: 100%;
+  }
+  .load_table{
+    border-collapse:separate;
+    border-spacing:0 5px;
+  }
+  .load_wrapper {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: auto;
+    white-space: nowrap;
+    width: 100%;
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    color: #CED4DA;
+  }
+  .sticky-col {
+    position: -webkit-sticky;
+    position: sticky;
+
+  }
+  .first-col {
+  min-width: 67px;
+  max-width: 67px;
+  left: 0px;
+  border: 1px solid #34373D;
+}
+.first-col-fix {
+  min-width: 154px;
+  max-width: 154px;
+  left: 0px;
+  align-items: center;
+  border: 1px solid #34373D;
+  z-index: 1;
+}
+
+.fixed-col {
+  width: 154px;
+  height: 30px;
+  background: #23272E;
+  border: 1px solid #34373D;
+  border-radius: 8px 0px 0px 8px;
+  text-align: center;
+}
+.load_cell_th {
+  width: 268px;
+  text-align: center;
+  border: 1px solid #34373D;
+  background: #23272E;
+  border-radius: 0px;
+}
+.load_cell {
+  width: 67px;
+  text-align: center;
+  border: 1px solid #34373D;
+  background-color: #1A1D23;
+  border-radius: 1px 1px 1px 0px;;
+}
+.load_cell_ip{
+  width: 67px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #34373D;
+  background-color: #1A1D23;
+  border-radius: 1px 1px 1px 0px;
+  color: #CED4DA;
+}
+/* width */
+::-webkit-scrollbar {
+  background-color: #555;
+  height: 4px;
+
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #555;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+#footer {
+  position: fixed;
+  padding: 10px 10px 0px 10px;
+  bottom: 0;
+  width: 100%;
+  height: 55px;
+  z-index: 1;
+
+}
+.nebtn{
+  width: 159px;
+  height: 32px;
+
+  /* Accent/Accent – Primary */
+  background: #4FAFA2;
+  border-radius: 4px;
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  border-color: #4FAFA2;
+  color: #E6E9EE;
+  margin-left: 200px;
+  position: fixed;
+  float: right;
+}
+
+</style>
+
+<script>
+  function openCity(evt, cityName) {
+    var i;  var x = document.getElementsByClassName('city');
+    var nav_button_1 = document.getElementById('nav_button_1');
+    var nav_button_2 = document.getElementById('nav_button_2');
+    var nav_button_3 = document.getElementById('nav_button_3');
+    console.log(evt)
+    console.log(cityName)
+    var progress2 = document.querySelector('.progress2')
+    if (cityName == 'Run'){
+      progress2.style.marginLeft = '145px';
+      nav_button_3.style.color = '#ADB5BD';
+      nav_button_2.style.color = '#6C757D';
+      nav_button_1.style.color = '#6C757D';
+      nav_button_1.style.borderColor = 'transparent';
+      nav_button_2.style.borderColor = 'transparent';
+      nav_button_3.style.borderColor = 'transparent';
+      nav_button_3.style.outline = 'thick solid #121010';
+      nav_button_2.style.outline = 'thick solid #121010';
+      nav_button_1.style.outline = 'thick solid #121010';
+    }
+    else if (cityName == 'Build'){
+      console.log('Building section selected')
+      progress2.style.marginLeft = '85px';
+      nav_button_3.style.color = '#6C757D';
+      nav_button_2.style.color = '#ADB5BD';
+      nav_button_1.style.color = '#6C757D';
+      nav_button_1.style.borderColor = 'transparent';
+      nav_button_2.style.borderColor = 'transparent';
+      nav_button_3.style.borderColor = 'transparent';
+      nav_button_3.style.outline = 'thick solid #121010';
+      nav_button_2.style.outline = 'thick solid #121010';
+      nav_button_1.style.outline = 'thick solid #121010';
+    }
+    else{
+      progress2.style.marginLeft = '0px';
+      nav_button_3.style.color = '#6C757D';
+      nav_button_1.style.color = '#ADB5BD';
+      nav_button_2.style.color = '#6C757D';
+      nav_button_1.style.borderColor = 'transparent';
+      nav_button_2.style.borderColor = 'transparent';
+      nav_button_3.style.borderColor = 'transparent';
+      nav_button_3.style.outline = 'thick solid #121010';
+      nav_button_2.style.outline = 'thick solid #121010';
+      nav_button_1.style.outline = 'thick solid #121010';
+      }
+    for (i = 0; i < x.length; i++)
+    {    x[i].style.display = 'none';  }
+    console.log('City name is: '+cityName);
+    document.getElementById(cityName).style.display = 'block';}
+
+    function customise(){
+          var main_div = document.getElementById('main_width');
+          var edit_project_popup_div = document.getElementById('custmise_popup_div');
+          main_div.style.opacity = 0.3;
+          custmise_popup_div.style.display = 'block';
+    }
+</script>
+<div id="main_width" class="main_width_clone" >
+  <div  style="overflow-y: auto;height: 470px;">
+    <div class="di_heading" style="margin-left: 20px;">
+        Direct Impact
+        <p class="di_subhead " style="margin-top: 10px;">Data Centre & Network</p>
+        <p class="di_para" style="margin-top: 8px;padding-right: 200px; "> This category includes energy and material emissions associated with the use of data centres and networks. The project manager selects the type of project from a proposed list pertaining to the relevance: Data computing, website, transactional, mobile application, etc. </p>
+    </div>
+    <div class="w3-bar static-font" style="margin-top: 7px; font-weight: 400; font-size: 16px;margin-left: 20px;">
+      <button id="nav_button_1" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'General');"  style="color: #ADB5BD; border:none; background-color:transparent">General</button>
+      <button id="nav_button_2" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Build');"  style="color: #6C757D;border:none; background-color:transparent">Build</button>
+      <button id="nav_button_3" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Run');" style="color: #6C757D; border:none; background-color:transparent">Run</button>
+      <button class="btn btn-outline-secondary tablink w3-bottombar" onclick="customise()" style="color: #6C757D; border:none; background-color:transparent;float: right;margin-top: 10px;" name="customise" value="1"><p class="customize_button">Customise<img style="padding-left:5px;padding-right: 10px;" src="static/assets/img/arrow_up.png"></p></button>
+      <div class="progress1">
+          <div class="progress2">
+              <hr class="line" size="3" width="100%" color="#6C757D">
+          </div>
+      </div>
+    </div>
+    <!---------------------- General Phase ---------------------->
+    <div class="load_view city" id="General" style="display: block;margin-left:20px;width: auto;margin-top: 5px;">
+        <div class="load_wrapper" >
+          <table class="load_table">
+            <thead>
+                <tr>
+                    <th class="sticky-col first-col-fix fixed-col" style="height: 40px;">Type Of Project</th>
+                    <th class="load_cell_th">Calculation Method</th>
+                    <th class="load_cell_th">Server Type</th>
+                    <th class="load_cell_th">Invoice Amount (Euros/Month)</th> 
+                   
+
+                </tr>
+                
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="sticky-col first-col-fix fixed-col" style="height: 40px;"></td>
+                    <td class="load_cell"><select class="di_select" style="width: 90px;">
+                    <td class="load_cell"><select class="di_select" style="width: 90px;"></td>
+                    <td class="load_cell"></td>
+                    
+                </tr>
+                
+            </tbody>
+          </table>
+        </div>
+    </div>
+    <!---------------------- Build Phase ---------------------->
+    <div class="load_view city" id="Build" style="display: none;margin-left:20px;width: auto;margin-top: 5px;">
+        <div class="load_wrapper" >
+          <table class="load_table">
+            <thead>
+                <tr>
+                    <th class="sticky-col first-col-fix fixed-col" style="height: 40px;">No. of Environments</th>
+                    <th class="load_cell_th">Utilisation Hrs/Day</th>
+                    <th class="load_cell_th">Country</th>
+                    <th class="load_cell_th">Number of Users</th>
+                    <th class="load_cell_th">Structured Data (GB)</th>
+                    <th class="load_cell_th">Unstructured Data (GB)</th> 
+                   
+
+                </tr>
+                
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="sticky-col first-col-fix fixed-col" style="height: 40px;"></td>
+                    <td class="load_cell"></td>
+                    <td class="load_cell"><select class="di_select" style="width: 90px;"></select></td>
+                    <td class="load_cell"></td>
+                    <td class="load_cell"></td>
+                    <td class="load_cell"></td>
+                    
+                </tr>
+                
+            </tbody>
+          </table>
+        </div>
+    </div>
+    <!---------------------- Run Phase ---------------------->
+    <div class="load_view city" id="Run" style="display: none;margin-left:20px;width: auto;margin-top: 5px;">
+        <div class="load_wrapper" >
+          <table class="load_table">
+            <thead>
+                <tr>
+                  <th class="sticky-col first-col-fix fixed-col" style="height: 40px;">No. of Environments</th>
+                  <th class="load_cell_th">Country</th>
+                  <th class="load_cell_th">Number of Users</th>
+                  <th class="load_cell_th">Structured Data (GB)</th>
+                  <th class="load_cell_th">Unstructured Data (GB)</th> 
+
+
+                </tr>
+                
+            </thead>
+            <tbody>
+                <tr>
+                  <td class="sticky-col first-col-fix fixed-col" style="height: 40px;"></td>
+                  <td class="load_cell"><select class="di_select" style="width: 90px;"></select></td>
+                  <td class="load_cell"></td>
+                  <td class="load_cell"></td>
+                  <td class="load_cell"></td>
+                  
+                  
+                    
+                </tr>
+                
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!------------------------------------------Footer-------------------------------------->
+<div class="footer">
+    <div style="width:50%; float:left; text-align:center; margin-top:5px; ">
+      <button type="button" onclick="history.back()" style="display: none; color:Black;" id="back-btn" ></button>
+      <a href="#" style="color:#4FAFA2; "><img src="static/assets/img/back_button.png" style="margin-right:10px;" onclick="document.getElementById('back-btn').click()"  alt="Back"/>BACK</a>
+    </div>
+    <div style=" width:10%;  float:right; margin-top:5px;margin-right: 50px;" >
+        <button onclick="delete_complete()" class="save" style="width:159px;    border-radius:4px;  "><b class="continue" style="width:150px;">SAVE & CONTINUE<img src="static/assets/img/Stroke.svg" style="padding-left:8px;"></b></button>
+    </div>
+</div>
+<div id="custmise_popup_div" style="width: 493px; font-family: Ubuntu; display: none; margin-top: auto; height: 220px; left:40%; top: 35%; background-color: #34373D; z-index: 1; margin: 0 auto; position: fixed;">
+  <img src="static/assets/img/go_to.png" height="25" width="25" style="position: absolute; margin-top: 25px; margin-left: 25px;"><label style="font-size: 20px; color: #ADB5BD; padding: 20px; margin-left: 50px; width: 430px; font-family: Ubuntu; font-weight: 500">Do you want to customise emission factor?</label>
+  <label style="font-size: 14px; color: #ADB5BD; margin-left: 40px; width: 420px; font-family: Ubuntu;">You will be directed to emission factor library to add the custom emission factor</label>
+  <div style="margin: 0 auto; display: inline;">
+      <div style="margin: 0 auto; display: inline;">
+          <button class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 148px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent"><a style="color: #4FAFA2;" href="{% url 'di_dcn' %}">No, take me back.</a></button>
+          <button class="action_btn cancel" style="font-size: 12px;  margin: 0 auto;  border: 2px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 54px; margin-left: 5px; height: 30px; color: #E6E9EE; border-color: #4FAFA2; background-color: #4FAFA2"><a href="{% url 'index' %}" style="color: #E6E9EE;">Yes</a></button>
+      </div>
+  </div>
+</div>
+
+{% endblock %}
+</html>

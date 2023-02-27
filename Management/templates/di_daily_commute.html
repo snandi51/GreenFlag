@@ -15,6 +15,13 @@
 }
 </style>
 
+<script>
+  window.onload = function() {
+    var a = {{daily_commute|safe}}
+    console.log('This is list', a)
+  }
+</script>
+
 <style>
   .load_view {
     margin: auto;
@@ -47,9 +54,20 @@
   left: 0px;
   border: 1px solid #34373D;
 }
+  }
+  .first-col {
+  min-width: 67px;
+  max-width: 67px;
+  left: 0px;
+  border: 1px solid #34373D;
+}
+
+
+
+
 .first-col-fix {
-  min-width: 154px;
-  max-width: 154px;
+  width: 154px;
+
   left: 0px;
   align-items: center;
   border: 1px solid #34373D;
@@ -71,6 +89,35 @@
   background: #23272E;
   border-radius: 0px;
 }
+.load_cell_th_1{
+  width: 180px;
+  text-align: center;
+  border: 1px solid #34373D;
+  background: #23272E;
+  border-radius: 0px;
+}
+.load_cell_th_2{
+  width: 105px;
+  text-align: center;
+  border: 1px solid #34373D;
+  background: #23272E;
+  border-radius: 0px;
+}
+.load_cell_th_3{
+  width: 182px;
+  text-align: center;
+  border: 1px solid #34373D;
+  background: #23272E;
+  border-radius: 0px;
+}
+.load_cell_th_4{
+  width: 167px;
+  text-align: center;
+  border: 1px solid #34373D;
+  background: #23272E;
+  border-radius: 0px;
+}
+
 .load_cell {
   width: 67px;
   text-align: center;
@@ -78,6 +125,36 @@
   background-color: #1A1D23;
   border-radius: 1px 1px 1px 0px;;
 }
+
+.load_cell_1{
+  width: 180px;
+  text-align: center;
+  border: 1px solid #34373D;
+  background-color: #1A1D23;
+  border-radius: 1px 1px 1px 0px;;
+}
+.load_cell_2{
+  width: 105px;
+  text-align: center;
+  border: 1px solid #34373D;
+  background-color: #1A1D23;
+  border-radius: 1px 1px 1px 0px;;
+}
+.load_cell_3 {
+  width: 182px;
+  text-align: center;
+  border: 1px solid #34373D;
+  background-color: #1A1D23;
+  border-radius: 1px 1px 1px 0px;;
+}
+.load_cell_4 {
+  width: 167px;
+  text-align: center;
+  border: 1px solid #34373D;
+  background-color: #1A1D23;
+  border-radius: 1px 1px 1px 0px;;
+}
+
 .load_cell_ip{
   width: 67px;
   height: 40px;
@@ -87,6 +164,41 @@
   border-radius: 1px 1px 1px 0px;
   color: #CED4DA;
 }
+
+.load_cell_ips{
+  width: 100px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #1A1D23;
+  background-color: #1A1D23;
+  
+  color: #CED4DA;
+}
+.load_cell_ip_1{
+  width: 180px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid  #1A1D23;
+  background-color: #1A1D23;
+  color: #CED4DA;
+}
+.load_cell_ip_2{
+  width: 105px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #1A1D23;
+  background-color: #1A1D23;
+  color: #CED4DA;
+}
+.load_cell_ip_3{
+  width: 182px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid #1A1D23;
+  background-color: #1A1D23;
+  color: #CED4DA;
+}
+
 /* width */
 ::-webkit-scrollbar {
   background-color: #555;
@@ -103,6 +215,8 @@
 /* Handle */
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
+  background: #555;
+
 }
 
 /* Handle on hover */
@@ -138,465 +252,214 @@
 }
 
 </style>
-
 <script>
-    function toggleText1(){
-        var myText=document.getElementById('info1');
-        var project_details_sidebar_option1 = document.getElementById('project_details_sidebar_option1');
-        var project_details_sidebar_icon_option1 = document.getElementById('project_details_sidebar_icon_option1')
-        var change_toggle_onclick_down1 = document.getElementById('change_toggle_onclick_down1')
-        var displaySetting=myText.style.display;
-        var info1_header = document.getElementById('info1_header');
-
-        if(displaySetting == 'none'){
-            console.log('None selected')
-            change_toggle_onclick_down1.className = 'fa fa-chevron-up';
-            project_details_sidebar_icon_option1.style.color = '#3D8588';
-            project_details_sidebar_option1.style.color = '#3D8588';
-            info1_header.scrollIntoView();
-
-            myText.style.transitionDuration = '2s';
-            myText.style.display='block';
-        }
-        else{
-            console.log('None not selected')
-             myText.style.transitionDuration = '2s';
-            myText.style.display='none';
-            project_details_sidebar_icon_option1.style.color = '#6C757D';
-            project_details_sidebar_option1.style.color = '#6C757D';
-            change_toggle_onclick_down1.className = 'fa fa-angle-down';
-            info1_header.scrollIntoView();
-        }
+  function openCity(evt, cityName) {
+    var i;  var x = document.getElementsByClassName('city');
+    var nav_button_1 = document.getElementById('nav_button_1');
+    var nav_button_2 = document.getElementById('nav_button_2');
+    console.log(evt)
+    console.log(cityName)
+    var progress2 = document.querySelector('.progress2')
+    if (cityName == 'Run'){
+      progress2.style.marginLeft = '65px';
+      nav_button_2.style.color = '#ADB5BD';
+      nav_button_1.style.color = '#6C757D';
+      nav_button_1.style.borderColor = 'transparent';
+      nav_button_2.style.borderColor = 'transparent';
+      nav_button_2.style.outline = 'thick solid #121010';
+      nav_button_1.style.outline = 'thick solid #121010';
     }
-
-    function toggleText2(){
-        var change_toggle_onclick_down2 = document.getElementById('change_toggle_onclick_down2')
-        var project_details_sidebar_option2 = document.getElementById('project_details_sidebar_option2');
-        var project_details_sidebar_icon_option2 = document.getElementById('project_details_sidebar_icon_option2')
-        var myText_2=document.getElementById("info2");
-        var info5_header = document.getElementById('info2_header');
-        var displaySetting=myText_2.style.display;
-
-        if(displaySetting == 'none'){
-            myText_2.style.display='block';
-            change_toggle_onclick_down2.className = 'fa fa-chevron-up';
-            project_details_sidebar_icon_option2.style.color = '#3D8588';
-            project_details_sidebar_option2.style.color = '#3D8588';
-            info2_header.scrollIntoView();
-        }
-        else{
-            myText_2.style.display='none';
-            change_toggle_onclick_down2.className = 'fa fa-angle-down';
-            project_details_sidebar_icon_option2.style.color = '#6C757D';
-            project_details_sidebar_option2.style.color = '#6C757D';
-            info2_header.scrollIntoView();
-        }
-    }
-
-    function toggleText3(){
-        var change_toggle_onclick_down3 = document.getElementById('change_toggle_onclick_down3')
-        var project_details_sidebar_option3 = document.getElementById('project_details_sidebar_option3');
-        var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3')
-        var myText_3=document.getElementById("info3");
-        var info5_header = document.getElementById('info3_header');
-        var displaySetting=myText_3.style.display;
-
-        if(displaySetting == 'none'){
-            myText_3.style.display='block';
-            change_toggle_onclick_down3.className = 'fa fa-chevron-up';
-            project_details_sidebar_icon_option3.style.color = '#3D8588';
-            project_details_sidebar_option3.style.color = '#3D8588';
-            info3_header.scrollIntoView();
-        }
-        else{
-            myText_3.style.display='none';
-            change_toggle_onclick_down3.className = 'fa fa-angle-down';
-            project_details_sidebar_icon_option3.style.color = '#6C757D';
-            project_details_sidebar_option3.style.color = '#6C757D';
-            info3_header.scrollIntoView();
-        }
-    }
-
-    function toggleText4(){
-        var change_toggle_onclick_down4 = document.getElementById('change_toggle_onclick_down4')
-        var project_details_sidebar_option4 = document.getElementById('project_details_sidebar_option4');
-        var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4')
-        var myText_4=document.getElementById('info4');
-        var info5_header = document.getElementById('info4_header');
-        var displaySetting=myText_4.style.display;
-
-        if(displaySetting == 'none'){
-            myText_4.style.display='block';
-            change_toggle_onclick_down4.className = 'fa fa-chevron-up';
-            project_details_sidebar_icon_option4.style.color = '#3D8588';
-            project_details_sidebar_option4.style.color = '#3D8588';
-            info4_header.scrollIntoView();
-        }
-        else{
-            myText_4.style.display='none';
-            change_toggle_onclick_down4.className = 'fa fa-angle-down';
-            project_details_sidebar_icon_option4.style.color = '#6C757D';
-            project_details_sidebar_option4.style.color = '#6C757D';
-            info4_header.scrollIntoView();
-        }
-    }
-
-    function toggleText5(){
-        var change_toggle_onclick_down5 = document.getElementById('change_toggle_onclick_down5')
-        var project_details_sidebar_option5 = document.getElementById('project_details_sidebar_option5');
-        var project_details_sidebar_icon_option5 = document.getElementById('project_details_sidebar_icon_option5')
-        var myText_5=document.getElementById("info5");
-        var info5_header = document.getElementById('info5_header');
-        var displaySetting=myText_5.style.display;
-
-        if(displaySetting == 'none'){
-            myText_5.style.display='block';
-            change_toggle_onclick_down5.className = 'fa fa-chevron-up';
-            project_details_sidebar_icon_option5.style.color = '#3D8588';
-            project_details_sidebar_option5.style.color = '#3D8588';
-            info5_header.scrollIntoView();
-        }
-        else{
-            myText_5.style.display='none';
-            change_toggle_onclick_down5.className = 'fa fa-angle-down';
-            project_details_sidebar_icon_option5.style.color = '#6C757D';
-            project_details_sidebar_option5.style.color = '#6C757D';
-            info5_header.scrollIntoView();
-        }
-    }
-
-    function colorChange2(){
-        var input = document.querySelector('.laptop');
-        input.style.backgroundColor = ' #ADB5BD;';
-    }
-    function focus_input(){
-    console.log('inter focus');
-        document.getElementById('auto_focus').focus();
-        document.getElementById('auto_focus').style.outline = 'none';
-    }
-</script>
-<script>
-    function active_tab(){
-    var project_details_sidebar_option1 = document.getElementById('project_details_sidebar_option1');
-    var project_details_sidebar_icon_option1 = document.getElementById('project_details_sidebar_icon_option1');
-    var project_details_sidebar_option2 = document.getElementById('project_details_sidebar_option2');
-    var project_details_sidebar_icon_option2 = document.getElementById('project_details_sidebar_icon_option2');
-    var project_details_sidebar_option3 = document.getElementById('project_details_sidebar_option3');
-    var project_details_sidebar_icon_option3 = document.getElementById('project_details_sidebar_icon_option3');
-    var project_details_sidebar_option4 = document.getElementById('project_details_sidebar_option4');
-    var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4');
-    var project_details_sidebar_option5 = document.getElementById('project_details_sidebar_option5');
-    var project_details_sidebar_icon_option5 = document.getElementById('project_details_sidebar_icon_option5');
-      if (project_details_sidebar_option1.style.display === 'none') {
-        project_details_sidebar_option1.style.display = 'block';
-        project_details_sidebar_icon_option1.style.display = 'block';
-
-        project_details_sidebar_option2.style.display = 'block';
-        project_details_sidebar_icon_option2.style.display = 'block';
-
-        project_details_sidebar_option3.style.display = 'block';
-        project_details_sidebar_icon_option3.style.display = 'block';
-
-        project_details_sidebar_option4.style.display = 'block';
-        project_details_sidebar_icon_option4.style.display = 'block';
-
-        project_details_sidebar_option5.style.display = 'block';
-        project_details_sidebar_icon_option5.style.display = 'block';
-      } else {
-        project_details_sidebar_option1.style.display = 'none';
-        project_details_sidebar_icon_option1.style.display = 'none';
-
-        project_details_sidebar_option2.style.display = 'none';
-        project_details_sidebar_icon_option2.style.display = 'none';
-
-        project_details_sidebar_option3.style.display = 'none';
-        project_details_sidebar_icon_option3.style.display = 'none';
-
-        project_details_sidebar_option4.style.display = 'none';
-        project_details_sidebar_icon_option4.style.display = 'none';
-
-        project_details_sidebar_option5.style.display = 'none';
-        project_details_sidebar_icon_option5.style.display = 'none';
-      }
-    }
-</script>
-<script>
-    var all_input_count1 = false;
-    var all_input_count2 = false;
-    var all_input_count3 = false;
-    var all_input_count4 = false;
-    var all_input_count5 = false;
-    function project_duration_inputs(){
-        var start_date_build = document.getElementById('start_date_build');
-        var end_date_build = document.getElementById('end_date_build');
-        var start_date_run = document.getElementById('start_date_run');
-        var end_date_run = document.getElementById('end_date_run');
-
-        var project_details_sidebar_icon_option1 = document.getElementById('project_details_sidebar_icon_option1');
-
-        if ((start_date_build.value != '') && (end_date_build.value != '') && (start_date_run.value != '') && (end_date_run.value != '')){
-            project_details_sidebar_icon_option1.className = 'fa fa-check-circle';
-            console.log('completed form 1');
-            all_input_count1 = true;
-        }
-        else{
-            project_details_sidebar_icon_option1.className = 'fa fa-circle';
-            all_input_count1 = false;
-        }
-        console.log('project_duration');
-    }
-</script>
-<script>
-    function project_details_inputs(){
-        var select_1 = document.getElementById('select_1');
-        var select_2 = document.getElementById('select_2');
-        var select_3 = document.getElementById('select_3');
-        var select_4 = document.getElementById('select_4');
-        var select_5 = document.getElementById('select_5');
-        var select_6 = document.getElementById('select_6');
-        var project_details_sidebar_icon_option2 = document.getElementById('project_details_sidebar_icon_option2');
-
-        if ((select_1.value != '') && (select_2.value != '') && (select_3.value != '') && (select_4.value != '') && (select_5.value != '') && (select_6.value != '')){
-            project_details_sidebar_icon_option2.className = 'fa fa-check-circle';
-            all_input_count2 = true;
-        }
-        else{
-            project_details_sidebar_icon_option2.className = 'fa fa-circle';
-            all_input_count2 = false;
-        }
-    }
-</script>
-<script>
-    function project_roles_input(){
-        var laptop = document.getElementById('laptop');
-        var pc = document.getElementById('pc');
-        var tablet = document.getElementById('tablet');
-        var telephone = document.getElementById('telephone');
-        var printer = document.getElementById('printer');
-        var speaker = document.getElementById('speaker');
-        var projector = document.getElementById('projector');
-        var monitor = document.getElementById('monitor');
-
-        var laptop1 = document.getElementById('laptop1');
-        var camera = document.getElementById('camera');
-        var sensor = document.getElementById('sensor');
-        var lidar = document.getElementById('lidar');
-        var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4');
-
-        if ((laptop.checked || pc.checked || tablet.checked || telephone.checked || printer.checked ||
-            speaker.checked || projector.checked || monitor.checked) && (laptop1.checked || camera.checked ||
-            sensor.checked || lidar.checked)
-            ){
-                project_details_sidebar_icon_option4.className = 'fa fa-check-circle';
-                all_input_count4 = true;
-            }
-        else{
-                project_details_sidebar_icon_option4.className = 'fa fa-circle';
-                all_input_count4 = false;
-        }
-}
-</script>
-<script>
-    function indirect_impact_input(){
-    var fuel = document.getElementById('fuel');
-    var electricity = document.getElementById('electricity');
-    var water = document.getElementById('water');
-    var paper = document.getElementById('paper');
-    var plastic = document.getElementById('plastic');
-    var waste_material = document.getElementById('waste_material');
-    var raw_material = document.getElementById('raw_material');
-    var project_details_sidebar_icon_option4 = document.getElementById('project_details_sidebar_icon_option4');
-    if (fuel.checked || electricity.checked || water.checked || paper.checked || plastic.checked || waste_material.checked || raw_material.checked){
-            project_details_sidebar_icon_option5.className = 'fa fa-check-circle';
-            all_input_count5 = true;
-        }
     else{
-            project_details_sidebar_icon_option5.className = 'fa fa-circle';
-            console.log('more selected');
-            all_input_count5 = false;
+      progress2.style.marginLeft = '0px';
+      nav_button_1.style.color = '#ADB5BD';
+      nav_button_2.style.color = '#6C757D';
+      nav_button_1.style.borderColor = 'transparent';
+      nav_button_2.style.borderColor = 'transparent';
+      nav_button_2.style.outline = 'thick solid #121010';
+      nav_button_1.style.outline = 'thick solid #121010';
+      }
+    for (i = 0; i < x.length; i++)
+    {    x[i].style.display = 'none';  }
+    document.getElementById(cityName).style.display = 'block';}
+
+    function customise(){
+          var main_div = document.getElementById('main_width');
+          var edit_project_popup_div = document.getElementById('custmise_popup_div');
+          main_div.style.opacity = 0.3;
+          custmise_popup_div.style.display = 'block';
     }
-}
+    function add_row(id){
+      console.log('Row id is: ', id);
+      var insert_row = document.getElementById('_' + id)
+      console.log(insert_row)
+      insert_row.insertAdjacentHTML('afterend',"<td class='sticky-col first-col-fix ' style='height: 40px;border:#000000'></td><td  class='load_cell_1' ><select class='load_cell_ips' style='float: left;' name='cars' id='cars'><optgroup style='float: left;background-color: #6C757D;'label='Default'>{% for i in daily_commute %} <option style='background-color: #34373D;' id='di_{{i.subcategory}}'>{{i.subcategory}}</option>{% endfor %}</optgroup><optgroup label='Custom' style='float: left;background-color: #6C757D;'><!-- {% for i in daily_commute %}<option style='background-color: #34373D;' value='{{i.0}}'>{{i}}</option>{% endfor %} --></optgroup></select><img src='static/assets/img/plus_line.png' id='tr_id_{{i}}' style='float: left;margin-top: 15px;margin-left: 5px;'height='10px' width='10px'  onclick='add_row(this.id)''></td><td class='load_cell_2'><input class='load_cell_ip_2' name='{{i}}'></td><td class='load_cell_3'><input class='load_cell_ip_3' name='av_{{i}}'></td><td class='load_cell_4'><select class='di_select'><option class='di_option' value='0'>Company</option><option class='di_option' value='1'>Owned</option></td>   ");
+    }
+
+    function add_row1(id){
+      console.log('Row id is: ', id);
+      var insert_row = document.getElementById('_' + id)
+      console.log(insert_row)
+      insert_row.insertAdjacentHTML('afterend',"<td class='sticky-col first-col-fix ' style='height: 40px;border:#000000'></td><td  class='load_cell_1' ><select class='load_cell_ips' style='float: left;' name='cars' id='cars'><optgroup style='float: left;background-color: #6C757D;'label='Default'>{% for i in daily_commute %} <option style='background-color: #34373D;' id='di_{{i.subcategory}}'>{{i.subcategory}}</option>{% endfor %}</optgroup><optgroup label='Custom' style='float: left;background-color: #6C757D;'><!-- {% for i in daily_commute %}<option style='background-color: #34373D;' value='{{i.0}}'>{{i}}</option>{% endfor %} --></optgroup></select><img src='static/assets/img/plus_line.png' id='tr_id_{{i}}' style='float: left;margin-top: 15px;margin-left: 5px;'height='10px' width='10px'  onclick='add_row(this.id)''></td><td class='load_cell_2'><input class='load_cell_ip_2' name='{{i}}'></td><td class='load_cell_3'><input class='load_cell_ip_3' name='av_{{i}}'></td><td class='load_cell_4'><select class='di_select'><option class='di_option' value='0'>Company</option><option class='di_option' value='1'>Owned</option></td>   ");
+    }
+
 </script>
-<script>
-    function all_input_count_fun(){
-        var project_details_tab = document.getElementById('project_details_tab');
-        if (all_input_count1 && all_input_count2 && all_input_count3 && all_input_count4 && all_input_count5){
-            console.log('all_input_count_clear');
-            project_details_tab.className = 'tab_inactive'
-        }
-        else{
-            console.log('all_input_not_filled_yet');
-            project_details_tab.className = 'tab_active'
-        }
-    }
-
-    function delete_complete(delete_complete_id){
-        var main_div = document.getElementById('main_width');
-        var edit_project_popup_div = document.getElementById('delete_project_popup_div');
-        console.log('mark_complete_dropdown ID: ' + delete_complete_id)
-        main_div.style.opacity = 0.5;
-        delete_project_popup_div.style.display = 'block';
-    }
-
-    function delete_take_me_back(){
-        var main_div = document.getElementById('main_width');
-        var edit_project_popup_div = document.getElementById('delete_project_popup_div');
-        main_div.style.opacity = 1;
-        edit_project_popup_div.style.display = 'none';
-    }
-</script>
-<body>
-<div id="main_width" class="main_width_clone" style="overflow-y:auto; overflow-x:hidden;">
-
-    <!-------------------------------------------End Of Progress Bar------------------------------------->
-    <!---------------------------------------------Project Heading--------------------------------------->
-  <div class="header_div">
+<div id="main_width" class="main_width_clone" >
+  
+    <div  style="overflow-y: auto;height: 470px;">
       <div class="di_heading" style="margin-left: 20px;">
         Direct Impact
-      <p class="di_subhead">People - Daily Commute</p>
-      <p class="di_para">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </div>
-      <div class="w3-bar static-font" style="margin-top: -15px; font-weight: 400; font-size: 16px;margin-left: 20px;">
-      <button id="nav_button_1" class="btn  tablink w3-bottombar" onclick="openCity(event, 'Build');"  style="color: #ADB5BD; border:none; background-color:transparent">Build</button>
-      <button id="nav_button_2" class="btn  w3-bottombar" onclick="openCity(event, 'Run');" style="color: #6C757D; border:none; background-color:transparent">Run</button>
-      <div class="progress1">
-          <div class="progress2">
-              <hr class="line" size="3" width="100%" color="#6C757D">
-          </div>
+        <p class="di_subhead " style="margin-top: 10px;">People - Daily Commute</p>
+        <p class="di_para" style="margin-top: 8px;padding-right: 200px; "> Daily commute includes emissions from the transportation of employees between the homes and worksites. Average one-way km travelled from home to office shall be provided along with average number of days worked from office per week.</p>
       </div>
-    </div>
-
-    <div class="di_view city" id="Build" style="display: block;margin-left:20px;width: auto;margin-top: 5px;">
-        <div class="di_wrapper">
-          <table class="di_table">
+      <div class="w3-bar static-font" style="margin-top: 7px; font-weight: 400; font-size: 16px;margin-left: 20px;">
+        <button id="nav_button_1" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Build');"  style="color: #ADB5BD; border:none; background-color:transparent">Build</button>
+        <button id="nav_button_2" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Run');" style="color: #6C757D; border:none; background-color:transparent">Run</button>
+        <button class="btn btn-outline-secondary tablink w3-bottombar" onclick="customise()" style="color: #6C757D; border:none; background-color:transparent;float: right;margin-top: 10px;margin-right: 40px;" name="customise" value="1"><p class="customize_button">Customise<img style="padding-left:5px;padding-right: 10px;" src="static/assets/img/arrow_up.png"></p></button>
+        <div class="progress1">
+          <div class="progress2">
+            <hr class="line" size="3" width="100%" color="#6C757D">
+          </div>
+        </div>
+      </div>
+    <form action="di_daily_commute"  method="post">
+    {% csrf_token %}
+      <!---------------------- Build Phase ---------------------->
+      <div class="load_view city" id="Build" style="display: block;margin-left:20px;width: auto;margin-top: 5px;">
+        <div class="load_wrapper" >
+          <table class="load_table">
             <thead>
-                <tr>
-                    <th class="di_first-col-fix di_fixed-col">Roles</th>
-                    <th class="di_cell_th">Type of Transport</th>
-                    <th class="di_cell_th">Kms/Day</th>
-                    <th class="di_cell_th">Avg No. of Days from office per week </th>
-                    <th class="di_cell_th">Vehicle Ownership</th>
-                </tr>
+              <tr>
+                <th class="sticky-col first-col-fix fixed-col" style="height: 40px;">Roles</th>
+                <th class="load_cell_th_1">Type Of Transport</th>
+                <th class="load_cell_th_2">Kms/Day</th>
+                <th class="load_cell_th_3">Avg No. of Days from office per week</th>
+                <th class="load_cell_th_4">Vehicle Ownership</th>
+              </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="di_first-col-fix di_fixed-col">Product Owner</td>
-                <td class="di_cell"><select class="di_select">
-                  <option class="di_option" value="0">Bicycle</option>
-                  <option class="di_option" value="1">Skateboard</option>
-                  <option class="di_option" value="1">Lorem Ipsum</option></select>
+              {% for i in role %}
+                <tr id="_tr_id_{{i}}">
+                  <td class="sticky-col first-col-fix fixed-col" style="height: 40px;">{{i}}</td>
+                  <td  class="load_cell_1" >
+                    <select class="load_cell_ips" style="float: left;" name="type_transport_{{i}}" id="cars">
+                      <optgroup style="float: left;background-color: #6C757D;"label="Default">
+                        {% for i in daily_commute %} 
+                          <option style="background-color: #34373D;" value="{{i.subcategory}}" id="di_{{i.subcategory}}">{{i.subcategory}}</option>
+                        {% endfor %}
+                      </optgroup>
+                      <optgroup label="Custom" style="float: left;background-color: #6C757D;">     
+                        <!-- {% for i in daily_commute %}
+                          <option style="background-color: #34373D;" value="{{i.0}}">{{i}}</option>
+                        {% endfor %} -->
+                      </optgroup>
+                    </select>
+                    <img src="static/assets/img/plus_line.png" id="tr_id_{{i}}" style="float: left;margin-top: 15px;margin-left: 5px;"height="10px" width="10px"  onclick="add_row(this.id)">
+                      
                   </td>
-                <td class="di_cell">20</td>
-                <td class="di_cell">5</td>
-                <td class="di_cell"><select class="di_select">
-                  <option value="0">Company</option>
-                  <option value="1">Owned</option>
-                </select>
+                  <td class="load_cell_2"><input type="number" class="load_cell_ip_2" name="{{i}}"></td>
+                  <td class="load_cell_3"><input type="number" class="load_cell_ip_3" name="av_{{i}}"></td>
+                  <td class="load_cell_4"><select class="di_select" name="vehical_ownership_{{i}}">
+                    <option class="di_option" value="Company">Company</option>
+                    <option class="di_option" value="Owned">Owned</option>
+                  </td>  
+                </tr>
+              {% endfor %}
 
-                </td>
-              </tr>
-              <tr>
-                <td class="di_first-col-fix di_fixed-col">Proxy PO</td>
-                <td class="di_cell"><select class="di_select">
-                  <option class="di_option" value="0">Bicycle</option>
-                  <option class="di_option" value="1">Skateboard</option>
-                  <option class="di_option" value="1">Lorem Ipsum</option></td>
-                <td class="di_cell">20</td>
-                <td class="di_cell">5</td>
-                <td class="di_cell"><select class="di_select">
-                  <option value="0">Company</option>
-                  <option value="1">Owned</option></td>
-              </tr>
-              <tr>
-                <td class="di_first-col-fix di_fixed-col">IT Leader 1</td>
-                <td class="di_cell"><select class="di_select">
-                  <option class="di_option" value="0">Bicycle</option>
-                  <option class="di_option" value="1">Skateboard</option>
-                  <option class="di_option" value="1">Lorem Ipsum</option></td>
-                <td class="di_cell">20</td>
-                <td class="di_cell">5</td>
-                <td class="di_cell"><select class="di_select">
-                  <option value="0">Company</option>
-                  <option value="1">Owned</option></td>
-              </tr>
-              <tr>
-                <td class="di_first-col-fix di_fixed-col">IT Leader 2</td>
-                <td class="di_cell"><select class="di_select">
-                  <option class="di_option" value="0">Bicycle</option>
-                  <option class="di_option" value="1">Skateboard</option>
-                  <option class="di_option" value="1">Lorem Ipsum</option></td>
-                <td class="di_cell">20</td>
-                <td class="di_cell">5</td>
-                <td class="di_cell"><select class="di_select">
-                  <option value="0">Company</option>
-                  <option value="1">Owned</option></td>
-              </tr>
-              <tr>
-                <td class="di_first-col-fix di_fixed-col">IT Front</td>
-                <td class="di_cell"><select class="di_select">
-                  <option class="di_option" value="0">Bicycle</option>
-                  <option class="di_option" value="1">Skateboard</option>
-                  <option class="di_option" value="1">Lorem Ipsum</option></td>
-                <td class="di_cell">20</td>
-                <td class="di_cell">5</td>
-                <td class="di_cell"><select class="di_select">
-                  <option value="0">Company</option>
-                  <option value="1">Owned</option></td>
-              </tr>
-              <tr>
-                <td class="di_first-col-fix di_fixed-col">Dir. Data Science</td>
-                <td class="di_cell"><select class="di_select">
-                  <option class="di_option" value="0">Bicycle</option>
-                  <option class="di_option" value="1">Skateboard</option>
-                  <option class="di_option" value="1">Lorem Ipsum</option></td>
-                <td class="di_cell">20</td>
-                <td class="di_cell">5</td>
-                <td class="di_cell"><select class="di_select">
-                  <option value="0">Company</option>
-                  <option value="1">Owned</option></td>
-
-              </tr>
-              <tr>
-                <td class="di_first-col-fix di_fixed-col">Project Manager</td>
-                <td class="di_cell"><select class="di_select">
-                  <option class="di_option" value="0">Bicycle</option>
-                  <option class="di_option" value="1">Skateboard</option>
-                  <option class="di_option" value="1">Lorem Ipsum</option></td>
-                <td class="di_cell">20</td>
-                <td class="di_cell">5</td>
-                <td class="di_cell"><select class="di_select">
-                  <option value="0">Company</option>
-                  <option value="1">Owned</option></td>
-              </tr>
 
             </tbody>
           </table>
         </div>
+
+      </div>
+      <div class="footer"  style="margin-left:-500px; width:150%">
+           <div style="width:50%; float:left; text-align:center; margin-top:5px; margin-left: -80px;"
+               <button type="button" onclick="history.back()" style="display: none; color:Black;" id="back-btn" ></button>
+               <a href="#" style="color:#4FAFA2; "><img src="static/assets/img/back_button.png" style="margin-right:10px;" onclick="document.getElementById('back-btn').click()"  alt="Back"/>BACK</a>
+            </div>
+        <!--    <div style="float:right; width:100%; margin-top:5px; " >-->
+        <!--        <button type="submit" class="nebtn" style="width:10%; border-radius:4px;"><b  style="width:110px;">SAVE & CONTINUE</b></button>-->
+        <!--    </div>-->
+        <div style=" width:10%;   margin-top:5px; padding-left:1050px;" >
+            <button type="submit" class="save" style="width:150px; text-align:end; border-radius:4px;  "><b class="continue" style="width:140px;">SAVE & CONTINUE</b></button>
+        </div>
+      </div>
+      <!---------------------- Run Phase ---------------------->
+      <div class="load_view city" id="Run" style="display: none;margin-left:20px;width: auto;margin-top: 5px;">
+        <div class="load_wrapper" >
+          <table class="load_table">
+            <thead>
+              <tr>
+                <th class="sticky-col first-col-fix fixed-col" style="height: 40px;">Roles</th>
+                <th class="load_cell_th_1">Type Of Transport</th>
+                <th class="load_cell_th_2">Kms/Day</th>
+                <th class="load_cell_th_3">Avg No. of Days from office per week</th>
+                <th class="load_cell_th_4">Vehicle Ownership</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in role %} 
+                <tr id="_tr1_id_{{i}}">
+                  <td class="sticky-col first-col-fix fixed-col" style="height: 40px;">{{i}}</td>
+                  <td  class="load_cell_1" >
+                    
+                    <select class="load_cell_ips" style="float: left;" name="type_transport_run_{{i}}" id="cars">
+                      <optgroup style="float: left;background-color: #6C757D;"label="Default">
+                      
+                        {% for i in daily_commute %} 
+                          <option style="background-color: #34373D;" >{{i.subcategory}}</option>
+                        {% endfor %}
+                      </optgroup>
+                      <optgroup label="Custom" style="float: left;background-color: #6C757D;"> 
+                       
+                        <!-- {% for i in res_dct %}
+                          <option style="background-color: #34373D;" value="{{i.0}}">{{i}}</option>
+                        {% endfor %} -->
+                      </optgroup>
+                    </select>
+                    <img src="static/assets/img/plus_line.png" id="tr1_id_{{i}}" style="float: left;margin-top: 15px;margin-left: 5px;"height="10px" width="10px"  onclick="add_row(this.id)">
+                  </td>
+                  <td class="load_cell_2"><input type="number" class="load_cell_ip_2" name="km_run_{{i}}"></td>
+                  <td class="load_cell_3"><input type="number" class="load_cell_ip_3" name="avg_run_{{i}}"></td>
+                  <td class="load_cell_4"><select class="di_select" name="vehical_ownership_run_{{i}}">
+                    <option class="di_option" value="Company">Company</option>
+                    <option class="di_option" value="Owned">Owned</option>
+                  </td>  
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+    
+  </form>
+  
+
 </div>
-
-
+</div>
+</div>
 <!------------------------------------------Footer-------------------------------------->
-<div class="footer">
+<!-- <div class="footer">
     <div style="width:50%; float:left; text-align:center; margin-top:5px; ">
       <button type="button" onclick="history.back()" style="display: none; color:Black;" id="back-btn" ></button>
       <a href="#" style="color:#4FAFA2; "><img src="static/assets/img/back_button.png" style="margin-right:10px;" onclick="document.getElementById('back-btn').click()"  alt="Back"/>BACK</a>
     </div>
-    <div style=" width:10%;  float:right; margin-top:5px;" >
-      <button onclick="delete_complete()" class="save" style="width:120px; text-align:end;   border-radius:4px;  "><b class="continue" style="width:100px;">Finish<img src="static/assets/img/right_tick.png" style="padding-left:8px;"></b></button>
+
+    <div style=" width:10%;  float:right; margin-top:5px;margin-right: 50px;" >
+      <button class="save" style="width:159px;    border-radius:4px;  "><a style="color: #4FAFA2;" href=""><b class="continue" style="width:150px;">SAVE & CONTINUE<img src="static/assets/img/Stroke.svg" style="padding-left:8px;"></b></a></button>
     </div>
-</div>
-<div id="delete_project_popup_div" style="width: 500px; font-family: Ubuntu; display: none; margin-top: auto; height: 220px; left:40%; top: 35%; background-color: #34373D; z-index: 1; margin: 0 auto; position: fixed;">
-    <img src="static/assets/img/right_click_green.png" height="25" width="25" style="position: absolute; margin-top: 25px; margin-left: 25px;"><label style="font-size: 20px; color: #ADB5BD; padding: 20px; margin-left: 50px; width: 430px; font-family: Ubuntu; font-weight: 500">You have successfully added the project!</label>
-    <label style="font-size: 14px; color: #ADB5BD; margin-left: 40px; width: 420px; font-family: Ubuntu;">Would you like to view the results or go back to the my projects page?</label>
-    <div style="margin: 0 auto; display: inline;">
-        <div style="margin: 0 auto; display: inline;">
-          <button class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 100px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent"><a style="color: #4FAFA2;" href="{% url 'projectA' %}">My Project</a></button>
-          <button class="action_btn cancel" style="font-size: 12px;  margin: 0 auto;  border: 2px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 100px; margin-left: 5px; height: 30px; color: #E6E9EE; border-color: #4FAFA2; background-color: #4FAFA2"><a href="{% url 'index' %}" style="color: #E6E9EE;">View Results</a></button>
-        </div>
-    </div>
+</div> -->
+<div id="custmise_popup_div" style="width: 493px; font-family: Ubuntu; display: none; margin-top: auto; height: 220px; left:40%; top: 35%; background-color: #34373D; z-index: 1; margin: 0 auto; position: fixed;">
+  <img src="static/assets/img/go_to.png" height="25" width="25" style="position: absolute; margin-top: 25px; margin-left: 25px;"><label style="font-size: 20px; color: #ADB5BD; padding: 20px; margin-left: 50px; width: 430px; font-family: Ubuntu; font-weight: 500">Do you want to customise emission factor?</label>
+  <label style="font-size: 14px; color: #ADB5BD; margin-left: 40px; width: 420px; font-family: Ubuntu;">You will be directed to emission factor library to add the custom emission factor</label>
+  <div style="margin: 0 auto; display: inline;">
+      <div style="margin: 0 auto; display: inline;">
+          <button class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 148px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent"><a style="color: #4FAFA2;" href="{% url 'di_daily_commute' %}">No, take me back.</a></button>
+          <button class="action_btn cancel" style="font-size: 12px;  margin: 0 auto;  border: 2px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 54px; margin-left: 5px; height: 30px; color: #E6E9EE; border-color: #4FAFA2; background-color: #4FAFA2"><a href="{% url 'index' %}" style="color: #E6E9EE;">Yes</a></button>
+      </div>
+  </div>
 </div>
 
 {% endblock %}
-</body>
+
 </html>

@@ -62,6 +62,7 @@ def login_user(request):
         pro_details = ProjectDetails.objects.all()
         session_dict = {}
 
+     
         for instance in pro_details:
             pro_details_dict.append(instance.__dict__)
 
