@@ -847,13 +847,6 @@ def di_daily_commute(request):
 
 
 
-
-
-
-
-
-
-
         # total_build=[]
         # ==============calculations=====
         # import ipdb
@@ -6881,6 +6874,7 @@ def direct_impact_score():
 def indirect_impact_score():
     return ImpactsIndirects.objects.aggregate(Sum('totalcarbonfootprint'))
 
+
 def curyearimpacts():
     today = date.today()
     curr_year = today.year
@@ -6962,21 +6956,139 @@ def avg_indirect_impact():
     return tot_indirect_impacts
 
 
-def noofcols():
-    return ProjectDetails.objects.all().count()
-
-
-def project_status():
-    # project = ProjectDetails.objects.all()
-    result = (ProjectDetails.objects.values('projectstatus').annotate(dcount=Count('projid')).order_by())
-    Status_list = []
-    counts = []
-    for row in result:
-        Status_list.append(row['projectstatus'])
-        counts.append(row['dcount'])
-    # result_dict = dict(zip(Status_list, counts))
-    result_dict = {
-        'status_list': Status_list,
-        'counts': counts
+def draft_duplicate_project(request):
+    project_id = request.GET.get('id')
+    project_id_split = project_id.split('_')[2]
+    context_data = get_index_context_data(request)
+    context = {
+        'session_dict_in_direct': context_data,
+        'db_instance': len(context_data)
     }
-    return result_dict
+    print('Duplicate project id is', project_id_split)
+    return render(request, 'index.html', context)
+
+
+def draft_mark_as_complete_project(request):
+    project_id = request.GET.get('id')
+    project_id_split = project_id.split('_')[2]
+    context_data = get_index_context_data(request)
+    context = {
+        'session_dict_in_direct': context_data,
+        'db_instance': len(context_data)
+    }
+    print('Mark as complete project id is', project_id_split)
+    return render(request, 'index.html', context)
+
+
+def draft_delete_project(request):
+    context_data = get_index_context_data(request)
+    context = {
+        'session_dict_in_direct': context_data,
+        'db_instance': len(context_data)
+    }
+    # import ipdb
+    # ipdb.set_trace()
+    project_id = request.GET.get('id')
+    project_id_split = project_id.split('_')[2]
+    # ImpactsDirects.objects.filter(id=project_id_split).delete()
+    # ImpactsIndirects.objects.filter(id=project_id_split).delete()
+    print('Deleting project id is', project_id_split)
+    return render(request, 'index.html', context)
+
+
+def get_index_context_data(request):
+    session_dict = {}
+    session_dict_direct = {}
+    session_dict_indirect = {}
+
+    pro_details = ProjectDetails.objects.all()
+
+    data_direct = ImpactsDirects.objects.all()
+    print('data_direct:', data_direct)
+
+    # data_indirect_footprint = ImpactsIndirects.objects.values('totalcarbonfootprint')
+    data_indirect = ImpactsIndirects.objects.all()
+    print('data_indirect:', data_indirect)
+
+    pro_details_dict = []
+
+    for instance in pro_details:
+        pro_details_dict.append(instance.__dict__)
+
+    pro_detail_indirect = []
+    pro_detail_direct = []
+    for instance_direct in data_direct:
+        pro_detail_direct.append(instance_direct.__dict__)
+
+    for instance_indirect in data_indirect:
+        pro_detail_indirect.append(instance_indirect.__dict__)
+
+    pro_details_single_list = []
+    for item in pro_details_dict:
+        pro_details_single_list.append(item)
+    len_db = len(pro_details)
+    request.session['len_db'] = len_db
+
+    # request.session['pro_details'] = pro_details
+    # request.session['pro_details_single_'] = pro_details_single_list
+    dict_count = 1
+    for items in pro_details:
+        session_dict['session_dict_{}'.format(dict_count)] = items.__dict__
+        session_dict.get('session_dict_{}'.format(dict_count))['_state'] = str(session_dict.get('session_dict_{}'.format(dict_count))['_state'])
+        session_dict.get('session_dict_{}'.format(dict_count))['create_timestamp'] = session_dict.get('session_dict_{}'.format(dict_count))['create_timestamp'].strftime("%d %B %Y")
+        session_dict.get('session_dict_{}'.format(dict_count))['update_timestamp'] = session_dict.get('session_dict_{}'.format(dict_count))['update_timestamp'].strftime("%d %B %Y")
+        dict_count += 1
+    # import ipdb
+    # ipdb.set_trace()
+    print(pro_details)
+    # import ipdb
+    # ipdb.set_trace()
+    print('pro_detail_direct:', pro_detail_direct)
+    print('pro_detail_indirect:', pro_detail_indirect)
+    data_indirect_footprint = ImpactsIndirects.objects.values('totalcarbonfootprint')
+
+    data_direct_totalfootprint = ImpactsDirects.objects.values('totalcarbonfootprint')
+    print('data_direct_totalfootprint:', data_direct_totalfootprint)
+
+    list_data_direct = []
+    for i in data_direct:
+        list_data_direct.append(i.__dict__)
+    total_count = 0
+    for i in data_direct:
+        list_data_direct[total_count]['indirect_carbonfootprint'] = data_indirect_footprint[total_count].get('totalcarbonfootprint')
+        list_data_direct[total_count]['Net_impact'] = data_indirect_footprint[total_count].get('totalcarbonfootprint') + data_direct_totalfootprint[total_count].get('totalcarbonfootprint')
+        list_data_direct[total_count]['roe'] = round(data_direct_totalfootprint[total_count].get('totalcarbonfootprint') / list_data_direct[total_count]['Net_impact'], 2)
+        total_count += 1
+
+    dict_count_direct = 1
+    for items_direct in pro_detail_direct:
+        session_dict_direct['session_dict_direct{}'.format(dict_count_direct)] = items_direct
+        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['_state'] = str(session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['_state'])
+        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['create_timestamp'] = session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['create_timestamp'].strftime("%d %B %Y")
+        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['update_timestamp'] = session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['update_timestamp'].strftime("%d %B %Y")
+        dict_count_direct += 1
+    # import ipdb
+    # ipdb.set_trace()
+    print('pro_detail_direct:', pro_detail_direct)
+
+    dict_count_indirect = 1
+    for items_indirect in pro_detail_indirect:
+        session_dict_indirect['session_dict_indirect{}'.format(dict_count_indirect)] = items_indirect
+        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['_state'] = str(session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['_state'])
+        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['create_timestamp'] = session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['create_timestamp'].strftime("%d %B %Y")
+        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['update_timestamp'] = session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['update_timestamp'].strftime("%d %B %Y")
+        dict_count_direct += 1
+    # import ipdb
+    # ipdb.set_trace()
+    print('pro_detail_indirect:', pro_detail_indirect)
+
+    dict_count_in_direct = 1
+    session_dict_in_direct = {}
+
+    for items_in_direct in list_data_direct:
+        session_dict_in_direct['session_dict_in_direct{}'.format(dict_count_in_direct)] = items_in_direct
+        session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'] = str(session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'])
+        dict_count_in_direct += 1
+
+    print('session_dict_in_direct:', session_dict_in_direct)
+    return session_dict_in_direct

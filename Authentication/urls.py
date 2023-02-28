@@ -49,6 +49,9 @@ urlpatterns = [
     path('change_password_ok', authentication_views.change_password_ok, name='change_password_ok'),
     path('detailed_view_cmo', management_views.detailed_view_cmo, name='detailed_view_cmo'),
     path('view_detailed_result', management_views.view_detailed_result, name='view_detailed_result'),
+    path('draft_mark_as_complete_project', management_views.draft_mark_as_complete_project, name='draft_mark_as_complete_project'),
+    path('draft_duplicate_project', management_views.draft_duplicate_project, name='draft_duplicate_project'),
+    path('draft_delete_project', management_views.draft_delete_project, name='draft_delete_project'),
 ]
 
 handler400 = "Management.views.error_400"
