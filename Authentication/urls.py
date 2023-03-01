@@ -52,6 +52,7 @@ urlpatterns = [
     path('draft_mark_as_complete_project', management_views.draft_mark_as_complete_project, name='draft_mark_as_complete_project'),
     path('draft_duplicate_project', management_views.draft_duplicate_project, name='draft_duplicate_project'),
     path('draft_delete_project', management_views.draft_delete_project, name='draft_delete_project'),
+    # path('complete_delete_project', management_views.complete_delete_project, name='complete_delete_project'),
 ]
 
 handler400 = "Management.views.error_400"
