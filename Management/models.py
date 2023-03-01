@@ -210,6 +210,7 @@ class RefParameters(models.Model):
         managed = False
         db_table = 'REF_PARAMETERS'
 
+
 class Company(models.Model):
     compid = models.BigAutoField(db_column='CompId', primary_key=True)  # Field name made lowercase.
     companyname = models.TextField(db_column='CompanyName', blank=True, null=True)  # Field name made lowercase.

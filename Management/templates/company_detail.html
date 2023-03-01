@@ -277,579 +277,470 @@
         }
     }
 </script>
+<script>
+    var num_of_year = 1
+    function get_date(){
+        var save_btn= document.getElementById("save_btn");
+        var from= document.getElementById("from");
+        var till = document.getElementById("till");
+        var from_year = parseInt(from.value)
+        var till_year =  parseInt(till.value)
+        console.log(till_year-from_year)
+        total_year =  till_year - from_year
+
+        let yr_range = [];
+        for (let i = from_year; i <= till_year; i++) {
+          yr_range.push(i);
+          console.log('yr_range', yr_range)
+        }
+
+        let list_of_years = [];
+        for (let i = 1; i <= total_year + 1; i++) {
+          list_of_years.push(i);
+          console.log('list_of_years', list_of_years)
+        }
+
+        var container = document.getElementById("info1");
+        for (var i = 0; i < yr_range.length; i++) {
+           info1.innerHTML += '<div style="width:45%;" id="turnover_dropdown">
+                                <label class="project_location_header" style="padding-bottom:12px;">{{i}}</label>
+                                <input type="text" class="project_location_header_select" placeholder="Invent" name="turnover" id="turnover1"><br>
+                            </div>';
+        }
+    }
+
+
+<!--        let year_dict = {};-->
+<!--        for (let i = 0; i < list_of_years.length; i++) {-->
+<!--          year_dict[list_of_years[i]] = yr_range[i];-->
+<!--          console.log(year_dict[key]);-->
+<!--          console.log(year_dict[value]);-->
+<!--        }-->
+
+<!--        let year_dict = []-->
+
+<!--        for x, y in zip(yr_range, list_of_years):-->
+<!--            year_dict.append({'x': x, 'y': y})-->
+
+<!--        }-->
+
+
+
+
+
+<!--    for (const [key, value] of Object.entries(year_dict)) {-->
+<!--      const element = document.getElementById(turnover_dropdown);-->
+<!--      if (element) {-->
+<!--        element.innerHTML = value;-->
+<!--      }-->
+
+
+
+<!--   let year = 0-->
+<!--   for (let i = 0; i < num_of_year; i++) {-->
+<!--        year += num_of_year[i] ;-->
+<!--   }-->
+<!--   document.getElementById("turnover_dropdown")-->
+</script>
+
 <body>
 <div id="main_width" class="main_width scroll" style="overflow-y : auto">
-        <form action="company_detail"  method="post">
-            {% csrf_token %}
-            <!--------------------------------------Progress Bar Step--------------------------------->
-            <!-------------------------------------------End Of Progress Bar------------------------------------->
-            <!---------------------------------------------Company Details--------------------------------------->
-            <div class="header_div_1" >
-                <div class="header_project_a" style="width:100%;">
-                    <div>
-                        <h3 style="font-family:ubuntu;">Company Details</h3>
-                        <div class="paragraph" style="top:50px;">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        </div>
-                    </div>
-                </div>
-                <!--------------------------------------------Project Duration--------------------------------->
-    <!--            <div style="padding-top:100px; width:100% height:20px; background-color:red;">-->
-    <!--                Hi-->
-    <!--            </div>-->
-                <div class="start_subheading2">
-                    <div class="company_name" >
-                        <p>Enter Company Name</p>
-                    </div>
-                    <div class="name_company" style="width:44%; height:auto;">
-                        <div class="form-group">
-                            <label for="company_name" class="company_inner_name" style="padding-bottom:12px;">Company Name</label>
-                            <input type="text" class="input_1" id="company_name" name="company_name" aria-describedby="emailHelp" placeholder="company name" style="font-size:14px; color:white;">
-                        </div>
-                    </div>
-                    <div class="time_period" >
-                        <p>Enter Time Period</p>
-                    </div>
-                    <div class="name_company" style="width:90%; height:auto;">
-                        <div class="div_class_1" style="width:100%;">
-                            <div class="form-group" style="width:100%;">
-                                <label for="company_name" class="company_inner_name" style="padding-bottom:12px;">From</label>
-                                <input type="number" min="1900" max="2099" step="1" value="2016" style="width:100%; color:#6C757D" class="input_1" id="from" name="from" placeholder="date">
-                            </div>
-                            <div class="form-group" style="width:100%;">
-                                <label for="company_name" class="company_inner_name" style="padding-bottom:12px;">Till</label>
-                                <input type="number" min="1900" max="2099" step="1" value="2016" style="width:100%; color:#6C757D" class="input_1" id="till" name="till" placeholder="date">
-                            </div>
-                        </div>
-                    </div>
-    <!--------------------------------------------TurnOver---------------------------------------------------->
-                    <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                        <p id="turnover">Turnover</p>
-                        <div id="down1" class="img_class_toggle_1" onclick="toggleText1()" style="display:block; width: 90%; left:88%; position:absolute; top:180px; ">
-                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>
-                        </div>
-                        <div id="up1" class="img_class_toggle_1" onclick="toggleText1()" style="display:none; width: 90%; left:88%; position:absolute; top:180px; ">
-    <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
-                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>
-                        </div>
-                    </div>
-                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    <div id="info1" style="width:100%; padding-bottom:50px; display:none;">
-                        <div  style="width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2012</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="turnover1" id="turnover1">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2013</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="turnover2" id="turnover2">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2014</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="turnover3" id="turnover3">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2015</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="turnover4" id="turnover4">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2016</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="turnover5" id="turnover5">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2017</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="turnover6" id="turnover6">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2018</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="turnover7" id="turnover7">
-                        </div>
-
-                        <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    </div>
-    <!--------------------------------------------------------End of TurnOver-------------------------------------->
-    <!-------------------------------------Investment in Digital Projects---------------------------------------->
-                    <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                        <div style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                            <p id="dp">Investment in Digital Projects</p>
-                        </div>
-                        <div id="down2" class="img_class_toggle_2" onclick="toggleText2()" style="display:block; width:90%; left:47.5%; position:relative; bottom:20px; ">
-                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn2').click()" alt="Info"></i>
-                        </div>
-                        <div id="up2" class="img_class_toggle_2" onclick="toggleText2()" style="display:none; width: 90%; left:47%; position:relative;bottom:20px;">
-                            <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
-                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn2').click()" alt="Info"></i>
-                        </div>
-                    </div>
-                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    <div id="info2" style="width:100%; padding-bottom:50px; display:none;">
-                        <div  style="width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2012</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp1" id="dp1">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2013</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp2" id="dp2">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2014</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp3" id="dp3">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2015</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp4" id="dp4">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2016</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp5" id="dp5">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2017</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp6" id="dp6">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2018</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp7" id="dp7">
-                        </div>
-
-                        <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    </div>
-    <!-------------------------------------------------End of Investment in Digital Projects------------------------------------->
-<!------------------------------------------------Number Of Employees----------------------------------------------->
-                    <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                        <div style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                            <p id="num_emp">Number of Employees</p>
-                        </div>
-                        <div id="down3" class="img_class_toggle_3" onclick="toggleText3()" style="display:block; width:90%; left:47.5%; position:relative; bottom:20px; ">
-                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn3').click()" alt="Info"></i>
-                        </div>
-                        <div id="up3" class="img_class_toggle_3" onclick="toggleText3()" style="display:none; width: 90%; left:47%; position:relative;bottom:20px;">
-                            <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
-                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn3').click()" alt="Info"></i>
-                        </div>
-                    </div>
-                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    <div id="info3" style="width:100%; padding-bottom:50px; display:none;">
-                        <div  style="width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2012</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp1" id="dp1">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2013</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp2" id="dp2">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2014</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp3" id="dp3">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2015</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp4" id="dp4">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2016</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp5" id="dp5">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2017</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp6" id="dp6">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2018</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp7" id="dp7">
-                        </div>
-
-                        <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    </div>
-<!-------------------------------------End of Number of employees---------------------------------------->
-<!-------------------------------------Unit Of Production--------------------------------------------->
-                    <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                        <div style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                            <p id="unit_prod">Unit of Production</p>
-                        </div>
-                        <div id="down4" class="img_class_toggle_4" onclick="toggleText4()" style="display:block; width:90%; left:47.5%; position:relative; bottom:20px; ">
-                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn4').click()" alt="Info"></i>
-                        </div>
-                        <div id="up4" class="img_class_toggle_4" onclick="toggleText4()" style="display:none; width: 90%; left:47%; position:relative;bottom:20px;">
-                            <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
-                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn4').click()" alt="Info"></i>
-                        </div>
-                    </div>
-                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    <div id="info4" style="width:100%; padding-bottom:50px; display:none;">
-                        <div  style="width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2012</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp1" id="dp1">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2013</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp2" id="dp2">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2014</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp3" id="dp3">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2015</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp4" id="dp4">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2016</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp5" id="dp5">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2017</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp6" id="dp6">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2018</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp7" id="dp7">
-                        </div>
-
-                        <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    </div>
-<!---------------------------------------------End of Unit Of Production------------------------------------------>
-<!---------------------------------------------Production over the Years----------------------------------------->
-                    <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                        <div style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                            <p id="prod_year">Production over the Years</p>
-                        </div>
-                        <div id="down5" class="img_class_toggle_5" onclick="toggleText5()" style="display:block; width:90%; left:47.5%; position:relative; bottom:20px; ">
-                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn5').click()" alt="Info"></i>
-                        </div>
-                        <div id="up5" class="img_class_toggle_5" onclick="toggleText5()" style="display:none; width: 90%; left:47%; position:relative;bottom:20px;">
-                            <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
-                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn5').click()" alt="Info"></i>
-                        </div>
-                    </div>
-                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    <div id="info5" style="width:100%; padding-bottom:50px; display:none;">
-                        <div  style="width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2012</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp1" id="dp1">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2013</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp2" id="dp2">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2014</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp3" id="dp3">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2015</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp4" id="dp4">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2016</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp5" id="dp5">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2017</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp6" id="dp6">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2018</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp7" id="dp7">
-                        </div>
-                        <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    </div>
-<!------------------------------------------------End of Production over the Years--------------------------------------------------->
-<!------------------------------------------------Target trajectory (TCO2e) defined by the SBTi-------------------------------------->
-                    <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                        <div style="text-align:inline; width:90%; padding:0px; margin-top:10px; float:left; ">
-                            <p id="target_sbt">Target trajectory (TCO2e)by the SBTi</p>
-                        </div>
-                        <div id="down6" class="img_class_toggle_6" onclick="toggleText6()" style="display:block; width:90%; left:47.5%; position:relative; bottom:20px; ">
-                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn6').click()" alt="Info"></i>
-                        </div>
-                        <div id="up6" class="img_class_toggle_6" onclick="toggleText6()" style="display:none; width: 90%; left:47%; position:relative;bottom:20px;">
-                            <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
-                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn6').click()" alt="Info"></i>
-                        </div>
-                    </div>
-                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    <div id="info6" style="width:100%; padding-bottom:50px; display:none;">
-                        <div class="scope">
-                            <div style="margin-top:10px; text-align:inline; margin-left:100px; width:80%; padding:0px; margin-top:10px; float:left;">
-                                <p class="scope_1">Scope (1+2)</p>
-                            </div>
-                            <div id="down11" class="img_class_toggle_11" onclick="toggleText11()" style=" float:right; left:47%;  display:block; width:50%;  position:relative; bottom:30px; ">
-                                <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn11').click()" alt="Info"></i>
-                            </div>
-                            <div id="up11" class="img_class_toggle11" onclick="toggleText11()" style=" left:97%;  display:none; width:90%;  position:relative; bottom:30px;">
-                                <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
-                                <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn11').click()" alt="Info"></i>
-                            </div>
-                        </div>
-                        <div id="info11" style="margin-left:100px; width:100%; padding-bottom:50px; display:none;">
-                            <div  style="width:45%;">
-                                <label class="project_location_header" style="padding-bottom:12px;">2012</label>
-                                <input type="text" class="project_location_header_select" placeholder="Invent" name="dp1" id="dp1">
-                            </div>
-                            <div  style="padding-top:20px; width:45%;">
-                                <label class="project_location_header" style="padding-bottom:12px;">2035</label>
-                                <input type="text" class="project_location_header_select" placeholder="Invent" name="dp2" id="dp2">
-                            </div>
-                            <div  style="padding-top:20px; width:45%;">
-                                <label class="project_location_header" style="padding-bottom:12px;">2050</label>
-                                <input type="text" class="project_location_header_select" placeholder="Invent" name="dp3" id="dp3">
-                            </div>
-                        </div>
-                        <hr style="border: 1px solid #ADB5BD; width: 90%;">
-
-                        <div class="scope">
-                            <div style="margin-top:10px; text-align:inline; margin-left:100px; width:80%; padding:0px; margin-top:10px; float:left;">
-                                <p class="scope_1" style="width:80%;">Scope 3 Target</p>
-                            </div>
-                            <div id="down12" class="img_class_toggle_12" onclick="toggleText12()" style=" float:right; left:47%;  display:block; width:50%;  position:relative; bottom:30px; ">
-                                <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn12').click()" alt="Info"></i>
-                            </div>
-                            <div id="up12" class="img_class_toggle12" onclick="toggleText12()" style=" left:97%;  display:none; width:90%;  position:relative; bottom:30px;">
-                                <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
-                                <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn12').click()" alt="Info"></i>
-                            </div>
-                        </div>
-                        <div id="info12" style="margin-left:100px; width:100%; padding-bottom:50px; display:none;">
-                            <div  style="width:45%;">
-                                <label class="project_location_header" style="padding-bottom:12px;">2012</label>
-                                <input type="text" class="project_location_header_select" placeholder="Invent" name="dp1" id="dp1">
-                            </div>
-                            <div  style="padding-top:20px; width:45%;">
-                                <label class="project_location_header" style="padding-bottom:12px;">2035</label>
-                                <input type="text" class="project_location_header_select" placeholder="Invent" name="dp2" id="dp2">
-                            </div>
-                            <div  style="padding-top:20px; width:45%;">
-                                <label class="project_location_header" style="padding-bottom:12px;">2050</label>
-                                <input type="text" class="project_location_header_select" placeholder="Invent" name="dp3" id="dp3">
-                            </div>
-                        </div>
-                        <hr style="border: 1px solid #ADB5BD; width: 90%;">
-
-                        <div class="scope">
-                            <div style="margin-top:10px; text-align:inline; margin-left:100px; width:80%; padding:0px; margin-top:10px; float:left;">
-                                <p class="scope_1" style="width:80%;">Precise Trajectory of IT/Digital Projects</p>
-                            </div>
-                            <div id="down13" class="img_class_toggle_13" onclick="toggleText13()" style=" float:right; left:47%;  display:block; width:50%;  position:relative; bottom:30px; ">
-                                <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn13').click()" alt="Info"></i>
-                            </div>
-                            <div id="up13" class="img_class_toggle13" onclick="toggleText13()" style=" left:97%;  display:none; width:90%;  position:relative; bottom:30px;">
-                                <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
-                                <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn13').click()" alt="Info"></i>
-                            </div>
-                        </div>
-                        <div id="info13" style="margin-left:100px; width:100%; padding-bottom:50px; display:none;">
-                            <div  style="width:45%;">
-                                <label class="project_location_header" style="padding-bottom:12px;">2012</label>
-                                <input type="text" class="project_location_header_select" placeholder="Invent" name="dp1" id="dp1">
-                            </div>
-                            <div  style="padding-top:20px; width:45%;">
-                                <label class="project_location_header" style="padding-bottom:12px;">2035</label>
-                                <input type="text" class="project_location_header_select" placeholder="Invent" name="dp2" id="dp2">
-                            </div>
-                            <div  style="padding-top:20px; width:45%;">
-                                <label class="project_location_header" style="padding-bottom:12px;">2050</label>
-                                <input type="text" class="project_location_header_select" placeholder="Invent" name="dp3" id="dp3">
-                            </div>
-                        </div>
-                        <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    </div>
-<!-------------------------------------------------End of Target trajectory (TCO2e) defined by the SBTi---------------------------------------------->
-<!----------------------------------------------------Intensity figure----------------------------------->
-                    <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                        <div style="text-align:inline; width:170%; padding:0px; margin-top:10px; float:left; ">
-                            <p id="precise">Precise trajectory of IT (intensity figures per project)</p>
-                        </div>
-                        <div id="down7" class="img_class_toggle_7" onclick="toggleText7()" style="display:block; width:70%; left:26.5%; position:relative; bottom:20px; ">
-                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn7').click()" alt="Info"></i>
-                        </div>
-                        <div id="up7" class="img_class_toggle_7" onclick="toggleText7()" style="display:none; width:70%; left:26.5%; position:relative;bottom:20px;">
-                            <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
-                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn7').click()" alt="Info"></i>
-                        </div>
-                    </div>
-                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    <div id="info7" style="width:100%; padding-bottom:50px; display:none;">
-                        <div  style="width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2012</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp1" id="dp1">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2013</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp2" id="dp2">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2014</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp3" id="dp3">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2015</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp4" id="dp4">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2016</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp5" id="dp5">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2017</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp6" id="dp6">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2018</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp7" id="dp7">
-                        </div>
-                        <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    </div>
-<!--------------------------------------------------------End of Intensity figure-------------------------------------------->
-<!--------------------------------------------------Resources involved in the project (Count)-------------------------------->
-                    <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                        <div style="text-align:inline; width:130%; padding:0px; margin-top:10px; float:left; ">
-                            <p id="resource">Resources involved in the project (Count)</p>
-                        </div>
-                        <div id="down8" class="img_class_toggle_8" onclick="toggleText8()" style="display:block; width:70%; left:32.5%; position:relative; bottom:20px; ">
-                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn8').click()" alt="Info"></i>
-                        </div>
-                        <div id="up8" class="img_class_toggle_8" onclick="toggleText8()" style="display:none; width:70%; left:32.5%; position:relative;bottom:20px;">
-                            <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
-                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn8').click()" alt="Info"></i>
-                        </div>
-                    </div>
-                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    <div id="info8" style="width:100%; padding-bottom:50px; display:none;">
-                        <div  style="width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2012</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp1" id="dp1">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2013</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp2" id="dp2">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2014</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp3" id="dp3">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2015</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp4" id="dp4">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2016</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp5" id="dp5">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2017</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp6" id="dp6">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2018</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp7" id="dp7">
-                        </div>
-                        <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    </div>
-<!----------------------------------------------------End of Resources involved in the project (Count)--------------------------------------->
-<!----------------------------------------------------Real emissions of my portfolio observed(TCO2e)---------------------------------------->
-                    <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                        <div style="text-align:inline; width:130%; padding:0px; margin-top:10px; float:left; ">
-                            <p id="real_emi">Real emissions of my portfolio observed(TCO2e)</p>
-                        </div>
-                        <div id="down9" class="img_class_toggle_9" onclick="toggleText9()" style="display:block; width:70%; left:32.5%; position:relative; bottom:20px; ">
-                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn9').click()" alt="Info"></i>
-                        </div>
-                        <div id="up9" class="img_class_toggle_9" onclick="toggleText9()" style="display:none; width:70%; left:32.5%; position:relative;bottom:20px;">
-                            <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
-                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn9').click()" alt="Info"></i>
-                        </div>
-                    </div>
-                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    <div id="info9" style="width:100%; padding-bottom:50px; display:none;">
-                        <div  style="width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2012</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp1" id="dp1">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2013</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp2" id="dp2">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2014</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp3" id="dp3">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2015</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp4" id="dp4">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2016</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp5" id="dp5">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2017</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp6" id="dp6">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2018</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp7" id="dp7">
-                        </div>
-                        <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    </div>
-<!--------------------------------------------------End of Real emissions of my portfolio observed(TCO2e)------------------------------------------>
-<!--------------------------------------------------Projection by 2050 of my digital contribution(TCO2e)------------------------------------------->
-                    <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
-                        <div style="text-align:inline; width:130%; padding:0px; margin-top:10px; float:left; ">
-                            <p id="digital">Projection by 2050 of my digital contribution</p>
-                        </div>
-                        <div id="down10" class="img_class_toggle_10" onclick="toggleText10()" style="display:block; width:70%; left:32.5%; position:relative; bottom:20px; ">
-                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn10').click()" alt="Info"></i>
-                        </div>
-                        <div id="up10" class="img_class_toggle_10" onclick="toggleText10()" style="display:none; width:70%; left:32.5%; position:relative;bottom:20px;">
-                            <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
-                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn10').click()" alt="Info"></i>
-                        </div>
-                    </div>
-                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    <div id="info10" style="width:100%; padding-bottom:50px; display:none;">
-                        <div  style="width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2012</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp1" id="dp1">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2013</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp2" id="dp2">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2014</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp3" id="dp3">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2015</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp4" id="dp4">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2016</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp5" id="dp5">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2017</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp6" id="dp6">
-                        </div>
-                        <div  style="padding-top:20px; width:45%;">
-                            <label class="project_location_header" style="padding-bottom:12px;">2018</label>
-                            <input type="text" class="project_location_header_select" placeholder="Invent" name="dp7" id="dp7">
-                        </div>
-                        <hr style="border: 1px solid #ADB5BD; width: 90%;">
-                    </div>
-                    <div style="padding-bottom:150px;">
-                    </div>
-<!-------------------------------------------End of Projection by 2050 of my digital contribution(TCO2e)---------------------------------------------------->
-                    <div class="footer" style="right:15px;">
-                        <button type="submit" class="save" style="width:120px; margin-right:120px; float:right; border-radius:4px;  "><b class="continue" style="width:110px;">Save Details</b></button>
+    <form action="company_detail"  method="post">
+        {% csrf_token %}
+        <!--------------------------------------Progress Bar Step--------------------------------->
+        <!-------------------------------------------End Of Progress Bar------------------------------------->
+        <!---------------------------------------------Company Details--------------------------------------->
+        <div class="header_div_1" >
+            <div class="header_project_a" style="width:100%;">
+                <div>
+                    <h3 style="font-family:ubuntu;">Company Details</h3>
+                    <div class="paragraph" style="top:50px;">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+            <!--------------------------------------------Project Duration--------------------------------->
+            <!--            <div style="padding-top:100px; width:100% height:20px; background-color:red;">-->
+            <!--                Hi-->
+            <!--            </div>-->
+            <div class="start_subheading2">
+                <div class="company_name" >
+                    <p>Enter Company Name</p>
+                </div>
+                <div class="name_company" style="width:44%; height:auto;">
+                    <div class="form-group">
+                        <label for="company_name" class="company_inner_name" style="padding-bottom:12px;">Company Name</label>
+                        <input type="text" class="input_1" id="company_name" name="company_name" aria-describedby="emailHelp" placeholder="company name" style="font-size:14px; color:white;">
+                    </div>
+                </div>
+                <div class="time_period" >
+                    <p>Enter Time Period</p>
+                </div>
+                <div class="name_company" style="width:90%; height:auto;">
+                    <div class="div_class_1"  style="width:100%;">
+                        <div class="form-group" style="width:100%;">
+                            <label for="company_name" class="company_inner_name" style="padding-bottom:12px;">From</label>
+                            <input type="date" placeholder="DD/MM/YYYY" id="from" name="from" style="padding:10px; width:100%; height:30px; font-size: 14px; text-color: #6C757D; background:transparent ;color:#6C757D; color-scheme: dark; border: 1px solid #6C757D; border-radius: 4px;" >
+                            <!--                                <input type="date"  step="1"  style="width:100%; color:#6C757D" class="input_1" id="from" name="from" placeholder="date">-->
+                        </div>
+                        <div class="form-group" style="width:100%;">
+                            <label for="company_name" class="company_inner_name" style="padding-bottom:12px;">Till</label>
+                            <input type="date" placeholder="DD/MM/YYYY" id="till" name="till" style="padding:10px; color-scheme: dark; height:30px; width:100%; font-size: 14px;  background:transparent; color:#6C757D; border: 1px solid #6C757D; border-radius: 4px;" >
+                            <!--                                <input type="date"  step="1"  style="width:100%; color:#6C757D" class="input_1" id="till" name="till" placeholder="date">-->
+                        </div>
+                    </div>
+                </div>
+                <!--------------------------------------------Submit button---------------------------------------------------->
+                <div style="padding-bottom:30px;">
+                    <button type="submit" class="save" id ="save" name="save"  style="width:100px; margin-right:96px; float:right; border-radius:4px;  "><b class="continue" style="width:80px;">Save </b></button>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 90%;">
 
-    <!-----------------------------------------End Of Project Heading------------------------------------>
+                <!--------------------------------------------TurnOver---------------------------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <p id="turnover">Turnover</p>
+                    <div id="down1" class="img_class_toggle_1" onclick="toggleText1()" style="display:block; width: 90%; left:88%; position:absolute; top:250px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>
+                    </div>
+                    <div id="up1" class="img_class_toggle_1" onclick="toggleText1()" style="display:none; width: 90%; left:88%; position:absolute; top:250px; ">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                <div id="info1" style="width:100%; padding-bottom:50px; display:none;">
+                    {% for id, value in year_dict.items %}
+                    <div style="width:45%;" id="turnover_dropdown">
+                        <label class="project_location_header" style="padding-bottom:12px;">{{value}}</label>
+                        <input type="text" class="project_location_header_select" placeholder="Invent" name="turnover_{{id}}" id="turnover1"><br>
+                    </div>
+                    {% endfor %}
+
+
+                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                </div>
+                <!--------------------------------------------------------End of TurnOver-------------------------------------->
+                <!-------------------------------------Investment in Digital Projects---------------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="dp">Investment in Digital Projects</p>
+                    </div>
+                    <div id="down2" class="img_class_toggle_2" onclick="toggleText2()" style="display:block; width:90%; left:47.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn2').click()" alt="Info"></i>
+                    </div>
+                    <div id="up2" class="img_class_toggle_2" onclick="toggleText2()" style="display:none; width: 90%; left:47%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn2').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                <div id="info2" style="width:100%; padding-bottom:50px; display:none;">
+                    {% for id, value in year_dict.items %}
+                    <div  style="width:45%;">
+                        <label class="project_location_header" style="padding-bottom:12px;">{{value}}</label>
+                        <input type="text" class="project_location_header_select" placeholder="Invent" name="investmentindigitalprojects_{{id}}" id="investmentindigitalprojects"><br>
+                    </div>
+                    {% endfor %}
+
+                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                </div>
+                <!-------------------------------------------------End of Investment in Digital Projects------------------------------------->
+                <!------------------------------------------------Number Of Employees----------------------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="num_emp">Number of Employees</p>
+                    </div>
+                    <div id="down3" class="img_class_toggle_3" onclick="toggleText3()" style="display:block; width:90%; left:47.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn3').click()" alt="Info"></i>
+                    </div>
+                    <div id="up3" class="img_class_toggle_3" onclick="toggleText3()" style="display:none; width: 90%; left:47%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn3').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                <div id="info3" style="width:100%; padding-bottom:50px; display:none;">
+                    {% for id, value in year_dict.items %}
+                    <div  style="width:45%;">
+                        <label class="project_location_header" style="padding-bottom:12px;">{{value}}</label>
+                        <input type="text" class="project_location_header_select" placeholder="Invent" name="noofemployees_{{id}}" id="noofemployees"><br>
+                    </div>
+                    {% endfor %}
+
+                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                </div>
+                <!-------------------------------------End of Number of employees---------------------------------------->
+                <!-------------------------------------Unit Of Production--------------------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="unit_prod">Unit of Production</p>
+                    </div>
+                    <div id="down4" class="img_class_toggle_4" onclick="toggleText4()" style="display:block; width:90%; left:47.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn4').click()" alt="Info"></i>
+                    </div>
+                    <div id="up4" class="img_class_toggle_4" onclick="toggleText4()" style="display:none; width: 90%; left:47%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn4').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                <div id="info4" style="width:100%; padding-bottom:50px; display:none;">
+                    {% for id, value in year_dict.items %}
+                    <div  style="width:45%;">
+                        <label class="project_location_header" style="padding-bottom:12px;">{{value}}</label>
+                        <input type="text" class="project_location_header_select" placeholder="Invent" name="companyunit_{{id}}" id="companyunit"><br>
+                    </div>
+                    {% endfor %}
+
+
+                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                </div>
+                <!---------------------------------------------End of Unit Of Production------------------------------------------>
+                <!---------------------------------------------Production over the Years----------------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="prod_year">Production over the Years</p>
+                    </div>
+                    <div id="down5" class="img_class_toggle_5" onclick="toggleText5()" style="display:block; width:90%; left:47.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn5').click()" alt="Info"></i>
+                    </div>
+                    <div id="up5" class="img_class_toggle_5" onclick="toggleText5()" style="display:none; width: 90%; left:47%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn5').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                <div id="info5" style="width:100%; padding-bottom:50px; display:none;">
+                    {% for id, value in year_dict.items %}
+                    <div  style="width:45%;">
+                        <label class="project_location_header" style="padding-bottom:12px;">{{value}}</label>
+                        <input type=" text" class="project_location_header_select" placeholder="Invent" name="productionoveryears_{{id}}" id="productionoveryears"><br>
+                    </div>
+                    {% endfor %}
+
+                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                </div>
+                <!------------------------------------------------End of Production over the Years--------------------------------------------------->
+                <!------------------------------------------------Target trajectory (TCO2e) defined by the SBTi-------------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="text-align:inline; width:90%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="target_sbt">Target trajectory (TCO2e)by the SBTi</p>
+                    </div>
+                    <div id="down6" class="img_class_toggle_6" onclick="toggleText6()" style="display:block; width:90%; left:47.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn6').click()" alt="Info"></i>
+                    </div>
+                    <div id="up6" class="img_class_toggle_6" onclick="toggleText6()" style="display:none; width: 90%; left:47%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn6').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                <div id="info6" style="width:100%; padding-bottom:50px; display:none;">
+                    <div class="scope">
+                        <div style="margin-top:10px; text-align:inline; margin-left:100px; width:80%; padding:0px; margin-top:10px; float:left;">
+                            <p class="scope_1">Scope (1+2)</p>
+                        </div>
+                        <div id="down11" class="img_class_toggle_11" onclick="toggleText11()" style=" float:right; left:47%;  display:block; width:50%;  position:relative; bottom:30px; ">
+                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn11').click()" alt="Info"></i>
+                        </div>
+                        <div id="up11" class="img_class_toggle11" onclick="toggleText11()" style=" left:97%;  display:none; width:90%;  position:relative; bottom:30px;">
+                            <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn11').click()" alt="Info"></i>
+                        </div>
+                    </div>
+                    <div id="info11" style="margin-left:100px; width:100%; padding-bottom:50px; display:none;">
+                        <div  style="width:45%;">
+                            <label class="project_location_header" style="padding-bottom:12px;">{{year_dict.1}}</label>
+                            <input type="text" class="project_location_header_select" placeholder="Invent" name="targettrajectoryscope1_2" id="targettrajectoryscope1_2"><br>
+                        </div>
+                        <div  style="width:45%;">
+                            <label class="project_location_header" style="padding-bottom:12px;">2035</label>
+                            <input type="text" class="project_location_header_select" placeholder="Invent" name="targettrajectoryscope" id="targettrajectoryscope1_2_2"><br>
+                        </div>
+                        <div  style="width:45%;">
+                            <label class="project_location_header" style="padding-bottom:12px;">2050</label>
+                            <input type="text" class="project_location_header_select" placeholder="Invent" name="targettrajectoryscope" id="targettrajectoryscope1_2_3"><br>
+                        </div>
+
+
+                    </div>
+                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
+
+                    <div class="scope">
+                        <div style="margin-top:10px; text-align:inline; margin-left:100px; width:80%; padding:0px; margin-top:10px; float:left;">
+                            <p class="scope_1" style="width:80%;">Scope 3 Target</p>
+                        </div>
+                        <div id="down12" class="img_class_toggle_12" onclick="toggleText12()" style=" float:right; left:47%;  display:block; width:50%;  position:relative; bottom:30px; ">
+                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn12').click()" alt="Info"></i>
+                        </div>
+                        <div id="up12" class="img_class_toggle12" onclick="toggleText12()" style=" left:97%;  display:none; width:90%;  position:relative; bottom:30px;">
+                            <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn12').click()" alt="Info"></i>
+                        </div>
+                    </div>
+                    <div id="info12" style="margin-left:100px; width:100%; padding-bottom:50px; display:none;">
+                        <div  style="width:45%;">
+                            <label class="project_location_header" style="padding-bottom:12px;">{{year_dict.1}}</label>
+                            <input type="text" class="project_location_header_select" placeholder="Invent" name="targettrajectoryscope3" id="targettrajectoryscope3"><br>
+                        </div>
+                        <div  style="width:45%;">
+                            <label class="project_location_header" style="padding-bottom:12px;">2035</label>
+                            <input type="text" class="project_location_header_select" placeholder="Invent" name="targettrajectoryscope" id="targettrajectoryscope3_2"><br>
+                        </div>
+                        <div  style="width:45%;">
+                            <label class="project_location_header" style="padding-bottom:12px;">2050</label>
+                            <input type="text" class="project_location_header_select" placeholder="Invent" name="targettrajectoryscope" id="targettrajectoryscope3_3"><br>
+                        </div>
+
+
+                    </div>
+                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
+
+                    <div class="scope">
+                        <div style="margin-top:10px; text-align:inline; margin-left:100px; width:80%; padding:0px; margin-top:10px; float:left;">
+                            <p class="scope_1" style="width:80%;">Precise Trajectory of IT/Digital Projects</p>
+                        </div>
+                        <div id="down13" class="img_class_toggle_13" onclick="toggleText13()" style=" float:right; left:47%;  display:block; width:50%;  position:relative; bottom:30px; ">
+                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn13').click()" alt="Info"></i>
+                        </div>
+                        <div id="up13" class="img_class_toggle13" onclick="toggleText13()" style=" left:97%;  display:none; width:90%;  position:relative; bottom:30px;">
+                            <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn13').click()" alt="Info"></i>
+                        </div>
+                    </div>
+                    <div id="info13" style="margin-left:100px; width:100%; padding-bottom:50px; display:none;">
+                        <div  style="width:45%;">
+                            <label class="project_location_header" style="padding-bottom:12px;">{{year_dict.1}}</label>
+                            <input type="text" class="project_location_header_select" placeholder="Invent" name="precisetrajectoryitprojects" id="precisetrajectoryitprojects"><br>
+                        </div>
+                        <div  style="width:45%;">
+                            <label class="project_location_header" style="padding-bottom:12px;">2035</label>
+                            <input type="text" class="project_location_header_select" placeholder="Invent" name="precisetrajectoryitprojects_2" id="precisetrajectoryitprojects_2"><br>
+                        </div>
+                        <div  style="width:45%;">
+                            <label class="project_location_header" style="padding-bottom:12px;">2050</label>
+                            <input type="text" class="project_location_header_select" placeholder="Invent" name="precisetrajectoryitprojects_3" id="precisetrajectoryitprojects_3"><br>
+                        </div>
+
+                    </div>
+                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                </div>
+                <!-------------------------------------------------End of Target trajectory (TCO2e) defined by the SBTi---------------------------------------------->
+                <!----------------------------------------------------Carbon Price----------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="text-align:inline; width:170%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="precise">Carbon Price</p>
+                    </div>
+                    <div id="down7" class="img_class_toggle_7" onclick="toggleText7()" style="display:block; width:70%; left:26.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn7').click()" alt="Info"></i>
+                    </div>
+                    <div id="up7" class="img_class_toggle_7" onclick="toggleText7()" style="display:none; width:70%; left:26.5%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn7').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                <div id="info7" style="width:100%; padding-bottom:50px; display:none;">
+                    {% for id, value in year_dict.items %}
+                    <div  style="width:45%;">
+                        <label class="project_location_header" style="padding-bottom:12px;">{{value}}</label>
+                        <input type="text" class="project_location_header_select" placeholder="Invent" name="carbonprice_{{id}}" id="carbonprice"><br>
+                    </div>
+                    {% endfor %}
+                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                </div>
+                <!--------------------------------------------------------End of Intensity figure-------------------------------------------->
+                <!--------------------------------------------------Actual Emissions of my Portfolio-------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="text-align:inline; width:130%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="resource">Actual Emissions of my Portfolio</p>
+                    </div>
+                    <div id="down8" class="img_class_toggle_8" onclick="toggleText8()" style="display:block; width:70%; left:32.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn8').click()" alt="Info"></i>
+                    </div>
+                    <div id="up8" class="img_class_toggle_8" onclick="toggleText8()" style="display:none; width:70%; left:32.5%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn8').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                <div id="info8" style="width:100%; padding-bottom:50px; display:none;">
+                    <div  style="width:45%;">
+                        <label class="project_location_header" style="padding-bottom:12px;">Total</label>
+                        <input type="text" class="project_location_header_select" placeholder="Invent" name="actualemssionportfolio" id="actualemssionportfolio"><br>
+                    </div>
+                    <div  style="width:45%;">
+                        <label class="project_location_header" style="padding-bottom:12px;">Direct</label>
+                        <input type="text" class="project_location_header_select" placeholder="Invent" name="actualemissiondirect" id="actualemissiondirect"><br>
+                    </div>
+                    <div  style="width:45%;">
+                        <label class="project_location_header" style="padding-bottom:12px;">Indirect</label>
+                        <input type="text" class="project_location_header_select" placeholder="Invent" name="actualemissionindirect" id="actualemissionindirect"><br>
+                    </div>
+
+
+
+                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                </div>
+                <!----------------------------------------------------End of Resources involved in the project (Count)--------------------------------------->
+                <!----------------------------------------------------Real emissions of my portfolio observed(TCO2e)---------------------------------------->
+                <!--                    <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">-->
+                <!--                        <div style="text-align:inline; width:130%; padding:0px; margin-top:10px; float:left; ">-->
+                <!--                            <p id="real_emi">Projection by 2050 of my digital contribution(TCO2e)</p>-->
+                <!--                        </div>-->
+                <!--                        <div id="down9" class="img_class_toggle_9" onclick="toggleText9()" style="display:block; width:70%; left:32.5%; position:relative; bottom:20px; ">-->
+                <!--                            <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn9').click()" alt="Info"></i>-->
+                <!--                        </div>-->
+                <!--                        <div id="up9" class="img_class_toggle_9" onclick="toggleText9()" style="display:none; width:70%; left:32.5%; position:relative;bottom:20px;">-->
+                <!--                            &lt;!&ndash;                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>&ndash;&gt;-->
+                <!--                            <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn9').click()" alt="Info"></i>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                    <hr style="border: 1px solid #ADB5BD; width: 90%;">-->
+                <!--                    <div id="info9" style="width:100%; padding-bottom:50px; display:none;">-->
+                <!--                        <div  style="width:45%;">-->
+                <!--                            <label class="project_location_header" style="padding-bottom:12px;">{{year_dict.1}}</label>-->
+                <!--                            <input type="text" class="project_location_header_select" placeholder="Invent" name="projection2050" id="projection2050"><br>-->
+                <!--                        </div>-->
+
+                <!--                        <hr style="border: 1px solid #ADB5BD; width: 90%;">-->
+                <!--                    </div>-->
+                <!--------------------------------------------------End of Real emissions of my portfolio observed(TCO2e)------------------------------------------>
+                <!--------------------------------------------------Projection by 2050 of my digital contribution(TCO2e)------------------------------------------->
+                <div class="sub_header" style="width:90%; padding:0px; margin-top:10px; float:left; ">
+                    <div style="text-align:inline; width:130%; padding:0px; margin-top:10px; float:left; ">
+                        <p id="digital">Projection by 2050 of my digital contribution(TCO2e)</p>
+                    </div>
+                    <div id="down10" class="img_class_toggle_10" onclick="toggleText10()" style="display:block; width:70%; left:32.5%; position:relative; bottom:20px; ">
+                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn10').click()" alt="Info"></i>
+                    </div>
+                    <div id="up10" class="img_class_toggle_10" onclick="toggleText10()" style="display:none; width:70%; left:32.5%; position:relative;bottom:20px;">
+                        <!--                        <i class="fa fa-angle-down" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn1').click()" alt="Info"></i>-->
+                        <i class="fa fa-chevron-up" aria-hidden="true" style="color:#ADB5BD;" onclick="document.getElementById('info-btn10').click()" alt="Info"></i>
+                    </div>
+                </div>
+                <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                <div id="info10" style="width:100%; padding-bottom:50px; display:none;">
+                    <div  style="width:45%;">
+                        <label class="project_location_header" style="padding-bottom:12px;">{{year_dict.1}}</label>
+                        <input type="text" class="project_location_header_select" placeholder="Invent" name="projection2050" id="projection2050"><br>
+                    </div>
+
+                    <hr style="border: 1px solid #ADB5BD; width: 90%;">
+                </div>
+                <div style="padding-bottom:150px;">
+                </div>
+                <!-------------------------------------------End of Projection by 2050 of my digital contribution(TCO2e)---------------------------------------------------->
+                <div class="footer" style="right:15px;">
+                    <button type="submit" name="save_detail" class="save" style="width:120px; margin-right:120px; float:right; border-radius:4px;  "><b class="continue" style="width:110px;">Save Details</b></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-----------------------------------------End Of Project Heading------------------------------------>
 </div>
 
 {% endblock %}

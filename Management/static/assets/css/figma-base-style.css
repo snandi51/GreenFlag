@@ -299,7 +299,26 @@
     padding-right:20px;
 }
 
+.details .recentOrders_1{
+    position:relative;
+    padding:10px;
+    min-height:200px;
+    background:#1A1D23;
+    width:96%;
+    padding-right:20px;
+}
+
+
 .details_1 .recentOrders{
+    position:relative;
+    padding:10px;
+    min-height:200px;
+    background:#1A1D23;
+    width:96%;
+    padding-right:20px;
+}
+
+.details_1 .recentOrders_1{
     position:relative;
     padding:10px;
     min-height:200px;
@@ -788,6 +807,7 @@
 .select_div{
     float:left;
     width:100%;
+    margin-left:-20px;
 }
 .graph_representation{
     display: flex;

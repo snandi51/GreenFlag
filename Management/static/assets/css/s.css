@@ -1599,6 +1599,7 @@ input::-webkit-calendar-picker-indicator: {
     }
     .details .recentOrders{
         overflow-x: auto;
+        display: list-item;
     }
     .details .recentOrders table{
         width: 600px;

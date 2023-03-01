@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import django
-from Management.models import ProjectDetails
+from Management.models import ProjectDetails, CompanyDetails, Company
 from Management.models import RefCarbonfootprint
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
@@ -396,7 +396,6 @@ def projectA(request):
         print('list_run:', list_run)
         request.session["list_run"] = list_run
 
-
         role_list = ['Project Manager', 'IT Leader 1']
         request.session['role_list'] = role_list
         print('role_list', role_list)
@@ -449,11 +448,11 @@ def projectA(request):
             'Quater_run': Quater_run,
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_run': request.session.get('list_run'),
-            'list_count_run':request.session.get('list_count_run'),
-            'pl_1': pl_1,
-            'ps': ps,
-            'bu': bu,
-            'department': department,
+            'list_count_run': request.session.get('list_count_run'),
+            'pl_1': request.session.get('pl_1'),
+            'ps': request.session.get('ps'),
+            'bu': request.session.get('bu'),
+            'department': request.session.get('department'),
             'type_project': type_project,
             'name': name,
             'list': request.session.get('list'),
@@ -479,7 +478,6 @@ def projectA(request):
             'progress_bar': True,
         }
         return render(request, 'load_plan.html', context)
-
 
     totalyear = request.session.get('totalyear')  
     context = {
@@ -527,6 +525,7 @@ def load_plan(request):
             for i in range(1, list_length + 1):
                 local_list.append(request.POST.get(role[j-1] + '_' + str(i)))
                 print('local_list', local_list)
+
                 if local_list == ['']:
                     local_list = ['0']
                     # print('local_list', local_list)
@@ -748,8 +747,6 @@ def di_daily_commute(request):
         # for i in daily_commute:
         #     print(i)
         # print(daily_commute)
-       
-        
         
         km_buildlist=[]    
         km_runlist=[]
@@ -759,8 +756,7 @@ def di_daily_commute(request):
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
+
         for k in range(1,len(role)+1):
             # print(k)
 
@@ -807,18 +803,14 @@ def di_daily_commute(request):
         # print(roleid)
         # roleid.save()
 
-        
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
-
-
         
         direct_impact_data = ImpactsDirects.objects.all()
         ref_parameters_list = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         for i in ref_parameters_list :
             if i.get('subcategory') == transport_type[0]:
                 emissionfactor = i.get('emissionfactor')
-
 
         try:
                     IMPACTS_DIRECTS_data = ImpactsDirects(
@@ -868,25 +860,11 @@ def di_daily_commute(request):
         # print('d1',daily_em)
         # print('d2',dc)
         # print('d3',em_factor)
-
-        
-
-
-
         
         # build_mul=[]
         # for i in range(0, len(buid_km_int)):
         #     build_mul.append(buid_km_int[i] * buid_avg_int[i])
         # print('mul',build_mul)
-
-
-
-
-
-
-
-
-
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
@@ -1406,6 +1384,7 @@ def di_business_travel(request):
     }
     return render(request, 'di_business_travel.html',context)
 
+
 def di_laptop(request):
     if request.method=="POST":
         # import ipdb
@@ -1669,8 +1648,6 @@ def di_laptop(request):
         'raw_data' : raw_data,
     }
     return render(request, 'di_laptop.html',context)
-
-
 
 
 def di_monitor(request): 
@@ -2546,7 +2523,173 @@ def di_drone(request):
     }
     return render(request, 'di_drone.html',context)
 
+
 def company_detail(request):
+    # import ipdb
+    # ipdb.set_trace()
+    if 'save' in request.POST:
+        companyname = request.POST.get('company_name')
+        from_year_1 = request.POST.get('from')
+        till_year_1 = request.POST.get('till')
+        # from_year = int(from_year_1)
+        # till_year = int(till_year_1)
+        request.session['from_year_1'] = from_year_1
+        request.session['till_year_1'] = till_year_1
+        request.session['companyname'] = companyname
+
+        start_year = from_year_1
+        end_year = till_year_1
+        start_date_split = start_year.split('-')
+        from_year = int(start_date_split[0])
+        end_date_split = end_year.split('-')
+        till_year = int(end_date_split[0])
+        request.session["from_year"] = from_year
+        from_year = request.session.get('from_year')
+        request.session["till_year"] = till_year
+        till_year = request.session.get('till_year')
+
+
+        #calculated year diff of from yr to till yr
+        total_year = till_year - from_year
+        print('total_year', total_year)
+
+        #for year range
+        yr_range = []
+        for i in range(from_year, till_year+1):
+            yr_range.append(i)
+        request.session['yr_range'] = yr_range
+
+        #list of no. of years
+        list_of_years = []
+        for i in range(1, total_year + 2):
+            list_of_years.append(i)
+
+        #dict for year value in html
+        year_dict = dict(zip(list_of_years, yr_range))
+        request.session['year_dict'] = year_dict
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        company = Company.objects.all()
+
+        context = {
+            'yr_range': yr_range,
+            'year_dict': year_dict,
+        }
+        return render(request, 'company_detail.html', context)
+
+    if 'save_detail' in request.POST:
+        targettrajectoryscope1_2 = request.POST.get('targettrajectoryscope1_2')
+        targettrajectoryscope1_2 = float(targettrajectoryscope1_2)
+        targettrajectoryscope3 = request.POST.get('targettrajectoryscope3')
+        targettrajectoryscope3 = float(targettrajectoryscope3)
+        precisetrajectoryitprojects = request.POST.get('precisetrajectoryitprojects')
+        precisetrajectoryitprojects = float(precisetrajectoryitprojects)
+        # typeoftarget = request.POST.get('typeoftarget')
+        actualemssionportfolio = request.POST.get('actualemssionportfolio')
+        # actualemssionportfolio = float(actualemssionportfolio)
+        # year = request.POST.get('year')
+
+        # in company table
+        projection2050 = request.POST.get('projection2050')
+        actualemissiondirect = request.POST.get('actualemissiondirect')
+        actualemissionindirect = request.POST.get('actualemissionindirect')
+
+        companyname = request.session.get('companyname')
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        from_year_1 = request.session.get('from_year_1')
+        till_year_1 = request.session.get('till_year_1')
+        companyname = request.session.get('companyname')
+        yr_range = request.session.get('yr_range')
+        from_year = request.session.get('from_year')
+        till_year = request.session.get('till_year')
+
+
+        total_year = till_year - from_year
+        print('total_year', total_year)
+
+        turnover_list = []
+        for i in range(1, total_year + 2):
+            turnover_list.append(request.POST.get('turnover_' + str(i)))
+
+        productionoveryears_list = []
+        for i in range(1, total_year + 2):
+            productionoveryears_list.append(request.POST.get('productionoveryears_' + str(i)))
+
+        noofemployees_list = []
+        for i in range(1, total_year + 2):
+            noofemployees_list.append(request.POST.get('noofemployees_' + str(i)))
+
+        carbonprice_list = []
+        for i in range(1, total_year + 2):
+            carbonprice_list.append(request.POST.get('carbonprice_' + str(i)))
+
+        investmentindigitalprojects_list = []
+        for i in range(1, total_year + 2):
+            investmentindigitalprojects_list.append(request.POST.get('investmentindigitalprojects_' + str(i)))
+
+        companyunit_list = []
+        for i in range(1, total_year + 2):
+            companyunit_list.append(request.POST.get('companyunit_' + str(i)))
+
+        company_list = pd.DataFrame({
+            'invst': investmentindigitalprojects_list,
+            'compunit': companyunit_list,
+            'yr_range': yr_range
+        })
+        print('company_list', company_list)
+
+        try:
+            for i, row in company_list.iterrows():
+                company = Company(companyname=companyname, companyunit=row.compunit,
+                                  investmentindigitalprojects=row.invst,
+                                  projection2050=projection2050, actualemissiondirect=actualemissiondirect,
+                                  actualemissionindirect=actualemissionindirect,
+                                  create_timestamp=create_timestamp,
+                                  update_timestamp=create_timestamp)
+                company.save()
+                print('company', company)
+
+        except Exception as e:
+            print(e)
+
+        # company_compid = pd.DataFrame(list(Company.objects.all().values('compid')))
+        # print('user_detail', company_compid)
+        # company_dict = company_compid.to_dict('records')[-1]
+        # print('company_dict', company_dict)
+        # compid = company_dict['compid']
+        # compid = Company.objects.get(compid=compid)
+        # print(compid)
+        # compid.save()
+
+        company_detail_df = pd.DataFrame(
+            {'turnover': turnover_list,
+             'poy_list': productionoveryears_list,
+             'noe_list': noofemployees_list,
+             'cp_list': carbonprice_list
+             })
+
+        print('company_detail_df', company_detail_df)
+
+        company_detail = CompanyDetails.objects.all()
+        try:
+            for i, row in company_detail_df.iterrows():
+                company_detail = CompanyDetails(companyname=companyname,
+                                                turnover=row.turnover, productionoveryears=row.poy_list, noofemployees=row.noe_list,
+                                                targettrajectoryscope1_2=targettrajectoryscope1_2,
+                                                targettrajectoryscope3=targettrajectoryscope3,
+                                                precisetrajectoryitprojects=precisetrajectoryitprojects,
+                                                starttimeperiod=from_year_1,endtimeperiod=till_year_1,
+                                                carbonprice=row.cp_list, actualemssionportfolio=actualemssionportfolio,
+                                                create_timestamp=create_timestamp, update_timestamp=create_timestamp)
+                company_detail.save()
+                print('company_detail', company_detail)
+        except Exception as e:
+            print(e)
     return render(request, 'company_detail.html')
 
 
@@ -6964,6 +7107,9 @@ def draft_duplicate_project(request):
         'session_dict_in_direct': context_data,
         'db_instance': len(context_data)
     }
+    # import ipdb; ipdb.set_trace()
+    # ImpactsDirects.objects.all(directid=project_id_split).duplicate()
+    # ImpactsIndirects.objects.all(indirectid=project_id_split).duplicate()
     print('Duplicate project id is', project_id_split)
     return render(request, 'index.html', context)
 
@@ -6976,6 +7122,7 @@ def draft_mark_as_complete_project(request):
         'session_dict_in_direct': context_data,
         'db_instance': len(context_data)
     }
+
     print('Mark as complete project id is', project_id_split)
     return render(request, 'index.html', context)
 
@@ -6986,14 +7133,27 @@ def draft_delete_project(request):
         'session_dict_in_direct': context_data,
         'db_instance': len(context_data)
     }
-    # import ipdb
-    # ipdb.set_trace()
     project_id = request.GET.get('id')
     project_id_split = project_id.split('_')[2]
-    # ImpactsDirects.objects.filter(id=project_id_split).delete()
-    # ImpactsIndirects.objects.filter(id=project_id_split).delete()
+    ImpactsDirects.objects.filter(directid=project_id_split).delete()
+    ImpactsIndirects.objects.filter(indirectid=project_id_split).delete()
     print('Deleting project id is', project_id_split)
     return render(request, 'index.html', context)
+
+
+# def complete_delete_project(request):
+#     context_data = get_index_context_data(request)
+#     context = {
+#         'session_dict_in_direct': context_data,
+#         'db_instance': len(context_data)
+#     }
+#     import ipdb; ipdb.set_trace()
+#     project_id = request.GET.get('id')
+#     project_id_split = project_id.split('_')[2]
+#     ImpactsDirects.objects.filter(directid=project_id_split).delete()
+#     ImpactsIndirects.objects.filter(indirectid=project_id_split).delete()
+#     print('Deleting project id is', project_id_split)
+#     return render(request, 'index.html', context)
 
 
 def get_index_context_data(request):

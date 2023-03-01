@@ -23,61 +23,57 @@
 <script>
 
 window.onload = function() {
+    console.log('This is a test');
+    var xValues = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
+    var yValues = [1 , 3, 5, 7, 13, 4, 2, 13];
 
-var db_instance = {{db_instance|safe}}
-var xValues = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'];
-var yValues = [1 , 3, 5, 7, 13, 4, 2, 13];
+    var y1Values = [1 , 7, 2, 4, 2, 8, 6, 4];
 
-
-console.log('This is a test');
-console.log('This is DB Instance count', db_instance)
-var y1Values = [1 , 7, 2, 4, 2, 8, 6, 4];
-
-for(let i = 1; i <=db_instance; i++) {
-    new Chart('myChart_' + i.toString(), {
-          type: 'line',
-          data: {
-            labels: xValues,
-            datasets: [{
-              fill: false,
-              lineTension: 0,
-              backgroundColor: 'orange',
-              borderColor: 'orange',
-              borderWidth:1,
-              data: yValues
-            },
-            {
-            fill: false,
-              lineTension: 0,
-              backgroundColor: 'cyan',
-              borderColor: 'cyan',
-              borderWidth:1,
-              data: y1Values,
-            },
-            ]
-          },
-          options: {
-            legend: {display: false},
-            responsive: true,
-            bezierCurve : false,
-            animation: {
-                duration: 5,
-            },
-            scales: {
-                    yAxes: [{
-                        ticks: {
-                            fontColor: 'transparent',
-                        }
-                    }],
-                    xAxes: [{
-                        ticks: {
-                            fontColor: 'transparent',
-                        }
-                    }]
+    for(let i = 108; i <=113; i++) {
+        new Chart('myChart_' + i.toString(), {
+              type: 'line',
+              data: {
+                labels: xValues,
+                datasets: [{
+                  fill: false,
+                  lineTension: 0,
+                  backgroundColor: 'orange',
+                  borderColor: 'orange',
+                  borderWidth:1,
+                  data: yValues
                 },
-          },
-        });
-    }
+                {
+                fill: false,
+                  lineTension: 0,
+                  backgroundColor: 'cyan',
+                  borderColor: 'cyan',
+                  borderWidth:1,
+                  data: y1Values,
+                },
+                ]
+              },
+              options: {
+                legend: {display: false},
+                responsive: true,
+                bezierCurve : false,
+                animation: {
+                    duration: 5,
+                },
+                scales: {
+                        yAxes: [{
+                            ticks: {
+                                fontColor: 'transparent',
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontColor: 'transparent',
+                            }
+                        }]
+                    },
+              },
+            });
+        }
 }
 </script>
 <script>
@@ -90,7 +86,6 @@ for(let i = 1; i <=db_instance; i++) {
       var Completed_search = document.getElementById('Completed_search');
       var Completed = document.getElementById('Completed');
       var Draft_search = document.getElementById('Draft_search');
-
       console.log(evt)
       console.log(cityName)
       var progress2 = document.querySelector('.progress2')
@@ -159,7 +154,7 @@ for(let i = 1; i <=db_instance; i++) {
           details_1.style = 'grid-template-columns:repeat(3, 1fr)';
           graph.style.borderColor = '#6C757D';
           img_graph.style.color='#6C757D';
-          for (let i = 1; i <= db_instance; i++) {
+          for (let i = 108; i <= 113; i++) {
                 console.log('grid_graph_visible_' + i);
                 document.getElementById('grid_graph_visible_' + i).style.display = 'none';
                 console.log('grid_graph_invisible_' + i)
@@ -172,7 +167,7 @@ for(let i = 1; i <=db_instance; i++) {
           graph.style.borderColor = '#ADB5BD';
           img_graph.style.color='#ADB5BD';
           console.log('Inside Graph: ', db_instance);
-          for(let i=1; i<= db_instance; i++) {
+          for(let i=108; i<= 113; i++) {
                 console.log('grid_graph_visible_' + i);
                 document.getElementById('grid_graph_visible_' + i).style.display = 'block';
                 console.log('grid_graph_visible_' + i)
@@ -188,7 +183,7 @@ for(let i = 1; i <=db_instance; i++) {
         var edit_project_popup_div = document.getElementById('edit_project_popup_div');
         console.log('mark_complete_dropdown ID: ' + edit_complete_id)
         main_div.style.opacity = 0.5;
-        edit_project_popup_div.style.display = 'block';
+        edit_project_popup_div.style.display = 'none';
     }
 
     function duplicate_complete(duplicate_complete_id){
@@ -352,13 +347,60 @@ function mySearchFunction() {
         main_div.style.opacity = 1;
         delete_project_popup_div_draft.style.display = 'none';
     }
+
+
+    function mySearchFunction() {
+        let input = document.getElementById('searchbar_input').value
+        input=input.toLowerCase();
+        let x = document.getElementsByClassName('recentOrders');
+
+        for (i = 0; i < x.length; i++) {
+            if (!x[i].innerHTML.toLowerCase().includes(input)) {
+                x[i].style.display="none";
+            }
+            else {
+                x[i].style.display="list-item";
+            }
+        }
+
+        var input, filter, select, option, a, i, txtValue;
+        input = document.getElementById("searchbar_input");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("select_1");
+        li = select.getElementsByTagName("option");
+        for (i = 0; i < li.length; i++) {
+            a = li[i];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+
+    function mySearchFunction_complete() {
+        let input = document.getElementById('searchbar_input_comp').value
+        input=input.toLowerCase();
+        let x = document.getElementsByClassName('recentOrders');
+
+        for (i = 0; i < x.length; i++) {
+            if (!x[i].innerHTML.toLowerCase().includes(input)) {
+                x[i].style.display="none";
+            }
+            else {
+                x[i].style.display="list-item";
+            }
+        }
+    }
 </script>
 <body >
 <div id="main_width" class="main_width" style="overflow-y:auto; overflow-x:hidden;">
     <div style="width: 100%; display: flex; height: 40px; margin-top: 15px;">
-        <div class="custom-nav-box" style="line-height: 28px; font-family: 'Ubuntu'; font-weight: 500; color: #ADB5BD; font-size: 24px; text-align: center; padding-top: 8px; width: 300px; height: 50px;">
+        <div id="draft_new" class="custom-nav-box" style="line-height: 28px; font-family: 'Ubuntu'; font-weight: 500; color: #ADB5BD; font-size: 24px; text-align: center; padding-top: 8px; width: 300px; height: 50px;">
             Project Dashboard ({{db_instance}})
         </div>
+
         <div style="margin-right: 20px; line-height: 16px; float: right; align-item: center; margin-left: auto; font-family: 'Ubuntu'; color: #ADB5BD; text-align: center; padding-top: 8px; width: 200px; height: 50px;">
             <a href="{% url 'projectA' %}">
                 <button class="static-font" style="font-size: 12px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 144px; height: 32px; color: #E6E9EE; background-color: #4FAFA2;">
@@ -381,30 +423,36 @@ function mySearchFunction() {
     <!--------------------------------Draft Search Bar-------------------------------->
     <div id="Draft_search" class="search_outer_bar static-font">
         <div class="search_outer_inner_bar">
-            <div class="search_img_icon" >
+            <div class="search_img_icon" style="width:600px;">
                 <img src="static/assets/img/search_Icon.png" style="margin-left: 20px; margin-top: -2px;">
                 <input type="text" placeholder="Search Projects" id="searchbar_input" onkeyup="mySearchFunction()" class="no-outline" name="search" style="background-color: #23272E;  width: 70%; color: #6C757D; border-color:#23272E; border-top: #23272E; margin-left: 5px; border-left: #23272E;">
             </div>
-            <div class="select_div" >
-                <select class="select" name="none" id="select_1" >
-                    <option value="BU">BU</option>
-                    <option value="1">1</option>
+
+            <div class="select_div">
+                <select class="select" name="none" id="select_1" style="width:100px;" >
+                    {% for j in session_dict.values %}
+                        <option value="{{j.buconcerned}}">{{j.buconcerned}}</option>
+                    {% endfor %}
                 </select>
-                <select class="select" name="none" id="select_2">
-                    <option value="Localization">Localization</option>
-                    <option value="1">1</option>
+                <select class="select" name="none" id="select_2" style="width:100px;">
+                    {% for j in session_dict.values %}
+                        <option value="{{j.projectlocation}}">{{j.projectlocation}}</option>
+                    {% endfor %}
                 </select>
-                <select class="select"name="none" id="select_3">
-                    <option value="Department">Department</option>
-                    <option value="1">1</option>
+                <select class="select"name="none" id="select_3" style="width:100px;">
+                    {% for j in session_dict.values %}
+                        <option value="{{j.department}}">{{j.department}}</option>
+                    {% endfor %}
                 </select>
-                <select class="select" name="none" id="select_4">
-                    <option value="Status">Status</option>
-                    <option value="1">1</option>
+                <select class="select" name="none" id="select_4" style="width:100px;">
+                    {% for j in session_dict.values %}
+                        <option value="{{j.projectstatus}}">{{j.projectstatus}}</option>
+                    {% endfor %}
                 </select>
                 <select class="select" name="none" id="select_5">
-                    <option value="Date">Date</option>
-                    <option value="1">1</option>
+                    {% for j in session_dict.values %}
+                        <option value="{{j.buildstartdate}}">{{j.buildstartdate}}</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>
@@ -414,7 +462,7 @@ function mySearchFunction() {
         <div class="search_outer_inner_bar">
             <div class="search_img_icon" >
                 <img src="static/assets/img/search_Icon.png" style="margin-left: 20px">
-                <input type="text" placeholder="Search Projects" name="search" style="background-color: #23272E;width: 70%;border-color:#23272E;border-top: #23272E;border-left: #23272E;">
+                <input type="text" placeholder="Search Projects" id="searchbar_input_comp" onkeyup="mySearchFunction_complete()" class="no-outline" name="search" style="background-color: #23272E;  width: 70%; color: #6C757D; border-color:#23272E; border-top: #23272E; margin-left: 5px; border-left: #23272E;">
             </div>
             <div class="select_div" >
                 <select class="select_completed" name="none" id="select_6" >
@@ -502,7 +550,7 @@ function mySearchFunction() {
             <!-------------------------------------Data Enter in database--------------------------------->
             <div id="draft_div" class="details" style="padding-bottom: 180px;">
                 {% for i in session_dict_in_direct.values %}
-                <div id="project_{{i}}" class="recentOrders" style="padding-bottom: 20px;">
+                <div id="project_{{i.projectname}}" class="recentOrders" style="padding-bottom: 20px;">
                     <div class="cardHeader">
                         <h2 id="draft_card_header_{{i}}" class="header">{{i.projectname}}</h2>
                         <div style="width: 30%; position: absolute; margin-top: 18px; margin-left: 150px; height: 5px; background-color: #34373D">
@@ -550,16 +598,16 @@ function mySearchFunction() {
         <div id="Completed" class="w3-container city" style="display:none; text-align: center; height: 100px; margin-top: 170px;">
             <!-------------------------------Card Based On Projects------------------------------->
             <div id="details_1" class="details_1" style="grid-template-columns:repeat(3, 1fr);">
-                {% for i in session_dict_in_direct.values %}
-                <div class="recentOrders" style="padding-bottom: 15px;">
+            {% for i in session_list_new.values %}
+                <div id="completepr_{{i.projectname}}" class="recentOrders" id="rec_order" style="padding-bottom: 15px;">
                     <div class="cardHeader">
                         <h2 class="header">{{i.projectname}}</h2>
                         <div class="dropdown">
-                            <div class="fa fa-ellipsis-v" id="complete_{{i}}" onclick="showDropdown_complete(this.id)" aria-hidden="true" style="padding-top:10px; color:#ADB5BD; ">
-                                <div id="Complete_myDropdown_{{i}}" class="dropdown-content" style="padding: 10px;">
-                                    <a id="complete_edit_{{i}}" onclick="edit_complete(this.id)" style="cursor: pointer;"><img src="static/assets/img/edit_icon.png" height="20" width="20" style="margin-right: 10px;"><span style="font-family: 'Ubuntu'; font-size: 12px; font-weight: 400">Edit this project</span></a>
-                                    <a id="complete_duplicate_{{i}}" onclick="duplicate_complete(this.id)" style="cursor: pointer;"><img src="static/assets/img/duplicate_icon.png" height="20" width="20" style="margin-right: 10px;"><span style="font-family: 'Ubuntu'; font-size: 12px; font-weight: 40">Duplicate this project</span></a>
-                                    <a id="complete_delete_{{i}}" onclick="delete_complete(this.id)" style="cursor: pointer;"><img src="static/assets/img/delete_icon.png" height="20" width="20" style="margin-right: 10px;"><span style="font-family: 'Ubuntu'; font-size: 12px; font-weight: 40">Delete this project</span></a>
+                            <div class="fa fa-ellipsis-v" id="complete_{{i.projectname}}" onclick="showDropdown_complete(this.id)" aria-hidden="true" style="padding-top:10px; color:#ADB5BD; ">
+                                <div id="Complete_myDropdown_{{i.projectname}}" class="dropdown-content" style="padding: 10px;">
+                                    <a id="complete_edit_{{i.directid}}" onclick="edit_complete(this.id)" style="cursor: pointer;"><img src="static/assets/img/edit_icon.png" height="20" width="20" style="margin-right: 10px;"><span style="font-family: 'Ubuntu'; font-size: 12px; font-weight: 400">Edit this project</span></a>
+                                    <a id="complete_duplicate_{{i.directid}}" onclick="duplicate_complete(this.id)" style="cursor: pointer;"><img src="static/assets/img/duplicate_icon.png" height="20" width="20" style="margin-right: 10px;"><span style="font-family: 'Ubuntu'; font-size: 12px; font-weight: 40">Duplicate this project</span></a>
+                                    <a id="complete_delete_{{i.directid}}" onclick="delete_complete(this.id)" style="cursor: pointer;"><img src="static/assets/img/delete_icon.png" height="20" width="20" style="margin-right: 10px;"><span style="font-family: 'Ubuntu'; font-size: 12px; font-weight: 40">Delete this project</span></a>
                                 </div>
                             </div>
                         </div>
@@ -568,7 +616,7 @@ function mySearchFunction() {
                         <tbody>
                         <tr>
                             <td><img src="static/assets/img/ok_cyan.png" height="15" width="15" style="margin-right: 10px; margin-bottom: 3px;">Direct Impact</td>
-                            <td>{{i.totalcarbonfootprint}}</td>
+                            <td>{{i.direct_carbonfootprint}}</td>
                         </tr>
                         <tr>
                             <td><img src="static/assets/img/ok_orange.png" height="15" width="15" style="margin-right: 10px; margin-bottom: 3px;">Indirect Impact</td>
@@ -584,12 +632,12 @@ function mySearchFunction() {
                         </tr>
                         </tbody>
                     </table>
-                    <div id="grid_graph_visible_{{i.projid}}" style=" display: none; margin-bottom: 10px; border-style: ridge; border-width: thin; background-color:transparent; width:100%; height:130px;">
-                        <canvas id="myChart_{{i.projid}}" width="190" height="60"></canvas>
+                    <div id="grid_graph_visible_{{i.directid}}" style=" display: none; margin-bottom: 10px; border-style: ridge; border-width: thin; background-color:transparent; width:100%; height:130px;">
+                        <canvas id="myChart_{{i.directid}}" width="190" height="60"></canvas>
                     </div>
                     <button class="view_completed"><span class="span">View Results</span></button>
                 </div>
-                {% endfor %}
+            {% endfor %}
             </div>
             <div style="padding-bottom: 15px; background-color: gray; width: 100%;">
             </div>
