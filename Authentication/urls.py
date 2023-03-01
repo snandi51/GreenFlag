@@ -31,7 +31,6 @@ urlpatterns = [
     path('di_lidar', management_views.di_lidar, name='di_lidar'),
     path('di_raspberrypi', management_views.di_raspberrypi, name='di_raspberrypi'),
     path('load_plan', management_views.load_plan, name='load_plan'),
-    path('di_daily_commute', management_views.di_daily_commute, name='di_daily_commute'),
     path('Help', management_views.Help, name='Help'),
     path('emission_lib', management_views.emission_lib, name='emission_lib'),
     path('datacenter_network', management_views.datacenter_network, name='datacenter_network'),
@@ -49,6 +48,7 @@ urlpatterns = [
     path('change_password_ok', authentication_views.change_password_ok, name='change_password_ok'),
     path('detailed_view_cmo', management_views.detailed_view_cmo, name='detailed_view_cmo'),
     path('view_detailed_result', management_views.view_detailed_result, name='view_detailed_result'),
+   
 ]
 
 handler400 = "Management.views.error_400"

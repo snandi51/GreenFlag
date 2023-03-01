@@ -211,7 +211,125 @@
     function fun(){
 
     }
+
+    function emission_calculate(){
+
+      var role ={{role|safe}};
+      var list = {{list|safe}};
+      var business_emission_list = {{business_emission_list|safe}};
+      console.log(business_emission_list);
+      console.log(role);
+      console.log(list);
+      var bu_Data_Scientist1 = document.getElementById(role[0]+'_'+list[0]+'_bu')
+      var bu_Data_Scientist2 = document.getElementById(role[0]+'_'+list[1]+'_bu')
+      var bu_Data_Scientist3 = document.getElementById(role[0]+'_'+list[2]+'_bu')
+      var bu_Data_Scientist4 = document.getElementById(role[0]+'_'+list[3]+'_bu')
+      
+      console.log(bu_Data_Scientist1.valu);
+      console.log(bu_Data_Scientist2.value);
+      console.log(bu_Data_Scientist3.value);
+      console.log(bu_Data_Scientist4.value);
+      totaldays = parseInt(bu_Data_Scientist1.value) + parseInt(bu_Data_Scientist2.value) + parseInt(bu_Data_Scientist3.value) + parseInt(bu_Data_Scientist4.value)
+      console.log(totaldays);
+      var total_emission = totaldays * 0.15
+      console.log(total_emission)
+      var business_travel_div = document.getElementById('business_travel_div')
+      business_travel_div.innerText = total_emission
+
+      var a = sessionStorage.getItem('total_emission')
+      console.log('Session variable is', a)
+      
+      var people = parseFloat(a) + total_emission
+      console.log('people',people)
+
+      var business_travel_div1 = document.getElementById('business_travel_div1')
+      business_travel_div1.innerText = people
+      console.log(business_travel_div1)
+
+      var business_travel_div2 = document.getElementById('business_travel_div2')
+      business_travel_div2.innerText = people
+      console.log(business_travel_div2)
+
+      var business_travel_div3 = document.getElementById('business_travel_div3')
+      business_travel_div3.innerText = people
+      console.log(business_travel_div3)
+      
+
+    }
 </script>
+<div class="navigation" id="key_fun" style="position:absolute; overflow-x:hidden; display:none;">
+  <div style="width:100%; margin-top:20px;">
+      <div style="margin-left:10px; width:80%; font-family: 'Ubuntu'; font-weight: 500;color: #CED4DA; height: 32px; font-size: 24px; line-height: 32px; float:left;">
+          Key Figures
+      </div>
+      <div style="width:15%; float:right;">
+          <img src="static/assets/img/cancel.png" onclick="cancel()" style="cursor:pointer;" height="18" width="18">
+      </div>
+  </div>
+<!--        <div class="box_1" style="width:90%;">-->
+      <div style=" margin-left:10px; margin-top:80px; width: 90%; height:80px; border-radius: 8px; background: #1A1D23; border: 1px solid #6C757D; ">
+          <div style="width:100%; margin-left:20px; margin-top:10px;">
+              <img src="static/assets/img/fig_key.png" height="18" width="18">
+              <label style="margin-left:10px; font-family: 'Ubuntu'; font-style: normal; font-weight: 500; font-size: 12px; line-height: 20px; color:#3D8588;">Business Travel</label>
+          </div>
+          <div style="float:left ; margin-top:5px; color:#ADB5BD; margin-left:20px; width: 110px; height:40px; font-weight: 700; font-size: 42px; line-height: 40px;" id="business_travel_div">
+              0.044
+          </div>
+          <div style="float:right; height:20px; margin-top:15px; margin-left:3px; margin-right:5px;">
+              <label style="font-style: normal; font-family: 'Ubuntu';font-weight: 300; font-size: 20px; color: #ADB5BD;">kgCO2e</label>
+          </div>
+      </div>
+<!--        </div>-->
+<!--        <div class="box_1" style="width:90%; margin-left:10px; margin-top:20px;">-->
+      <div style=" width: 90%; height:80px; margin-left:10px; margin-top:20px; border-radius: 8px; background: #1A1D23; border: 1px solid #6C757D; ">
+          <div style="width:100%; margin-left:20px; margin-top:10px;">
+              <img src="static/assets/img/fig_key.png" height="18" width="18">
+              <label style="margin-left:10px; font-family: 'Ubuntu'; font-style: normal; font-weight: 500; font-size: 12px; line-height: 20px; color:#3D8588;">People Impact</label>
+          </div>
+          <div style="float:left ; margin-top:5px; color:#ADB5BD; margin-left:20px; width: 110px; height:40px; font-weight: 700; font-size: 40px; line-height: 40px;" id="business_travel_div1">
+              0.044
+          </div>
+          <div style="float:right; height:20px; margin-top:15px; margin-left:3px; margin-right:5px;">
+              <label style="font-style: normal; font-family: 'Ubuntu';font-weight: 300; font-size: 20px; color: #ADB5BD;">kgCO2e</label>
+          </div>
+      </div>
+<!--        </div>-->
+<!--        <div class="box_1" style="width:90%; margin-left:10px; margin-top:20px;">-->
+      <div style=" width: 90%; height:80px; margin-left:10px; margin-top:20px; border-radius: 8px; background: #1A1D23; border: 1px solid #6C757D; ">
+          <div style="width:100%; margin-left:20px; margin-top:10px;">
+              <img src="static/assets/img/fig_key.png" height="18" width="18">
+              <label style="margin-left:10px; font-family: 'Ubuntu'; font-style: normal; font-weight: 500; font-size: 12px; line-height: 20px; color:#3D8588;">Direct Impact</label>
+          </div>
+          <div style="float:left ; margin-top:5px; color:#ADB5BD; margin-left:20px; width: 110px; height:40px; font-weight: 700; font-size: 40px; line-height: 40px;" id="business_travel_div2">
+              0.044
+          </div>
+          <div style="float:right; height:20px; margin-top:15px; margin-left:3px; margin-right:5px;">
+              <label style="font-style: normal; font-family: 'Ubuntu';font-weight: 300; font-size: 20px; color: #ADB5BD;">kgCO2e</label>
+          </div>
+      </div>
+<!--        </div>-->
+<!--        <div class="box_1" style="width:90%; margin-left:10px; margin-top:20px;">-->
+      <div style=" width: 90%; height:80px; margin-left:10px; margin-top:20px; border-radius: 8px; background: #1A1D23; border: 1px solid #6C757D; ">
+          <div style="width:100%; margin-left:20px; margin-top:10px;">
+              <img src="static/assets/img/fig_key.png" height="18" width="18">
+              <label style="margin-left:10px; font-family: 'Ubuntu'; font-style: normal; font-weight: 500; font-size: 12px; line-height: 20px; color:#3D8588;">Net Impact</label>
+          </div>
+          <div style="float:left ; margin-top:5px; color:#ADB5BD; margin-left:20px; width: 110px; height:40px; font-weight: 700; font-size: 40px; line-height: 40px;" id="business_travel_div3">
+              0.044
+          </div>
+          <div style="float:right; height:20px; margin-top:15px; margin-left:3px; margin-right:5px;">
+              <label style="font-style: normal; font-family: 'Ubuntu';font-weight: 300; font-size: 20px; color: #ADB5BD;">kgCO2e</label>
+          </div>
+      </div>
+<!--        </div>-->
+<!--        <div style="z-index:1; margin-top:20px; width: 272px; border-radius: 4px; background: #4FAFA2; height: 32px; padding: 8px 12px 8px 16px; gap: 8px; align-items: center;">-->
+<!--&lt;!&ndash;            <center>&ndash;&gt;-->
+<!--&lt;!&ndash;                <button type="submit" style="letter-spacing: 0.02em; text-transform: uppercase; background:none; border:none; color: white; font-size: 12px; line-height: 16px; font-family: 'Ubuntu'; margin-right:10px;">view detailed results</button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </center>&ndash;&gt;-->
+<!--        </div>-->
+  
+  <button class="view_completed" style="margin-top:20px; position: relative; z-index:100;"><span class="span" style="margin-left:40px; font-size:12px; width:80%;">view detailed results</span></button>
+</div>
 <div id="main_width" class="main_width_clone" style="overflow-y: visible;">
   <div  style="overflow-y: auto;height: 470px;">
     <div class="di_heading" style="margin-left: 20px;">
@@ -280,7 +398,7 @@
                   <option class="di_option" value="Company">Company</option>
                   <option class="di_option" value="Owned">Owned</option></td>
                 {% for list1 in list %}
-                  <td class="load_cell"><input type="number" min="0" max="66" class="load_cell_ip" name="bu_{{role}}_{{list1}}" id="bu('{{role}}_{{list1}}')" onclick="fun()"></td>
+                  <td class="load_cell"><input type="number" min="0" max="66" class="load_cell_ip" name="bu_{{role}}_{{list1}}" id='{{role}}_{{list1}}_bu' onchange="emission_calculate()" required></td>
                 {% endfor %}
                 
                 
@@ -355,7 +473,7 @@
                   <option class="di_option" value="Company">Company</option>
                   <option class="di_option" value="Owned">Owned</option></td>
                 {% for list1 in list %}
-                  <td class="load_cell"><input type="number" min="0" max="66" class="load_cell_ip" name="bu_run_{{role}}_{{list1}}"></td>
+                  <td class="load_cell"><input type="number" min="0" max="66" class="load_cell_ip" name="bu_run_{{role}}_{{list1}}" required></td>
                 {% endfor %}
                 
                 

@@ -292,7 +292,7 @@
       console.log('Row id is: ', id);
       var insert_row = document.getElementById('_' + id)
       console.log(insert_row)
-      insert_row.insertAdjacentHTML('afterend',"<td class='sticky-col first-col-fix ' style='height: 40px;border:#000000'></td><td  class='load_cell_1' ><select class='load_cell_ips' style='float: left;' name='cars' id='cars'><optgroup style='float: left;background-color: #6C757D;'label='Default'>{% for i in daily_commute %} <option style='background-color: #34373D;' id='di_{{i.subcategory}}'>{{i.subcategory}}</option>{% endfor %}</optgroup><optgroup label='Custom' style='float: left;background-color: #6C757D;'><!-- {% for i in daily_commute %}<option style='background-color: #34373D;' value='{{i.0}}'>{{i}}</option>{% endfor %} --></optgroup></select><img src='static/assets/img/plus_line.png' id='tr_id_{{i}}' style='float: left;margin-top: 15px;margin-left: 5px;'height='10px' width='10px'  onclick='add_row(this.id)''></td><td class='load_cell_2'><input class='load_cell_ip_2' name='{{i}}'></td><td class='load_cell_3'><input class='load_cell_ip_3' name='av_{{i}}'></td><td class='load_cell_4'><select class='di_select'><option class='di_option' value='0'>Company</option><option class='di_option' value='1'>Owned</option></td>   ");
+      insert_row.insertAdjacentHTML('afterend',"<td class='sticky-col first-col-fix ' style='height: 40px;border:#000000'></td><td  class='load_cell_1' ><select class='load_cell_ips' style='float: left;' name='type_transport_{{i}}'' id='cars'><optgroup style='float: left;background-color: #6C757D;'label='Default'>{% for i in daily_commute %} <option style='background-color: #34373D;' value='{{i.subcategory}}' id='di_{{i.subcategory}}'>{{i.subcategory}}</option>{% endfor %}</optgroup><optgroup label='Custom' style='float: left;background-color: #6C757D;'>     <!-- {% for i in daily_commute %}<option style='background-color: #34373D;' value='{{i.0}}'>{{i}}</option>{% endfor %} --></optgroup></select><img src='static/assets/img/plus_line.png' id='tr_id_{{i}}' style='float: left;margin-top: 15px;margin-left: 5px;'height='10px' width='10px'  onclick='add_row(this.id)'></td><td class='load_cell_2'><input type='number'  class='load_cell_ip_2'  id='{{i}}_em' name='{{i}}' required></td><td class='load_cell_3'><input type='number' min=0 max = 5 class='load_cell_ip_3' onchange='emission_calculate()' name='av_{{i}}' id='{{i}}_em_avg' required></td><td class='load_cell_4'><select class='di_select' name='vehical_ownership_{{i}}'><option class='di_option' value='Company'>Company</option><option class='di_option' value='Owned'>Owned</option></td>     ");
     }
 
     function add_row1(id){
@@ -302,7 +302,111 @@
       insert_row.insertAdjacentHTML('afterend',"<td class='sticky-col first-col-fix ' style='height: 40px;border:#000000'></td><td  class='load_cell_1' ><select class='load_cell_ips' style='float: left;' name='cars' id='cars'><optgroup style='float: left;background-color: #6C757D;'label='Default'>{% for i in daily_commute %} <option style='background-color: #34373D;' id='di_{{i.subcategory}}'>{{i.subcategory}}</option>{% endfor %}</optgroup><optgroup label='Custom' style='float: left;background-color: #6C757D;'><!-- {% for i in daily_commute %}<option style='background-color: #34373D;' value='{{i.0}}'>{{i}}</option>{% endfor %} --></optgroup></select><img src='static/assets/img/plus_line.png' id='tr_id_{{i}}' style='float: left;margin-top: 15px;margin-left: 5px;'height='10px' width='10px'  onclick='add_row(this.id)''></td><td class='load_cell_2'><input class='load_cell_ip_2' name='{{i}}'></td><td class='load_cell_3'><input class='load_cell_ip_3' name='av_{{i}}'></td><td class='load_cell_4'><select class='di_select'><option class='di_option' value='0'>Company</option><option class='di_option' value='1'>Owned</option></td>   ");
     }
 
+    function emission_calculate(value){
+      var role = {{role|safe}};
+      var em_Data_Scientist = document.getElementById(role[0]+'_em')
+      var em_avg_Data_Scientist = document.getElementById(role[0]+'_em_avg')
+      console.log(em_Data_Scientist.value);
+      console.log(em_avg_Data_Scientist.value);
+      var noofworkingdays_build = {{noofworkingdays_build|safe}};
+      console.log('noofworkingdays_build',noofworkingdays_build)
+      var total_emissions = 0.15 * (em_Data_Scientist.value*2) * em_avg_Data_Scientist.value * (noofworkingdays_build/5)
+      console.log(total_emissions)
+
+      var daily_commute_div1 = document.getElementById('daily_commute_div1')
+      daily_commute_div1.innerText = total_emissions
+
+      var daily_commute_div2 = document.getElementById('daily_commute_div2')
+      daily_commute_div2.innerText = total_emissions
+
+      var daily_commute_div3 = document.getElementById('daily_commute_div3')
+      daily_commute_div3.innerText = total_emissions
+
+      var daily_commute_div4= document.getElementById('daily_commute_div4')
+      daily_commute_div4.innerText = total_emissions;
+
+      sessionStorage.setItem('total_emission', total_emissions)
+
+
+    }
+
+
 </script>
+
+
+<div class="navigation" id="key_fun" style="position:absolute; overflow-x:hidden; display:none;">
+  <div style="width:100%; margin-top:20px;">
+      <div style="margin-left:10px; width:80%; font-family: 'Ubuntu'; font-weight: 500;color: #CED4DA; height: 32px; font-size: 24px; line-height: 32px; float:left;">
+          Key Figures
+      </div>
+      <div style="width:15%; float:right;">
+          <img src="static/assets/img/cancel.png" onclick="cancel()" style="cursor:pointer;" height="18" width="18">
+      </div>
+  </div>
+<!--        <div class="box_1" style="width:90%;">-->
+      <div style=" margin-left:10px; margin-top:80px; width: 90%; height:80px; border-radius: 8px; background: #1A1D23; border: 1px solid #6C757D; ">
+          <div style="width:100%; margin-left:20px; margin-top:10px;">
+              <img src="static/assets/img/fig_key.png" height="18" width="18">
+              <label style="margin-left:10px; font-family: 'Ubuntu'; font-style: normal; font-weight: 500; font-size: 12px; line-height: 20px; color:#3D8588;">Daily Commute</label>
+          </div>
+          <div style="float:left ; margin-top:5px; color:#ADB5BD; margin-left:20px; width: 110px; height:40px; font-weight: 700; font-size: 42px; line-height: 40px;" value="carbon_footprint" id="daily_commute_div1">
+              0.044
+          </div>
+          <div style="float:right; height:20px; margin-top:15px; margin-left:3px; margin-right:5px;">
+              <label style="font-style: normal; font-family: 'Ubuntu';font-weight: 300; font-size: 20px; color: #ADB5BD;">kgCO2e</label>
+          </div>
+      </div>
+<!--        </div>-->
+<!--        <div class="box_1" style="width:90%; margin-left:10px; margin-top:20px;">-->
+      <div style=" width: 90%; height:80px; margin-left:10px; margin-top:20px; border-radius: 8px; background: #1A1D23; border: 1px solid #6C757D; ">
+          <div style="width:100%; margin-left:20px; margin-top:10px;">
+              <img src="static/assets/img/fig_key.png" height="18" width="18">
+              <label style="margin-left:10px; font-family: 'Ubuntu'; font-style: normal; font-weight: 500; font-size: 12px; line-height: 20px; color:#3D8588;">People Impact</label>
+          </div>
+          <div style="float:left ; margin-top:5px; color:#ADB5BD; margin-left:20px; width: 110px; height:40px; font-weight: 700; font-size: 40px; line-height: 40px;" id="daily_commute_div2">
+              10
+          </div>
+          <div style="float:right; height:20px; margin-top:15px; margin-left:3px; margin-right:5px;">
+              <label style="font-style: normal; font-family: 'Ubuntu';font-weight: 300; font-size: 20px; color: #ADB5BD;">kgCO2e</label>
+          </div>
+      </div>
+<!--        </div>-->
+<!--        <div class="box_1" style="width:90%; margin-left:10px; margin-top:20px;">-->
+      <div style=" width: 90%; height:80px; margin-left:10px; margin-top:20px; border-radius: 8px; background: #1A1D23; border: 1px solid #6C757D; ">
+          <div style="width:100%; margin-left:20px; margin-top:10px;">
+              <img src="static/assets/img/fig_key.png" height="18" width="18">
+              <label style="margin-left:10px; font-family: 'Ubuntu'; font-style: normal; font-weight: 500; font-size: 12px; line-height: 20px; color:#3D8588;">Direct Impact</label>
+          </div>
+          <div style="float:left ; margin-top:5px; color:#ADB5BD; margin-left:20px; width: 110px; height:40px; font-weight: 700; font-size: 40px; line-height: 40px;" id="daily_commute_div3">
+              0.45
+          </div>
+          <div style="float:right; height:20px; margin-top:15px; margin-left:3px; margin-right:5px;">
+              <label style="font-style: normal; font-family: 'Ubuntu';font-weight: 300; font-size: 20px; color: #ADB5BD;">kgCO2e</label>
+          </div>
+      </div>
+<!--        </div>-->
+<!--        <div class="box_1" style="width:90%; margin-left:10px; margin-top:20px;">-->
+      <div style=" width: 90%; height:80px; margin-left:10px; margin-top:20px; border-radius: 8px; background: #1A1D23; border: 1px solid #6C757D; ">
+          <div style="width:100%; margin-left:20px; margin-top:10px;">
+              <img src="static/assets/img/fig_key.png" height="18" width="18">
+              <label style="margin-left:10px; font-family: 'Ubuntu'; font-style: normal; font-weight: 500; font-size: 12px; line-height: 20px; color:#3D8588;">Net Impact</label>
+          </div>
+          <div style="float:left ; margin-top:5px; color:#ADB5BD; margin-left:20px; width: 110px; height:40px; font-weight: 700; font-size: 40px; line-height: 40px;" id="daily_commute_div4">
+              0.98
+          </div>
+          <div style="float:right; height:20px; margin-top:15px; margin-left:3px; margin-right:5px;">
+              <label style="font-style: normal; font-family: 'Ubuntu';font-weight: 300; font-size: 20px; color: #ADB5BD;">kgCO2e</label>
+          </div>
+      </div>
+<!--        </div>-->
+<!--        <div style="z-index:1; margin-top:20px; width: 272px; border-radius: 4px; background: #4FAFA2; height: 32px; padding: 8px 12px 8px 16px; gap: 8px; align-items: center;">-->
+<!--&lt;!&ndash;            <center>&ndash;&gt;-->
+<!--&lt;!&ndash;                <button type="submit" style="letter-spacing: 0.02em; text-transform: uppercase; background:none; border:none; color: white; font-size: 12px; line-height: 16px; font-family: 'Ubuntu'; margin-right:10px;">view detailed results</button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </center>&ndash;&gt;-->
+<!--        </div>-->
+  
+  <button class="view_completed" style="margin-top:20px; position: relative; z-index:100;"><span class="span" style="margin-left:40px; font-size:12px; width:80%;">view detailed results</span></button>
+</div>
 <div id="main_width" class="main_width_clone" >
   
     <div  style="overflow-y: auto;height: 470px;">
@@ -356,8 +460,8 @@
                     <img src="static/assets/img/plus_line.png" id="tr_id_{{i}}" style="float: left;margin-top: 15px;margin-left: 5px;"height="10px" width="10px"  onclick="add_row(this.id)">
                       
                   </td>
-                  <td class="load_cell_2"><input type="number" class="load_cell_ip_2" name="{{i}}"></td>
-                  <td class="load_cell_3"><input type="number" class="load_cell_ip_3" name="av_{{i}}"></td>
+                  <td class="load_cell_2"><input type="number"  class="load_cell_ip_2"  id="{{i}}_em" name="{{i}}" required></td>
+                  <td class="load_cell_3"><input type="number" min=0 max = 5 class="load_cell_ip_3" onchange="emission_calculate()" name="av_{{i}}" id="{{i}}_em_avg" required></td>
                   <td class="load_cell_4"><select class="di_select" name="vehical_ownership_{{i}}">
                     <option class="di_option" value="Company">Company</option>
                     <option class="di_option" value="Owned">Owned</option>
@@ -371,7 +475,7 @@
         </div>
 
       </div>
-      <div class="footer"  style="margin-left:-500px; width:150%">
+      <div class="footer"  style="margin-left:-500px; width:150%;">
            <div style="width:50%; float:left; text-align:center; margin-top:5px; margin-left: -80px;"
                <button type="button" onclick="history.back()" style="display: none; color:Black;" id="back-btn" ></button>
                <a href="#" style="color:#4FAFA2; "><img src="static/assets/img/back_button.png" style="margin-right:10px;" onclick="document.getElementById('back-btn').click()"  alt="Back"/>BACK</a>
@@ -418,9 +522,9 @@
                     </select>
                     <img src="static/assets/img/plus_line.png" id="tr1_id_{{i}}" style="float: left;margin-top: 15px;margin-left: 5px;"height="10px" width="10px"  onclick="add_row(this.id)">
                   </td>
-                  <td class="load_cell_2"><input type="number" class="load_cell_ip_2" name="km_run_{{i}}"></td>
-                  <td class="load_cell_3"><input type="number" class="load_cell_ip_3" name="avg_run_{{i}}"></td>
-                  <td class="load_cell_4"><select class="di_select" name="vehical_ownership_run_{{i}}">
+                  <td class="load_cell_2"><input type="number" class="load_cell_ip_2" name="km_run_{{i}}" required></td>
+                  <td class="load_cell_3"><input type="number" min=0 max = 5 class="load_cell_ip_3" name="avg_run_{{i}}" requred></td>
+                  <td class="load_cell_4"><select class="di_select"  name="vehical_ownership_run_{{i}}">
                     <option class="di_option" value="Company">Company</option>
                     <option class="di_option" value="Owned">Owned</option>
                   </td>  
@@ -459,6 +563,7 @@
       </div>
   </div>
 </div>
+
 
 {% endblock %}
 
