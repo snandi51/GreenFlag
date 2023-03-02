@@ -58,15 +58,27 @@ def login_user(request):
         list_data_direct = []
         for i in data_direct:
             list_data_direct.append(i.__dict__)
+
+
         total_count = 0
         # import ipdb
         # ipdb.set_trace()
-        for i in data_direct:
-            list_data_direct[total_count]['indirect_carbonfootprint'] = data_indirect_footprint[total_count].get('totalcarbonfootprint')
-            list_data_direct[total_count]['Net_impact'] = data_indirect_footprint[total_count].get('totalcarbonfootprint') + data_direct_totalfootprint[total_count].get('totalcarbonfootprint')
-            list_data_direct[total_count]['roe'] = round(data_direct_totalfootprint[total_count].get('totalcarbonfootprint') / list_data_direct[total_count]['Net_impact'], 2)
-            total_count += 1
+        # for i in data_direct:
+        #     list_data_direct[total_count]['indirect_carbonfootprint'] = data_indirect_footprint[total_count].get('totalcarbonfootprint')
+        #     list_data_direct[total_count]['Net_impact'] = data_indirect_footprint[total_count].get('totalcarbonfootprint') + data_direct_totalfootprint[total_count].get('totalcarbonfootprint')
+        #     list_data_direct[total_count]['roe'] = round(data_direct_totalfootprint[total_count].get('totalcarbonfootprint') / list_data_direct[total_count]['Net_impact'], 2)
+        #     total_count += 1
         # print('data_direct:', data_direct)
+
+        list_data_indirect = []
+        for i in data_indirect:
+            list_data_indirect.append(i.__dict__)
+
+        for i in data_indirect:
+            list_data_indirect[total_count]['direct_carbonfootprint'] = data_direct_totalfootprint[total_count].get('totalcarbonfootprint')
+            list_data_indirect[total_count]['Net_impact'] = data_indirect_footprint[total_count].get('totalcarbonfootprint') + data_direct_totalfootprint[total_count].get('totalcarbonfootprint')
+            list_data_indirect[total_count]['roe'] = round(data_direct_totalfootprint[total_count].get('totalcarbonfootprint') / list_data_indirect[total_count]['Net_impact'], 2)
+            total_count += 1
 
         for instance in pro_details:
             pro_details_dict.append(instance.__dict__)
@@ -143,12 +155,21 @@ def login_user(request):
         session_dict_in_direct = {}
         # import ipdb
         # ipdb.set_trace()
-        for items_in_direct in list_data_direct:
-            session_dict_in_direct['session_dict_in_direct{}'.format(dict_count_in_direct)] = items_in_direct
-            session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'] = str(session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'])
-            dict_count_in_direct += 1
+        # for items_in_direct in list_data_direct:
+        #     session_dict_in_direct['session_dict_in_direct{}'.format(dict_count_in_direct)] = items_in_direct
+        #     session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'] = str(session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'])
+        #     dict_count_in_direct += 1
+        #
+        # print('session_dict_in_direct:', session_dict_in_direct)
 
-        print('session_dict_in_direct:', session_dict_in_direct)
+        session_new_indirect = {}
+        data_count = 0
+        for items_indirect in list_data_indirect:
+            session_new_indirect['session_new_indirect{}'.format(data_count)] = items_indirect
+            session_new_indirect.get('session_new_indirect{}'.format(data_count))['_state'] = str(session_new_indirect.get('session_new_indirect{}'.format(data_count))['_state'])
+            data_count += 1
+
+        print('session_new_indirect:', session_new_indirect)
 
         list_data_comp = []
         for i in projectstatus:
@@ -184,10 +205,10 @@ def login_user(request):
         print(len(data_direct_projectname))
 
         if user is not None:
-            context = {'username': username, 'db_instance': len(data_direct_projectname), 'session_dict': session_dict, 'session_dict_direct': session_dict_direct,
-                       'session_dict_indirect': session_dict_indirect, 'data_indirect_footprint': data_indirect_footprint, 'pro_di': pro_di, 'list_data_direct': list_data_direct,
+            context = {'username': username, 'db_instance': len(data_indirect), 'session_dict': session_dict, 'session_dict_direct': session_dict_direct,
+                       'session_dict_indirect': session_dict_indirect, 'data_indirect_footprint': data_indirect_footprint, 'pro_di': pro_di,
                        'session_dict_in_direct': session_dict_in_direct, 'session_dict_completed': session_dict_completed,
-                       'session_list_new':session_list_new, 'db_compl_ins': len(projectstatus)}
+                       'session_list_new':session_list_new, 'db_compl_ins': len(projectstatus), 'session_new_indirect': session_new_indirect}
             login(request, user)
             return render(request, 'index.html', context)
         else:
@@ -257,11 +278,11 @@ def login_user(request):
         for i in data_direct:
             list_data_direct.append(i.__dict__)
         total_count = 0
-        for i in data_direct:
-            list_data_direct[total_count]['indirect_carbonfootprint'] = data_indirect_footprint[total_count].get('totalcarbonfootprint')
-            list_data_direct[total_count]['Net_impact'] = data_indirect_footprint[total_count].get('totalcarbonfootprint') + data_direct_totalfootprint[total_count].get('totalcarbonfootprint')
-            list_data_direct[total_count]['roe'] = round(data_direct_totalfootprint[total_count].get('totalcarbonfootprint') / list_data_direct[total_count]['Net_impact'], 2)
-            total_count += 1
+        # for i in data_direct:
+        #     list_data_direct[total_count]['indirect_carbonfootprint'] = data_indirect_footprint[total_count].get('totalcarbonfootprint')
+        #     list_data_direct[total_count]['Net_impact'] = data_indirect_footprint[total_count].get('totalcarbonfootprint') + data_direct_totalfootprint[total_count].get('totalcarbonfootprint')
+        #     list_data_direct[total_count]['roe'] = round(data_direct_totalfootprint[total_count].get('totalcarbonfootprint') / list_data_direct[total_count]['Net_impact'], 2)
+        #     total_count += 1
 
         dict_count_direct = 1
         for items_direct in pro_detail_direct:
@@ -296,12 +317,12 @@ def login_user(request):
         dict_count_in_direct = 1
         session_dict_in_direct = {}
 
-        for items_in_direct in list_data_direct:
-            session_dict_in_direct['session_dict_in_direct{}'.format(dict_count_in_direct)] = items_in_direct
-            session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'] = str(session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'])
-            dict_count_in_direct += 1
+        # for items_in_direct in list_data_direct:
+        #     session_dict_in_direct['session_dict_in_direct{}'.format(dict_count_in_direct)] = items_in_direct
+        #     session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'] = str(session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'])
+        #     dict_count_in_direct += 1
 
-        print('session_dict_in_direct:', session_dict_in_direct)
+        # print('session_dict_in_direct:', session_dict_in_direct)
 
         pro_di = []
 
@@ -339,15 +360,34 @@ def login_user(request):
 
         print('session_list_new:', session_list_new)
 
+        list_data_indirect = []
+        for i in data_indirect:
+            list_data_indirect.append(i.__dict__)
+
+        for i in data_indirect:
+            list_data_indirect[total_count]['direct_carbonfootprint'] = data_direct_totalfootprint[total_count].get('totalcarbonfootprint')
+            list_data_indirect[total_count]['Net_impact'] = data_indirect_footprint[total_count].get('totalcarbonfootprint') + data_direct_totalfootprint[total_count].get('totalcarbonfootprint')
+            list_data_indirect[total_count]['roe'] = round(data_direct_totalfootprint[total_count].get('totalcarbonfootprint') / list_data_indirect[total_count]['Net_impact'], 2)
+            total_count += 1
+
+        session_new_indirect = {}
+        data_count = 0
+        for items_indirect in list_data_indirect:
+            session_new_indirect['session_new_indirect{}'.format(data_count)] = items_indirect
+            session_new_indirect.get('session_new_indirect{}'.format(data_count))['_state'] = str(session_new_indirect.get('session_new_indirect{}'.format(data_count))['_state'])
+            data_count += 1
+
+        print('session_new_indirect:', session_new_indirect)
+
         # y = '0'
         # if (projectstatus=='completed'):
         #     y = '1'
         # else:
         #     y = '2'
 
-        context = {'username': request.session.get('username'), 'db_instance': len(data_direct_projectname), 'session_dict': session_dict, 'session_dict_direct': session_dict_direct,
-                   'session_dict_indirect': session_dict_indirect, 'data_indirect_footprint': data_indirect_footprint, 'pro_di': pro_di, 'list_data_direct': list_data_direct, 'session_dict_in_direct': session_dict_in_direct,
-                   'session_dict_completed': session_dict_completed, 'session_list_new': session_list_new, 'db_compl_ins': len(projectstatus)}
+        context = {'username': request.session.get('username'), 'db_instance': len(data_indirect), 'session_dict': session_dict, 'session_dict_direct': session_dict_direct,
+                   'session_dict_indirect': session_dict_indirect, 'data_indirect_footprint': data_indirect_footprint, 'pro_di': pro_di, 'session_dict_in_direct': session_dict_in_direct,
+                   'session_dict_completed': session_dict_completed, 'session_list_new': session_list_new, 'db_compl_ins': len(projectstatus), 'session_new_indirect': session_new_indirect}
         return render(request, 'index.html', context)
     else:
         return render(request, 'login.html')

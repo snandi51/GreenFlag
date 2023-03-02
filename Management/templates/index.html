@@ -86,6 +86,8 @@ window.onload = function() {
       var Completed_search = document.getElementById('Completed_search');
       var Completed = document.getElementById('Completed');
       var Draft_search = document.getElementById('Draft_search');
+      var draft_new = document.getElementById('draft_new');
+      var comp_new = document.getElementById('comp_new');
       console.log(evt)
       console.log(cityName)
       var progress2 = document.querySelector('.progress2')
@@ -102,6 +104,8 @@ window.onload = function() {
         nav_button_2.style.borderColor = 'transparent';
         nav_button_2.style.outline = 'thick solid #121010';
         nav_button_1.style.outline = 'thick solid #121010';
+        comp_new.style.display = 'block';
+        draft_new.style.display = 'none';
 
       } else{
         console.log('city name is Draft');
@@ -117,6 +121,8 @@ window.onload = function() {
         nav_button_2.style.outline = 'none';
         nav_button_2.style.outline = 'thick solid #121010';
         nav_button_1.style.outline = 'thick solid #121010';
+        comp_new.style.display = 'none';
+        draft_new.style.display = 'block';
       }
       for (i = 0; i < x.length; i++) {
         x[i].style.display = 'none';
@@ -226,35 +232,35 @@ window.onload = function() {
     }
 </script>
 
-<script>
-function mySearchFunction() {
-    var input, filter, div, li, a, i, txtValue;
-    input = document.getElementById('searchbar_input');
-    input_value = input.value;
-    filter = input.value.toUpperCase();
+<!--<script>-->
+<!--function mySearchFunction() {-->
+<!--    var input, filter, div, li, a, i, txtValue;-->
+<!--    input = document.getElementById('searchbar_input');-->
+<!--    input_value = input.value;-->
+<!--    filter = input.value.toUpperCase();-->
 
-    div = document.getElementById('draft_div');
-    h2_tags = div.getElementsByTagName('h2');
+<!--    div = document.getElementById('draft_div');-->
+<!--    h2_tags = div.getElementsByTagName('h2');-->
 
 
-    console.log(input_value)
-    console.log(filter)
+<!--    console.log(input_value)-->
+<!--    console.log(filter)-->
 
-    for (i = 1; i < h2_tags.length; i++) {
-        txtValue = h2_tags[i].textContent || h2_tags[i].innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            console.log('Enter if')
-            console.log('Value of IF i: ', i)
-            document.getElementById('Project '+ i).style.display = '';
-        }
-        else {
-            console.log('Enter else')
-            console.log('Value of ELSE i: ', i)
-            document.getElementById('Project '+ i).style.display = 'none';
-        }
-    }
-}
-</script>
+<!--    for (i = 1; i < h2_tags.length; i++) {-->
+<!--        txtValue = h2_tags[i].textContent || h2_tags[i].innerText;-->
+<!--        if (txtValue.toUpperCase().indexOf(filter) > -1) {-->
+<!--            console.log('Enter if')-->
+<!--            console.log('Value of IF i: ', i)-->
+<!--            document.getElementById('Project '+ i).style.display = '';-->
+<!--        }-->
+<!--        else {-->
+<!--            console.log('Enter else')-->
+<!--            console.log('Value of ELSE i: ', i)-->
+<!--            document.getElementById('Project '+ i).style.display = 'none';-->
+<!--        }-->
+<!--    }-->
+<!--}-->
+<!--</script>-->
 <script>
     function showPop(id) {
         document.getElementById('myDropdown_' + id).classList.toggle('show');
@@ -362,21 +368,6 @@ function mySearchFunction() {
                 x[i].style.display="list-item";
             }
         }
-
-        var input, filter, select, option, a, i, txtValue;
-        input = document.getElementById("searchbar_input");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("select_1");
-        li = select.getElementsByTagName("option");
-        for (i = 0; i < li.length; i++) {
-            a = li[i];
-            txtValue = a.textContent || a.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        }
     }
 
     function mySearchFunction_complete() {
@@ -399,6 +390,9 @@ function mySearchFunction() {
     <div style="width: 100%; display: flex; height: 40px; margin-top: 15px;">
         <div id="draft_new" class="custom-nav-box" style="line-height: 28px; font-family: 'Ubuntu'; font-weight: 500; color: #ADB5BD; font-size: 24px; text-align: center; padding-top: 8px; width: 300px; height: 50px;">
             Project Dashboard ({{db_instance}})
+        </div>
+        <div id="comp_new" class="custom-nav-box" style="display:none; line-height: 28px; font-family: 'Ubuntu'; font-weight: 500; color: #ADB5BD; font-size: 24px; text-align: center; padding-top: 8px; width: 300px; height: 50px;">
+            Project Dashboard ({{db_compl_ins}})
         </div>
 
         <div style="margin-right: 20px; line-height: 16px; float: right; align-item: center; margin-left: auto; font-family: 'Ubuntu'; color: #ADB5BD; text-align: center; padding-top: 8px; width: 200px; height: 50px;">
@@ -430,26 +424,31 @@ function mySearchFunction() {
 
             <div class="select_div">
                 <select class="select" name="none" id="select_1" style="width:100px;" >
+                    <option value="Business Unit">Business Unit</option>
                     {% for j in session_dict.values %}
                         <option value="{{j.buconcerned}}">{{j.buconcerned}}</option>
                     {% endfor %}
                 </select>
                 <select class="select" name="none" id="select_2" style="width:100px;">
+                    <option value="Location">Location</option>
                     {% for j in session_dict.values %}
                         <option value="{{j.projectlocation}}">{{j.projectlocation}}</option>
                     {% endfor %}
                 </select>
                 <select class="select"name="none" id="select_3" style="width:100px;">
+                    <option value="Department">Department</option>
                     {% for j in session_dict.values %}
                         <option value="{{j.department}}">{{j.department}}</option>
                     {% endfor %}
                 </select>
                 <select class="select" name="none" id="select_4" style="width:100px;">
+                    <option value="Status">Projectstatus</option>
                     {% for j in session_dict.values %}
                         <option value="{{j.projectstatus}}">{{j.projectstatus}}</option>
                     {% endfor %}
                 </select>
                 <select class="select" name="none" id="select_5">
+                    <option value="Date">date</option>
                     {% for j in session_dict.values %}
                         <option value="{{j.buildstartdate}}">{{j.buildstartdate}}</option>
                     {% endfor %}
@@ -469,6 +468,11 @@ function mySearchFunction() {
                     <option value="BU">BU</option>
                     <option value="1">1</option>
                 </select>
+<!--                {% for j in session_dict.values %}-->
+<!--                <ul >-->
+<!--                    <li value="{{j.buconcerned}}">{{j.buconcerned}}</li>-->
+<!--                </ul>-->
+<!--                {% endfor %}-->
                 <select class="select_completed" name="none" id="select_7">
                     <option value="Localization">Localization</option>
                     <option value="1">1</option>
@@ -549,12 +553,12 @@ function mySearchFunction() {
 
             <!-------------------------------------Data Enter in database--------------------------------->
             <div id="draft_div" class="details" style="padding-bottom: 180px;">
-                {% for i in session_dict_in_direct.values %}
+                {% for i in session_new_indirect.values %}
                 <div id="project_{{i.projectname}}" class="recentOrders" style="padding-bottom: 20px;">
                     <div class="cardHeader">
                         <h2 id="draft_card_header_{{i}}" class="header">{{i.projectname}}</h2>
-                        <div style="width: 30%; position: absolute; margin-top: 18px; margin-left: 150px; height: 5px; background-color: #34373D">
-                            <div id="progress_bar_{{i.projid}}" style="background-color: #4FAFA2; width: 40%; height: 100%"></div>
+                        <div style="width: 30%; position:absolute; margin-top: 18px; margin-left: 150px; height: 5px; background-color: #34373D">
+                            <div id="progress_bar_{{i.projid}}" style="background-color: #4FAFA2; width: 50%; height: 100%"></div>
                         </div>
                         <div class="dropdown">
                             <div class="fa fa-ellipsis-v" id="{{i.projectname}}" onclick="showPop(this.id)" aria-hidden="true" style="padding-top:10px; color:#ADB5BD;">
