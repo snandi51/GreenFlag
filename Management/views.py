@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import django
-from Management.models import ProjectDetails
+from Management.models import ProjectDetails, CompanyDetails,Company
 from Management.models import RefCarbonfootprint
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
@@ -3118,7 +3118,173 @@ def di_drone(request):
     return render(request, 'di_drone.html',context)
 
 def company_detail(request):
+    # import ipdb
+    # ipdb.set_trace()
+    if 'save' in request.POST:
+        companyname = request.POST.get('company_name')
+        from_year_1 = request.POST.get('from')
+        till_year_1 = request.POST.get('till')
+        # from_year = int(from_year_1)
+        # till_year = int(till_year_1)
+        request.session['from_year_1'] = from_year_1
+        request.session['till_year_1'] = till_year_1
+        request.session['companyname'] = companyname
+
+        start_year = from_year_1
+        end_year = till_year_1
+        start_date_split = start_year.split('-')
+        from_year = int(start_date_split[0])
+        end_date_split = end_year.split('-')
+        till_year = int(end_date_split[0])
+        request.session["from_year"] = from_year
+        from_year = request.session.get('from_year')
+        request.session["till_year"] = till_year
+        till_year = request.session.get('till_year')
+
+
+        #calculated year diff of from yr to till yr
+        total_year = till_year - from_year
+        print('total_year', total_year)
+
+        #for year range
+        yr_range = []
+        for i in range(from_year, till_year+1):
+            yr_range.append(i)
+        request.session['yr_range'] = yr_range
+
+        #list of no. of years
+        list_of_years = []
+        for i in range(1, total_year + 2):
+            list_of_years.append(i)
+
+        #dict for year value in html
+        year_dict = dict(zip(list_of_years, yr_range))
+        request.session['year_dict'] = year_dict
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        company = Company.objects.all()
+
+        context = {
+            'yr_range': yr_range,
+            'year_dict': year_dict,
+        }
+        return render(request, 'company_detail.html', context)
+
+    if 'save_detail' in request.POST:
+        targettrajectoryscope1_2 = request.POST.get('targettrajectoryscope1_2')
+        targettrajectoryscope1_2 = float(targettrajectoryscope1_2)
+        targettrajectoryscope3 = request.POST.get('targettrajectoryscope3')
+        targettrajectoryscope3 = float(targettrajectoryscope3)
+        precisetrajectoryitprojects = request.POST.get('precisetrajectoryitprojects')
+        precisetrajectoryitprojects = float(precisetrajectoryitprojects)
+        # typeoftarget = request.POST.get('typeoftarget')
+        actualemssionportfolio = request.POST.get('actualemssionportfolio')
+        # actualemssionportfolio = float(actualemssionportfolio)
+        # year = request.POST.get('year')
+
+        # in company table
+        projection2050 = request.POST.get('projection2050')
+        actualemissiondirect = request.POST.get('actualemissiondirect')
+        actualemissionindirect = request.POST.get('actualemissionindirect')
+
+        companyname = request.session.get('companyname')
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        from_year_1 = request.session.get('from_year_1')
+        till_year_1 = request.session.get('till_year_1')
+        companyname = request.session.get('companyname')
+        yr_range = request.session.get('yr_range')
+        from_year = request.session.get('from_year')
+        till_year = request.session.get('till_year')
+
+
+        total_year = till_year - from_year
+        print('total_year', total_year)
+
+        turnover_list = []
+        for i in range(1, total_year + 2):
+            turnover_list.append(request.POST.get('turnover_' + str(i)))
+
+        productionoveryears_list = []
+        for i in range(1, total_year + 2):
+            productionoveryears_list.append(request.POST.get('productionoveryears_' + str(i)))
+
+        noofemployees_list = []
+        for i in range(1, total_year + 2):
+            noofemployees_list.append(request.POST.get('noofemployees_' + str(i)))
+
+        carbonprice_list = []
+        for i in range(1, total_year + 2):
+            carbonprice_list.append(request.POST.get('carbonprice_' + str(i)))
+
+        investmentindigitalprojects_list = []
+        for i in range(1, total_year + 2):
+            investmentindigitalprojects_list.append(request.POST.get('investmentindigitalprojects_' + str(i)))
+
+        companyunit_list = []
+        for i in range(1, total_year + 2):
+            companyunit_list.append(request.POST.get('companyunit_' + str(i)))
+
+        company_list = pd.DataFrame({
+            'invst': investmentindigitalprojects_list,
+            'compunit': companyunit_list,
+            'yr_range': yr_range
+        })
+        print('company_list', company_list)
+
+        try:
+            for i, row in company_list.iterrows():
+                company = Company(companyname=companyname, companyunit=row.compunit,
+                                  investmentindigitalprojects=row.invst,
+                                  projection2050=projection2050, actualemissiondirect=actualemissiondirect,
+                                  actualemissionindirect=actualemissionindirect,
+                                  create_timestamp=create_timestamp,
+                                  update_timestamp=create_timestamp)
+                company.save()
+                print('company', company)
+
+        except Exception as e:
+            print(e)
+
+        # company_compid = pd.DataFrame(list(Company.objects.all().values('compid')))
+        # print('user_detail', company_compid)
+        # company_dict = company_compid.to_dict('records')[-1]
+        # print('company_dict', company_dict)
+        # compid = company_dict['compid']
+        # compid = Company.objects.get(compid=compid)
+        # print(compid)
+        # compid.save()
+
+        company_detail_df = pd.DataFrame(
+            {'turnover': turnover_list,
+             'poy_list': productionoveryears_list,
+             'noe_list': noofemployees_list,
+             'cp_list': carbonprice_list
+             })
+
+        print('company_detail_df', company_detail_df)
+
+        company_detail = CompanyDetails.objects.all()
+        try:
+            for i, row in company_detail_df.iterrows():
+                company_detail = CompanyDetails(companyname=companyname,
+                                                turnover=row.turnover, productionoveryears=row.poy_list, noofemployees=row.noe_list,
+                                                targettrajectoryscope1_2=targettrajectoryscope1_2,
+                                                targettrajectoryscope3=targettrajectoryscope3,
+                                                precisetrajectoryitprojects=precisetrajectoryitprojects,
+                                                starttimeperiod=from_year_1,endtimeperiod=till_year_1,
+                                                carbonprice=row.cp_list, actualemssionportfolio=actualemssionportfolio,
+                                                create_timestamp=create_timestamp, update_timestamp=create_timestamp)
+                company_detail.save()
+                print('company_detail', company_detail)
+        except Exception as e:
+            print(e)
     return render(request, 'company_detail.html')
+
 
 
 def get_year(request, build_start_date, build_end_date, run_start_date, run_end_date):
@@ -9268,7 +9434,201 @@ def curyearimpacts():
 
 
 def view_detailed_result(request):
-    proj_id = 58
+    # import ipdb
+    # ipdb.set_trace()
+
+    user_equipment_list = request.session.get('WhichUserEquipment_list')
+    industrial_equipment_list = request.session.get('WhichIndustrialEquipment_list')
+    parameters_implemented_list = request.session.get('WhichParametersImplemented_list')
+
+    all_param_list = []
+    all_param_list.extend(user_equipment_list)
+    all_param_list.extend(industrial_equipment_list)
+    all_param_list.extend(parameters_implemented_list)
+
+    total_build_year = request.session.get('build_year_list'),
+    total_build_year = total_build_year[0]
+    total_build_year.insert(0, 'Total')
+    total_run_year = request.session.get('run_year_list'),
+    get_current_id = request.session.get('current_project_id')
+
+
+    # Add Notepad code here saved as view_detailed_page_python
+    # Comment below code for RUN ===================================================
+
+    direct_impact_all_data = ImpactsDirects.objects.filter(projid='186')
+    direct_impact_all_data_list_of_dict = []
+    for i in direct_impact_all_data:
+        direct_impact_all_data_list_of_dict.append(i.__dict__)
+
+    daily_commute_all_data = direct_impact_all_data.filter(category='People - Daily Commute')
+    direct_impact_daily_commute_list = []
+    for i in daily_commute_all_data:
+        direct_impact_daily_commute_list.append(i.__dict__)
+
+    total_daily_commute = []
+    for i in direct_impact_daily_commute_list:
+        total_daily_commute.append(i.get('emissionfactor'))
+
+    sum_of_all_daily_commute = sum(total_daily_commute)
+
+    business_travel_all_data = direct_impact_all_data.filter(category='People - Business Travel')
+    direct_impact_business_travel_list = []
+    for i in business_travel_all_data:
+        direct_impact_business_travel_list.append(i.__dict__)
+
+    total_business_travel = []
+    for i in direct_impact_business_travel_list:
+        total_business_travel.append(i.get('totalcarbonfootprint'))
+
+    sum_of_all_business_travel = 0
+    if total_business_travel:
+        sum_of_all_business_travel = sum(total_business_travel)
+
+    total_sum_direct_impact = []
+    for i in direct_impact_all_data_list_of_dict:
+        total_sum_direct_impact.append(i.get('totalcarbonfootprint'))
+
+    total_sum_of_direct_impact = 0
+    if total_sum_direct_impact:
+        total_sum_of_direct_impact = sum(total_sum_direct_impact)
+
+    sum_of_all_user_equipment_list = 0
+    all_user_equipment_list = []
+    if all_user_equipment_list:
+        sum_of_all_user_equipment_list = sum(all_user_equipment_list)
+    try:
+        user_equipment_list = direct_impact_all_data.filter(category='User Equipment')
+        user_equipment_list = []
+        for i in user_equipment_list:
+            user_equipment_list.append(i.get('totalcarbonfootprint'))
+        impact_indirect_pc = direct_impact_all_data.filter(subcategory='Pc')
+        impact_indirect_tablet = direct_impact_all_data.filter(subcategory='Tablet')
+        impact_indirect_monitor = direct_impact_all_data.filter(subcategory='Monitor')
+        impact_indirect_telephone = direct_impact_all_data.filter(subcategory='Telephone')
+        impact_indirect_printer = direct_impact_all_data.filter(subcategory='Printer')
+        impact_indirect_bluetooth = direct_impact_all_data.filter(subcategory='Bluetooth')
+        impact_indirect_speaker = direct_impact_all_data.filter(subcategory='Speaker')
+        impact_indirect_video_projector = direct_impact_all_data.filter(subcategory='Video projector')
+    except Exception as e:
+        print('Error occured during getting data in local', e)
+
+
+
+    #====================================================================================
+
+    # indirect_impact_all_data = ImpactsIndirects.objects.filter(projid='149')
+
+    # load_plan_all_data = LoadPlan.objects.get(projid=get_current_id)
+    # parameters_all_data = RefParameters.objects.get(projid=get_current_id)
+
+    """
+
+# Logic of each section
+    #=================================== Summary ==================================================
+    # Summary(Default) Direct Impact
+    '''
+    Addition of
+    Load plan
+    People, Daily commute
+    People, Business travel
+    Laptop
+    Monitor, PC, Tablet, Telephone, Printer, Bluetooth speaker, Video projector 
+    Industrial equipment - Drone, Camera, Connected sensors, Lidar, Raspberry PI
+    Data centers & networks
+    '''
+    load_plan_total = load_plan_all_data.get(year=total_build_year[0])
+
+    # User Equipment
+    direct_impact_year = direct_impact_all_data.get(year=total_build_year[0])
+    daily_commute_total = direct_impact_all_data.get(category='People-Daily Commute')
+    business_travel = direct_impact_all_data.get(category='People- Business Travel')
+    laptop = direct_impact_all_data.get(subcategory='Laptop')
+    pc = direct_impact_all_data.get(subcategory='Pc')
+    tablet = direct_impact_all_data.get(subcategory='Tablet')
+    monitor = direct_impact_all_data.get(subcategory='Monitor')
+    telephone = direct_impact_all_data.get(subcategory='Telephone')
+    printer = direct_impact_all_data.get(subcategory='Printer')
+    bluetooth = direct_impact_all_data.get(subcategory='Bluetooth')
+    speaker = direct_impact_all_data.get(subcategory='Speaker')
+    video_projector = direct_impact_all_data.get(subcategory='Video projector')
+
+
+    # Industrial Equipment
+    drone = direct_impact_all_data.get(subcategory='Drone')
+    camera = direct_impact_all_data.get(subcategory='Camera')
+    connected_sensor = direct_impact_all_data.get(subcategory='Connected sensors')
+    lidar = direct_impact_all_data.get(subcategory='Lidar')
+    raspberry_pi = direct_impact_all_data.get(subcategory='Rasberry PI')
+
+    # Indirect Parameters
+    fuel = indirect_impact_all_data.get(subcategory='Fuel - Stationary Combustion')
+    mobile_combution = indirect_impact_all_data.get(subcategory='Mobile Combustion')
+    electricity = indirect_impact_all_data.get(subcategory='Electricity')
+    water = indirect_impact_all_data.get(subcategory='Water')
+    raw_material = indirect_impact_all_data.get(subcategory='Raw material')
+    mobile_combution = indirect_impact_all_data.get(subcategory='Paper')
+    mobile_combution = indirect_impact_all_data.get(subcategory='Waste')
+
+
+
+    data_center_networks_parameters = parameters_all_data
+
+    # Summary(Default) Indirect Impact
+    '''
+    Addition of 
+    Fuel - Stationary Combustion
+    Mobile Combustion
+    Electricity
+    Water
+    Raw material
+    Paper
+    Waste
+    '''
+    all_the_indirect_parameters = indirect_impact_all_data.get(year=total_build_year[0])
+
+    # Summary(Default) Net Impact
+    '''
+    Addition of Direct Impact + Indirect Impact
+    '''
+
+    # Summary(Default) Return on Environment
+    '''
+    Divination of Indirect Impact / Direct Impact
+    '''
+    # ======================================== Direct Impact =========================================
+    # Direct Impact (Direct Impact)
+    '''
+    Same as Direct impact total in Summary
+    '''
+
+    # Direct Impact (Average Build phase )
+    '''
+    Average of Build phase emissions in for Direct Impacts in a year
+    '''
+
+    # Direct Impact (Average Run phase)
+    '''
+    Average of Run phase emissions in for Direct Impacts in a year
+    '''
+    # ===================================================================================================
+
+    # ============================================= Indirect Impact =====================================
+
+    # Indirect Impact (Indirect Impact)
+    '''
+    Same as above Indirect Impact total
+    '''
+
+    # Indirect Impact (Average Indirect Impact)
+    '''
+    Average of Run phase emissions in for Indirect Impacts in a year
+    '''
+    
+    """
+
+
+    project_name = request.session.get('name')
     projects_count = noofcols()
     result_dict = project_status()
     Status_list = result_dict['status_list']
@@ -9278,7 +9638,6 @@ def view_detailed_result(request):
     iis = indirect_impact_score()
     iis = iis['totalcarbonfootprint__sum']
     dis = 0.044
-    name = request.session.get('name');
     iis = 0.564
     ni = dis + iis
     roe = round(iis / dis)
@@ -9296,6 +9655,7 @@ def view_detailed_result(request):
         '2022': 0.24,
         '2023': 0.14,
     }
+    print('The total years are: ', request.session.get('build_year_list'))
     context = {
         'projects_count': projects_count,
         'status_list': Status_list,
@@ -9305,12 +9665,21 @@ def view_detailed_result(request):
         'avg_run_phase': avg_run_phase,
         'avg_build_phase': avg_build_phase,
         'tot_years': tot_years,
+        'total_sum_of_direct_impact': total_sum_of_direct_impact,
         'year_values': year_values,
         'dis': dis,
+        'all_user_equipment_list': sum_of_all_user_equipment_list,
+        'sum_of_people': sum_of_all_daily_commute + sum_of_all_business_travel,
+        'total_build_year_without_total': total_build_year[1:],
         'iis': iis,
-        'name': name,
+        'parameters_implemented_list': parameters_implemented_list,
+        'name': project_name,
+        'total_year_loop': request.session.get('totalyear_loop'),
+        'total_run_year': total_run_year,
+        'total_build_year': total_build_year,
         'graph_table': graph_table,
         'ni': ni,
+        'all_param_list': all_param_list,
         'roe': roe
     }
     return render(request, 'view_detailed_result.html', context)
