@@ -51,6 +51,18 @@ tr:nth-child() {
 </style>
 
 <style>
+th, td {
+  border-style: ridge;
+  border-radius: 2px;
+  border: 1px solid white;
+}
+th, td {
+  background-color: #96D4D4;
+}
+</style>
+
+
+<style>
     input:focus, textarea:focus, select:focus{
         outline: none;
         border: none;
@@ -60,22 +72,83 @@ tr:nth-child() {
 
 <script>
 function myNameSearchFunction() {
-  // Declare variables
   var input, filter, table, tr, td, i, txtValue;
   input = document.getElementById('name_search_id');
-  console.log('Input text is: ', input.value);
   filter = input.value.toUpperCase();
-  outer_div = document.getElementById('outer_div_1');
-  console.log('Outer div is: ', table);
-  table = outer_div.getElementsByTagName('div');
-  console.log('Inner div is: ', table);
-  tr = table;
-
-  console.log('Label is: ', tr);
-
-  // Loop through all table rows, and hide those who don't match the search query
+  table = document.getElementById('myTable');
+  tr = table.getElementsByTagName('tr');
   for (i = 0; i < tr.length; i++) {
-    td = tr[i];
+    td = tr[i].getElementsByTagName('td')[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = '';
+      } else {
+        tr[i].style.display = 'none';
+      }
+    }
+  }
+}
+</script>
+
+<script>
+function CategorySearchFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById('name_search_id_category');
+  console.log(input.value);
+  filter = input.value.toUpperCase();
+  table = document.getElementById('myTable');
+  tr = table.getElementsByTagName('tr');
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName('td')[2];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = '';
+      } else {
+        tr[i].style.display = 'none';
+      }
+    }
+  }
+}
+</script>
+
+<script>
+function SubCategorySearchFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById('name_search_id_subcategory');
+  console.log(input.value);
+  filter = input.value.toUpperCase();
+  table = document.getElementById('myTable');
+  tr = table.getElementsByTagName('tr');
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName('td')[3];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = '';
+      } else {
+        tr[i].style.display = 'none';
+      }
+    }
+  }
+}
+</script>
+
+<script>
+function TypeOfImpactSearch(id) {
+  var get_id = id
+  if(id =='direct_impact_filter') {
+
+  }
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById('name_search_id_subcategory');
+  console.log(input.value);
+  filter = input.value.toUpperCase();
+  table = document.getElementById('myTable');
+  tr = table.getElementsByTagName('tr');
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName('td')[3];
     if (td) {
       txtValue = td.textContent || td.innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -142,14 +215,81 @@ function myNameSearchFunction() {
       }
     }
 
-    function myDeleteFunction() {
-      document.getElementById("check_1").deleteRow(1);
-    }
-
 
 </script>
+<script>
+    function addNewRole(){
+        var new_role_add_div = document.getElementById('new_role_add_div')
+
+        if (new_role_add_div.style.display === 'none'){
+            new_role_add_div.style.display = 'block';
+        }
+        else{
+            new_role_add_div.style.display = 'none';
+        }
+    }
+</script>
+<script>
+    var delete_id = 0;
+    function deleteRow(id){
+        console.log('deleteRow id: ', id);
+        delete_id = id;
+    }
+
+    function myDeleteFunction(){
+        console.log('Delete function called with id: ', delete_id)
+        window.location.href = '{% url 'delete_row_custom_emission_library' %}' + '?delete_id='+delete_id;
+    }
+</script>
+<script>
+    function myEditFunction(){
+        var new_role_edit_div = document.getElementById('new_role_edit_div');
+        var temp_list = {{ temp_list| safe}}
+        console.log(temp_list)
+        console.log('This id needs to be deleted', delete_id);
+
+        var edit_name = document.getElementById('edit_name');
+        var edit_toi = document.getElementById('edit_toi');
+        var edit_cat = document.getElementById('edit_cat');
+        var edit_subcat = document.getElementById('edit_subcat');
+        var edit_ef = document.getElementById('edit_ef');
+
+        var edit_unit = document.getElementById('edit_unit');
+        var edit_life = document.getElementById('edit_life');
+        var edit_phase_ef = document.getElementById('edit_phase_ef');
+        var edit_lifespan = document.getElementById('edit_lifespan');
+        var edit_carbon = document.getElementById('edit_carbon');
+        var edit_project_ef = document.getElementById('edit_project_ef');
+
+        if(new_role_edit_div.style.display==='none'){
+            new_role_edit_div.style.display = 'block';
+            for(var i=0; i<temp_list.length; i++){
+                if(temp_list[i].carbonid==delete_id){
+                    edit_name.value = temp_list[i].name;
+                    edit_toi.value = temp_list[i].typeofimpact;
+                    edit_cat.value = temp_list[i].category;
+                    edit_subcat.value = temp_list[i].subcategory;
+                    edit_ef.value = temp_list[i].emissionfactor;
+                    edit_unit.value = temp_list[i].uni;
+                }
+            }
+        }
+        else{
+            new_role_edit_div.style.display = 'none';
+        }
+    }
+</script>
+<style>
+/* Designing for scroll-bar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 5px;
+    position: sticky;
+    top:0;
+}
+</style>
 <body>
-<div id="main_width" class="main_width scroll" style="overflow-y : auto">
+<div id="main_width" class="main_width scroll " style="overflow-y : auto;">
     <div style="width:50%; float:left; text-align:start;  margin-top:20px; margin-left:57px;">
         <button type="button" onclick="history.back()" style="display: none; color:Black; font-size: 10px; font-family:'ubuntu'" id="back-btn" ></button>
         <a href="#" style="color:#4FAFA2; font-size: 10px; font-family:'ubuntu'"><img src="static/assets/img/back_button.png" style="margin-right:10px;" onclick="document.getElementById('back-btn').click()"  alt="Back"/>BACK TO LAST PAGE</a>
@@ -181,303 +321,299 @@ function myNameSearchFunction() {
             </div>
         </div>
 
-
         <div id="Build" class="w3-container city " style="overflow-x:auto; width:94%;  display:block; ">
-            <div class="div_class_5" style=" border-collapse: collapse; margin-top:20px; ">
-                <div class="name_div" style="position:sticky;">
-                    <div class="name_1">
+            <table class="table table-bordered" style="margin-top: 20px; border-style: ridge; border: 1px solid white;" id="myTable">
+              <thead>
+                <tr style="height: 30px; height: 100px; border: 1px solid; border-color:#34373D;  background-color: #23272E; color: #CED4DA">
+                  <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Name
-                    </div>
-                    <div class="search_box" style="right:5px; ">
-                        <input class="input_search_1" id="name_search_id" onkeyup="myNameSearchFunction()" type="text" placeholder="Search..." name="search">
-                        <img src="static/assets/img/search_Icon.png">
-                    </div>
-                </div>
-                <div class="impact_type_div">
-                    <div class="name_1">
+                      </div>
+                      <div class="search_box" style="right:5px; margin-bottom: 5px; ">
+                            <input class="input_search_1" id="name_search_id" onkeyup="myNameSearchFunction()" type="text" placeholder="Search..." name="search" style="background-color: transparent">
+                            <img src="static/assets/img/search_Icon.png">
+                      </div>
+                  </th>
+                  <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Type of Impact
-                    </div>
-                    <div class="header_table" style="position:relative; width:130%; margin-top:5px; left:30px; ">
-                        <button id="nav_button_3" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openPhase(event, 'Direct');"  style="font-size: 12px; color: #ADB5BD; width:40%; box-sizing: border-box; border-radius: 50px; border: 1px solid #6C757D; background: #34373D;" name="direct" value="0" >Direct Impact</button>
-                        <button id="nav_button_4" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openPhase(event, 'Indirect');" style="font-size: 12px; color: #ADB5BD; width:40%; box-sizing: border-box; border-radius: 50px; border: 1px solid #6C757D; background: #34373D;" name="indirect" value="1">Indirect Impact</button>
-                    </div>
-                </div>
-                <div class="category_div">
-                    <div class="name_1">
+                      </div>
+                      <div style="right:5px; width: 260px; margin-bottom: 5px; ">
+                            <button id="direct_impact_filter" class="btn btn-outline-secondary tablink w3-bottombar" onclick="TypeOfImpactSearch(this.id)"  style="font-size: 12px; color: #ADB5BD; width:40%; box-sizing: border-box; border-radius: 50px; border: 1px solid #6C757D; background: #34373D;" name="direct" value="0" >Direct Impact</button>
+                            <button id="indirect_impact_filter" class="btn btn-outline-secondary tablink w3-bottombar" onclick="TypeOfImpactSearch(this.id)" style="font-size: 12px; color: #ADB5BD; width:40%; box-sizing: border-box; border-radius: 50px; border: 1px solid #6C757D; background: #34373D;" name="indirect" value="1">Indirect Impact</button>
+                      </div>
+                  </th>
+                  <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Category
-                    </div>
-                    <div class="search_box">
-                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
-                        <img src="static/assets/img/search_Icon.png" >
-                    </div>
-                </div>
-                <div class="sub_category_div" >
-                    <div class="name_1">
+                      </div>
+                      <div class="search_box" style="right:5px; margin-bottom: 5px; ">
+                            <input class="input_search_1" id="name_search_id_category" onkeyup="CategorySearchFunction()" type="text" placeholder="Search..." name="search" style="background-color: transparent">
+                            <img src="static/assets/img/search_Icon.png">
+                      </div>
+                  </th>
+                  <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Sub-category
-                    </div>
-                    <div class="search_box">
-                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
-                        <img src="static/assets/img/search_Icon.png" >
-                    </div>
-                </div>
-                <div class="emission_fac_div">
-                    <div class="name_1">
-                        Lifecycle emission factor (Kg CO2e)
-                    </div>
-                </div>
-                <div class="lifespan_div">
-                    <div class="name_1">
+                      </div>
+                      <div class="search_box" style="right:5px; margin-bottom: 5px; ">
+                            <input class="input_search_1" id="name_search_id_subcategory" onkeyup="SubCategorySearchFunction()" type="text" placeholder="Search..." name="search" style="background-color: transparent">
+                            <img src="static/assets/img/search_Icon.png">
+                      </div>
+                  </th>
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
+                        Emission factor (KgCO2e per unit)
+                      </div>
+                  </th>
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
+                        Unit
+                      </div>
+                  </th>
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Lifecycle Stage Included
-                    </div>
-                    <div class="search_box">
-                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
-                        <img src="static/assets/img/search_Icon.png" >
-                    </div>
-                </div>
-                <div class="lifespan_div">
-                    <div class="name_1">
+                      </div>
+                      <div class="search_box" style="right:5px; margin-bottom: 5px; ">
+                            <input class="input_search_1" id="name_search_id7" onkeyup="myNameSearchFunction()" type="text" placeholder="Search..." name="search" style="background-color: transparent">
+                            <img src="static/assets/img/search_Icon.png">
+                      </div>
+                  </th>
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
+                        Use Phase emission factor (Kg CO2e)
+                      </div>
+                      <div class="search_box" style="right:5px; margin-bottom: 5px; ">
+                            <input class="input_search_1" id="name_search_id8" onkeyup="myNameSearchFunction()" type="text" placeholder="Search..." name="search" style="background-color: transparent">
+                            <img src="static/assets/img/search_Icon.png">
+                      </div>
+                  </th>
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Lifespan (Years)
-                    </div>
-                    <div class="search_box">
-                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
-                        <img src="static/assets/img/search_Icon.png" >
-                    </div>
-                </div>
-                <div class="footprint_div">
-                    <div class="name_1">
+                      </div>
+                      <div class="search_box" style="right:5px; margin-bottom: 5px; ">
+                            <input class="input_search_1" id="name_search_id9" onkeyup="myNameSearchFunction()" type="text" placeholder="Search..." name="search" style="background-color: transparent">
+                            <img src="static/assets/img/search_Icon.png">
+                      </div>
+                  </th>
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Carbon footprint per
                         day (KgCO2eq/day)
-                    </div>
-                </div>
-                <div class="footprint_div">
-                    <div class="name_1">
-                       Unit
-                    </div>
-                </div>
+                      </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for i in emission_library_list %}
+                <tr>
+                      <td style="color: #CED4DA; background-color: #1A1D23">{{i.name}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.typeofimpact}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.category}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.subcategory}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.emissionfactor}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">Parameter</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.lifespanyrs}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.carbonfootprintperday}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.unit}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">Parameters</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
             </div>
-            <form action="emission_lib"  method="post">
-                {% csrf_token %}
-                <!---------------------------------Input Parameters-------------------------------->
-                {% for item in emission_library_list %}
-                <div class="div_class_5" style="height:50px; width:100%; background-color:gray; " id="outer_div_1">
-                    <div class="para_1" id="para_1" style=" height:50px; position:sticky;">
-                        <div class="cal_class">
-                            {{item.name}}
-                        </div>
-                    </div>
-                    <div  class="para_2" id="para_2" style=" height:50px;">
-                        <!--                            <div id="Direct" style="display:block;">-->
-                        <label class="cal_class">
-                            {{item.typeofimpact}}
-                        </label>
-                        <!--                            </div>-->
-                    </div>
-
-                    <div class="para_1" id="para_3" style="height:50px;">
-                        <label class="cal_class">
-                            {{item.category}}
-                        </label>
-                    </div>
-                    <div class="para_1" id="para_4" style="height:50px;">
-                          <label class="cal_class">
-                             {{item.subcategory}}
-                        </label>
-                    </div>
-                    <div class="para_1" id="para_5" style="height:50px;">
-                        <label class="cal_class">
-                            {{item.emissionfactor}}
-                        </label>
-                    </div>
-                    <div class="para_1" id="para_6" style="height:50px;">
-                        <label class="cal_class">
-                            Placeholder
-                        </label>
-                    </div>
-                    <div class="para_1" id="para_7" style="height:50px;">
-                        <label class="cal_class">
-                           {{item.lifespanyrs}}
-                        </label>
-                    </div>
-                    <div class="para_1" id="para_8" style="height:50px;">
-                         <label class="cal_class">
-                             {{item.carbonfootprintperday}}
-                        </label>
-                    </div>
-                    <div class="para_1" id="para_9" style="height:50px;">
-                        <label class="cal_class">
-                            {{item.unit}}
-                        </label>
-                    </div>
-                </div>
-                {% endfor %}
-            </form>
-
-        </div>
-
-
         <div id="Run" class="w3-container city"  style="width:95%; overflow-x: auto; display:none; text-align: center; margin-top:20px; height: 400px;">
             <div>
                 <div class="Add_new_row" style="margin-left:15px;">
-                    <button class="content_button_row" onclick="myFunction()" type="button">+ ADD ROW</button>
+                    <button class="content_button_row" onclick="addNewRole()" type="button">+ ADD ROW</button>
                 </div>
-                <div class="delete_row" onclick="myDeleteFunction()">
-                    <button class="delete_button_row" type="submit">- DELETE ROW</button>
+                <div class="delete_row" style="background-color: black;">
+                    <a class="delete_button_row" onclick="myDeleteFunction()" type="submit">- DELETE ROW</a>
+                </div>
+                <div class="delete_row" style="background-color: black; margin-left: 145px;">
+                    <a class="delete_button_row" onclick="myEditFunction()" type="submit">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EDIT ROW</a>
                 </div>
             </div>
-            <div class="div_class_11"  style="margin-top:50px;">
-                <div class="checkbox_1" style="border:none; border-radius:8px 0px 0px 0px;">
-                    <input type="checkbox" class="form-check-input" id="two" name="proxy" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
-                    <!--                    <img class="check_11" src="static/assets/img/check_box.png">-->
-                    <!--                    <i class="fa fa-square-o" aria-hidden="true"></i>-->
+
+            <form method="POST" action="custom_add_data">
+                {% csrf_token %}
+                <div style="height: 50px; margin-top: 60px; display: none;" id="new_role_add_div">
+                    <table class="table table-bordered">
+                          <tr>
+                            <th><div style="width: 156px; height: 20px;"><input placeholder="Name" name="custom_name" style="width: 130px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                            <th><div style="width: 260px;"><input placeholder="Type of Impact" name="custom_type_of_impact" style="width: 240px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                            <th><div style="width: 160px;"><input placeholder="Category" name="custom_category" style="width: 140px;  text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                              <th><div style="width: 154px;"><input placeholder="Sub-Category" name="custom_subcategory" style="width: 130px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                            <th><div style="width: 57px;"><input placeholder="Emission Factor" name="custom_emission_factor" style="width: 40px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                            <th><div style="width: 70px;"><input placeholder="Unit" name="custom_unit" style="width: 50px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                              <th><div style="width: 155px;"><input placeholder="Lifecycle Stage" name="custom_lifecycle" style="width: 130px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                            <th><div style="width: 155px;"><input placeholder="Use-Phase Emission factor" name="custom_usephase_emission_factor" style="width: 130px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                            <th><div style="width: 160px;"><input placeholder="Lifespan (Years)" name="custom_lifespan" style="width: 140px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                              <th><div style="width: 100px;"><input placeholder="Carbon footprint per day" name="custom_carbonperday" style="width: 90px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                              <th><div style="width: 80px;"><select  name="project_using_EF" style="width: 70px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;">
+                                  <option style="background-color: black; color: white;"></option>
+                                  <option style="background-color: black; color: white;">Yes</option>
+                                  <option style="background-color: black; color: white;">No</option>
+                              </select></div></th>
+                          </tr>
+                    </table>
+                    <div class="Add_new_row_custom">
+                        <button class="content_button_row" onclick="myFunction()" type="submit" style="font-size: 12px; width: 40px;">+ ADD</button>
+                    </div>
                 </div>
-                <div class="name_div" style="position:sticky; border-radius: 0px 0px 0px 0px;">
-                    <div class="name_1">
+            </form>
+            <form method="POST" action="custom_edit_data">
+                {% csrf_token %}
+                <div style="height: 50px; margin-top: 60px; display: none;" id="new_role_edit_div">
+                    <table class="table table-bordered">
+                          <tr>
+                            <th><div style="width: 156px; height: 20px;"><input placeholder="Name" id="edit_name" name="edit_name" style="width: 130px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                            <th><div style="width: 260px;"><input placeholder="Type of Impact" id="edit_toi" name="edit_type_of_impact" style="width: 240px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                            <th><div style="width: 160px;"><input placeholder="Category" id="edit_cat" name="edit_category" style="width: 140px;  text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                              <th><div style="width: 154px;"><input placeholder="Sub-Category" id="edit_subcat" name="edit_subcategory" style="width: 130px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                            <th><div style="width: 57px;"><input placeholder="Emission Factor" id="edit_ef" name="edit_emission_factor" style="width: 40px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                            <th><div style="width: 70px;"><input placeholder="Unit" id="edit_unit" name="edit_unit" style="width: 50px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                              <th><div style="width: 155px;"><input placeholder="Lifecycle Stage" id="edit_life" name="edit_lifecycle" style="width: 130px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                            <th><div style="width: 155px;"><input placeholder="Use-Phase Emission factor" id="edit_phase_ef" name="edit_usephase_emission_factor" style="width: 130px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                            <th><div style="width: 160px;"><input placeholder="Lifespan (Years)" id="edit_lifespan" name="edit_lifespan" style="width: 140px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                              <th><div style="width: 100px;"><input placeholder="Carbon footprint per day" id="edit_carbon" name="edit_carbonperday" style="width: 90px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;"></div></th>
+                              <th><div style="width: 80px;"><select  name="edit_project_using_EF" id="edit_project_ef" style="width: 70px; text-decoration: none; background-color: transparent; color: white; outline: none; border: none;">
+                                  <option style="background-color: black; color: white;"></option>
+                                  <option style="background-color: black; color: white;">Yes</option>
+                                  <option style="background-color: black; color: white;">No</option>
+                              </select></div></th>
+                          </tr>
+                    </table>
+                    <div class="Add_new_row_custom">
+                        <button class="content_button_row" onclick="myFunction()" type="submit" style="font-size: 12px; width: 40px;">&nbsp;&nbsp;EDIT</button>
+                    </div>
+                </div>
+            </form>
+
+            <table class="table table-bordered" style="margin-top: 50px; border-style: ridge; border: 1px solid white;" id="myTable">
+              <thead>
+                <tr style="height: 30px; height: 100px; border: 1px solid; border-color:#34373D;  background-color: #23272E; color: #CED4DA">
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
+                        Select
+                      </div>
+                        <div class="search_box" style="right:5px; border: none; width: 80px; margin-bottom: 5px; ">
+                      </div>
+                  </th>
+                  <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Name
-                    </div>
-                    <div class="search_box" style="right:5px; ">
-                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
-                        <img src="static/assets/img/search_Icon.png" >
-                    </div>
-                </div>
-                <div class="impact_type_div" >
-                    <div class="name_1">
+                      </div>
+                      <div class="search_box" style="right:5px; margin-bottom: 5px; ">
+                            <input class="input_search_1" id="name_search_id" onkeyup="myNameSearchFunction()" type="text" placeholder="Search..." name="search" style="background-color: transparent">
+                            <img src="static/assets/img/search_Icon.png">
+                      </div>
+                  </th>
+                  <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Type of Impact
-                    </div>
-                    <div class="header_table" style="position:relative; width:130%; margin-top:5px; left:30px; ">
-                        <button id="nav_button_3" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openPhase(event, 'Direct');"  style="font-size: 12px; color: #ADB5BD; width:40%; box-sizing: border-box; border-radius: 50px; border: 1px solid #6C757D; background: #34373D;" name="direct" value="0" >Direct Impact</button>
-                        <button id="nav_button_4" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openPhase(event, 'Indirect');" style="font-size: 12px; color: #ADB5BD; width:40%; box-sizing: border-box; border-radius: 50px; border: 1px solid #6C757D; background: #34373D;" name="indirect" value="1">Indirect Impact</button>
-                    </div>
-                </div>
-                <div class="category_div">
-                    <div class="name_1">
+                      </div>
+                      <div style="right:5px; width: 260px; margin-bottom: 5px; ">
+                            <button id="direct_impact_filter" class="btn btn-outline-secondary tablink w3-bottombar" onclick="TypeOfImpactSearch(this.id)"  style="font-size: 12px; color: #ADB5BD; width:40%; box-sizing: border-box; border-radius: 50px; border: 1px solid #6C757D; background: #34373D;" name="direct" value="0" >Direct Impact</button>
+                            <button id="indirect_impact_filter" class="btn btn-outline-secondary tablink w3-bottombar" onclick="TypeOfImpactSearch(this.id)" style="font-size: 12px; color: #ADB5BD; width:40%; box-sizing: border-box; border-radius: 50px; border: 1px solid #6C757D; background: #34373D;" name="indirect" value="1">Indirect Impact</button>
+                      </div>
+                  </th>
+                  <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Category
-                    </div>
-                    <div class="search_box">
-                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
-                        <img src="static/assets/img/search_Icon.png" >
-                    </div>
-                </div>
-                <div class="sub_category_div" >
-                    <div class="name_1">
+                      </div>
+                      <div class="search_box" style="right:5px; margin-bottom: 5px; ">
+                            <input class="input_search_1" id="name_search_id_category" onkeyup="CategorySearchFunction()" type="text" placeholder="Search..." name="search" style="background-color: transparent">
+                            <img src="static/assets/img/search_Icon.png">
+                      </div>
+                  </th>
+                  <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Sub-category
-                    </div>
-                    <div class="search_box">
-                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
-                        <img src="static/assets/img/search_Icon.png" >
-                    </div>
-                </div>
-                <div class="emission_fac_div">
-                    <div class="name_1">
-                        Lifecycle emission factor (Kg CO2e)
-                    </div>
-                </div>
-                <div class="lifespan_div">
-                    <div class="name_1">
+                      </div>
+                      <div class="search_box" style="right:5px; margin-bottom: 5px; ">
+                            <input class="input_search_1" id="name_search_id_subcategory" onkeyup="SubCategorySearchFunction()" type="text" placeholder="Search..." name="search" style="background-color: transparent">
+                            <img src="static/assets/img/search_Icon.png">
+                      </div>
+                  </th>
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
+                        Emission factor (KgCO2e per unit)
+                      </div>
+                  </th>
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
+                        Unit
+                      </div>
+                  </th>
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Lifecycle Stage Included
-                    </div>
-                    <div class="search_box">
-                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
-                        <img src="static/assets/img/search_Icon.png" >
-                    </div>
-                </div>
-                <div class="lifespan_div">
-                    <div class="name_1">
+                      </div>
+                      <div class="search_box" style="right:5px; margin-bottom: 5px; ">
+                            <input class="input_search_1" id="name_search_id7" onkeyup="myNameSearchFunction()" type="text" placeholder="Search..." name="search" style="background-color: transparent">
+                            <img src="static/assets/img/search_Icon.png">
+                      </div>
+                  </th>
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
+                        Use Phase emission factor (Kg CO2e)
+                      </div>
+                      <div class="search_box" style="right:5px; margin-bottom: 5px; ">
+                            <input class="input_search_1" id="name_search_id8" onkeyup="myNameSearchFunction()" type="text" placeholder="Search..." name="search" style="background-color: transparent">
+                            <img src="static/assets/img/search_Icon.png">
+                      </div>
+                  </th>
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Lifespan (Years)
-                    </div>
-                    <div class="search_box">
-                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
-                        <img src="static/assets/img/search_Icon.png" >
-                    </div>
-                </div>
-                <div class="footprint_div">
-                    <div class="name_1">
+                      </div>
+                      <div class="search_box" style="right:5px; margin-bottom: 5px; ">
+                            <input class="input_search_1" id="name_search_id9" onkeyup="myNameSearchFunction()" type="text" placeholder="Search..." name="search" style="background-color: transparent">
+                            <img src="static/assets/img/search_Icon.png">
+                      </div>
+                  </th>
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
                         Carbon footprint per
                         day (KgCO2eq/day)
-                    </div>
-                </div>
-                <div class="year_div">
-                    <div class="name_1">
-                        Unit
-                    </div>
-                    <div class="search_box">
-                        <input class="input_search_1" type="text" placeholder="Search..." name="search">
-                        <img src="static/assets/img/search_Icon.png" >
-                    </div>
-                </div>
-                <div class="project_emission_div">
-                    <div class="name_1">
-                        Projects using this emission factor
-                    </div>
-                </div>
-            </div>
-            <form action="emission_lib"  method="post">
-                {% csrf_token %}
-                <!---------------------------------Input Parameters-------------------------------->
-                {% for i in emission_library_list %}
-                <div id="table_row" class="div_class_11" style="height:100px; width:100%; ">
-                    <div class="checkbox_1" style="border-radius:0px 0px 0px 0px; height:100px;">
-                        <input type="checkbox" class="form-check-input" id="check_1" name="proxy" style=" height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
-                        <!--                        <img class="check_11" src="static/assets/img/check_box.png">-->
-                        <!--                    <i class="fa fa-square-o" aria-hidden="true"></i>-->
-                    </div>
-                    <div class="para_1" style=" height:100px; position:sticky;">
-                        <div class="cal_class">
-                            {{i.name}}
-                        </div>
-                    </div>
-                    <div  class="para_2" style=" height:100px;">
-                        <!--                            <div id="Direct" style="display:block;">-->
-                        <div class="cal_class">
-                            {{i.typeofimpact}}
-                        </div>
-                        <!--                            </div>-->
-                    </div>
-
-                    <div class="para_1" style="height:100px;">
-                        <div class="cal_class">
-                            {{i.category}}
-                        </div>
-                    </div>
-                    <div class="para_1" style="height:100px;">
-                          <div class="cal_class">
-                             {{i.subcategory}}
-                        </div>
-                    </div>
-                    <div class="para_1" style="height:100px;">
-                        <div class="cal_class">
-                            {{i.emissionfactor}}
-                        </div>
-                    </div>
-                    <div class="para_1" style="height:100px;">
-                        <div class="cal_class">
-                            Placeholder
-                        </div>
-                    </div>
-                    <div class="para_1" style="height:100px;">
-                        <div class="cal_class">
-                           {{i.lifespanyrs}}
-                        </div>
-                    </div>
-                    <div class="para_1" style="height:100px;">
-                         <div class="cal_class">
-                             {{i.carbonfootprintperday}}
-                        </div>
-                    </div>
-                    <div class="para_1" style="height:100px;">
-                        <div class="cal_class">
-                            {{i.unit}}
-                        </div>
-                    </div>
-                    <div class="para_1" style="height:100px;">
-                        <select class="cal_class" style="text-decoration: none; background-color: transparent;">
-                           <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                        </select>
-                    </div>
-                </div>
-                {% endfor %}
-            </form>
+                      </div>
+                  </th>
+                    <th scope="col">
+                      <div style="margin-bottom: 20px;">
+                        Project Using this Emission Factor
+                      </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for i in emission_library_custom_list %}
+                <tr>    <td style="color: #CED4DA; background-color: #1A1D23"><input class="form-check-input" id="{{i.carbonid}}" onchange="deleteRow(this.id)" style="background-color: transparent; border-color: white;" type="checkbox"></td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.name}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.typeofimpact}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.category}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.subcategory}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.emissionfactor}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">Parameter</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.lifespanyrs}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.carbonfootprintperday}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">{{i.unit}}</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">Parameters</td>
+                        <td style="color: #CED4DA; background-color: #1A1D23">
+                            <select style="background-color: #1A1D23; color: white; border: none">
+                                <option style="color: white;">Project A</option>
+                                <option style="color: white;">Project B</option>
+                                <option style="color: white;">Project C</option>
+                                <option style="color: white;">Project D</option>
+                                <option style="color: white;">Project E</option>
+                            </select>
+                        </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
         </div>
         <div style="padding-bottom:120px;">
 

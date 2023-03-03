@@ -5,7 +5,7 @@ from Management.models import RefCarbonfootprint
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.conf import settings
-from Management.models import RefCarbonfootprint, ImpactsDirects ,ImpactsIndirects
+from Management.models import RefCarbonfootprint, RefParameters
 from datetime import datetime
 from Management.models import LoadPlan
 from django.forms.models import model_to_dict
@@ -86,6 +86,63 @@ def projectA(request):
         WhichIndustrialEquipment = request.POST.getlist('WhichIndustrialEquipment')
         WhichParametersImplemented = request.POST.getlist('WhichParametersImplemented')
 
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        WhichUserEquipment_list = [i for i in WhichUserEquipment if i != 'on']
+        WhichIndustrialEquipment_list = [i for i in WhichIndustrialEquipment if i != 'on']
+
+        WhichUserEquipment_list_on = [i for i in WhichUserEquipment if i != 'on']
+        WhichIndustrialEquipment_list_on = [i for i in WhichIndustrialEquipment if i != 'on']
+
+        request.session['WhichUserEquipment_list'] = WhichUserEquipment_list_on
+        request.session['WhichIndustrialEquipment_list'] = WhichIndustrialEquipment_list_on
+        request.session['WhichParametersImplemented_list'] = WhichParametersImplemented
+
+
+        for i in WhichUserEquipment_list:
+            if i == 'laptop':
+                WhichUserEquipment_list.remove('laptop')
+        print(WhichUserEquipment_list)
+
+        for i in WhichIndustrialEquipment_list:
+            if i == 'drone':
+                WhichIndustrialEquipment_list.remove('drone')
+        print(WhichIndustrialEquipment_list)
+
+        if len(WhichUserEquipment_list) >= 1:
+            get_name1 = WhichUserEquipment_list[0]
+            try:
+                save_data_in_custom = RefCarbonfootprint(name=get_name1, category='None', subcategory='None',
+                                                         emissionfactor=0.0,
+                                                         unit=0, lcrecycling='None', lcusage='None',
+                                                         typeofimpact='None',
+                                                         lifespanyrs=0, carbonfootprintperday=0.0,
+                                                         projectusingef='None',
+                                                         create_timestamp=create_timestamp,
+                                                         update_timestamp=create_timestamp, scope='Custom')
+                save_data_in_custom.save()
+                print('Custom emission factor data has been saved')
+            except Exception as e:
+                print('Error occurred during adding data in Custom DB: ', e)
+
+        if len(WhichIndustrialEquipment_list) >= 1:
+            get_name2 = WhichIndustrialEquipment_list[0]
+            try:
+                save_data_in_custom2 = RefCarbonfootprint(name=get_name2, category='None', subcategory='None',
+                                                         emissionfactor=0.0,
+                                                         unit=0, lcrecycling='None', lcusage='None',
+                                                         typeofimpact='None',
+                                                         lifespanyrs=0, carbonfootprintperday=0.0,
+                                                         projectusingef='None',
+                                                         create_timestamp=create_timestamp,
+                                                         update_timestamp=create_timestamp, scope='Custom')
+                save_data_in_custom2.save()
+                print('Custom emission factor data has been saved')
+            except Exception as e:
+                print('Error occurred during adding data in Custom DB: ', e)
+
+
         separate_role = ''
         separate_WhichUserEquipment = ''
         separate_WhichIndustrialEquipment = ''
@@ -127,7 +184,6 @@ def projectA(request):
         request.session['WhichParametersImplemented'] = separate_WhichParametersImplemented
 
         print('selected roles are:', role)
-
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -179,8 +235,7 @@ def projectA(request):
 
         # create_timestamp = time.ctime()
         # update_timestamp = time.ctime()
-        now = datetime.now()
-        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
         # print(update_timestamp)
 
         # calculate start and End Year by using start_date_build and end_date_build for Build State
@@ -403,7 +458,7 @@ def projectA(request):
         role_list = ['Project Manager', 'IT Leader 1']
         request.session['role_list'] = role_list
         print('role_list', role_list)
-
+        current_project_id = 0
         try:
             project_details_data = ProjectDetails(projectname=name,
                                                   projectlocation=pl_1,
@@ -422,6 +477,8 @@ def projectA(request):
                                                   whichindirectparameters=separate_WhichParametersImplemented,
                                                   projectrole=separate_role)
             project_details_data.save()
+            current_project_id = project_details_data.projid
+            request.session['current_project_id'] = current_project_id
             print(project_details_data)
             current_project_id = project_details_data.projid
             request.session['current_project_id'] = current_project_id
@@ -438,6 +495,7 @@ def projectA(request):
             'quarter_buildend_list': request.session.get('quarter_buildend_list'),
             'span_build_list_run': request.session.get('span_build_list_run'),
             'count_year': request.session.get('count_year'),
+            'current_project_id': current_project_id,
             'second_build_end_span': request.session.get('second_build_end_span'),
             'start_date_build': request.session.get('start_date_build'),
             'end_date_build': request.session.get('end_date_build'),
@@ -3316,6 +3374,8 @@ def get_current_phase(request, all_years, current_year):
 
     print('Build Year list: ', build_year_list)
 
+    request.session['build_year_list'] = build_year_list
+
     run_year_list = []
 
     get_run_num_of_year = int(run_end_year) - int(run_start_year)
@@ -3323,6 +3383,8 @@ def get_current_phase(request, all_years, current_year):
         run_year_list.append(int(run_start_year) + i)
 
     print('Run Year list: ', run_year_list)
+
+    request.session['run_year_list'] = build_year_list
 
     if int(current_year) in build_year_list:
         phase = 'Build Phase'
@@ -3333,13 +3395,36 @@ def get_current_phase(request, all_years, current_year):
 
     return phase
 
+
 def emission_lib(request):
     i = [1, 2]
+
     get_emission_library = get_emission_library_data(request)
+
+    temp_list = copy.deepcopy(get_emission_library)
+    for item in temp_list[1]:
+        item.pop('_state')
+        item.pop('create_timestamp')
+        item.pop('update_timestamp')
+        item.pop('projid_id')
+        item.pop('lcunit')
+        item.pop('lcprod')
+        item.pop('lcemissionfactor')
+        item.pop('yearpublished')
+        item.pop('status')
+        item.pop('lctransport')
+        item.pop('lcusage')
+        item.pop('lcrecycling')
+        item.pop('lifespanyrs')
+    print('============ check this ===============')
+    print(temp_list[1])
+
     context = {
         'i': i,
         'progress_bar': True,
-        'emission_library_list': get_emission_library
+        'temp_list': temp_list[1],
+        'emission_library_list': get_emission_library[0],
+        'emission_library_custom_list': get_emission_library[1]
     }
     return render(request, 'emission_lib.html', context)
 
@@ -5534,10 +5619,16 @@ def get_user_groups(request):
 
 def get_emission_library_data(request):
     emission_library_data = RefCarbonfootprint.objects.all()
+    emission_library_data_custom = RefCarbonfootprint.objects.filter(scope='Custom')
     emission_library_data_list = []
+    emission_library_data_custom_list = []
     for item in emission_library_data:
         emission_library_data_list.append(item.__dict__)
-    return emission_library_data_list
+
+    for item_data in emission_library_data_custom:
+        emission_library_data_custom_list.append(item_data.__dict__)
+
+    return [emission_library_data_list, emission_library_data_custom_list]
 
 
 def error_400(request, exception):
@@ -9434,8 +9525,6 @@ def curyearimpacts():
 
 
 def view_detailed_result(request):
-    # import ipdb
-    # ipdb.set_trace()
 
     user_equipment_list = request.session.get('WhichUserEquipment_list')
     industrial_equipment_list = request.session.get('WhichIndustrialEquipment_list')
@@ -9451,7 +9540,6 @@ def view_detailed_result(request):
     total_build_year.insert(0, 'Total')
     total_run_year = request.session.get('run_year_list'),
     get_current_id = request.session.get('current_project_id')
-
 
     # Add Notepad code here saved as view_detailed_page_python
     # Comment below code for RUN ===================================================
@@ -9513,9 +9601,6 @@ def view_detailed_result(request):
     except Exception as e:
         print('Error occured during getting data in local', e)
 
-
-
-    #====================================================================================
 
     # indirect_impact_all_data = ImpactsIndirects.objects.filter(projid='149')
 
@@ -9624,9 +9709,7 @@ def view_detailed_result(request):
     '''
     Average of Run phase emissions in for Indirect Impacts in a year
     '''
-    
     """
-
 
     project_name = request.session.get('name')
     projects_count = noofcols()
@@ -9761,4 +9844,236 @@ def draft_delete_project(request):
     print('Deleting project id is', project_id_split)
     return render(request, 'index.html', context)
 
+
+
+# def complete_delete_project(request):
+#     context_data = get_index_context_data(request)
+#     context = {
+#         'session_dict_in_direct': context_data,
+#         'db_instance': len(context_data)
+#     }
+#     import ipdb; ipdb.set_trace()
+#     project_id = request.GET.get('id')
+#     project_id_split = project_id.split('_')[2]
+#     ImpactsDirects.objects.filter(directid=project_id_split).delete()
+#     ImpactsIndirects.objects.filter(indirectid=project_id_split).delete()
+#     print('Deleting project id is', project_id_split)
+#     return render(request, 'index.html', context)
+
+
+def get_index_context_data(request):
+    session_dict = {}
+    session_dict_direct = {}
+    session_dict_indirect = {}
+
+    pro_details = ProjectDetails.objects.all()
+
+    data_direct = ImpactsDirects.objects.all()
+    print('data_direct:', data_direct)
+
+    # data_indirect_footprint = ImpactsIndirects.objects.values('totalcarbonfootprint')
+    data_indirect = ImpactsIndirects.objects.all()
+    print('data_indirect:', data_indirect)
+
+    pro_details_dict = []
+
+    for instance in pro_details:
+        pro_details_dict.append(instance.__dict__)
+
+    pro_detail_indirect = []
+    pro_detail_direct = []
+    for instance_direct in data_direct:
+        pro_detail_direct.append(instance_direct.__dict__)
+
+    for instance_indirect in data_indirect:
+        pro_detail_indirect.append(instance_indirect.__dict__)
+
+    pro_details_single_list = []
+    for item in pro_details_dict:
+        pro_details_single_list.append(item)
+    len_db = len(pro_details)
+    request.session['len_db'] = len_db
+
+    # request.session['pro_details'] = pro_details
+    # request.session['pro_details_single_'] = pro_details_single_list
+    dict_count = 1
+    for items in pro_details:
+        session_dict['session_dict_{}'.format(dict_count)] = items.__dict__
+        session_dict.get('session_dict_{}'.format(dict_count))['_state'] = str(session_dict.get('session_dict_{}'.format(dict_count))['_state'])
+        session_dict.get('session_dict_{}'.format(dict_count))['create_timestamp'] = session_dict.get('session_dict_{}'.format(dict_count))['create_timestamp'].strftime("%d %B %Y")
+        session_dict.get('session_dict_{}'.format(dict_count))['update_timestamp'] = session_dict.get('session_dict_{}'.format(dict_count))['update_timestamp'].strftime("%d %B %Y")
+        dict_count += 1
+    # import ipdb
+    # ipdb.set_trace()
+    print(pro_details)
+    # import ipdb
+    # ipdb.set_trace()
+    print('pro_detail_direct:', pro_detail_direct)
+    print('pro_detail_indirect:', pro_detail_indirect)
+    data_indirect_footprint = ImpactsIndirects.objects.values('totalcarbonfootprint')
+
+    data_direct_totalfootprint = ImpactsDirects.objects.values('totalcarbonfootprint')
+    print('data_direct_totalfootprint:', data_direct_totalfootprint)
+
+    list_data_direct = []
+    for i in data_direct:
+        list_data_direct.append(i.__dict__)
+    total_count = 0
+    for i in data_direct:
+        list_data_direct[total_count]['indirect_carbonfootprint'] = data_indirect_footprint[total_count].get('totalcarbonfootprint')
+        list_data_direct[total_count]['Net_impact'] = data_indirect_footprint[total_count].get('totalcarbonfootprint') + data_direct_totalfootprint[total_count].get('totalcarbonfootprint')
+        list_data_direct[total_count]['roe'] = round(data_direct_totalfootprint[total_count].get('totalcarbonfootprint') / list_data_direct[total_count]['Net_impact'], 2)
+        total_count += 1
+
+    dict_count_direct = 1
+    for items_direct in pro_detail_direct:
+        session_dict_direct['session_dict_direct{}'.format(dict_count_direct)] = items_direct
+        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['_state'] = str(session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['_state'])
+        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['create_timestamp'] = session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['create_timestamp'].strftime("%d %B %Y")
+        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['update_timestamp'] = session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['update_timestamp'].strftime("%d %B %Y")
+        dict_count_direct += 1
+    # import ipdb
+    # ipdb.set_trace()
+    print('pro_detail_direct:', pro_detail_direct)
+
+    dict_count_indirect = 1
+    for items_indirect in pro_detail_indirect:
+        session_dict_indirect['session_dict_indirect{}'.format(dict_count_indirect)] = items_indirect
+        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['_state'] = str(session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['_state'])
+        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['create_timestamp'] = session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['create_timestamp'].strftime("%d %B %Y")
+        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['update_timestamp'] = session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['update_timestamp'].strftime("%d %B %Y")
+        dict_count_direct += 1
+    # import ipdb
+    # ipdb.set_trace()
+    print('pro_detail_indirect:', pro_detail_indirect)
+
+    dict_count_in_direct = 1
+    session_dict_in_direct = {}
+
+    for items_in_direct in list_data_direct:
+        session_dict_in_direct['session_dict_in_direct{}'.format(dict_count_in_direct)] = items_in_direct
+        session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'] = str(session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'])
+        dict_count_in_direct += 1
+
+    print('session_dict_in_direct:', session_dict_in_direct)
+    return session_dict_in_direct
+
+
+def custom_add_data(request):
+    name = request.POST.get('custom_name')
+    type_of_impact = request.POST.get('custom_type_of_impact')
+    category = request.POST.get('custom_category')
+    subcategory = request.POST.get('custom_subcategory')
+    emission_factor = request.POST.get('custom_emission_factor')
+    unit = request.POST.get('custom_unit')
+    lifecycle = request.POST.get('custom_lifecycle')
+    use_phase_emission = request.POST.get('custom_usephase_emission_factor')
+    lifespan = request.POST.get('custom_lifespan')
+    carbon_footprints = request.POST.get('custom_carbonperday')
+    project_using_this = request.POST.get('project_using_EF')
+    scope = 'Custom'
+
+    now = datetime.now()
+    create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    i = [1, 2]
+    if name and category:
+        try:
+            save_data_in_custom = RefCarbonfootprint(name=name, category=category, subcategory=subcategory, emissionfactor=emission_factor,
+                                                     unit=unit, lcrecycling=lifecycle, lcusage=use_phase_emission, typeofimpact=type_of_impact,
+                                                     lifespanyrs=lifespan, carbonfootprintperday=carbon_footprints,
+                                                     projectusingef=project_using_this, create_timestamp=create_timestamp, update_timestamp=create_timestamp, scope=scope)
+            save_data_in_custom.save()
+            print('Custom emission factor data has been saved')
+        except Exception as e:
+            print('Error occured during adding data in Custom DB: ', e)
+
+    get_emission_library = get_emission_library_data(request)
+    context = {
+        'i': i,
+        'progress_bar': True,
+        'emission_library_list': get_emission_library[0],
+        'emission_library_custom_list': get_emission_library[1]
+    }
+    return render(request, 'emission_lib.html', context)
+
+
+def custom_edit_data(request):
+    name = request.POST.get('edit_name')
+    type_of_impact = request.POST.get('edit_type_of_impact')
+    category = request.POST.get('edit_category')
+    subcategory = request.POST.get('edit_subcategory')
+    emission_factor = request.POST.get('edit_emission_factor')
+    unit = request.POST.get('edit_unit')
+    lifecycle = request.POST.get('edit_lifecycle')
+    use_phase_emission = 22
+    lifespan = 4
+    carbon_footprints = 13.3
+    project_using_this = 'Yes'
+
+    # import ipdb
+    # ipdb.set_trace()
+    if name:
+        edit_data = RefCarbonfootprint.objects.get(name=name)
+        if edit_data:
+            try:
+                edit_data.name = name
+                edit_data.typeofimpact = type_of_impact
+                edit_data.category = category
+                edit_data.subcategory = subcategory
+                edit_data.emissionfactor = emission_factor
+                edit_data.unit = unit
+                edit_data.lcrecycling = lifecycle
+                edit_data.lcemissionfactor = use_phase_emission
+                edit_data.lifespanyrs = lifespan
+                edit_data.carbonfootprintperday = carbon_footprints
+                edit_data.projectusingef = project_using_this
+                edit_data.save()
+            except Exception as e:
+                print('Exception during editing data into Custom emission factor: ', e)
+
+    get_emission_library = get_emission_library_data(request)
+    temp_list = copy.deepcopy(get_emission_library)
+    for item in temp_list[1]:
+        item.pop('_state')
+        item.pop('create_timestamp')
+        item.pop('update_timestamp')
+        item.pop('projid_id')
+        item.pop('lcunit')
+        item.pop('lcprod')
+        item.pop('lcemissionfactor')
+        item.pop('yearpublished')
+        item.pop('status')
+        item.pop('lctransport')
+        item.pop('lcusage')
+        item.pop('lcrecycling')
+        item.pop('lifespanyrs')
+    print('============ check this ===============')
+    print(temp_list[1])
+    context = {
+        'progress_bar': True,
+        'temp_list': temp_list[1],
+        'emission_library_list': get_emission_library[0],
+        'emission_library_custom_list': get_emission_library[1]
+    }
+
+    return render(request, 'emission_lib.html', context)
+
+
+def delete_row_custom_emission_library(request):
+    delete_id = request.GET.get('delete_id')
+    print('Delete id is: ', delete_id)
+    if delete_id:
+        try:
+            delete_custom_data = RefCarbonfootprint.objects.get(carbonid=delete_id)
+            delete_custom_data.delete()
+        except Exception as e:
+            print('Exception raise during deleting data in custom emission library')
+    get_emission_library = get_emission_library_data(request)
+    context = {
+        'progress_bar': True,
+        'emission_library_list': get_emission_library[0],
+        'emission_library_custom_list': get_emission_library[1]
+    }
+    return render(request, 'emission_lib.html', context)
 
