@@ -442,6 +442,8 @@ def projectA(request):
         for i in range(1, Quater_run + 1):
             list_run.append(i)
         print(list_run)
+        quarter_sequence = copy.deepcopy(list_run)
+        request.session['quarter_sequence'] = quarter_sequence
         request.session["list_run"] = list_run
 
         len2 = int(len(list_run)/4)
@@ -511,8 +513,8 @@ def projectA(request):
             'totalyear_run': totalyear_run,
             'Quater_run': Quater_run,
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
-            'list_run': request.session.get('list_run'),
-            'list_count_run':request.session.get('list_count_run'),
+            'list_run': request.session.get('quarter_sequence'),
+            'list_count_run': request.session.get('list_count_run'),
             'pl_1': pl_1,
             'ps': ps,
             'bu': bu,
@@ -861,7 +863,7 @@ def load_plan(request):
             'noofworkingdays_list': request.session.get('noofworkingdays_list'),
             'role': request.session.get('role'),
             'list': request.session.get('list'),
-            'list_run': request.session.get('list_run'),
+            'list_run': request.session.get('quarter_sequence'),
             'start_date_year_run': request.session.get('start_date_year_run'),
             'start_date_year': request.session.get('start_date_year'),
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
@@ -873,6 +875,7 @@ def load_plan(request):
             
         }
         return render(request, 'di_daily_commute.html', context)
+
     start_date_year = request.session.get('start_date_year')
     totalyear_loop_run = request.session.get('totalyear_loop_run')
     totalyear_loop = request.session.get('totalyear_loop')
@@ -883,7 +886,7 @@ def load_plan(request):
     context={
         'role': request.session.get('role'),
         'noofworkingdays_list': request.session.get('noofworkingdays_list'),
-        'list_run': request.session.get('list_run'),
+        'list_run': request.session.get('quarter_sequence'),
         'list': request.session.get('list'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
@@ -1226,9 +1229,6 @@ def di_daily_commute(request):
 
         request.session['business_emission_list'] = business_emission_list
 
-        
-
-
 
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
@@ -1339,7 +1339,7 @@ def di_daily_commute(request):
         'role':request.session.get('role'),
         'res_dct':res_dct,
         'list': request.session.get('list'),
-        'list_run': request.session.get('list_run'),
+        'list_run': new_list,
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
