@@ -31,20 +31,20 @@ var ctx = document.getElementById('barChart')
 var barChart = new Chart(ctx, {
   type: 'bar',
   data: {
-    labels: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+    labels: {{total_build_year_without_total|safe}},
     datasets: [{
       label: 'data-1',
-      data: [12, 19, -13, 17, 28, -24, 17, -11, -11, 20],
+      data: [22, 29, 40],
       backgroundColor: '#88EBFC'
     }, {
       label: 'data-2',
-      data: [-30, -29, 15, -25, -20, 13, -10, 15, -12, -22],
+      data: [-40, -39, -45],
       backgroundColor: '#F19C5B'
     },
     {
       label: 'data-3',
       type: 'line',
-      data: [12, -19, 25, 15, -22, 23, 14, 20, -22, 12],
+      data: [12, -19, -22],
       backgroundColor: '#F19C5B',
       lineTension: 0,
       fill: false,
@@ -56,6 +56,14 @@ var barChart = new Chart(ctx, {
          legend: {
             display: false,
          },
+         scales: {
+         xAxes: [{
+            display: true,
+         }],
+         yAxes: [{
+            display: false,
+         }]
+      }
     }
 })
 
@@ -63,20 +71,20 @@ var ctx_new1 = document.getElementById('barChart_di')
 var barChart = new Chart(ctx_new1, {
   type: 'bar',
   data: {
-    labels: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+    labels: {{total_build_year_without_total|safe}},
     datasets: [{
       label: 'data-1',
-      data: [12, 19, -13, 17, 28, -24, 17, 11, -11, 20],
+      data: [12, 19, -13],
       backgroundColor: '#88EBFC'
     }, {
       label: 'data-2',
-      data: [30, -29, 15, 25, -20, 13, 10, 15, -12, 22],
+      data: [30, -29, 15],
       backgroundColor: '#F19C5B'
     },
     {
       label: 'data-3',
       type: 'line',
-      data: [12, -19, 25, 15, -22, 23, 14, 20, -22, 12],
+      data: [12, -19, 25],
       backgroundColor: '#F19C5B',
       lineTension: 0,
       fill: false,
@@ -88,6 +96,14 @@ var barChart = new Chart(ctx_new1, {
          legend: {
             display: false,
          },
+         scales: {
+         xAxes: [{
+            display: true,
+         }],
+         yAxes: [{
+            display: false,
+         }]
+      }
     }
 })
 
@@ -95,20 +111,20 @@ var ctx_new2 = document.getElementById('barChart_ii')
 var barChart = new Chart(ctx_new2, {
   type: 'bar',
   data: {
-    labels: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+    labels: {{total_build_year_without_total|safe}},
     datasets: [{
       label: 'data-1',
-      data: [12, 19, -13, 17, 28, -24, 17, 11, -11, 20],
+      data: [12, 19],
       backgroundColor: '#88EBFC'
     }, {
       label: 'data-2',
-      data: [30, -29, 15, 25, -20, 13, 10, 15, -12, 22],
+      data: [30, -29],
       backgroundColor: '#F19C5B'
     },
     {
       label: 'data-3',
       type: 'line',
-      data: [12, -19, 25, 15, -22, 23, 14, 20, -22, 12],
+      data: [12],
       backgroundColor: '#F19C5B',
       lineTension: 0,
       fill: false,
@@ -120,6 +136,14 @@ var barChart = new Chart(ctx_new2, {
          legend: {
             display: false,
          },
+         scales: {
+         xAxes: [{
+            display: true,
+         }],
+         yAxes: [{
+            display: false,
+         }]
+      }
     }
 })
 
@@ -127,15 +151,15 @@ var ctx1 = document.getElementById('barChart1')
 var barChart1 = new Chart(ctx1, {
   type: 'horizontalBar',
   data: {
-    labels: ['one', 'two'],
+    labels: ['Direct Impact', 'Indirect Impact'],
     datasets: [{
       label: 'Build',
-      data: [12, -19],
+      data: [32, 24],
       backgroundColor: '#88EBFC',
       barThickness: 35
     }, {
       label: 'Run',
-      data: [30, -29],
+      data: [30, 20],
       backgroundColor: '#F19C5B',
       barThickness: 35
     }]
@@ -147,51 +171,40 @@ var barChart1 = new Chart(ctx1, {
          },
          scales: {
          xAxes: [{
-            stacked: true // this should be set to make the bars stacked
+            stacked: true,
+            display: false,
          }],
          yAxes: [{
-            stacked: true // this also..
+            stacked: true,
          }]
       }
     }
 })
 
-var ctx2 = document.getElementById('barChart3')
-var barChart3 = new Chart(ctx2, {
-  type: 'pie',
-  data: {
-    labels: ['Direct Impact', 'People', 'User Equipment', 'Industrial Equipment', 'Data Centres & Network', 'Indirect Impact'],
-    datasets: [{
-      label: 'data-1',
-      data: [12, 19, 30, 20, 10, 12, 8],
-      backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#FF851B", '#FF6650', '#29C4CB', '#FFFF00'],
-      borderWidth:0.5,
-    }]
-  },
-  options: {
-         legend: {
-            position: 'right'
-         }
-    },
-    elements: {
-      arc: {
-          borderWidth: 0
-      }
-  },
-})
+
 
 var ctx4 = document.getElementById('stacked')
 var barChart4 = new Chart(ctx4, {
   type: 'bar',
   data: {
-    labels: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+    labels: ['Direct Impact'],
     datasets: [{
-      label: 'data-1',
-      data: [12, 19, 13, 17, 28, 24, 17, 11, 11, 20],
-      backgroundColor: '#F19C5B'
+      label: 'People',
+      data: [22],
+      backgroundColor: '#9153F0'
     }, {
-      label: 'data-2',
-      data: [30, 29, 15, 25, 20, 13, 10, 15, 12, 22],
+      label: 'User Equipment',
+      data: [30],
+      backgroundColor: '#F19C5B'
+    },
+     {
+      label: 'Industrial Equipment',
+      data: [40],
+      backgroundColor: '#88EBFC'
+    },
+    {
+      label: 'Datacenter and Network',
+      data: [40],
       backgroundColor: '#649EF8'
     },
     ]
@@ -203,29 +216,73 @@ var barChart4 = new Chart(ctx4, {
       },
       scales: {
          xAxes: [{
-            stacked: true // this should be set to make the bars stacked
+            stacked: true,
+            gridLines: {
+                display: false,
+            }
          }],
          yAxes: [{
-            stacked: true // this also..
+            stacked: true,
+            display: false,
+            gridLines: {
+                display: false,
+            }
          }]
       }
    }
 
 })
+
+var ctx_indirect = document.getElementById('stacked_indirect')
+var barChart_Indirect = new Chart(ctx_indirect, {
+  type: 'bar',
+  data: {
+    labels: ['Indirect Impact'],
+    datasets: [{
+      label: {{parameters_implemented_list|safe}},
+      data: [12],
+      backgroundColor: '#9153F0'
+    }
+    ]
+  },
+  options: {
+      responsive: false,
+      legend: {
+         display: false
+      },
+      scales: {
+         xAxes: [{
+            stacked: true,
+            gridLines: {
+                display: false,
+            }
+         }],
+         yAxes: [{
+            stacked: true,
+            display: false,
+            gridLines: {
+                display: false,
+            }
+         }]
+      }
+   }
+
+})
+
 
 var ctx5 = document.getElementById('stacked2')
 var barChart5 = new Chart(ctx5, {
   type: 'bar',
   data: {
-    labels: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+    labels: {{total_build_year_without_total|safe}},
     datasets: [{
       label: 'data-1',
-      data: [12, 19, 13, 17, 28, 24, 17, 11, 11, 20],
-      backgroundColor: '#F19C5B'
+      data: [-12, 19],
+      backgroundColor: '#9153F0'
     }, {
       label: 'data-2',
-      data: [30, 29, 15, 25, 20, 13, 10, 15, 12, 22],
-      backgroundColor: '#649EF8'
+      data: [30, -29],
+      backgroundColor: '#F19C5B'
     },
     ]
   },
@@ -239,12 +296,112 @@ var barChart5 = new Chart(ctx5, {
             stacked: true // this should be set to make the bars stacked
          }],
          yAxes: [{
-            stacked: true // this also..
+            stacked: true,
+            display: false
          }]
       }
    }
 
 })
+
+
+var second_screen = document.getElementById('stacked22')
+var barChart_second = new Chart(second_screen, {
+  type: 'bar',
+  data: {
+    labels: {{total_build_year_without_total|safe}},
+    datasets: [{
+      label: 'data-1',
+      data: [-22, 19, -13],
+      backgroundColor: '#9153F0'
+    }, {
+      label: 'data-2',
+      data: [10, -19, 25],
+      backgroundColor: '#F19C5B'
+    },
+    ]
+  },
+  options: {
+      responsive: false,
+      legend: {
+         display: false
+      },
+      scales: {
+         xAxes: [{
+            stacked: true // this should be set to make the bars stacked
+         }],
+         yAxes: [{
+            stacked: true,
+            display: false,
+         }]
+      }
+   }
+
+})
+
+
+new Chart(document.getElementById("bubble-chart"), {
+    type: 'bubble',
+    data: {
+      labels: "Africa",
+      datasets: [
+       {
+          label: ["User Equipment"],
+          backgroundColor: "#88EBFC",
+          data: [{
+            x: 558702,
+            y: 3.526,
+            r: 30
+          },
+          {
+            x: 622702,
+            y: 7.526,
+            r: 30
+          },
+          {
+            x: 458702,
+            y: 9.526,
+            r: 25
+          }]
+        }, {
+          label: ["Industrial Equipment"],
+          backgroundColor: "#649EF8",
+          data: [{
+            x: 3979083,
+            y: 6.994,
+            r: 15
+          },
+          {
+            x: 4979083,
+            y: 5.994,
+            r: 25
+          },
+          {
+            x: 2979083,
+            y: 2.994,
+            r: 15
+          }]
+        }
+      ]
+    },
+    options: {
+       scales: {
+        yAxes: [{
+          scaleLabel: {
+            display: false,
+          },
+          display: false,
+        }],
+        xAxes: [{
+          scaleLabel: {
+            display: true,
+          },
+          display: false,
+        }]
+      }
+    }
+});
+
 
 data_tree = [{
       type: "treemap",
@@ -274,6 +431,7 @@ data_tree2 = [{
       type: "treemap",
       labels: ["Eve", "Cain", "Seth", "Enos", "Noam", "Abel", "Awan", "Enoch", "Azura"],
       parents: ["", "Eve", "Eve", "Seth", "Seth", "Eve", "Eve", "Awan", "Eve" ]
+
 }]
 
 var layout2 = {
@@ -546,7 +704,7 @@ function mySearchFunction() {
                 <div id="draft_div" style=" margin-top: 30px; display: flex; width: 90%; height: 100px; margin-left: 20px; gap: 8px;">
                     <div style="width: 25%; border-radius: 5px; background-color: #1A1D23;">
                         <p class="static-font" style="padding: 10px; color: #3D8588; font-size: 14px;"><img height="15" width="20" style="margin-right: 6px;" src="static/assets/img/direct_impact_dashboard.png">Direct Impact</p>
-                        <label class="static-font" style="padding: 5px; margin-left: 10px; font-weight: 600; color: white; margin-top: -40px; font-size: 36px;">{{dis}}<label style="font-size: 14px; margin-left: 5px; font-weight: 400;">Units</label></label>
+                        <label class="static-font" style="padding: 5px; margin-left: 10px; font-weight: 600; color: white; margin-top: -40px; font-size: 36px;">{{total_sum_of_direct_impact}}<label style="font-size: 14px; margin-left: 5px; font-weight: 400;">Units</label></label>
                     </div>
                     <div style="width: 25%; border-radius: 5px; background-color: #1A1D23;">
                         <p class="static-font" style="padding: 10px; font-size: 14px; color: #3D8588; "><img height="15" width="20" style="margin-right: 6px;" src="static/assets/img/indirect_impact_dashboard.png">Indirect Impact</p>
@@ -573,46 +731,38 @@ function mySearchFunction() {
                           <thead style="color: #34373D">
                             <tr style="background-color: #34373D; border-width: thin;">
                               <th scope="col" style="color: #ADB5BD; width: 400px;">Type</th>
-                              <th scope="col" style="color: #ADB5BD">Total</th>
-                                {% for i in tot_years %}
-                                    <th scope="col" style="color: #ADB5BD">2021</th>
+                                {% for i in total_build_year %}
+                                    <th scope="col" style="color: #ADB5BD">{{i}}</th>
                                 {% endfor %}
                             </tr>
                           </thead>
                           <tbody style="color: #ADB5BD; font-size: 14px;">
                             <tr>
                               <th scope="row" style="background-color: #34373D">Direct Impact</th>
-                                {% for i in year_values %}
-                                    <td>0.02</td>
+                                {% for i in total_build_year %}
+                                    <td>{{total_sum_of_direct_impact}}</td>
                                 {% endfor %}
                             </tr>
-                          <tr>
+                            <tr>
                               <th scope="row" style="background-color: #34373D">People</th>
-                                {% for i in year_values %}
-                                    <td>0.02</td>
-                                {% endfor %}
+                                    <td>{{sum_of_people}}</td>
+                                    <td></td>
                             </tr>
-                          <tr>
+                            <tr>
                               <th scope="row" style="background-color: #34373D">User Equipment</th>
-                                {% for i in year_values %}
+                                {% for i in total_build_year %}
                                     <td>0.02</td>
                                 {% endfor %}
                             </tr>
-                          <tr>
-                              <th scope="row" style="background-color: #34373D">Industrial Equipment</th>
-                                {% for i in year_values %}
-                                    <td>0.02</td>
-                                {% endfor %}
-                            </tr>
-                          <tr>
+                            <tr>
                               <th scope="row" style="background-color: #34373D">Data Centres & Network</th>
-                                {% for i in year_values %}
+                                {% for i in total_build_year %}
                                     <td>0.02</td>
                                 {% endfor %}
                             </tr>
-                          <tr>
+                            <tr>
                               <th scope="row" style="background-color: #34373D">Indirect Impact</th>
-                                {% for i in year_values %}
+                                {% for i in total_build_year %}
                                     <td>0.02</td>
                                 {% endfor %}
                             </tr>
@@ -652,8 +802,9 @@ function mySearchFunction() {
                                       <option value="mercedes">Mercedes</option>
                                       <option value="audi">Audi</option>
                                     </select>
-                            <div style="height: 180px; margin-left: 25px; width: 38%; margin-top: 60px; position: absolute; background-color: #23272E;">
-                                <canvas id="barChart3" height="210" width="500"></canvas>
+                            <div style="height: 180px; display: flex; margin-left: 25px; padding-top: 10px; width: 38%; margin-top: 60px; position: absolute; background-color: #23272E;">
+                                <canvas id="stacked" height="170" width="200"></canvas>
+                                <canvas id="stacked_indirect" height="170" width="200"></canvas>
                             </div>
                         </div>
                 </div>
@@ -693,7 +844,7 @@ function mySearchFunction() {
                                       <option value="audi">2024</option>
                                     </select>
                             <div style="height: 210px; margin-left: 25px; width: 42%; margin-top: 60px; position: absolute; background-color: #23272E;">
-                                <canvas id="stacked" height="200" width="430"></canvas>
+                                <canvas id="stacked22" height="200" width="430"></canvas>
                             </div>
                         </div>
                         <div style="width: 55%; background-color: #1A1D23">
@@ -705,7 +856,7 @@ function mySearchFunction() {
                                       <option value="audi">2024</option>
                                     </select>
                             <div style="height: 210px; margin-left: 25px; width: 42%; margin-top: 60px; position: absolute; background-color: #23272E;">
-                                <div id="Tree"></div>
+                                <canvas id="bubble-chart" width="450" height="200"></canvas>
                             </div>
                         </div>
                 </div>

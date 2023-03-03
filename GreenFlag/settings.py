@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'GreenFlag.wsgi.application'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'NAME': str(BASE_DIR / 'db.sqlite3'),
 #     }
 # }
 
@@ -92,14 +92,14 @@ WSGI_APPLICATION = 'GreenFlag.wsgi.application'
 # Use ODBC Driver 17 for Azure and 18 for local database
 DATABASES = {
     'default': {
-        'ENGINE': 'mssql',
+        'ENGINE': 'sql_server.pyodbc',
         'NAME': 'greenflagdev',
         'USER': 'greenflagdev@greenflagdev',
         'PASSWORD': 'Blast@123',
         'HOST': 'greenflagdev.database.windows.net',
         'PORT': '1433',
         'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',
+            'driver': 'ODBC Driver 18 for SQL Server'
         }
     }
 }

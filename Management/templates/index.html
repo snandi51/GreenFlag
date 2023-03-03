@@ -572,14 +572,18 @@ window.onload = function() {
                     </div>
                     <table>
                         <tbody>
-                        <tr>
-                            <td>Direct Impact</td>
-                            <td>{{i.totalcarbonfootprint}}</td>
-                        </tr>
-                        <tr>
-                            <td>Indirect Impact</td>
-                            <td>{{i.indirect_carbonfootprint}}</td>
-                        </tr>
+
+                            <tr>    
+                                <td>Direct Impact</td>    
+                                <td>{{i.direct_carbonfootprint}}</td>
+                            </tr>
+                                
+                            <tr>    
+                                    
+                                <td>Indirect Impact</td>    
+                                <td>{{i.totalcarbonfootprint}}</td>
+                            </tr>
+
                         <tr>
                             <td>Net Impact</td>
                             <td>{{i.Net_impact}}</td>
