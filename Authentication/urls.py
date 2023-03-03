@@ -45,7 +45,15 @@ urlpatterns = [
     path('temp', management_views.test_graph, name='temp'),
     path('forgot_password', authentication_views.forgot_password, name='forgot_password'),
     path('index', management_views.index, name='index'),
+    path('draft_mark_as_complete_project', management_views.draft_mark_as_complete_project, name='draft_mark_as_complete_project'),
+    path('draft_duplicate_project', management_views.draft_duplicate_project, name='draft_duplicate_project'),
+    path('draft_delete_project', management_views.draft_delete_project, name='draft_delete_project'),
+    path('view_detailed_result', management_views.view_detailed_result, name='view_detailed_result'),
     path('change_password', authentication_views.change_password, name='change_password'),
+    path('detailed_view_cmo', management_views.detailed_view_cmo, name='detailed_view_cmo'),
+    path('custom_add_data', management_views.custom_add_data, name='custom_add_data'),
+    path('custom_edit_data', management_views.custom_edit_data, name='custom_edit_data'),
+    path('delete_row_custom_emission_library', management_views.delete_row_custom_emission_library, name='delete_row_custom_emission_library'),
     path('change_password_ok', authentication_views.change_password_ok, name='change_password_ok'),
     path('detailed_view_cmo', management_views.detailed_view_cmo, name='detailed_view_cmo'),
     path('view_detailed_result', management_views.view_detailed_result, name='view_detailed_result'),
@@ -54,7 +62,6 @@ urlpatterns = [
     path('draft_delete_project', management_views.draft_delete_project, name='draft_delete_project'),
     # path('complete_delete_project', management_views.complete_delete_project, name='complete_delete_project'),
 ]
-
 handler400 = "Management.views.error_400"
 handler403 = "Management.views.error_403"
 handler404 = "Management.views.error_404"

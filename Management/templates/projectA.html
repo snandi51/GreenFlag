@@ -362,7 +362,7 @@
         var equipment_name_id2 = document.getElementById('equipment_name_id2');
         console.log(equipment_name_div2.value)
         equipment_name_div2.style.display = 'none';
-        add_new_parameter_ie.insertAdjacentHTML('beforebegin', '<div class="form-check" style="margin-top:10px;"><label id="change_text2" class="static-font" for="eight" style="font-size: 14px; color: #ADB5BD;">Text</label><input type="checkbox" class="form-check-input" id="custom_checkbox1" name="WhichUserEquipment" value="monitor" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; "></div>');
+        add_new_parameter_ie.insertAdjacentHTML('beforebegin', '<div class="form-check" style="margin-top:10px;"><label id="change_text2" class="static-font" for="eight" style="font-size: 14px; color: #ADB5BD;">Text</label><input type="checkbox" class="form-check-input" id="custom_checkbox1" name="WhichUserEquipment" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; "></div>');
 
         var change_text2 = document.getElementById('change_text2');
         change_text2.innerText = equipment_name_id2.value;
@@ -372,13 +372,15 @@
 <script>
     function DI_add_new_parameter(){
         var add_new_parameter_id = document.getElementById('add_new_parameter_id');
-        add_new_parameter_id.insertAdjacentHTML('beforebegin','<div id="equipment_name_div" style="display: inline-block; padding: 5px; margin-left: -5px; margin-top: 5px;"><p class="project_location_header" style="width:200px;">Equipment Name</p><input type="text" style="width:200px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="equipment_name_id" name="WhichUserEquipment"><div  style="width:100%; left:200px; position:relative; margin-top: -30px;"><a class="add_new" style="border: none; cursor: pointer" onclick="direct_impact_new_parameters()"><strong class="add_new_content">+ Add</strong></a></div></div>')
+
+        add_new_parameter_id.insertAdjacentHTML('beforebegin','<div id="equipment_name_div" style="display: inline-block; padding: 5px; margin-left: -5px; margin-top: 5px;"><p class="project_location_header" style="width:200px;">Equipment Name</p><input type="text" style="width:200px; margin-top: -5px;" class="project_location_header_select" placeholder="Value" id="equipment_name_id" name="WhichUserEquipment"><div style="width:100%; left:200px; position:relative; margin-top: -30px;"><a class="add_new" style="border: none; cursor: pointer" onclick="direct_impact_new_parameters()"><strong class="add_new_content">+ Add</strong></a></div></div>')
     }
 </script>
 <script>
     function IE_add_new_parameter(){
         var add_new_parameter_ie = document.getElementById('add_new_parameter_ie');
-        add_new_parameter_ie.insertAdjacentHTML('beforebegin','<div id="equipment_name_div2" style="display: inline-block; padding: 5px; margin-left: -5px; margin-top: 5px;"><p class="project_location_header" style="width:200px;">Equipment Name</p><input type="text" style="width:200px; margin-top: -5px;" class="project_location_header_select" placeholder="Invent" id="equipment_name_id2"><div  style="width:100%; left:200px; position:relative; margin-top: -30px;"><a class="add_new" style="border: none; cursor: pointer" onclick="direct_impact_new_parameters2()"><strong class="add_new_content">+ Add</strong></a></div></div>')
+
+        add_new_parameter_ie.insertAdjacentHTML('beforebegin','<div id="equipment_name_div2" style="display: inline-block; padding: 5px; margin-left: -5px; margin-top: 5px;"><p class="project_location_header" style="width:200px;">Equipment Name</p><input type="text" style="width:200px; margin-top: -5px;" class="project_location_header_select" placeholder="Value" id="equipment_name_id2" name="WhichIndustrialEquipment"><div  style="width:100%; left:200px; position:relative; margin-top: -30px;"><a class="add_new" style="border: none; cursor: pointer" onclick="direct_impact_new_parameters2()"><strong class="add_new_content">+ Add</strong></a></div></div>')
     }
 </script>
 <body>
@@ -796,7 +798,7 @@
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="eight" style="font-size: 14px; color: #ADB5BD;">Bluetooth speaker</label>
-                        <input type="checkbox" class="form-check-input" id="bluetooth" name="WhichUserEquipment" value="monitor" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
+                        <input type="checkbox" class="form-check-input" id="bluetooth" name="WhichUserEquipment" value="speaker" style="height: 16px; width: 16px; background-color: transparent; border:1px solid #6C757D; ">
                     </div>
                     <div class="form-check" style="margin-top:10px;">
                         <label class="static-font" for="eight" style="font-size: 14px; color: #ADB5BD;">Video projector</label>

@@ -1253,6 +1253,25 @@ input::-webkit-calendar-picker-indicator: {
     align-self: stretch;
     flex-grow: 0;
 }
+.search_box_no_border{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 12px 8px 16px;
+    gap: 8px;
+
+    width: 156.56px;
+    height: 32px;
+
+    /* Gray/Gray – Secondary */
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+}
 .input_search_1{
     width: 88%;
     height: 16px;
@@ -1444,6 +1463,28 @@ input::-webkit-calendar-picker-indicator: {
     background: #4FAFA2;
     border-radius: 4px;
 }
+
+.Add_new_row_custom{
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 16px 8px 18px;
+    gap: 8px;
+    font-size: 14px;
+
+    position: absolute;
+    width: 100px;
+    height: 24px;
+
+    /* Accent/Accent – Primary */
+
+    background: #4FAFA2;
+    border-radius: 4px;
+}
+
 .content_button_row{
     width: 100%;
     height: 18px;
