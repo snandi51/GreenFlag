@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import django
-from Management.models import ProjectDetails, CompanyDetails,Company
+from Management.models import ProjectDetails, CompanyDetails, Company
 from Management.models import RefCarbonfootprint
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
@@ -47,7 +47,6 @@ from datetime import date
 from GreenFlag.settings import DATABASES
 
 
-
 def projectA(request):
     """
     Project Duration
@@ -86,6 +85,17 @@ def projectA(request):
         WhichIndustrialEquipment = request.POST.getlist('WhichIndustrialEquipment')
         WhichParametersImplemented = request.POST.getlist('WhichParametersImplemented')
 
+        data_scienties_name = request.POST.get('data_scienties_name')
+        director_of_data_scientist_name = request.POST.get('director_of_data_scientist_name')
+        it_front_name = request.POST.get('it_front_name')
+        it_leader1_name = request.POST.get('it_leader1_name')
+        it_leader2_name = request.POST.get('it_leader2_name')
+        product_manager_name = request.POST.get('product_manager_name')
+        project_manager_name = request.POST.get('project_manager_name')
+        proxy_po_name = request.POST.get('proxy_po_name')
+
+
+
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -98,7 +108,6 @@ def projectA(request):
         request.session['WhichUserEquipment_list'] = WhichUserEquipment_list_on
         request.session['WhichIndustrialEquipment_list'] = WhichIndustrialEquipment_list_on
         request.session['WhichParametersImplemented_list'] = WhichParametersImplemented
-
 
         for i in WhichUserEquipment_list:
             if i == 'laptop':
@@ -130,18 +139,17 @@ def projectA(request):
             get_name2 = WhichIndustrialEquipment_list[0]
             try:
                 save_data_in_custom2 = RefCarbonfootprint(name=get_name2, category='None', subcategory='None',
-                                                         emissionfactor=0.0,
-                                                         unit=0, lcrecycling='None', lcusage='None',
-                                                         typeofimpact='None',
-                                                         lifespanyrs=0, carbonfootprintperday=0.0,
-                                                         projectusingef='None',
-                                                         create_timestamp=create_timestamp,
-                                                         update_timestamp=create_timestamp, scope='Custom')
+                                                          emissionfactor=0.0,
+                                                          unit=0, lcrecycling='None', lcusage='None',
+                                                          typeofimpact='None',
+                                                          lifespanyrs=0, carbonfootprintperday=0.0,
+                                                          projectusingef='None',
+                                                          create_timestamp=create_timestamp,
+                                                          update_timestamp=create_timestamp, scope='Custom')
                 save_data_in_custom2.save()
                 print('Custom emission factor data has been saved')
             except Exception as e:
                 print('Error occurred during adding data in Custom DB: ', e)
-
 
         separate_role = ''
         separate_WhichUserEquipment = ''
@@ -245,7 +253,6 @@ def projectA(request):
         print(start_date_year)
         request.session["start_date_year"] = start_date_year
         start_date_year = request.session.get('start_date_year')
-
         start_date_month = int(start_date_split[1])
         print(start_date_month)
         # import ipdb
@@ -288,7 +295,7 @@ def projectA(request):
         print('totalyear_loop:', totalyear_loop)
         request.session["totalyear_loop"] = totalyear_loop
 
-        count_year = (len(totalyear_loop)+1)
+        count_year = (len(totalyear_loop) + 1)
         print('count_year:', count_year)
         request.session["count_year"] = count_year
 
@@ -303,7 +310,7 @@ def projectA(request):
         print('list:', list)
         request.session["list"] = list
 
-        len1 = int(len(list)/4)
+        len1 = int(len(list) / 4)
         a = 4
         c = 0
         for i in range(len1):
@@ -334,6 +341,91 @@ def projectA(request):
         print("span_build_list:", span_build_list)
         request.session["span_build_list"] = span_build_list
 
+        print('totalyear_loop:', totalyear_loop)
+        totalyear = 0
+        for i in range(1, len(totalyear_loop) + 2):
+            totalyear += 1
+        print('totalyear:', totalyear)
+        span = 0
+        if span_build_list == 0:
+            if totalyear == 2:
+                span = 5
+            elif totalyear == 3:
+                span = 9
+            elif totalyear == 4:
+                span = 13
+            elif totalyear == 5:
+                span = 17
+            elif totalyear == 6:
+                span = 21
+            elif totalyear == 7:
+                span = 25
+            elif totalyear == 8:
+                span = 29
+            elif totalyear == 9:
+                span = 33
+            elif totalyear == 10:
+                span = 37
+        elif span_build_list == 1:
+            if totalyear == 2:
+                span = 3
+            elif totalyear == 3:
+                span = 7
+            elif totalyear == 4:
+                span = 11
+            elif totalyear == 5:
+                span = 15
+            elif totalyear == 6:
+                span = 19
+            elif totalyear == 7:
+                span = 23
+            elif totalyear == 8:
+                span = 27
+            elif totalyear == 9:
+                span = 31
+            elif totalyear == 10:
+                span = 35
+        elif span_build_list == 2:
+            if totalyear == 2:
+                span = 2
+            elif totalyear == 3:
+                span = 6
+            elif totalyear == 4:
+                span = 10
+            elif totalyear == 5:
+                span = 14
+            elif totalyear == 6:
+                span = 18
+            elif totalyear == 7:
+                span = 22
+            elif totalyear == 8:
+                span = 26
+            elif totalyear == 9:
+                span = 30
+            elif totalyear == 10:
+                span = 34
+        elif span_build_list == 3:
+            if totalyear == 2:
+                span = 1
+            elif totalyear == 3:
+                span = 5
+            elif totalyear == 4:
+                span = 9
+            elif totalyear == 5:
+                span = 13
+            elif totalyear == 6:
+                span = 17
+            elif totalyear == 7:
+                span = 21
+            elif totalyear == 8:
+                span = 25
+            elif totalyear == 9:
+                span = 29
+            elif totalyear == 10:
+                span = 33
+        request.session["totalyear_load_plan_build"] = totalyear
+        request.session["span"] = span
+
         which_quater_end_build = (end_date_month - 1) // 3 + 1
         print("which_quater_end_build", which_quater_end_build)
 
@@ -341,35 +433,35 @@ def projectA(request):
         print("which_quater_end_build", which_quater_end_build)
         # import ipdb; ipdb.set_trace()
         quarter_buildend_list = ''
-        span_buildend_list = 0
+        span_buildend_list_end = 0
         second_build_end_span = 0
         if which_quater_end_build == 1:
             quarter_buildend_list = 'q1'
-            span_buildend_list = 6
+            span_buildend_list_end = 1
         elif which_quater_end_build == 2:
             quarter_buildend_list = 'q2'
-            span_buildend_list = 6
+            span_buildend_list_end = 2
         elif which_quater_end_build == 3:
             quarter_buildend_list = 'q3'
-            span_buildend_list = 3
+            span_buildend_list_end = 3
         elif which_quater_end_build == 4:
             quarter_buildend_list = 'q4'
-            span_buildend_list = 4
+            span_buildend_list_end = 4
 
-        if span_build_list == 0:
+        if span_buildend_list_end == 1:
+            second_build_end_span = 3
+        elif span_buildend_list_end == 2:
+            second_build_end_span = 2
+        elif span_buildend_list_end == 3:
+            second_build_end_span = 1
+        elif span_buildend_list_end == 4:
             second_build_end_span = 4
-        elif span_build_list == 1:
-            second_build_end_span = 5
-        elif span_build_list == 2:
-            second_build_end_span = 6
-        elif span_build_list == 3:
-            second_build_end_span = 8
         print("second_build_end_span:", second_build_end_span)
         request.session["second_build_end_span"] = second_build_end_span
         print("quarter_buildend_list:", quarter_buildend_list)
         request.session["quarter_buildend_list"] = quarter_buildend_list
-        print("span_buildend_list:", span_buildend_list)
-        request.session["span_buildend_list"] = span_buildend_list
+        print("span_buildend_list_end:", span_buildend_list_end)
+        request.session["span_buildend_list_end"] = span_buildend_list_end
 
         build_list = []
         for i in range(1, span_build_list + 1):
@@ -388,28 +480,6 @@ def projectA(request):
 
         start_date_month_run = int(start_date_split_run[1])
         print(start_date_month_run)
-
-        # Run colgroup to hide quater:
-        which_quater_run = (start_date_month_run - 1) // 3 + 1
-        print("which_quater_run", which_quater_run)
-        quarter_build_list_run = ''
-        span_build_list_run = 0
-        if which_quater_run == 1:
-            quarter_build_list_run = 'q1'
-            span_build_list_run = 0
-        elif which_quater_run == 2:
-            quarter_build_list_run = 'q2'
-            span_build_list_run = 1
-        elif which_quater_run == 3:
-            quarter_build_list_run = 'q3'
-            span_build_list_run = 2
-        elif which_quater_run == 4:
-            quarter_build_list_run = 'q4'
-            span_build_list_run = 3
-        print("quarter_build_list_run:", quarter_build_list_run)
-        request.session["quarter_build_list"] = quarter_build_list_run
-        print("span_build_list_run:", span_build_list_run)
-        request.session["span_build_list_run"] = span_build_list_run
 
         end_date_run_year = end_date_run
         end_date_split_run = end_date_run_year.split('-')
@@ -437,30 +507,175 @@ def projectA(request):
 
         request.session['totalyear_loop_run'] = totalyear_loop
 
+        end_date_run_month = end_date_run
+        end_date_run_month = end_date_run_month.split('-')
+        end_date_run_month = int(end_date_run_month[1])
+        print(end_date_run_month)
+        request.session["end_date_run_month"] = end_date_run_month
+
+        # Run colgroup to hide quater:
+        which_quater_run = (start_date_month_run - 1) // 3 + 1
+        print("which_quater_run", which_quater_run)
+        quarter_build_list_run = ''
+        span_list_run = 0
+        if which_quater_run == 1:
+            quarter_build_list_run = 'q1'
+            span_list_run = 0
+        elif which_quater_run == 2:
+            quarter_build_list_run = 'q2'
+            span_list_run = 1
+        elif which_quater_run == 3:
+            quarter_build_list_run = 'q3'
+            span_list_run = 2
+        elif which_quater_run == 4:
+            quarter_build_list_run = 'q4'
+            span_list_run = 3
+        print("quarter_build_list_run:", quarter_build_list_run)
+        request.session["quarter_build_list"] = quarter_build_list_run
+        print("span_list_run:", span_list_run)
+        request.session["span_list_run"] = span_list_run
+
+        print('totalyear_loop_run:', totalyear_loop_run)
+        totalyear_run = 0
+        for i in range(1, len(totalyear_loop_run) + 2):
+            totalyear_run += 1
+        print('totalyear_run:', totalyear_run)
+        span_run = 0
+        if span_list_run == 0:
+            if totalyear_run == 2:
+                span_run = 5
+            elif totalyear_run == 3:
+                span_run = 9
+            elif totalyear_run == 4:
+                span_run = 13
+            elif totalyear_run == 5:
+                span_run = 17
+            elif totalyear_run == 6:
+                span_run = 21
+            elif totalyear_run == 7:
+                span_run = 25
+            elif totalyear_run == 8:
+                span_run = 29
+            elif totalyear_run == 9:
+                span_run = 33
+            elif totalyear_run == 10:
+                span_run = 37
+        elif span_list_run == 1:
+            if totalyear_run == 2:
+                span_run = 3
+            elif totalyear_run == 3:
+                span_run = 7
+            elif totalyear_run == 4:
+                span_run = 11
+            elif totalyear_run == 5:
+                span_run = 15
+            elif totalyear_run == 6:
+                span_run = 19
+            elif totalyear_run == 7:
+                span_run = 23
+            elif totalyear_run == 8:
+                span_run = 27
+            elif totalyear_run == 9:
+                span_run = 31
+            elif totalyear_run == 10:
+                span_run = 35
+        elif span_list_run == 2:
+            if totalyear_run == 2:
+                span_run = 2
+            elif totalyear_run == 3:
+                span_run = 6
+            elif totalyear_run == 4:
+                span_run = 10
+            elif totalyear_run == 5:
+                span_run = 14
+            elif totalyear_run == 6:
+                span_run = 18
+            elif totalyear_run == 7:
+                span_run = 22
+            elif totalyear_run == 8:
+                span_run = 26
+            elif totalyear_run == 9:
+                span_run = 30
+            elif totalyear_run == 10:
+                span_run = 34
+        elif span_list_run == 3:
+            if totalyear_run == 2:
+                span_run = 1
+            elif totalyear_run == 3:
+                span_run = 5
+            elif totalyear_run == 4:
+                span_run = 9
+            elif totalyear_run == 5:
+                span_run = 13
+            elif totalyear_run == 6:
+                span_run = 17
+            elif totalyear_run == 7:
+                span_run = 21
+            elif totalyear_run == 8:
+                span_run = 25
+            elif totalyear_run == 9:
+                span_run = 29
+            elif totalyear_run == 10:
+                span_run = 33
+        request.session["totalyear_run"] = totalyear_run
+        request.session["span_run"] = span_run
+
+        which_quater_end_run = (end_date_run_month - 1) // 3 + 1
+        print("which_quater_end_run", which_quater_end_run)
+        # import ipdb; ipdb.set_trace()
+        quarter_runend_list = ''
+        span_runend_list_end = 0
+        second_run_end_span = 0
+        if which_quater_end_run == 1:
+            quarter_runend_list = 'q1'
+            span_runend_list_end = 1
+        elif which_quater_end_run == 2:
+            quarter_runend_list = 'q2'
+            span_runend_list_end = 2
+        elif which_quater_end_run == 3:
+            quarter_runend_list = 'q3'
+            span_runend_list_end = 3
+        elif which_quater_end_run == 4:
+            quarter_runend_list = 'q4'
+            span_runend_list_end = 4
+
+        if span_runend_list_end == 1:
+            second_run_end_span = 3
+        elif span_runend_list_end == 2:
+            second_run_end_span = 2
+        elif span_runend_list_end == 3:
+            second_run_end_span = 1
+        elif span_runend_list_end == 4:
+            second_run_end_span = 4
+        print("second_run_end_span:", second_run_end_span)
+        request.session["second_run_end_span"] = second_run_end_span
+        print("quarter_runend_list:", quarter_runend_list)
+        request.session["quarter_runend_list"] = quarter_runend_list
+        print("span_runend_list_end:", span_runend_list_end)
+        request.session["span_runend_list_end"] = span_runend_list_end
+
         list_run = []
         list_count_run = []
         for i in range(1, Quater_run + 1):
             list_run.append(i)
         print(list_run)
-        quarter_sequence = copy.deepcopy(list_run)
-        request.session['quarter_sequence'] = quarter_sequence
         request.session["list_run"] = list_run
 
-        len2 = int(len(list_run)/4)
+        len2 = int(len(list_run) / 4)
         b = 4
         d = 0
         for i in range(len2):
-            list_run[d:b] = [1, 2, 3, 4]
+            list_count_run[d:b] = [1, 2, 3, 4]
             d = b
             b *= 4
-        print('list_run:', list_run)
-        request.session["list_run"] = list_run
-
+        print('list_count_run:', list_count_run)
+        request.session["list_count_run"] = list_count_run
 
         role_list = ['Project Manager', 'IT Leader 1']
         request.session['role_list'] = role_list
         print('role_list', role_list)
         current_project_id = 0
+
         try:
             project_details_data = ProjectDetails(projectname=name,
                                                   projectlocation=pl_1,
@@ -487,17 +702,23 @@ def projectA(request):
         except Exception as e:
             print("================================ Exception Raised during adding data in DB =======================")
             print(e)
-
         context = {
             'build_list': request.session.get('build_list'),
             'end_date_month': request.session.get('end_date_month'),
             'span_build_list': request.session.get('span_build_list'),
             'quarter_build_list': request.session.get('quarter_build_list'),
-            'span_buildend_list': request.session.get('span_buildend_list'),
+            'span_buildend_list_end': request.session.get('span_buildend_list_end'),
             'quarter_buildend_list': request.session.get('quarter_buildend_list'),
-            'span_build_list_run': request.session.get('span_build_list_run'),
+            'span': request.session.get('span'),
+            'totalyear_load_plan_build': request.session.get('totalyear_load_plan_build'),
             'count_year': request.session.get('count_year'),
             'current_project_id': current_project_id,
+            'compute_button': 'No',
+            'second_run_end_span': request.session.get('second_run_end_span'),
+            'span_runend_list_end': request.session.get('span_runend_list_end'),
+            'span_run': request.session.get('span_run'),
+            'totalyear_run': request.session.get('totalyear_run'),
+            'span_list_run': request.session.get('span_list_run'),
             'second_build_end_span': request.session.get('second_build_end_span'),
             'start_date_build': request.session.get('start_date_build'),
             'end_date_build': request.session.get('end_date_build'),
@@ -510,11 +731,10 @@ def projectA(request):
             'start_date_month': start_date_month,
             'start_date_year_run': request.session.get('start_date_year_run'),
             'end_date_year_run': request.session.get('end_date_year_run'),
-            'totalyear_run': totalyear_run,
             'Quater_run': Quater_run,
-            'totalyear_loop_run': request.session.get('totalyear_loop_run'),
-            'list_run': request.session.get('quarter_sequence'),
-            'list_count_run': request.session.get('list_count_run'),
+            'totalyear_loop_run': totalyear_loop_run,
+            'list_run': request.session.get('list_run'),
+            'list_count_run': list_count_run,
             'pl_1': pl_1,
             'ps': ps,
             'bu': bu,
@@ -542,13 +762,11 @@ def projectA(request):
             'role': request.session.get('role'),
             'country_list': country_list,
             'progress_bar': True,
-            'phase_type' : request.session.get('phase_type'),
-            'current_project_id' : request.session.get('current_project_id'),
+            'phase_type': request.session.get('phase_type'),
         }
         return render(request, 'load_plan.html', context)
 
-
-    totalyear = request.session.get('totalyear')  
+    totalyear = request.session.get('totalyear')
     context = {
         'progress_bar': True,
         'country_list': country_list,
@@ -556,8 +774,8 @@ def projectA(request):
         'list_run': request.session.get('list_run'),
         'totalyear_loop': request.session.get('totalyear_loop'),
         'totalyear': totalyear,
-        'phase_type' : request.session.get('phase_type'),
-        'current_project_id' : request.session.get('current_project_id'),
+        'phase_type': request.session.get('phase_type'),
+        'current_project_id': request.session.get('current_project_id'),
     }
     return render(request, 'projectA.html', context)
 
@@ -574,15 +792,18 @@ def load_plan(request):
         list_length = len(list_new)
         print('list_length', list_length)
         request.session['list_length'] = list_length
+
+        list_run = request.session.get('list_run')
+        print('list_run', list_run)
+        list_length_run = len(list_run)
+        print('list_length_run', list_length_run)
+
         phase_type = request.session.get('phase_type')
         role = request.session.get('role')
         len_role_list = len(role)
         print('list_length', list_length)
         len_totalrolelist = len(role) * list_length
         print('len_totalrolelist: ', len_totalrolelist)
-
-
-       
 
         final_quater = []
         noofworkingdays_build2 = []
@@ -598,7 +819,7 @@ def load_plan(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                local_list.append(request.POST.get(role[j-1] + '_' + str(i)))
+                local_list.append(request.POST.get(role[j - 1] + '_' + str(i)))
                 print('local_list', local_list)
                 if local_list == ['']:
                     local_list = ['0']
@@ -619,6 +840,8 @@ def load_plan(request):
                     count += 1
 
                 print(local_list)
+                load_plan_build_list = copy.deepcopy(local_list)
+                request.session['load_plan_build_list'] = load_plan_build_list
                 #
                 # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
                 # print('local_list', local_list)
@@ -627,23 +850,22 @@ def load_plan(request):
             # local_list=[int(i) for i in local_list]
             # print('local_list', local_list)
             # local_list =sum(local_list)
-           
+
             print('local_list', local_list)
             # import ipdb
             # ipdb.set_trace()
 
-            
             noofworkingdays_build2.append(local_list)
             print('noofworkingdays_build2', noofworkingdays_build2)
 
-            noofworkingdays_build=[]
+            noofworkingdays_build = []
             noofworkingdays_build1 = [i for list1 in noofworkingdays_build2 for i in list1]
-            noofworkingdays_build1 =[int(i) for i in noofworkingdays_build1]
+            noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
             if noofworkingdays_build1:
                 noofworkingdays_build1 = sum(noofworkingdays_build1)
                 noofworkingdays_build.append(noofworkingdays_build1)
-            print('noofworkingdays_build',noofworkingdays_build)
-            
+            print('noofworkingdays_build', noofworkingdays_build)
+
             request.session['noofworkingdays_build'] = noofworkingdays_build
 
             # noofworkingdays_run.append(local_list)
@@ -651,7 +873,7 @@ def load_plan(request):
             # request.session['noofworkingdays_run'] = noofworkingdays_run
 
             # noofworkingdays_list.append(noofworkingdays_build)
-            
+
             # print('noofworkingdays_build', noofworkingdays_build)
             # request.session['noofworkingdays_build'] = noofworkingdays_build
 
@@ -664,16 +886,16 @@ def load_plan(request):
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
-        print(list_length)
+        # list_length_run= request.session.get('list_length_run')
+        print(list_length_run)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
             print(j)
             local_list = []
             local_list_run = []
             quater_list = []
-            for i in range(1, list_length + 1):
-                local_list.append(request.POST.get('run'+role[j-1] + '_' + str(i)))
+            for i in range(1, list_length_run + 1):
+                local_list.append(request.POST.get('run' + role[j - 1] + '_' + str(i)))
                 print('local_list', local_list)
                 if local_list == ['']:
                     local_list = ['0']
@@ -694,6 +916,8 @@ def load_plan(request):
                     count += 1
 
                 print(local_list)
+                load_plan_run_list = copy.deepcopy(local_list)
+                request.session['load_plan_run_list'] = load_plan_run_list
                 #
                 # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
                 # print('local_list', local_list)
@@ -702,14 +926,14 @@ def load_plan(request):
             # local_list=[int(i) for i in local_list]
             # print('local_list', local_list)
             # local_list =sum(local_list)
-           
+
             # print('local_list', local_list)
 
-                # print(Build_days_list)
-                #
-                # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
-                # print('local_list', local_list)
-                # quater_list.append(i)
+            # print(Build_days_list)
+            #
+            # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
+            # print('local_list', local_list)
+            # quater_list.append(i)
 
             # print('Build_days_list', Build_days_list)
 
@@ -722,13 +946,14 @@ def load_plan(request):
             noofworkingdays_run2.append(local_list)
             print('noofworkingdays_run2', noofworkingdays_run2)
 
-            noofworkingdays_run=[]
+
+            noofworkingdays_run = []
             noofworkingdays_run1 = [i for list1 in noofworkingdays_run2 for i in list1]
-            noofworkingdays_run1 =[int(i) for i in noofworkingdays_run1]
+            noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
             if noofworkingdays_run1:
                 noofworkingdays_run1 = sum(noofworkingdays_run1)
                 noofworkingdays_run.append(noofworkingdays_run1)
-            print('noofworkingdays_run',noofworkingdays_run)
+            print('noofworkingdays_run', noofworkingdays_run)
             request.session['noofworkingdays_run'] = noofworkingdays_run
 
             # noofworkingdays_monitor.append(noofworkingdays_build)
@@ -737,10 +962,6 @@ def load_plan(request):
 
             final_quater.append(quater_list)
             print('final_quater', final_quater)
-
-    
-
-        
 
         # Database entry:
         start_date_year = request.session.get('start_date_build')
@@ -790,12 +1011,6 @@ def load_plan(request):
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
-
-
-        
-
-
-
         # To create object in database table:
         # load_plan_db = LoadPlan.objects.all()
         # print(load_plan_db)
@@ -811,7 +1026,7 @@ def load_plan(request):
         # import ipdb
         # ipdb.set_trace()
         roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
-        
+
         # roleid.save()
 
         # request.session['roleid'] = roleid
@@ -830,29 +1045,213 @@ def load_plan(request):
 
         # print('wd_df', wd_df)
 
+        # ======================= Warning Important code Dont make any changes here ================
+        # ---------------------------------------------------------------------------
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+        start_date_build1 = pd.to_datetime(start_date_build)
+        end_date_build1 = pd.to_datetime(end_date_build)
+
+        # create a date range using pandas date_range() function
+        date_range_build = pd.date_range(start=start_date_build1, end=end_date_build1, freq='Q')
+
+        # initialize an empty list to store the output
+        quarter_list_build = []
+
+        # loop through the date range and add each quarter to the output list
+        for quarter in date_range_build:
+            quarter_list_build.append(['Q' + str(quarter.quarter), quarter.year])
+
+        # print the output
+        print(quarter_list_build)
+
+        # RUN
+        start_date_run1 = pd.to_datetime(start_date_run)
+        end_date_run1 = pd.to_datetime(end_date_run)
+
+        # create a date range using pandas date_range() function
+        date_range_run = pd.date_range(start=start_date_run1, end=end_date_run1, freq='Q')
+
+        # initialize an empty list to store the output
+        quarter_list_run = []
+
+        # loop through the date range and add each quarter to the output list
+        for quarter in date_range_run:
+            quarter_list_run.append(['Q' + str(quarter.quarter), quarter.year])
+
+        # print the output
+        print(quarter_list_run)
+
+        # initialize an empty dictionary to store the counts
+        year_counts = {}
+
+        # loop through the input list and update the counts
+        for _, year in quarter_list_build:
+            if year in year_counts:
+                year_counts[year] += 1
+            else:
+                year_counts[year] = 1
+        ycounts = year_counts.values()
+        print(ycounts)
+
+        quarter_list_build_load_plan = []
+        year_list_build_load_plan = []
+        year_list_build_load_plan_full = []
+        for item in quarter_list_build:
+            if item[1] not in year_list_build_load_plan:
+                year_list_build_load_plan.append(item[1])
+            year_list_build_load_plan_full.append(item[1])
+            quarter_list_build_load_plan.append(item[0])
+
+        quarter_to_sequence_build = []
+        count = 1
+        for i in range(len(quarter_list_build_load_plan)):
+            quarter_to_sequence_build.append(count)
+            count += 1
+        quarter_map = {'Q1': 1, 'Q2': 2, 'Q3': 3, 'Q4': 4}
+        numeric_list_of_load_plan_build = [quarter_map[q] for q in quarter_list_build_load_plan]
+        request.session['quarter_list_build_load_plan'] = quarter_list_build_load_plan
+        request.session['year_list_build_load_plan'] = year_list_build_load_plan
+        request.session['quarter_list_build_load_plan_length'] = len(quarter_list_build_load_plan)
+        request.session['year_list_build_load_plan_length'] = len(year_list_build_load_plan)
+        request.session['quarter_to_sequence_build'] = quarter_to_sequence_build
+        request.session['numeric_list_of_load_plan_build'] = numeric_list_of_load_plan_build
+
+        quarter_list_run_load_plan = []
+        year_list_run_load_plan = []
+        year_list_run_load_plan_full = []
+        for item in quarter_list_run:
+            if item[1] not in year_list_run_load_plan:
+                year_list_run_load_plan.append(item[1])
+            year_list_run_load_plan_full.append(item[1])
+            quarter_list_run_load_plan.append(item[0])
+        quarter_to_sequence_run = []
+        count = 1
+        for i in range(len(quarter_list_run_load_plan)):
+            quarter_to_sequence_run.append(count)
+            count += 1
+        numeric_list_of_load_plan_run = [quarter_map[q] for q in quarter_list_run_load_plan]
+        request.session['quarter_list_run_load_plan'] = quarter_list_run_load_plan
+        request.session['year_list_run_load_plan'] = year_list_run_load_plan
+        request.session['quarter_list_run_load_plan_length'] = len(year_list_run_load_plan)
+        request.session['year_list_run_load_plan_length'] = len(year_list_run_load_plan)
+        request.session['quarter_to_sequence_run'] = quarter_to_sequence_run
+        request.session['numeric_list_of_load_plan_run'] = numeric_list_of_load_plan_run
+        # ======================= Warning Important code Dont make any changes here ================
+
+        # =========== Get new Load Plan Build list =================
         # import ipdb
         # ipdb.set_trace()
+        # ==========================================================
+        load_plan_build_list = request.session.get('load_plan_build_list')
+        load_plan_build_list = [i for i in load_plan_build_list if i != '0']
+        print(load_plan_build_list)
 
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        new_build_list = [x for x in load_plan_build_list[:len_build_quarter]]
+        print(new_build_list)
+        no_of_working_days_build_plan_build = [int(i) for i in new_build_list]
+        no_of_working_days_build_plan_build = sum(no_of_working_days_build_plan_build)
+        print('Total no of working days in Build: ', no_of_working_days_build_plan_build)
+        # ===========================================================
+
+        # =========== Get new Load Plan Run list =================
+        load_plan_run_list = request.session.get('load_plan_run_list')
+        load_plan_run_list = [i for i in load_plan_run_list if i != '0']
+        print(load_plan_run_list)
+
+        len_run_quarter = len(quarter_list_run_load_plan)
+        new_run_list = [x for x in load_plan_run_list[:len_run_quarter]]
+        print(new_run_list)
+        no_of_working_days_run_plan_build = [int(i) for i in new_run_list]
+        no_of_working_days_run_plan_build = sum(no_of_working_days_run_plan_build)
+        print('Total no of working days in Run: ', no_of_working_days_run_plan_build)
+
+        # ===========================================================
+
+        # Create dataframe from above data
+        # Build Phase
+        load_plan_build_dataframe = pd.DataFrame({
+            'BuildQuarterData': new_build_list,
+            'Role': role[0],
+            'Phase': 'Build',
+            'Quarters': numeric_list_of_load_plan_build,
+            'BuildYearList': year_list_build_load_plan_full,
+
+        })
+        print(load_plan_build_dataframe)
+
+        # Run Phase
+        load_plan_run_dataframe = pd.DataFrame({
+            'RunQuarterData': new_run_list,
+            'Role': role[0],
+            'Phase': 'Run',
+            'Quarters': numeric_list_of_load_plan_run,
+            'RunYearList': year_list_run_load_plan_full,
+
+        })
+        print(load_plan_run_dataframe)
+        get_current_project_id = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        # import ipdb
+        # ipdb.set_trace()
+        # Adding data for Load Plan Build Phase
         try:
-            # for i, row in wd_df.iterrows():
-            #     for working_day in row.wd:
-                    print(working_day)
-                    LoadPlan_data = LoadPlan(role=row.role, name=name, workcountry=work_country,
-                                             typeofemployee=typeofemployee,
-                                             phasetype=phase_type,
-                                             noofworkingdays=working_day,
-                                             buildstartdate=start_date_year, buildenddate=end_date_year,
-                                             runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                                             create_timestamp=create_timestamp,
-                                             update_timestamp=start_date_year, year=year, quarter=2,
-                                             noofresources=noofresources, projid=roleid),
-
-                    LoadPlan_data.save()
-                    print(LoadPlan_data)
+            for index, row in load_plan_build_dataframe.iterrows():
+                load_plan_build_data = LoadPlan(role=role[0],
+                                                name='xyz', workcountry=work_country,
+                                                phasetype=row['Phase'],
+                                                noofworkingdays=row['BuildQuarterData'],
+                                                buildstartdate=start_date_build, buildenddate=end_date_build,
+                                                runstartdate=start_date_run, runenddate=end_date_run,
+                                                create_timestamp=datetime.now(), update_timestamp=datetime.now(),
+                                                year=row['BuildYearList'], quarter=row['Quarters'],
+                                                noofresources=noofresources,
+                                                projid=get_current_project_id
+                                                )
+                load_plan_build_data.save()
         except Exception as e:
-            print(e)
+            print("Error while adding data in load plan: ", e)
 
-        
+        # Adding data for Load Plan Run Phase
+        try:
+            for index, row in load_plan_run_dataframe.iterrows():
+                load_plan_run_data = LoadPlan(role=role[0],
+                                                name='xyz', workcountry=work_country,
+                                                phasetype=row['Phase'],
+                                                noofworkingdays=row['RunQuarterData'],
+                                                buildstartdate=start_date_build, buildenddate=end_date_build,
+                                                runstartdate=start_date_run, runenddate=end_date_run,
+                                                create_timestamp=datetime.now(), update_timestamp=datetime.now(),
+                                                year=row['RunYearList'], quarter=row['Quarters'],
+                                                noofresources=noofresources,
+                                                projid=get_current_project_id
+                                                )
+                load_plan_run_data.save()
+        except Exception as e:
+            print("Error while adding data in load plan: ", e)
+
+        # try:
+        #     # for i, row in wd_df.iterrows():
+        #     #     for working_day in row.wd:
+        #     LoadPlan_data = LoadPlan(role=row.role, name=name, workcountry=work_country,
+        #                              typeofemployee=typeofemployee,
+        #                              phasetype=phase_type,
+        #                              noofworkingdays=working_day,
+        #                              buildstartdate=start_date_year, buildenddate=end_date_year,
+        #                              runstartdate=start_date_year_run, runenddate=end_date_year_run,
+        #                              create_timestamp=create_timestamp,
+        #                              update_timestamp=start_date_year, year=year, quarter=2,
+        #                              noofresources=noofresources, projid=roleid),
+        #
+        #     LoadPlan_data.save()
+        #     print(LoadPlan_data)
+        # except Exception as e:
+        #     print(e)
+
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         # for i in daily_commute:
         #     print(i)
@@ -870,9 +1269,9 @@ def load_plan(request):
             'totalyear_loop': request.session.get('totalyear_loop'),
             'list_length': request.session.get('list_length'),
             'daily_commute': daily_commute,
-            'phase_type' : request.session.get('phase_type'),
+            'phase_type': request.session.get('phase_type'),
             # 'roleid' : request.session.get('roleid'),
-            
+
         }
         return render(request, 'di_daily_commute.html', context)
 
@@ -883,7 +1282,7 @@ def load_plan(request):
     # ipdb.set_trace()
     role = request.session.get('role'),
     phase_type = request.session.get('phase_type'),
-    context={
+    context = {
         'role': request.session.get('role'),
         'noofworkingdays_list': request.session.get('noofworkingdays_list'),
         'list_run': request.session.get('quarter_sequence'),
@@ -893,26 +1292,26 @@ def load_plan(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
-        'phase_type' : request.session.get('phase_type'),
+        'phase_type': request.session.get('phase_type'),
         # 'roleid' : request.session.get('roleid'),
         'noofworkingdays_build': request.session.get('noofworkingdays_build'),
-            
+
     }
-    return render(request, 'load_plan.html',context)
+    return render(request, 'load_plan.html', context)
+
 
 def di_daily_commute(request):
-    
     if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
         noofworkingdays_build = request.session.get('noofworkingdays_build')
         noofworkingdays_run = request.session.get('noofworkingdays_run')
-        role=request.session.get('role')
-        list=request.session.get('list')
-        print('list1 is',list)
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        role = request.session.get('role')
+        list = request.session.get('list')
+        print('list1 is', list)
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
         end_date_year = request.session.get('end_date_year')
         end_date_year_run = request.session.get('end_date_year_run')
@@ -922,150 +1321,140 @@ def di_daily_commute(request):
         # mydata = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
         # print(mydata)
 
-
-        default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
         count = 1
         count2 = 1
         for i in range(len(default_dropdown)):
             default_dropdown.insert(count2, count)
-            count+=1
-            count2+=2
+            count += 1
+            count2 += 2
         res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
         # print(res_dct)
-        
-        
+
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         # for i in daily_commute:
         #     print(i)
         # print(daily_commute)
-       
-        
-        
-        km_buildlist=[]    
-        km_runlist=[]
-        avg_runlist=[]
-        avg_buildlist=[]
+
+        km_buildlist = []
+        km_runlist = []
+        avg_runlist = []
+        avg_buildlist = []
         vehical_owners = []
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
-        for k in range(1,len(role)+1):
+
+        for k in range(1, len(role) + 1):
             # print(k)
 
-            km_buildlist.append(request.POST.get(role[k-1]))
-            print('km_buildlist',km_buildlist)
-            avg_buildlist.append(request.POST.get('av_' + role[k-1]))
-            print('avg_buildlist',avg_buildlist)
-            km_runlist.append(request.POST.get('km_run_' + role[k-1]))
-            print('km_runlist',km_runlist)
-            avg_runlist.append(request.POST.get('avg_run_' + role[k-1]))
-            print('avg_runlist',avg_runlist)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
+            km_buildlist.append(request.POST.get(role[k - 1]))
+            print('km_buildlist', km_buildlist)
+            avg_buildlist.append(request.POST.get('av_' + role[k - 1]))
+            print('avg_buildlist', avg_buildlist)
+            km_runlist.append(request.POST.get('km_run_' + role[k - 1]))
+            print('km_runlist', km_runlist)
+            avg_runlist.append(request.POST.get('avg_run_' + role[k - 1]))
+            print('avg_runlist', avg_runlist)
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
 
         # print('data type', type(km_buildlist[0]))
 
-        
         # build phase total carbon calculations for Daily Commute
         ref_parameters_list = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        
-        emission_factor_list =[]
+
+        emission_factor_list = []
         for i in transport_type:
-            tt = ref_parameters_list.filter(subcategory= i).values()
+            tt = ref_parameters_list.filter(subcategory=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['emissionfactor'])
             emission_factor_list.append(tt_lists[0]['emissionfactor'])
-            print('emission_factor_list',emission_factor_list)
+            print('emission_factor_list', emission_factor_list)
 
-
-            
         # import ipdb
         # ipdb.set_trace()
         # emission_factor_list = [i.get('emissionfactor') for i in ref_parameters_list]
         # print(emission_factor_list)
         # for i in ref_parameters_list :
-            
+
         #     if i.get('subcategory') == transport_type[0]:
         #         emissionfactor = i.get('emissionfactor')
-       
-        
-        buid_km_int=[int(i) for i in km_buildlist]
+
+        buid_km_int = [int(i) for i in km_buildlist]
         buid_km_int = [i * 2 for i in buid_km_int]
-        print('buid_km_int',buid_km_int)
-        buid_avg_int=[int(i) for i in avg_buildlist]
+        print('buid_km_int', buid_km_int)
+        buid_avg_int = [int(i) for i in avg_buildlist]
         num = 5
         # buid_avg_int= np.divide(buid_avg_int, num)
-        
+
         buid_avg_int = [x / num for x in buid_avg_int]
-        print('buid_avg_int',buid_avg_int)
-        
-        build1 = [(buid_avg_int[i])*((noofworkingdays_build[i])) for i in range(len(noofworkingdays_build))]
-        print('build1',build1)
+        print('buid_avg_int', buid_avg_int)
+
+        build1 = [(buid_avg_int[i]) * ((noofworkingdays_build[i])) for i in range(len(noofworkingdays_build))]
+        print('build1', build1)
         # build1= build1[0]
         # print('build1',build1)
-            
-        run_km_int=[int(i) for i in km_runlist]
-        print('run_km_int',run_km_int)
-        run_avg_int=[int(i) for i in avg_runlist]
-        print('run_avg_int',run_avg_int)
+
+        run_km_int = [int(i) for i in km_runlist]
+        print('run_km_int', run_km_int)
+        run_avg_int = [int(i) for i in avg_runlist]
+        print('run_avg_int', run_avg_int)
         emission_run = [run_km_int[i] * run_avg_int[i] for i in range(len(run_avg_int))]
 
         res_list = [build1[i] * buid_km_int[i] for i in range(len(buid_km_int))]
-        print('res_list',res_list)
+        print('res_list', res_list)
 
-        totalcarbonfootprint_daily_build= [res_list[i] * emission_factor_list[i] for i in range(len(res_list))]
-        print('totalcarbonfootprint_daily_build',totalcarbonfootprint_daily_build)
-
+        totalcarbonfootprint_daily_build = [res_list[i] * emission_factor_list[i] for i in range(len(res_list))]
+        print('totalcarbonfootprint_daily_build', totalcarbonfootprint_daily_build)
 
         # Run
 
-        emission_factor_list_run =[]
+        emission_factor_list_run = []
         for i in transport_type_run:
-            tt = ref_parameters_list.filter(subcategory= i).values()
+            tt = ref_parameters_list.filter(subcategory=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['emissionfactor'])
             emission_factor_list_run.append(tt_lists[0]['emissionfactor'])
-            print('emission_factor_list_run',emission_factor_list_run)
+            print('emission_factor_list_run', emission_factor_list_run)
 
         # import ipdb
         # ipdb.set_trace()
 
-        run_km_int=[int(i) for i in km_runlist]
+        run_km_int = [int(i) for i in km_runlist]
         run_km_int = [i * 2 for i in run_km_int]
-        print('run_km_int',run_km_int)
-        run_avg_int=[int(i) for i in avg_runlist]
+        print('run_km_int', run_km_int)
+        run_avg_int = [int(i) for i in avg_runlist]
         num = 5
         # buid_avg_int= np.divide(buid_avg_int, num)
 
         run_avg_int = [x / num for x in run_avg_int]
-        print('run_avg_int',run_avg_int)
-        
-        build2 = [(run_avg_int[i])*(int(noofworkingdays_run[i])) for i in range(len(noofworkingdays_run))]
-        print('build2',build2)
+        print('run_avg_int', run_avg_int)
+
+        build2 = [(run_avg_int[i]) * (int(noofworkingdays_run[i])) for i in range(len(noofworkingdays_run))]
+        print('build2', build2)
         # build1= build1[0]
         # print('build1',build1)
-            
-        run_km_int=[int(i) for i in km_runlist]
-        print('run_km_int',run_km_int)
-        run_avg_int=[int(i) for i in avg_runlist]
-        print('run_avg_int',run_avg_int)
+
+        run_km_int = [int(i) for i in km_runlist]
+        print('run_km_int', run_km_int)
+        run_avg_int = [int(i) for i in avg_runlist]
+        print('run_avg_int', run_avg_int)
         emission_run = [run_km_int[i] * run_avg_int[i] for i in range(len(run_avg_int))]
 
         res_list1 = [build2[i] * run_km_int[i] for i in range(len(run_km_int))]
-        print('res_list',res_list)
+        print('res_list', res_list)
 
-        totalcarbonfootprint_daily_run= [res_list1[i] * emission_factor_list_run[i] for i in range(len(res_list))]
-        print('totalcarbonfootprint_daily_run',totalcarbonfootprint_daily_run)
+        totalcarbonfootprint_daily_run = [res_list1[i] * emission_factor_list_run[i] for i in range(len(res_list))]
+        print('totalcarbonfootprint_daily_run', totalcarbonfootprint_daily_run)
 
         # import ipdb
         # ipdb.set_trace()
@@ -1081,87 +1470,73 @@ def di_daily_commute(request):
         # roleid.save()
 
         roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
-        
+
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
         grid_emission_factor = RefCarbonfootprint.objects.values_list('emissionfactor')
         # grid_emission_factor = grid_emission_factor.filter(name = buildcountry).values()
-        # grid_emission_factor = pd.DataFrame(list(grid_emission_factor)) 
+        # grid_emission_factor = pd.DataFrame(list(grid_emission_factor))
         # grid_emission_factor = grid_emission_factor['emissionfactor'][0]
-        print('Grid emission factor',grid_emission_factor)
+        print('Grid emission factor', grid_emission_factor)
 
         grid_emission_factor_unit = RefCarbonfootprint.objects.values_list('unit')
         # grid_emission_factor_unit = grid_emission_factor.filter(name = buildcountry).values()
         # grid_emission_factor_unit = pd.DataFrame(list(grid_emission_factor))
         # grid_emission_factor_unit = grid_emission_factor['emissionfactor'][0]
-        print('grid_emission_factor_unit',grid_emission_factor_unit)
+        print('grid_emission_factor_unit', grid_emission_factor_unit)
 
         direct_impact_data = ImpactsDirects.objects.all()
-        
 
-        
-        
-        
-        
         try:
-                 for i in range(len(buid_km_int)):
-                    
-                    IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            projectname = request.session.get('name'),
-                                            vehicleownership = vehical_owners[i],
-                                            role = role[i],
-                                            kmtravelledperday= buid_km_int[i],
-                                            avgnoofdaysofficeperweek = buid_avg_int[i],
-                                            category = 'People - Daily Commute',
-                                            subcategory = transport_type[i],
-                                            phasetype = 'Build',
-                                            emissionfactor = emission_factor_list[i],
-                                            create_timestamp = create_timestamp,
-                                            update_timestamp = create_timestamp,
-                                            typeoftransport = transport_type[i],
-                                            projid = roleid,
-                                            totalcarbonfootprint= totalcarbonfootprint_daily_build[i],
-                                            # buildstartdate=start_date_year, buildenddate=end_date_year,
-                                            # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                    )
-                    IMPACTS_DIRECTS_data.save()
-                    print(IMPACTS_DIRECTS_data)
+            for i in range(len(buid_km_int)):
+                IMPACTS_DIRECTS_data = ImpactsDirects(
+                    projectname=request.session.get('name'),
+                    vehicleownership=vehical_owners[i],
+                    role=role[i],
+                    kmtravelledperday=buid_km_int[i],
+                    avgnoofdaysofficeperweek=buid_avg_int[i],
+                    category='People',
+                    subcategory='Daily Commute',
+                    phasetype='Build',
+                    emissionfactor=emission_factor_list[i],
+                    create_timestamp=create_timestamp,
+                    update_timestamp=create_timestamp,
+                    typeoftransport=transport_type[i],
+                    projid=roleid,
+                    totalcarbonfootprint=totalcarbonfootprint_daily_build[i],
+                    # buildstartdate=start_date_year, buildenddate=end_date_year,
+                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
+                )
+                IMPACTS_DIRECTS_data.save()
+                print(IMPACTS_DIRECTS_data)
 
-                 for i in range(len(run_km_int)):
-                    IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            projectname = request.session.get('name'),
-                                            vehicleownership = vehical_owners[i],
-                                            role = role[i],
-                                            kmtravelledperday= run_km_int[i],
-                                            avgnoofdaysofficeperweek = run_avg_int[i],
-                                            category = 'People - Daily Commute',
-                                            subcategory = transport_type[i],
-                                            phasetype = 'Run',
-                                            emissionfactor = emission_factor_list_run[i],
-                                            create_timestamp = create_timestamp,
-                                            update_timestamp = create_timestamp,
-                                            typeoftransport = transport_type[i],
-                                            projid = roleid,
-                                            totalcarbonfootprint= totalcarbonfootprint_daily_run[i],
-                                            # buildstartdate=start_date_year, buildenddate=end_date_year,
-                                            # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                    )
-                    IMPACTS_DIRECTS_data.save()
-                    print(IMPACTS_DIRECTS_data)
+            for i in range(len(run_km_int)):
+                IMPACTS_DIRECTS_data = ImpactsDirects(
+                    projectname=request.session.get('name'),
+                    vehicleownership=vehical_owners_run[i],
+                    role=role[i],
+                    kmtravelledperday=run_km_int[i],
+                    avgnoofdaysofficeperweek=run_avg_int[i],
+                    category='People',
+                    subcategory='Daily Commute',
+                    phasetype='Run',
+                    emissionfactor=emission_factor_list_run[i],
+                    create_timestamp=create_timestamp,
+                    update_timestamp=create_timestamp,
+                    typeoftransport=transport_type_run[i],
+                    projid=roleid,
+                    totalcarbonfootprint=totalcarbonfootprint_daily_run[i],
+                    # buildstartdate=start_date_year, buildenddate=end_date_year,
+                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
+                )
+                IMPACTS_DIRECTS_data.save()
+                print(IMPACTS_DIRECTS_data)
 
         except Exception as e:
             print(e)
-            print('=====================================================================Error================================================')
-
-
-
-
-
-
-
-
-
+            print(
+                '=====================================================================Error================================================')
 
         # total_build=[]
         # ==============calculations=====
@@ -1185,17 +1560,10 @@ def di_daily_commute(request):
         # print('d2',dc)
         # print('d3',em_factor)
 
-        
-
-
-
-        
         # build_mul=[]
         # for i in range(0, len(buid_km_int)):
         #     build_mul.append(buid_km_int[i] * buid_avg_int[i])
         # print('mul',build_mul)
-
-
 
         business_data_emission = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
 
@@ -1229,34 +1597,35 @@ def di_daily_commute(request):
 
         request.session['business_emission_list'] = business_emission_list
 
-
-
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
+
         phase_type = request.session.get('phase_type'),
-        default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-        year_details=['2020','2021'] 
-        quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-        user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
-        context={
-            'user_details':user_details,
-            'year_details':year_details,
-            'res_dct':res_dct,
-            'default_dropdown1':default_dropdown1,
-            'quarter_details':quarter_details,
-            'role':request.session.get('role'),
+        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+        year_details = ['2020', '2021']
+        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+        context = {
+            'user_details': user_details,
+            'year_details': year_details,
+            'res_dct': res_dct,
+            'default_dropdown1': default_dropdown1,
+            'quarter_details': quarter_details,
+            'role': request.session.get('role'),
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'start_date_year': request.session.get('start_date_year'),
@@ -1264,134 +1633,141 @@ def di_daily_commute(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'list_length': request.session.get('list_length'),
-            'daily_commute' : daily_commute,
+            'daily_commute': daily_commute,
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('second_build_end_span'),
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'camera_data' : camera_data,
-            'raw_data' : raw_data,
-            'phase_type' : request.session.get('phase_type'),
-            'business_emission_list' : business_emission_list,
-        } 
-        return render(request, 'di_business_travel.html',context)
-    default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'phase_type': request.session.get('phase_type'),
+            'business_emission_list': business_emission_list,
+        }
+        return render(request, 'di_business_travel.html', context)
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
 
     # import ipdb
     # ipdb.set_trace()
-    role=request.session.get('role')
-    list=request.session.get('list')
-    print('list1 is',list)
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
-    totalyear_loop= request.session.get('totalyear_loop')
+    role = request.session.get('role')
+    list = request.session.get('list')
+    print('list1 is', list)
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    totalyear_loop = request.session.get('totalyear_loop')
     start_date_year = request.session.get('start_date_year')
     end_date_year = request.session.get('end_date_year')
     end_date_year_run = request.session.get('end_date_year_run')
     print(role)
-    default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
     for i in range(len(default_dropdown)):
         default_dropdown.insert(count2, count)
-        count+=1
-        count2+=2
+        count += 1
+        count2 += 2
     res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
-        
+
     # import ipdb
     # ipdb.set_trace()
 
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
     fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
     electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
-
 
     # for i in daily_commute:
     #     print(i.subcategory)
     # import ipdb
     # ipdb.set_trace()
     # print(daily_commute)
-    
-    default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-    year_details=['2020','2021'] 
-    quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-    user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',] 
-    context={
-        'role':request.session.get('role'),
-        'res_dct':res_dct,
+
+    default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    year_details = ['2020', '2021']
+    quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+    user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+    context = {
+        'role': request.session.get('role'),
+        'res_dct': res_dct,
         'list': request.session.get('list'),
-        'list_run': new_list,
+        'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
-        'daily_commute' : daily_commute,
+        'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data':laptop_data,
-        'monitor_data':monitor_data,
+        'laptop_data': laptop_data,
+
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
+
+        'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
-        'telephone_data' : telephone_data,
-        'printer_data' : printer_data,
-        'projector_data' : projector_data,
-        'lidar_data' : lidar_data,
-        'camera_data' : camera_data,
-        'raw_data' : raw_data,
-        'fuel_data' : fuel_data,
-        'business_emission_list' : business_emission_list,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'business_emission_list': request.session.get('business_emission_list'),
     }
-    return render(request, 'di_daily_commute.html',context)
-    
+    return render(request, 'di_daily_commute.html', context)
 
-def di_business_travel(request):  
+
+def di_business_travel(request):
     if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
-        
+
         phase_type = request.session.get('phase_type'),
-        role=request.session.get('role')
-        list=request.session.get('list')
+        role = request.session.get('role')
+        list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
 
-
         user_equipment_render_list = copy.deepcopy(WhichUserEquipment)
         industrial_equipment_render_list = copy.deepcopy(WhichIndustrialEquipment)
         indirect_render_list = copy.deepcopy(WhichParametersImplemented)
-        
+
         request.session['user_equipment_render_list'] = user_equipment_render_list
-        request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
+        request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
         request.session['indirect_render_list'] = indirect_render_list
 
-
-        print('list1 is',list)
+        print('list1 is', list)
         totalyear_loop_run = request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
         print(role)
-        
 
         business_emission_list = request.session.get('business_emission_list')
         print(business_emission_list)
@@ -1402,7 +1778,7 @@ def di_business_travel(request):
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         # print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -1411,7 +1787,7 @@ def di_business_travel(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get('bu_' + role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get('bu_' + role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -1430,16 +1806,16 @@ def di_business_travel(request):
                         Build_days_list[count] = '0'
                         # print('i', i)
                     count += 1
-            
-            Build_days_list=[int(i) for i in Build_days_list]
-            print('Build_days_list', Build_days_list)
-            Build_days_list =sum(Build_days_list)
 
-                # print(Build_days_list)
-                #
-                # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
-                # print('local_list', local_list)
-                # quater_list.append(i)
+            Build_days_list = [int(i) for i in Build_days_list]
+            print('Build_days_list', Build_days_list)
+            Build_days_list = sum(Build_days_list)
+
+            # print(Build_days_list)
+            #
+            # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
+            # print('local_list', local_list)
+            # quater_list.append(i)
 
             # print('Build_days_list', Build_days_list)
 
@@ -1448,7 +1824,6 @@ def di_business_travel(request):
 
             noofworkingdays_build.append(Build_days_list)
             print('noofworkingdays_build', noofworkingdays_build)
-  
 
             # noofworkingdays_run.append(local_list)
             # print('noofworkingdays_run', noofworkingdays_run)
@@ -1462,12 +1837,12 @@ def di_business_travel(request):
             print('final_quater', final_quater)
 
         # noofworkingdays_build = request.session.get('noofworkingdays_build')
-        
+
         final_quater = []
         noofworkingdays_run = []
         noofworkingdays_monitor = []
-        
-        list_length= request.session.get('list_length')
+
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -1476,7 +1851,7 @@ def di_business_travel(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get('bu_run_' + role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get('bu_run_' + role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -1496,14 +1871,14 @@ def di_business_travel(request):
                         # print('i', i)
                     count += 1
 
-            Build_days_list=[int(i) for i in Build_days_list]
+            Build_days_list = [int(i) for i in Build_days_list]
             print('Build_days_list', Build_days_list)
-            Build_days_list =sum(Build_days_list)
-                # print(Build_days_list)
-                #
-                # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
-                # print('local_list', local_list)
-                # quater_list.append(i)
+            Build_days_list = sum(Build_days_list)
+            # print(Build_days_list)
+            #
+            # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
+            # print('local_list', local_list)
+            # quater_list.append(i)
 
             # print('Build_days_list', Build_days_list)
 
@@ -1513,7 +1888,6 @@ def di_business_travel(request):
 
             noofworkingdays_run.append(Build_days_list)
             print('noofworkingdays_run', noofworkingdays_run)
-          
 
             # noofworkingdays_monitor.append(noofworkingdays_build)
             # print('noofworkingdays_monitor', noofworkingdays_monitor)
@@ -1527,83 +1901,79 @@ def di_business_travel(request):
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
-        for k in range(1,len(role)+1):
+
+        for k in range(1, len(role) + 1):
             # print(k)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
 
         # print('data type', type(km_buildlist[0]))
-        
+
         ref_parameters_list_business = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        emission_factor_list =[]
+        emission_factor_list = []
         for i in transport_type:
-            tt = ref_parameters_list_business.filter(subcategory= i).values()
+            tt = ref_parameters_list_business.filter(subcategory=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['emissionfactor'])
             emission_factor_list.append(tt_lists[0]['emissionfactor'])
-            print('emission_factor_list',emission_factor_list)
+            print('emission_factor_list', emission_factor_list)
 
         # import ipdb
         # ipdb.set_trace()
-        totalcarbonfootprint_business_build=[emission_factor_list[i] * noofworkingdays_build[i] for i in range(len(noofworkingdays_build))]
-        print('totalcarbonfootprint_business_build',totalcarbonfootprint_business_build)
-        
+        totalcarbonfootprint_business_build = [emission_factor_list[i] * noofworkingdays_build[i] for i in
+                                               range(len(noofworkingdays_build))]
+        print('totalcarbonfootprint_business_build', totalcarbonfootprint_business_build)
 
-        emission_factor_list_run =[]
+        emission_factor_list_run = []
         for i in transport_type_run:
-            tt = ref_parameters_list_business.filter(subcategory= i).values()
+            tt = ref_parameters_list_business.filter(subcategory=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['emissionfactor'])
             emission_factor_list_run.append(tt_lists[0]['emissionfactor'])
-            print('emission_factor_list_run',emission_factor_list_run)
+            print('emission_factor_list_run', emission_factor_list_run)
 
-        totalcarbonfootprint_business_run=[emission_factor_list_run[i] * noofworkingdays_run[i] for i in range(len(noofworkingdays_run))]
-        print('totalcarbonfootprint_business_run',totalcarbonfootprint_business_run)
+        totalcarbonfootprint_business_run = [emission_factor_list_run[i] * noofworkingdays_run[i] for i in
+                                             range(len(noofworkingdays_run))]
+        print('totalcarbonfootprint_business_run', totalcarbonfootprint_business_run)
 
         total_noofworkingdays_run = sum(noofworkingdays_run)
-        print('total_noofworkingdays_run',total_noofworkingdays_run)
+        print('total_noofworkingdays_run', total_noofworkingdays_run)
 
         total_noofworkingdays_build = sum(noofworkingdays_build)
-        print('total_noofworkingdays_build',total_noofworkingdays_build)
+        print('total_noofworkingdays_build', total_noofworkingdays_build)
 
-
-
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         print(laptop_data)
-        default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
         count = 1
         count2 = 1
         for i in range(len(default_dropdown)):
             default_dropdown.insert(count2, count)
-            count+=1
-            count2+=2
+            count += 1
+            count2 += 2
         res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
         print(res_dct)
         # import ipdb
         # ipdb.set_trace()
-        default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-        year_details=['2020','2021'] 
-        quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-        user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
+        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+        year_details = ['2020', '2021']
+        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
         country_list = settings.COUNTRY_LIST
-
 
         # buid_km_int=[int(i) for i in km_buildlist]
         # print(buid_km_int)
         # print('data type', type(buid_km_int[0]))
         # buid_avg_int=[int(i) for i in avg_buildlist]
         # print(buid_avg_int)
-
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -1615,112 +1985,138 @@ def di_business_travel(request):
 
         direct_impact_data = ImpactsDirects.objects.all()
         ref_parameters_list = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        for i in ref_parameters_list :
-            
+        for i in ref_parameters_list:
+
             if i.get('subcategory') == transport_type[0]:
                 emissionfactor = i.get('emissionfactor')
 
-
         try:
-                for i in range(len(transport_type)):
-                    IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            projectname = request.session.get('name'),
-                                            vehicleownership = vehical_owners[i],
-                                            role = role[i],
-                                            # kmtravelledperday= buid_km_int[0],
-                                            # avgnoofdaysofficeperweek = buid_avg_int[0],
-                                            category = 'People - Business Travel',
-                                            subcategory = transport_type[i],
-                                            phasetype ='Build',
-                                            emissionfactor = emission_factor_list[i],
-                                            create_timestamp = create_timestamp,
-                                            update_timestamp = create_timestamp,
-                                            typeoftransport = transport_type[i],
-                                            projid = roleid,
-                                            totalcarbonfootprint = totalcarbonfootprint_business_build[i],
-                                            # nofworkingdays = total_noofworkingdays_build,
-                                            # buildstartdate=start_date_year, buildenddate=end_date_year,
-                                            # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                    )
-                    IMPACTS_DIRECTS_data.save()
-                    print(IMPACTS_DIRECTS_data)
+            for i in range(len(transport_type)):
+                IMPACTS_DIRECTS_data = ImpactsDirects(
+                    projectname=request.session.get('name'),
+                    vehicleownership=vehical_owners[i],
+                    role=role[i],
+                    # kmtravelledperday= buid_km_int[0],
+                    # avgnoofdaysofficeperweek = buid_avg_int[0],
+                    category='People',
+                    subcategory='Business Travel',
+                    phasetype='Build',
+                    emissionfactor=emission_factor_list[i],
+                    create_timestamp=create_timestamp,
+                    update_timestamp=create_timestamp,
+                    typeoftransport=transport_type[i],
+                    projid=roleid,
+                    totalcarbonfootprint=totalcarbonfootprint_business_build[i],
+                    # nofworkingdays = total_noofworkingdays_build,
+                    # buildstartdate=start_date_year, buildenddate=end_date_year,
+                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
+                )
+                IMPACTS_DIRECTS_data.save()
+                print(IMPACTS_DIRECTS_data)
 
-                for i in range(len(transport_type)):
-                    IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            projectname = request.session.get('name'),
-                                            vehicleownership = vehical_owners_run[i],
-                                            role = role[i],
-                                            # kmtravelledperday= buid_km_int[0],
-                                            # avgnoofdaysofficeperweek = buid_avg_int[0],
-                                            category = 'People - Business Travel',
-                                            subcategory = transport_type_run[i],
-                                            phasetype ='Run',
-                                            emissionfactor = emission_factor_list_run[i],
-                                            create_timestamp = create_timestamp,
-                                            update_timestamp = create_timestamp,
-                                            typeoftransport = transport_type_run[i],
-                                            projid = roleid,
-                                            totalcarbonfootprint = totalcarbonfootprint_business_run[i],
-                                            # nofworkingdays = total_noofworkingdays_run,
-                                            # buildstartdate=start_date_year, buildenddate=end_date_year,
-                                            # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                    )
-                    IMPACTS_DIRECTS_data.save()
-                    print(IMPACTS_DIRECTS_data)
+            for i in range(len(transport_type)):
+                IMPACTS_DIRECTS_data = ImpactsDirects(
+                    projectname=request.session.get('name'),
+                    vehicleownership=vehical_owners_run[i],
+                    role=role[i],
+                    # kmtravelledperday= buid_km_int[0],
+                    # avgnoofdaysofficeperweek = buid_avg_int[0],
+                    category='People',
+                    subcategory='Business Travel',
+                    phasetype='Run',
+                    emissionfactor=emission_factor_list_run[i],
+                    create_timestamp=create_timestamp,
+                    update_timestamp=create_timestamp,
+                    typeoftransport=transport_type_run[i],
+                    projid=roleid,
+                    totalcarbonfootprint=totalcarbonfootprint_business_run[i],
+                    # nofworkingdays = total_noofworkingdays_run,
+                    # buildstartdate=start_date_year, buildenddate=end_date_year,
+                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
+                )
+                IMPACTS_DIRECTS_data.save()
+                print(IMPACTS_DIRECTS_data)
         except Exception as e:
             print(e)
 
-
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
         fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
         electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
-
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
 
         phase_type = request.session.get('phase_type'),
-        context={
-            'user_details':user_details,
-            'year_details':year_details,
-            'res_dct':res_dct,
-            'default_dropdown1':default_dropdown1,
-            'quarter_details':quarter_details,
-            'role':request.session.get('role'),
+        context = {
+            'user_details': user_details,
+            'year_details': year_details,
+            'res_dct': res_dct,
+            'default_dropdown1': default_dropdown1,
+            'quarter_details': quarter_details,
+            'role': request.session.get('role'),
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'start_date_year': request.session.get('start_date_year'),
             'start_date_year_run': request.session.get('start_date_year_run'),
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
-            'list_length' : request.session.get('list_length'),
-            'laptop_data' :laptop_data,
-            'country_list' : country_list,
-            'daily_commute' : daily_commute,
+            'list_length': request.session.get('list_length'),
+            'laptop_data': laptop_data,
+            'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
+
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'camera_data' : camera_data,
-            'raw_data' : raw_data,
-            'fuel_data' : fuel_data,
-        } 
-
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
+        }
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
@@ -1728,176 +2124,212 @@ def di_business_travel(request):
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
-            elif user_equipment_render_list[0] == 'monitor':
+                return render(request, 'di_printer.html', context)
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
 
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar.html', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
-    default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+        else:
+            if len(indirect_render_list) >= 1:
+
+                if indirect_render_list[0] == 'stationary_combustion':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_fl.html', context)
+                elif indirect_render_list[0] == 'mobile_combustion':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_mc.html', context)
+                elif indirect_render_list[0] == 'electricity':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_el.html', context)
+                elif indirect_render_list[0] == 'water':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_wt.html', context)
+                elif indirect_render_list[0] == 'paper':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_paper.html', context)
+                elif indirect_render_list[0] == 'waste_material':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_waste.html', context)
+                else:
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
 
     # import ipdb
     # ipdb.set_trace()
-    list=request.session.get('list')
-    request.session['list']=list
-    role=request.session.get('role')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
-    totalyear_loop= request.session.get('totalyear_loop')
+    list = request.session.get('list')
+    request.session['list'] = list
+    role = request.session.get('role')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    totalyear_loop = request.session.get('totalyear_loop')
     start_date_year = request.session.get('start_date_year')
-    
+
     for i in range(len(default_dropdown)):
         default_dropdown.insert(count2, count)
-        count+=1
-        count2+=2
+        count += 1
+        count2 += 2
     res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
     print(res_dct)
     # import ipdb
     # ipdb.set_trace()
-    default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-    year_details=['2020','2021'] 
-    quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-    user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',] 
-    
+    default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    year_details = ['2020', '2021']
+    quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+    user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-
-
-
-    context={
-        'role':request.session.get('role'),
+    context = {
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'totalyear_loop': request.session.get('totalyear_loop'),
-        'list_length' : request.session.get('list_length'),
-        'daily_commute' : daily_commute,
+        'list_length': request.session.get('list_length'),
+        'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data':laptop_data,
-        'monitor_data':monitor_data,
+        'laptop_data': laptop_data,
+
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
+
+        'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
-        'telephone_data' : telephone_data,
-        'printer_data' : printer_data,
-        'projector_data' : projector_data,
-        'lidar_data' : lidar_data,
-        'camera_data' : camera_data,
-        'raw_data' : raw_data,
-        'fuel_data' : fuel_data,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
 
     }
-    return render(request, 'di_business_travel.html',context)
+    return render(request, 'di_business_travel.html', context)
+
 
 def di_laptop(request):
-    if request.method=="POST":
+    if request.method == "POST":
         # import ipdb
         # ipdb.set_trace()
         noofworkingdays_build = request.session.get('noofworkingdays_build')
         noofworkingdays_run = request.session.get('noofworkingdays_run')
-        role=request.session.get('role')
-        list=request.session.get('list')
-        print('list1 is',list)
+        role = request.session.get('role')
+        list = request.session.get('list')
+        print('list1 is', list)
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
         print(role)
-        default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
         count = 1
         count2 = 1
         for i in range(len(default_dropdown)):
             default_dropdown.insert(count2, count)
-            count+=1
-            count2+=2
+            count += 1
+            count2 += 2
         res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
         print(res_dct)
-        
-        default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-        year_details=['2020','2021'] 
-        quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-        user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-   
-        
+
+        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+        year_details = ['2020', '2021']
+        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+
         vehical_owners = []
         transport_type = []
         vehical_owners_run = []
@@ -1933,53 +2365,55 @@ def di_laptop(request):
             i.pop('projid_id')
 
             fuel_data_list.append(i)
-        
-        for k in range(1,len(role)+1):
+
+        for k in range(1, len(role) + 1):
             # print(k)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
-            work_country.append(request.POST.get('work_country_' + role[k-1]))
-            print('work_country',work_country)
-            work_country_run.append(request.POST.get('work_country_run_' + role[k-1]))
-            print('work_country_run',work_country_run)
-   
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
+            work_country.append(request.POST.get('work_country_' + role[k - 1]))
+            print('work_country', work_country)
+            work_country_run.append(request.POST.get('work_country_run_' + role[k - 1]))
+            print('work_country_run', work_country_run)
 
         # print('data type', type(km_buildlist[0]))
-        
-        ref_parameters_list_laptop = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
-        emission_factor_list =[]
+
+        ref_parameters_list_laptop = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                       subcategory='Laptop').values()
+        emission_factor_list = []
         for i in transport_type:
-            tt = ref_parameters_list_laptop.filter(name= i).values()
+            tt = ref_parameters_list_laptop.filter(name=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['carbonfootprintperday'])
             emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
-            print('emission_factor_list',emission_factor_list)
+            print('emission_factor_list', emission_factor_list)
 
-        totalcarbonfootprint_laptop_build = [emission_factor_list[i] * noofworkingdays_build[i] for i in range(len(noofworkingdays_build))]
-        print('totalcarbonfootprint_laptop_build',totalcarbonfootprint_laptop_build)
-     
+        totalcarbonfootprint_laptop_build = [emission_factor_list[i] * noofworkingdays_build[i] for i in
+                                             range(len(noofworkingdays_build))]
+        print('totalcarbonfootprint_laptop_build', totalcarbonfootprint_laptop_build)
+
         # import ipdb
         # ipdb.set_trace()
 
-        emission_factor_list_run =[]
+        emission_factor_list_run = []
         for i in transport_type_run:
-            tt = ref_parameters_list_laptop.filter(name= i).values()
+            tt = ref_parameters_list_laptop.filter(name=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['carbonfootprintperday'])
             emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
-            print('emission_factor_list_run',emission_factor_list_run)
+            print('emission_factor_list_run', emission_factor_list_run)
 
-        totalcarbonfootprint_laptop_run = [emission_factor_list_run[i] * noofworkingdays_run[i] for i in range(len(noofworkingdays_run))]
-        print('totalcarbonfootprint_laptop_run',totalcarbonfootprint_laptop_run)
-        
+        totalcarbonfootprint_laptop_run = [emission_factor_list_run[i] * noofworkingdays_run[i] for i in
+                                           range(len(noofworkingdays_run))]
+        print('totalcarbonfootprint_laptop_run', totalcarbonfootprint_laptop_run)
+
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -1987,59 +2421,98 @@ def di_laptop(request):
 
         direct_impact_data = ImpactsDirects.objects.all()
         ref_parameters_list = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        for i in ref_parameters_list :
+        for i in ref_parameters_list:
             # import ipdb
             # ipdb.set_trace()
             if i.get('subcategory') == transport_type[0]:
                 emissionfactor = i.get('emissionfactor')
 
-
         try:
-                for i in range(len(transport_type_run)):
-                    IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            projectname = request.session.get('name'),
-                                            # equipmentownership = vehical_owners[i],
-                                            role = role[i],
-                                            category = 'User Equipment',
-                                            # typeoflaptop = transport_type[i],
-                                            phasetype ='Build',
-                                            emissionfactor = emission_factor_list_run[i],
-                                            create_timestamp = create_timestamp,
-                                            update_timestamp = create_timestamp,
-                                            workcountry = work_country[i],
-                                            totalcarbonfootprint = totalcarbonfootprint_laptop_run[i],
-                                            projid = roleid,
-                                            # buildstartdate=start_date_year, buildenddate=end_date_year,
-                                            # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                    )
-                    IMPACTS_DIRECTS_data.save()
-                    print(IMPACTS_DIRECTS_data)
+            for i in range(len(transport_type)):
+                IMPACTS_DIRECTS_data = ImpactsDirects(
+                    projectname=request.session.get('name'),
+                    # equipmentownership = vehical_owners[i],
+                    role=role[i],
+                    subcategory='Laptop',
+                    category='User Equipment',
+                    # typeoflaptop = transport_type[i],
+                    phasetype='Build',
+                    emissionfactor=emission_factor_list[i],
+                    create_timestamp=create_timestamp,
+                    update_timestamp=create_timestamp,
+                    workcountry=work_country[i],
+                    totalcarbonfootprint=totalcarbonfootprint_laptop_build[i],
+                    projid=roleid,
+                    # buildstartdate=start_date_year, buildenddate=end_date_year,
+                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
+                )
+                IMPACTS_DIRECTS_data.save()
+                print(IMPACTS_DIRECTS_data)
         except Exception as e:
             print(e)
-   
-        daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
-        business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
-        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
-        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-        context={
-            'user_details':user_details,
-            'year_details':year_details,
-            'res_dct':res_dct,
-            'default_dropdown1':default_dropdown1,
-            'quarter_details':quarter_details,
-            'role':request.session.get('role'),
+        try:
+            for i in range(len(transport_type_run)):
+                IMPACTS_DIRECTS_data = ImpactsDirects(
+                    projectname=request.session.get('name'),
+                    # equipmentownership = vehical_owners[i],
+                    role=role[i],
+                    category='User Equipment',
+                    subcategory='Laptop',
+                    # typeoflaptop = transport_type[i],
+                    phasetype='Run',
+                    emissionfactor=emission_factor_list_run[i],
+                    create_timestamp=create_timestamp,
+                    update_timestamp=create_timestamp,
+                    workcountry=work_country[i],
+                    totalcarbonfootprint=totalcarbonfootprint_laptop_run[i],
+                    projid=roleid,
+                    # buildstartdate=start_date_year, buildenddate=end_date_year,
+                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
+                )
+                IMPACTS_DIRECTS_data.save()
+                print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+        business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
+        context = {
+            'user_details': user_details,
+            'year_details': year_details,
+            'res_dct': res_dct,
+            'default_dropdown1': default_dropdown1,
+            'quarter_details': quarter_details,
+            'role': request.session.get('role'),
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'start_date_year': request.session.get('start_date_year'),
@@ -2047,25 +2520,37 @@ def di_laptop(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'list_length': request.session.get('list_length'),
-            'daily_commute' : daily_commute,
+            'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'electricity_data' : electricity_data,
-            'fuel_data' : fuel_data,
-            'camera_data' : camera_data,
-            'raw_data' : raw_data,
-            'fuel_data_list' : fuel_data_list,
-        } 
 
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
 
-    
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
+        }
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
@@ -2073,146 +2558,160 @@ def di_laptop(request):
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
 
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar.html', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
-                elif 'mobile_combustion':
+                    return render(request, 'indirect_impact_fl.html', context)
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
-                elif 'electricity':
+                    return render(request, 'indirect_impact_mc.html', context)
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
-                elif 'water':
+                    return render(request, 'indirect_impact_el.html', context)
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
-                elif 'paper':
+                    return render(request, 'indirect_impact_wt.html', context)
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
-                elif 'waste_material':
+                    return render(request, 'indirect_impact_paper.html', context)
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
-    default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
 
     # import ipdb
     # ipdb.set_trace()
-    list=request.session.get('list')
-    request.session['list']=list
-    role=request.session.get('role')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
-    totalyear_loop= request.session.get('totalyear_loop')
+    list = request.session.get('list')
+    request.session['list'] = list
+    role = request.session.get('role')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    totalyear_loop = request.session.get('totalyear_loop')
     start_date_year = request.session.get('start_date_year')
     for i in range(len(default_dropdown)):
         default_dropdown.insert(count2, count)
-        count+=1
-        count2+=2
+        count += 1
+        count2 += 2
     res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
     print(res_dct)
     # import ipdb
     # ipdb.set_trace()
-    default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-    year_details=['2020','2021'] 
-    quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-    user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',] 
+    default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    year_details = ['2020', '2021']
+    quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+    user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
-    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
 
-    context={
-        'role':request.session.get('role'),
+    context = {
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -2220,43 +2719,57 @@ def di_laptop(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
-        'daily_commute' : daily_commute,
+        'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data':laptop_data,
-        'monitor_data':monitor_data,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
-        'telephone_data' : telephone_data,
-        'printer_data' : printer_data,
-        'projector_data' : projector_data,
-        'lidar_data' : lidar_data,
-        'fuel_data' : fuel_data,
-        'electricity_data' :electricity_data,
-        'camera_data' : camera_data,
-        'raw_data' : raw_data,
+
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
+
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
-    return render(request, 'di_laptop.html',context)
+    return render(request, 'di_laptop.html', context)
 
 
-
-
-def di_monitor(request): 
+def di_monitor(request):
     # import ipdb
     # ipdb.set_trace()
-    if request.method == 'POST': 
+    if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
-        list=request.session.get('list')
+        list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
-        role=request.session.get('role')
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        role = request.session.get('role')
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
-        
-        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+
+        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
         # count = 1
         # count2 = 1
         # for i in range(len(default_dropdown)):
@@ -2269,10 +2782,9 @@ def di_monitor(request):
         # ipdb.set_trace()
         # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
         # year_details=['2020','2021']
-        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
         # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
         role = request.session.get('role')
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -2280,7 +2792,7 @@ def di_monitor(request):
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         # print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -2289,7 +2801,7 @@ def di_monitor(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get(role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get(role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -2331,14 +2843,12 @@ def di_monitor(request):
 
             final_quater.append(quater_list)
             print('final_quater', final_quater)
-            
+
         # import ipdb
         # ipdb.set_trace()
-        
-    
-        noofworkingdays_build_int =[int(i) for i in noofworkingdays_build]
-        noofworkingdays_build_int = sum(noofworkingdays_build) 
 
+        noofworkingdays_build_int = [int(i) for i in noofworkingdays_build]
+        noofworkingdays_build_int = sum(noofworkingdays_build)
 
         final_quater = []
         noofworkingdays_build = []
@@ -2346,7 +2856,7 @@ def di_monitor(request):
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -2355,7 +2865,7 @@ def di_monitor(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get('bu_run_' + role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get('bu_run_' + role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -2404,49 +2914,50 @@ def di_monitor(request):
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
-        for k in range(1,len(role)+1):
+
+        for k in range(1, len(role) + 1):
             # print(k)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
 
         roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
 
-        ref_parameters_list_pc = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        emission_factor_list =[]
+        ref_parameters_list_pc = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                   subcategory='Desktop').values()
+        emission_factor_list = []
         for i in transport_type:
-            tt = ref_parameters_list_pc.filter(name= i).values()
+            tt = ref_parameters_list_pc.filter(name=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['carbonfootprintperday'])
             emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
-            print('emission_factor_list',emission_factor_list)
+            print('emission_factor_list', emission_factor_list)
 
-        totalcarbonfootprint_drone_build = [emission_factor_list[i] * noofworkingdays_build[i] for i in range(len(noofworkingdays_build))]
-        print('totalcarbonfootprint_laptop_build',totalcarbonfootprint_laptop_build)
-     
+        totalcarbonfootprint_drone_build = [emission_factor_list[i] * noofworkingdays_build[i] for i in
+                                            range(len(noofworkingdays_build))]
+        print('totalcarbonfootprint_laptop_build', totalcarbonfootprint_laptop_build)
+
         # import ipdb
         # ipdb.set_trace()
 
-        ref_parameters_list_pc_run =[]
+        ref_parameters_list_pc_run = []
         for i in transport_type_run:
-            tt = ref_parameters_list_laptop.filter(name= i).values()
+            tt = ref_parameters_list_laptop.filter(name=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['carbonfootprintperday'])
             emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
-            print('emission_factor_list_run',emission_factor_list_run)
+            print('emission_factor_list_run', emission_factor_list_run)
 
-        totalcarbonfootprint_laptop_run = [emission_factor_list_run[i] * noofworkingdays_run[i] for i in range(len(noofworkingdays_run))]
-        print('totalcarbonfootprint_laptop_run',totalcarbonfootprint_laptop_run)
-
+        totalcarbonfootprint_laptop_run = [emission_factor_list_run[i] * noofworkingdays_run[i] for i in
+                                           range(len(noofworkingdays_run))]
+        print('totalcarbonfootprint_laptop_run', totalcarbonfootprint_laptop_run)
 
         # now = datetime.now()
         # create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -2459,47 +2970,48 @@ def di_monitor(request):
         #     if i.get('subcategory') == transport_type[0]:
         #         emissionfactor = i.get('emissionfactor')
 
-
         try:
-                    IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            projectname = request.session.get('name'),
-                                            equipmentownership = vehical_owners,
-                                            role = role,
-                                            # kmtravelledperday= buid_km_int[0],
-                                            # avgnoofdaysofficeperweek = buid_avg_int[0],
-                                            category = 'User Equipment',
-                                            subcategory = transport_type[0],
-                                            phasetype ='Build',
-                                            emissionfactor = emissionfactor,
-                                            create_timestamp = create_timestamp,
-                                            update_timestamp = create_timestamp,
-                                            # typeoftransport = transport_type[0],
-                                            # workcountry = work_country
-                                            # buildstartdate=start_date_year, buildenddate=end_date_year,
-                                            # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                    )
-                    IMPACTS_DIRECTS_data.save()
-                    print(IMPACTS_DIRECTS_data)
+            IMPACTS_DIRECTS_data = ImpactsDirects(
+                projectname=request.session.get('name'),
+                equipmentownership=vehical_owners,
+                role=role,
+                # kmtravelledperday= buid_km_int[0],
+                # avgnoofdaysofficeperweek = buid_avg_int[0],
+                category='User Equipment',
+                subcategory=transport_type[0],
+                phasetype='Build',
+                emissionfactor=emissionfactor,
+                create_timestamp=create_timestamp,
+                update_timestamp=create_timestamp,
+                # typeoftransport = transport_type[0],
+                # workcountry = work_country
+                # buildstartdate=start_date_year, buildenddate=end_date_year,
+                # runstartdate=start_date_year_run, runenddate=end_date_year_run,
+            )
+            IMPACTS_DIRECTS_data.save()
+            print(IMPACTS_DIRECTS_data)
         except Exception as e:
             print(e)
-        
+
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
         fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
         electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
-        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-        context={
+        context = {
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -2514,20 +3026,20 @@ def di_monitor(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'daily_commute' : daily_commute,
+            'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'fuel_data' : fuel_data,
-            'electricity_data' : electricity_data,
-            'camera_data' : camera_data,
-            'raw_data' : raw_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'fuel_data': fuel_data,
+            'electricity_data': electricity_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
         }
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
@@ -2536,109 +3048,109 @@ def di_monitor(request):
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
-    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
-    role=request.session.get('role')
-    totalyear_loop= request.session.get('totalyear_loop')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
+    role = request.session.get('role')
+    totalyear_loop = request.session.get('totalyear_loop')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
     start_date_year = request.session.get('start_date_year')
     # for i in range(len(default_dropdown)):
     #     default_dropdown.insert(count2, count)
@@ -2650,34 +3162,34 @@ def di_monitor(request):
     # ipdb.set_trace()
     # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
     # year_details=['2020','2021']
-    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
     # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
 
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
     fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
     electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
-    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-
-    context={
-        'user_details':user_details,
-        'year_details':year_details,
-        'res_dct':res_dct,
-        'default_dropdown1':default_dropdown1,
-        'quarter_details':quarter_details,
+    context = {
+        'user_details': user_details,
+        'year_details': year_details,
+        'res_dct': res_dct,
+        'default_dropdown1': default_dropdown1,
+        'quarter_details': quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
-        'role':request.session.get('role'),
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -2685,43 +3197,42 @@ def di_monitor(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'daily_commute' : daily_commute,
+        'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data':laptop_data,
-        'monitor_data':monitor_data,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
-        'telephone_data' : telephone_data,
-        'printer_data' : printer_data,
-        'projector_data' : projector_data,
-        'lidar_data' : lidar_data,
-        'fuel_data' : fuel_data,
-        'electricity_data' : electricity_data,
-        'camera_data' : camera_data,
-        'raw_data' : raw_data,
-       
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'fuel_data': fuel_data,
+        'electricity_data': electricity_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+
     }
- 
-    return render(request, 'di_monitor.html',context)
+
+    return render(request, 'di_monitor.html', context)
 
 
-def di_drone(request): 
-    if request.method=="POST":
+def di_drone(request):
+    if request.method == "POST":
         # import ipdb
         # ipdb.set_trace()
-        
-        role=request.session.get('role')
-        list=request.session.get('list')
+
+        role = request.session.get('role')
+        list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
-        print('list1 is',list)
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        print('list1 is', list)
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
         print(role)
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -2729,7 +3240,7 @@ def di_drone(request):
         noofworkingdays_drone = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         # print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -2738,7 +3249,7 @@ def di_drone(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get(role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get(role[j - 1] + '_' + str(i)))
                 print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -2780,30 +3291,28 @@ def di_drone(request):
 
             final_quater.append(quater_list)
             # print('final_quater', final_quater)
-        default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
         count = 1
         count2 = 1
         for i in range(len(default_dropdown)):
             default_dropdown.insert(count2, count)
-            count+=1
-            count2+=2
+            count += 1
+            count2 += 2
         res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
         print(res_dct)
         # import ipdb
         # ipdb.set_trace()
-        default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-        year_details=['2020','2021'] 
-        quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-        user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
-
+        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+        year_details = ['2020', '2021']
+        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
         final_quater = []
-        noofworkingdays_build = []
         noofworkingdays_run = []
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -2812,7 +3321,7 @@ def di_drone(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get('dr_' + role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get('dr_' + role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -2855,7 +3364,21 @@ def di_drone(request):
             final_quater.append(quater_list)
             print('final_quater', final_quater)
 
+        noofworkingdays_build2 = []
+        noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
+        noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
+        if noofworkingdays_build1:
+            noofworkingdays_build1 = sum(noofworkingdays_build1)
+            noofworkingdays_build2.append(noofworkingdays_build1)
+        # print('noofworkingdays_build',noofworkingdays_build)
+        # print('noofworkingdays_build1',noofworkingdays_build1)
 
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
 
         fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
 
@@ -2892,83 +3415,151 @@ def di_drone(request):
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
-        for k in range(1,len(role)+1):
+
+        for k in range(1, len(role) + 1):
             # print(k)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
-        
-        now = datetime.now()
-        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
-        
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
+
         roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
 
-        direct_impact_data = ImpactsDirects.objects.all()
-        ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        for i in ref_parameters_list :
-            # import ipdb
-            # ipdb.set_trace()
-            if i.get('subcategory') == transport_type[0]:
-                emissionfactor = i.get('emissionfactor')
+        # import ipdb
+        # ipdb.set_trace()
 
+        ref_parameters_list_drone = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                                      subcategory='Drones').values()
+        emission_factor_list = []
+        for i in transport_type:
+            tt = ref_parameters_list_drone.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list', emission_factor_list)
+
+        totalcarbonfootprint_drone_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
+                                            range(len(noofworkingdays_build2))]
+        print('totalcarbonfootprint_drone_build', totalcarbonfootprint_drone_build)
+
+        emission_factor_list_run = []
+        for i in transport_type_run:
+            tt = ref_parameters_list_drone.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list_run', emission_factor_list_run)
+
+        totalcarbonfootprint_drone_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
+                                          range(len(noofworkingdays_run2))]
+        print('totalcarbonfootprint_drone_run', totalcarbonfootprint_drone_run)
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        # direct_impact_data = ImpactsDirects.objects.all()
+        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
+        # for i in ref_parameters_list :
+        #     import ipdb
+        #     ipdb.set_trace()
+        #     if i.get('subcategory') == transport_type[0]:
+        #         emissionfactor = i.get('emissionfactor')
 
         try:
-                    IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            projectname = request.session.get('name'),
-                                            equipmentownership = vehical_owners,
-                                            role = role,
-                                            projid = roleid,
-                                            # kmtravelledperday= buid_km_int[0],
-                                            # avgnoofdaysofficeperweek = buid_avg_int[0],
-                                            category = 'Industrial Equipment',
-                                            subcategory = transport_type[0],
-                                            phasetype ='run',
-                                            emissionfactor = emissionfactor,
-                                            create_timestamp = create_timestamp,
-                                            update_timestamp = create_timestamp,
-                                            # typeoftransport = transport_type[0],
-                                            # workcountry = work_country
-                                            # buildstartdate=start_date_year, buildenddate=end_date_year,
-                                            # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                    )
-                    IMPACTS_DIRECTS_data.save()
-                    print(IMPACTS_DIRECTS_data)
+            for i in range(len(transport_type)):
+                IMPACTS_DIRECTS_data = ImpactsDirects(
+                    projectname=request.session.get('name'),
+                    equipmentownership=vehical_owners[i],
+                    role=role[i],
+                    category='Industrial Equipment',
+                    subcategory=transport_type[i],
+                    # typeoflaptop = transport_type[i],
+                    phasetype='Build',
+                    emissionfactor=emission_factor_list[i],
+                    create_timestamp=create_timestamp,
+                    update_timestamp=create_timestamp,
+
+                    totalcarbonfootprint=totalcarbonfootprint_drone_build[i],
+                    projid=roleid,
+                    # buildstartdate=start_date_year, buildenddate=end_date_year,
+                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
+                )
+                IMPACTS_DIRECTS_data.save()
+                print(IMPACTS_DIRECTS_data)
         except Exception as e:
             print(e)
 
-        list_length= request.session.get('list_length')
+        try:
+            for i in range(len(transport_type_run)):
+                IMPACTS_DIRECTS_data = ImpactsDirects(
+                    projectname=request.session.get('name'),
+                    equipmentownership=vehical_owners_run[i],
+                    role=role[i],
+                    category='Industrial Equipment',
+                    subcategory=transport_type_run[i],
+                    # typeoflaptop = transport_type[i],
+                    phasetype='Run',
+                    emissionfactor=emission_factor_list_run[i],
+                    create_timestamp=create_timestamp,
+                    update_timestamp=create_timestamp,
+
+                    totalcarbonfootprint=totalcarbonfootprint_drone_run[i],
+                    projid=roleid,
+                    # buildstartdate=start_date_year, buildenddate=end_date_year,
+                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
+                )
+                IMPACTS_DIRECTS_data.save()
+                print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        list_length = request.session.get('list_length')
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
-        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
 
-
-        context={
-            'user_details':user_details,
-            'year_details':year_details,
-            'res_dct':res_dct,
-            'default_dropdown1':default_dropdown1,
-            'quarter_details':quarter_details,
-            'role':request.session.get('role'),
+        context = {
+            'user_details': user_details,
+            'year_details': year_details,
+            'res_dct': res_dct,
+            'default_dropdown1': default_dropdown1,
+            'quarter_details': quarter_details,
+            'role': request.session.get('role'),
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'start_date_year': request.session.get('start_date_year'),
@@ -2976,24 +3567,40 @@ def di_drone(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'list_length': request.session.get('list_length'),
-            'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-            'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-            'fuel_data' : fuel_data,
+            'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+            'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
             'fuel_data_list': fuel_data_list,
-            'daily_commute' : daily_commute,
+            'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
+
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
+
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'electricity_data' :electricity_data,
-            'camera_data' : camera_data,
-            'raw_data' : raw_data
-        } 
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
+        }
 
         # import ipdb
         # ipdb.set_trace()
@@ -3004,150 +3611,163 @@ def di_drone(request):
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
 
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar.html', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
-                elif 'mobile_combustion':
+                    return render(request, 'indirect_impact_fl.html', context)
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
-                elif 'electricity':
+                    return render(request, 'indirect_impact_mc.html', context)
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
-                elif 'water':
+                    return render(request, 'indirect_impact_el.html', context)
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
-                elif 'paper':
+                    return render(request, 'indirect_impact_wt.html', context)
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
-                elif 'waste_material':
+                    return render(request, 'indirect_impact_paper.html', context)
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+
         # if WhichParametersImplemented[0]=='indirect_impact_fl':
         #     return render(request, 'indirect_impact_fl.html',context)
-        # return render(request, 'di_raspberrypi.html',context)  
-    default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+        # return render(request, 'di_raspberrypi.html',context)
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
 
     # import ipdb
     # ipdb.set_trace()
-    list=request.session.get('list')
-    request.session['list']=list
-    role=request.session.get('role')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
-    totalyear_loop= request.session.get('totalyear_loop')
+    list = request.session.get('list')
+    request.session['list'] = list
+    role = request.session.get('role')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    totalyear_loop = request.session.get('totalyear_loop')
     start_date_year = request.session.get('start_date_year')
     for i in range(len(default_dropdown)):
         default_dropdown.insert(count2, count)
-        count+=1
-        count2+=2
+        count += 1
+        count2 += 2
     res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
     print(res_dct)
     # import ipdb
     # ipdb.set_trace()
-    default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-    year_details=['2020','2021'] 
-    quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-    user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
-    list_length= request.session.get('list_length') 
+    default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    year_details = ['2020', '2021']
+    quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+    user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+    list_length = request.session.get('list_length')
 
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
-    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-
-    context={
-        'role':request.session.get('role'),
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
+    context = {
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -3155,25 +3775,41 @@ def di_drone(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
-        'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-        'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-        'fuel_data_list': fuel_data_list,
-        'daily_commute' : daily_commute,
+        'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+        'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'fuel_data_list': request.session.get('fuel_data_list'),
+        'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data':laptop_data,
-        'monitor_data':monitor_data,
+        'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
-        'telephone_data' : telephone_data,
-        'printer_data' : printer_data,
-        'projector_data' : projector_data,
-        'lidar_data' : lidar_data,
-        'electricity_data' :electricity_data,
-        'fuel_data' : fuel_data,
-        'camera_data' : camera_data,
-        'raw_data' : raw_data,
+
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
+
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
-    return render(request, 'di_drone.html',context)
+    return render(request, 'di_drone.html', context)
+
 
 def company_detail(request):
     # import ipdb
@@ -3199,23 +3835,22 @@ def company_detail(request):
         request.session["till_year"] = till_year
         till_year = request.session.get('till_year')
 
-
-        #calculated year diff of from yr to till yr
+        # calculated year diff of from yr to till yr
         total_year = till_year - from_year
         print('total_year', total_year)
 
-        #for year range
+        # for year range
         yr_range = []
-        for i in range(from_year, till_year+1):
+        for i in range(from_year, till_year + 1):
             yr_range.append(i)
         request.session['yr_range'] = yr_range
 
-        #list of no. of years
+        # list of no. of years
         list_of_years = []
         for i in range(1, total_year + 2):
             list_of_years.append(i)
 
-        #dict for year value in html
+        # dict for year value in html
         year_dict = dict(zip(list_of_years, yr_range))
         request.session['year_dict'] = year_dict
 
@@ -3258,7 +3893,6 @@ def company_detail(request):
         yr_range = request.session.get('yr_range')
         from_year = request.session.get('from_year')
         till_year = request.session.get('till_year')
-
 
         total_year = till_year - from_year
         print('total_year', total_year)
@@ -3330,11 +3964,12 @@ def company_detail(request):
         try:
             for i, row in company_detail_df.iterrows():
                 company_detail = CompanyDetails(companyname=companyname,
-                                                turnover=row.turnover, productionoveryears=row.poy_list, noofemployees=row.noe_list,
+                                                turnover=row.turnover, productionoveryears=row.poy_list,
+                                                noofemployees=row.noe_list,
                                                 targettrajectoryscope1_2=targettrajectoryscope1_2,
                                                 targettrajectoryscope3=targettrajectoryscope3,
                                                 precisetrajectoryitprojects=precisetrajectoryitprojects,
-                                                starttimeperiod=from_year_1,endtimeperiod=till_year_1,
+                                                starttimeperiod=from_year_1, endtimeperiod=till_year_1,
                                                 carbonprice=row.cp_list, actualemssionportfolio=actualemssionportfolio,
                                                 create_timestamp=create_timestamp, update_timestamp=create_timestamp)
                 company_detail.save()
@@ -3342,7 +3977,6 @@ def company_detail(request):
         except Exception as e:
             print(e)
     return render(request, 'company_detail.html')
-
 
 
 def get_year(request, build_start_date, build_end_date, run_start_date, run_end_date):
@@ -3357,7 +3991,6 @@ def get_year(request, build_start_date, build_end_date, run_start_date, run_end_
 
 
 def get_current_phase(request, all_years, current_year):
-
     build_start_year = all_years[0]
     build_end_year = all_years[1]
 
@@ -3441,36 +4074,35 @@ def indirect_impact_el(request):
     # import ipdb
     # ipdb.set_trace()
     submit = 0
-    if request.method=="POST":
+    if request.method == "POST":
         # import ipdb
         # ipdb.set_trace()
-        
-        role=request.session.get('role')
-        list=request.session.get('list')
-        print('list1 is',list)
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+
+        role = request.session.get('role')
+        list = request.session.get('list')
+        print('list1 is', list)
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
         WhichParametersImplemented = request.session.get('parameters_implemented')
         print(role)
 
-
         noofworkingdays_build = []
         noofworkingdays_run = []
-        
+
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
-        
+
         for i in range(1, list_length + 1):
             noofworkingdays_run.append(request.POST.get(str(i)))
             print('noofworkingdays_run', noofworkingdays_run)
             if noofworkingdays_run == ['']:
                 noofworkingdays_run = ['0']
-                    # print('local_list', local_list)
+                # print('local_list', local_list)
                 print('noofworkingdays_run', noofworkingdays_run)
                 # else:
                 #     local_list.append(request.POST.get('run' + role_list[j-1] + '_' + str(i)))
@@ -3509,21 +4141,21 @@ def indirect_impact_el(request):
             # final_quater.append(quater_list)
             # print('final_quater', final_quater)
 
-        default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
         count = 1
         count2 = 1
         for i in range(len(default_dropdown)):
             default_dropdown.insert(count2, count)
-            count+=1
-            count2+=2
+            count += 1
+            count2 += 2
         res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
         print(res_dct)
         # import ipdb
         # ipdb.set_trace()
-        default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-        year_details=['2020','2021'] 
-        quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-        user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
+        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+        year_details = ['2020', '2021']
+        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
         fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
 
@@ -3555,22 +4187,24 @@ def indirect_impact_el(request):
             fuel_data_list.append(i)
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
         paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
-        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
         fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
         submit = 1
-        
+
         # indirect_impact_data = ImpactsIndirects.objects.all()
         # # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
         # # for i in ref_parameters_list :
@@ -3578,7 +4212,6 @@ def indirect_impact_el(request):
         # #     ipdb.set_trace()
         # #     if i.get('subcategory') == transport_type[0]:
         # #         emissionfactor = i.get('emissionfactor')
-
 
         # try:
         #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
@@ -3605,16 +4238,13 @@ def indirect_impact_el(request):
         # except Exception as e:
         #     print(e)
 
-
-
-
-        context={
-            'user_details':user_details,
-            'year_details':year_details,
-            'res_dct':res_dct,
-            'default_dropdown1':default_dropdown1,
-            'quarter_details':quarter_details,
-            'role':request.session.get('role'),
+        context = {
+            'user_details': user_details,
+            'year_details': year_details,
+            'res_dct': res_dct,
+            'default_dropdown1': default_dropdown1,
+            'quarter_details': quarter_details,
+            'role': request.session.get('role'),
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'start_date_year': request.session.get('start_date_year'),
@@ -3622,15 +4252,15 @@ def indirect_impact_el(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'list_length': request.session.get('list_length'),
-            'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-            'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-            'fuel_data_list' : fuel_data_list,
-            'paper_data' : paper_data,
+            'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+            'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'fuel_data_list': fuel_data_list,
+            'paper_data': paper_data,
             'submit': submit,
-            'camera_data' : camera_data,
-            'raw_data' : raw_data,
-            'fuel_data' : fuel_data,
-        } 
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
+        }
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
@@ -3638,145 +4268,146 @@ def indirect_impact_el(request):
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
-    default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
 
     # import ipdb
     # ipdb.set_trace()
-    list=request.session.get('list')
-    request.session['list']=list
-    role=request.session.get('role')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
-    totalyear_loop= request.session.get('totalyear_loop')
+    list = request.session.get('list')
+    request.session['list'] = list
+    role = request.session.get('role')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    totalyear_loop = request.session.get('totalyear_loop')
     start_date_year = request.session.get('start_date_year')
     for i in range(len(default_dropdown)):
         default_dropdown.insert(count2, count)
-        count+=1
-        count2+=2
+        count += 1
+        count2 += 2
     res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
     print(res_dct)
     # import ipdb
     # ipdb.set_trace()
-    default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-    year_details=['2020','2021'] 
-    quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-    user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',] 
+    default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    year_details = ['2020', '2021']
+    quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+    user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
     electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
-    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
     fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-    context={
-        'role':request.session.get('role'),
+    context = {
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -3784,31 +4415,20 @@ def indirect_impact_el(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
-        'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-        'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-        'electricity_data' : electricity_data,
+        'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+        'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'electricity_data': electricity_data,
         'submit': submit,
-        'camera_data' : camera_data,
-        'raw_data' : raw_data,
-        'fuel_data' : fuel_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
     }
-    return render(request, 'indirect_impact_el.html',context)
+    return render(request, 'indirect_impact_el.html', context)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-def di_dcn(request):  
+def di_dcn(request):
     return render(request, 'di_dcn.html')
+
 
 def Help(request):
     return render(request, 'Help.html')
@@ -3821,184 +4441,155 @@ def Indirect_Impact(request):
     return render(request, 'Indirect_Impact.html', context)
 
 
-
 def indirect_impact_fl(request):
     submit = 0
-    if request.method=="POST":
+    if request.method == "POST":
         # import ipdb
         # ipdb.set_trace()
-        
-        role=request.session.get('role')
-        list=request.session.get('list')
-        print('list1 is',list)
+
+        role = request.session.get('role')
+        list = request.session.get('list')
+        print('list1 is', list)
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
         print(role)
 
-        
-        noofworkingdays_build = []
         noofworkingdays_run = []
-        
+
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
-        
+
         for i in range(1, list_length + 1):
             noofworkingdays_run.append(request.POST.get(str(i)))
             print('noofworkingdays_run', noofworkingdays_run)
             if noofworkingdays_run == ['']:
                 noofworkingdays_run = ['0']
-                    # print('local_list', local_list)
+                # print('local_list', local_list)
                 print('noofworkingdays_run', noofworkingdays_run)
-                # else:
-                #     local_list.append(request.POST.get('run' + role_list[j-1] + '_' + str(i)))
-                #     print('local_list', local_list)
-
-                # local_list.append(request.POST.get('dr_' + role[j-1] + '_' + str(i)))
-                # print('local_list', local_list)
-                # quater_list.append(i)
-                # count = 0
-                # for i in local_list:
-                #     if i == '':
-                #         local_list[count] = '0'
-                #         print('i', i)
-                #     count += 1
-
-                # print(local_list)
-                #
-                # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
-                # print('local_list', local_list)
-                # quater_list.append(i)
 
             print('noofworkingdays_run', noofworkingdays_run)
 
-            # noofworkingdays_build.append(local_list)
-            # print('noofworkingdays_build', noofworkingdays_build)
-            # request.session['noofworkingdays_build'] = noofworkingdays_build
-
-            # noofworkingdays_run.append(local_list)
-            # print('noofworkingdays_run', noofworkingdays_run)
-            # request.session['noofworkingdays_run'] = noofworkingdays_run
-
-            # noofworkingdays_fuel.append(noofworkingdays_run)
-            # print('noofworkingdays_fuel', noofworkingdays_fuel)
-            # request.session['noofworkingdays_fuel'] = noofworkingdays_fuel
-
-            # final_quater.append(quater_list)
-            # print('final_quater', final_quater)
-        
-        noofworkingdays_run1=[]
-        Build_days_list=[int(i) for i in noofworkingdays_run]
+        noofworkingdays_run1 = []
+        Build_days_list = [int(i) for i in noofworkingdays_run]
         print('noofworkingdays_run', Build_days_list)
-        noofworkingdays_run =sum(Build_days_list)
+        noofworkingdays_run = sum(Build_days_list)
         noofworkingdays_run1.append(noofworkingdays_run)
         print('noofworkingdays_run1', noofworkingdays_run1)
 
-       
         vehical_owners = []
-        vehical_owners.append(request.POST.get('type_transport' ))
-        print('vehical_owners',vehical_owners)
+        vehical_owners.append(request.POST.get('type_transport'))
+        print('vehical_owners', vehical_owners)
         ref_parameters_list_fuel = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-        emission_factor_list =[]
+        emission_factor_list = []
         for i in vehical_owners:
-            tt = ref_parameters_list_fuel.filter(subcategory= i).values()
+            tt = ref_parameters_list_fuel.filter(subcategory=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['emissionfactor'])
             emission_factor_list.append(tt_lists[0]['emissionfactor'])
-            print('emission_factor_list',emission_factor_list)
+            print('emission_factor_list', emission_factor_list)
 
-        totalcarbonfootprint_fuel = [emission_factor_list[i] * noofworkingdays_run1[i] for i in range(len(emission_factor_list))]
-        print('totalcarbonfootprint_fuel',totalcarbonfootprint_fuel)
+        totalcarbonfootprint_fuel = [emission_factor_list[i] * noofworkingdays_run1[i] for i in
+                                     range(len(emission_factor_list))]
+        print('totalcarbonfootprint_fuel', totalcarbonfootprint_fuel)
 
-
-
-        default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
         count = 1
         count2 = 1
         for i in range(len(default_dropdown)):
             default_dropdown.insert(count2, count)
-            count+=1
-            count2+=2
+            count += 1
+            count2 += 2
         res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
         print(res_dct)
         # import ipdb
         # ipdb.set_trace()
-        default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-        year_details=['2020','2021'] 
-        quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-        user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
+        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+        year_details = ['2020', '2021']
+        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
         el_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
         country_list = settings.COUNTRY_LIST
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
-        
+
         roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
         # import ipdb
         # ipdb.set_trace()
 
         indirect_impact_data = ImpactsIndirects.objects.all()
-        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        # for i in ref_parameters_list :
-        #     import ipdb
-        #     ipdb.set_trace()
-        #     if i.get('subcategory') == transport_type[0]:
-        #         emissionfactor = i.get('emissionfactor')
-
 
         try:
             for i in range(len(emission_factor_list)):
-                    IMPACTS_INDIRECTS_data = ImpactsIndirects(
-                                            projectname = request.session.get('name'),
-                                            # equipmentownership = vehical_owners,
-                                            # role = role,
-                                            # kmtravelledperday= buid_km_int[0],
-                                            # avgnoofdaysofficeperweek = buid_avg_int[0],
-                                            category = 'Fuel - Stationary combustion',
-                                            # subcategory = transport_type[0],
-                                            phasetype ='Run',
-                                            totalcarbonfootprint = totalcarbonfootprint_fuel[i],
-                                            projid = roleid,
-                                            emissionfactor = emission_factor_list[i],
-                                            create_timestamp = create_timestamp,
-                                            update_timestamp = create_timestamp,
-                                            # typeoftransport = transport_type[0],
-                                            # workcountry = work_country
-                                            # buildstartdate=start_date_year, buildenddate=end_date_year,
-                                            # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                    )
-                    IMPACTS_INDIRECTS_data.save()
-                    print(ImpactsIndirects)
+                IMPACTS_INDIRECTS_data = ImpactsIndirects(
+                    projectname=request.session.get('name'),
+                    category='Fuel - Stationary combustion',
+                    phasetype='Run',
+                    totalcarbonfootprint=totalcarbonfootprint_fuel[i],
+                    projid=roleid,
+                    emissionfactor=emission_factor_list[i],
+                    create_timestamp=create_timestamp,
+                    update_timestamp=create_timestamp,
+                    # buildstartdate=start_date_year, buildenddate=end_date_year,
+                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
+                )
+                IMPACTS_INDIRECTS_data.save()
+                print(ImpactsIndirects)
         except Exception as e:
             print(e)
 
-
-
-
-
-        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+        daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+        business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
         fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
         country_list = settings.COUNTRY_LIST
+
         print(pc_data)
         submit = 1
-        context={
-            'user_details':user_details,
-            'year_details':year_details,
-            'res_dct':res_dct,
-            'default_dropdown1':default_dropdown1,
-            'quarter_details':quarter_details,
-            'role':request.session.get('role'),
+        context = {
+            'user_details': user_details,
+            'year_details': year_details,
+            'res_dct': res_dct,
+            'default_dropdown1': default_dropdown1,
+            'quarter_details': quarter_details,
+            'role': request.session.get('role'),
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'start_date_year': request.session.get('start_date_year'),
@@ -4006,39 +4597,40 @@ def indirect_impact_fl(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'list_length': request.session.get('list_length'),
-            'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-            'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-            'el_data' : el_data,
-            'country_list' : country_list,
-            'pc_data' : pc_data,
-            'electricity_data':electricity_data,
-            'submit' : submit,
-            'camera_data' : camera_data,
-            'raw_data' : raw_data,
-            'fuel_data' : fuel_data,
-        } 
-        # if len(WhichParametersImplemented)>=1:
-        #  match WhichParametersImplemented[0]:
-        #         case 'stationary_combustion':
-        #             WhichParametersImplemented.pop(0)
-        #             return render(request,'indirect_impact_fl.html',context)
-        #         case 'mobile_combustion':
-        #             WhichParametersImplemented.pop(0)
-        #             return render(request,'indirect_impact_mc.html',context)
-        #         case 'electricity':
-        #             WhichParametersImplemented.pop(0)
-        #             return render(request,'indirect_impact_el.html',context)
-        #         case 'water':
-        #             WhichParametersImplemented.pop(0)
-        #             return render(request,'indirect_impact_wt.html',context) 
-        #         case 'paper':
-        #             WhichParametersImplemented.pop(0)
-        #             return render(request,'indirect_impact_paper.html',context)
-        #         case 'waste_material':
-        #             WhichParametersImplemented.pop(0)
-        #             return render(request,'indirect_impact_wt.html',context)
-        #         case 'raw_material':
-        #             WhichParametersImplemented.pop(0)
+            'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+            'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'submit': submit,
+            'daily_commute': daily_commute,
+            'business_travel': business_travel,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
+            'drone_data': drone_data,
+            'pc_data': pc_data,
+
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
+
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
+        }
         # import ipdb
         # ipdb.set_trace()
 
@@ -4048,131 +4640,128 @@ def indirect_impact_fl(request):
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
-            # if WhichUserEquipment[0]=='laptop':
-            #     return render(request,'di_laptop.html',context)
+        if len(user_equipment_render_list) >= 1:
+
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
 
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar.html', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
-                elif 'mobile_combustion':
+                    return render(request, 'indirect_impact_fl.html', context)
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
-                elif 'electricity':
+                    return render(request, 'indirect_impact_mc.html', context)
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
-                elif 'water':
+                    return render(request, 'indirect_impact_el.html', context)
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
-                elif 'paper':
+                    return render(request, 'indirect_impact_wt.html', context)
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
-                elif 'waste_material':
+                    return render(request, 'indirect_impact_paper.html', context)
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
 
-        # return render(request, 'indirect_impact_el.html',context)  
-    default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+        # return render(request, 'indirect_impact_el.html',context)
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
 
     # import ipdb
     # ipdb.set_trace()
-    list=request.session.get('list')
-    request.session['list']=list
-    role=request.session.get('role')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
-    totalyear_loop= request.session.get('totalyear_loop')
+    list = request.session.get('list')
+    request.session['list'] = list
+    role = request.session.get('role')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    totalyear_loop = request.session.get('totalyear_loop')
     start_date_year = request.session.get('start_date_year')
     for i in range(len(default_dropdown)):
         default_dropdown.insert(count2, count)
-        count+=1
-        count2+=2
+        count += 1
+        count2 += 2
     res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
     print(res_dct)
     # import ipdb
     # ipdb.set_trace()
-    default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-    year_details=['2020','2021'] 
-    quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-    user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',] 
+    default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    year_details = ['2020', '2021']
+    quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+    user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
-    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     print(camera_data)
     electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
     country_list = settings.COUNTRY_LIST
@@ -4184,11 +4773,38 @@ def indirect_impact_fl(request):
     print('=========================================================')
     print(fuel_data_list)
 
-
+    daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+    business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
     fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-    context={
-        'role':request.session.get('role'),
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
+
+    context = {
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -4196,49 +4812,72 @@ def indirect_impact_fl(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
-        'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-        'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-        'electricity_data': electricity_data,
-        'country_list' : country_list,
-        'submit' : submit,
-        'camera_data' : camera_data,
-        'raw_data' : raw_data,
-        'fuel_data' : fuel_data,
-    }
-    return render(request, 'indirect_impact_fl.html',context)
+        'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+        'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'submit': submit,
+        'country_list': country_list,
+        'daily_commute': daily_commute,
+        'business_travel': business_travel,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
+        'drone_data': drone_data,
 
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
+
+        'pc_data': pc_data,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
+    }
+    return render(request, 'indirect_impact_fl.html', context)
 
 
 def indirect_impact_mc(request):
-    if request.method=="POST":
+    if request.method == "POST":
         # import ipdb
         # ipdb.set_trace()
-        
-        role=request.session.get('role')
-        list=request.session.get('list')
-        print('list1 is',list)
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+
+        role = request.session.get('role')
+        list = request.session.get('list')
+        print('list1 is', list)
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
         print(role)
-        default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
         count = 1
         count2 = 1
         for i in range(len(default_dropdown)):
             default_dropdown.insert(count2, count)
-            count+=1
-            count2+=2
+            count += 1
+            count2 += 2
         res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
         print(res_dct)
         # import ipdb
         # ipdb.set_trace()
-        default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-        year_details=['2020','2021'] 
-        quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-        user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
-
-        
+        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+        year_details = ['2020', '2021']
+        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
         # indirect_impact_data = ImpactsIndirects.objects.all()
         # # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
@@ -4247,7 +4886,6 @@ def indirect_impact_mc(request):
         # #     ipdb.set_trace()
         # #     if i.get('subcategory') == transport_type[0]:
         # #         emissionfactor = i.get('emissionfactor')
-
 
         # try:
         #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
@@ -4276,13 +4914,13 @@ def indirect_impact_mc(request):
 
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-        context={
-            'user_details':user_details,
-            'year_details':year_details,
-            'res_dct':res_dct,
-            'default_dropdown1':default_dropdown1,
-            'quarter_details':quarter_details,
-            'role':request.session.get('role'),
+        context = {
+            'user_details': user_details,
+            'year_details': year_details,
+            'res_dct': res_dct,
+            'default_dropdown1': default_dropdown1,
+            'quarter_details': quarter_details,
+            'role': request.session.get('role'),
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'start_date_year': request.session.get('start_date_year'),
@@ -4290,9 +4928,9 @@ def indirect_impact_mc(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'list_length': request.session.get('list_length'),
-            'noofworkingdays_fuel' : request.session.get('noofworkingdays_fuel'),
-            'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-            'raw_data' : raw_data
+            'noofworkingdays_fuel': request.session.get('noofworkingdays_fuel'),
+            'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'raw_data': raw_data
         }
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
@@ -4300,133 +4938,133 @@ def indirect_impact_mc(request):
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
-          
-    default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
 
     # import ipdb
     # ipdb.set_trace()
-    list=request.session.get('list')
-    request.session['list']=list
-    role=request.session.get('role')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
-    totalyear_loop= request.session.get('totalyear_loop')
+    list = request.session.get('list')
+    request.session['list'] = list
+    role = request.session.get('role')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    totalyear_loop = request.session.get('totalyear_loop')
     start_date_year = request.session.get('start_date_year')
     for i in range(len(default_dropdown)):
         default_dropdown.insert(count2, count)
-        count+=1
-        count2+=2
+        count += 1
+        count2 += 2
     res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
     print(res_dct)
     # import ipdb
     # ipdb.set_trace()
-    default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-    year_details=['2020','2021'] 
-    quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-    user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',] 
+    default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    year_details = ['2020', '2021']
+    quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+    user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-    context={
-        'role':request.session.get('role'),
+    context = {
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -4434,44 +5072,41 @@ def indirect_impact_mc(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
-        'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-        'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-        'raw_data' : raw_data
+        'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+        'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'raw_data': raw_data
     }
-    return render(request, 'indirect_impact_mc.html',context)
-
-
-
+    return render(request, 'indirect_impact_mc.html', context)
 
 
 def indirect_impact_wt(request):
-    if request.method=="POST":
+    if request.method == "POST":
         # import ipdb
         # ipdb.set_trace()
-        
-        role=request.session.get('role')
-        list=request.session.get('list')
-        print('list1 is',list)
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+
+        role = request.session.get('role')
+        list = request.session.get('list')
+        print('list1 is', list)
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
         print(role)
-        default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
         count = 1
         count2 = 1
         for i in range(len(default_dropdown)):
             default_dropdown.insert(count2, count)
-            count+=1
-            count2+=2
+            count += 1
+            count2 += 2
         res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
         print(res_dct)
         # import ipdb
         # ipdb.set_trace()
-        default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-        year_details=['2020','2021'] 
-        quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-        user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
+        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+        year_details = ['2020', '2021']
+        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
         # indirect_impact_data = ImpactsIndirects.objects.all()
@@ -4481,7 +5116,6 @@ def indirect_impact_wt(request):
         # #     ipdb.set_trace()
         # #     if i.get('subcategory') == transport_type[0]:
         # #         emissionfactor = i.get('emissionfactor')
-
 
         # try:
         #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
@@ -4508,13 +5142,13 @@ def indirect_impact_wt(request):
         # except Exception as e:
         #     print(e)
 
-        context={
-            'user_details':user_details,
-            'year_details':year_details,
-            'res_dct':res_dct,
-            'default_dropdown1':default_dropdown1,
-            'quarter_details':quarter_details,
-            'role':request.session.get('role'),
+        context = {
+            'user_details': user_details,
+            'year_details': year_details,
+            'res_dct': res_dct,
+            'default_dropdown1': default_dropdown1,
+            'quarter_details': quarter_details,
+            'role': request.session.get('role'),
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'start_date_year': request.session.get('start_date_year'),
@@ -4522,145 +5156,142 @@ def indirect_impact_wt(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'list_length': request.session.get('list_length'),
-            'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-            'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-            'raw_data' : raw_data
-        } 
+            'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+            'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'raw_data': raw_data
+        }
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)  
-    default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
 
     # import ipdb
     # ipdb.set_trace()
-    list=request.session.get('list')
-    request.session['list']=list
-    role=request.session.get('role')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
-    totalyear_loop= request.session.get('totalyear_loop')
+    list = request.session.get('list')
+    request.session['list'] = list
+    role = request.session.get('role')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    totalyear_loop = request.session.get('totalyear_loop')
     start_date_year = request.session.get('start_date_year')
     for i in range(len(default_dropdown)):
         default_dropdown.insert(count2, count)
-        count+=1
-        count2+=2
+        count += 1
+        count2 += 2
     res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
     print(res_dct)
     # import ipdb
     # ipdb.set_trace()
-    default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-    year_details=['2020','2021'] 
-    quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-    user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',] 
-    
-
-    
+    default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    year_details = ['2020', '2021']
+    quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+    user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-    context={
-        'role':request.session.get('role'),
+    context = {
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -4668,42 +5299,42 @@ def indirect_impact_wt(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
-        'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-        'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-        'raw_data' : raw_data
+        'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+        'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'raw_data': raw_data
     }
-   
-    return render(request, 'indirect_impact_wt.html',context)
+
+    return render(request, 'indirect_impact_wt.html', context)
 
 
 def indirect_impact_waste(request):
-    if request.method=="POST":
+    if request.method == "POST":
         # import ipdb
         # ipdb.set_trace()
-        
-        role=request.session.get('role')
-        list=request.session.get('list')
-        print('list1 is',list)
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+
+        role = request.session.get('role')
+        list = request.session.get('list')
+        print('list1 is', list)
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
         print(role)
-        default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
         count = 1
         count2 = 1
         for i in range(len(default_dropdown)):
             default_dropdown.insert(count2, count)
-            count+=1
-            count2+=2
+            count += 1
+            count2 += 2
         res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
         print(res_dct)
         # import ipdb
         # ipdb.set_trace()
-        default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-        year_details=['2020','2021'] 
-        quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-        user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
+        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+        year_details = ['2020', '2021']
+        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
         # indirect_impact_data = ImpactsIndirects.objects.all()
@@ -4713,7 +5344,6 @@ def indirect_impact_waste(request):
         # #     ipdb.set_trace()
         # #     if i.get('subcategory') == transport_type[0]:
         # #         emissionfactor = i.get('emissionfactor')
-
 
         # try:
         #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
@@ -4740,13 +5370,13 @@ def indirect_impact_waste(request):
         # except Exception as e:
         #     print(e)
 
-        context={
-            'user_details':user_details,
-            'year_details':year_details,
-            'res_dct':res_dct,
-            'default_dropdown1':default_dropdown1,
-            'quarter_details':quarter_details,
-            'role':request.session.get('role'),
+        context = {
+            'user_details': user_details,
+            'year_details': year_details,
+            'res_dct': res_dct,
+            'default_dropdown1': default_dropdown1,
+            'quarter_details': quarter_details,
+            'role': request.session.get('role'),
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'start_date_year': request.session.get('start_date_year'),
@@ -4754,142 +5384,142 @@ def indirect_impact_waste(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'list_length': request.session.get('list_length'),
-            'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-            'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-            'raw_data' : raw_data
-        } 
+            'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+            'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'raw_data': raw_data
+        }
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)  
-    default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
 
     # import ipdb
     # ipdb.set_trace()
-    list=request.session.get('list')
-    request.session['list']=list
-    role=request.session.get('role')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
-    totalyear_loop= request.session.get('totalyear_loop')
+    list = request.session.get('list')
+    request.session['list'] = list
+    role = request.session.get('role')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    totalyear_loop = request.session.get('totalyear_loop')
     start_date_year = request.session.get('start_date_year')
     for i in range(len(default_dropdown)):
         default_dropdown.insert(count2, count)
-        count+=1
-        count2+=2
+        count += 1
+        count2 += 2
     res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
     print(res_dct)
     # import ipdb
     # ipdb.set_trace()
-    default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-    year_details=['2020','2021'] 
-    quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-    user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',] 
+    default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    year_details = ['2020', '2021']
+    quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+    user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-    context={
-        'role':request.session.get('role'),
+    context = {
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -4897,42 +5527,42 @@ def indirect_impact_waste(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
-        'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-        'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-        'raw_data' : raw_data,
+        'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+        'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'raw_data': raw_data,
     }
-   
-    return render(request, 'indirect_impact_waste.html',context)
+
+    return render(request, 'indirect_impact_waste.html', context)
 
 
 def indirect_impact_rm(request):
-    if request.method=="POST":
+    if request.method == "POST":
         # import ipdb
         # ipdb.set_trace()
-        
-        role=request.session.get('role')
-        list=request.session.get('list')
-        print('list1 is',list)
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+
+        role = request.session.get('role')
+        list = request.session.get('list')
+        print('list1 is', list)
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
         print(role)
-        default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
         count = 1
         count2 = 1
         for i in range(len(default_dropdown)):
             default_dropdown.insert(count2, count)
-            count+=1
-            count2+=2
+            count += 1
+            count2 += 2
         res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
         print(res_dct)
         # import ipdb
         # ipdb.set_trace()
-        default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-        year_details=['2020','2021'] 
-        quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-        user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
+        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+        year_details = ['2020', '2021']
+        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
         # indirect_impact_data = ImpactsIndirects.objects.all()
         # # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
@@ -4941,7 +5571,6 @@ def indirect_impact_rm(request):
         # #     ipdb.set_trace()
         # #     if i.get('subcategory') == transport_type[0]:
         # #         emissionfactor = i.get('emissionfactor')
-
 
         # try:
         #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
@@ -4968,13 +5597,13 @@ def indirect_impact_rm(request):
         # except Exception as e:
         #     print(e)
 
-        context={
-            'user_details':user_details,
-            'year_details':year_details,
-            'res_dct':res_dct,
-            'default_dropdown1':default_dropdown1,
-            'quarter_details':quarter_details,
-            'role':request.session.get('role'),
+        context = {
+            'user_details': user_details,
+            'year_details': year_details,
+            'res_dct': res_dct,
+            'default_dropdown1': default_dropdown1,
+            'quarter_details': quarter_details,
+            'role': request.session.get('role'),
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'start_date_year': request.session.get('start_date_year'),
@@ -4982,139 +5611,139 @@ def indirect_impact_rm(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'list_length': request.session.get('list_length'),
-            'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-            'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-            'raw_data' : raw_data
-        } 
+            'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+            'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'raw_data': raw_data
+        }
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)  
-    default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
 
     # import ipdb
     # ipdb.set_trace()
-    list=request.session.get('list')
-    request.session['list']=list
-    role=request.session.get('role')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
-    totalyear_loop= request.session.get('totalyear_loop')
+    list = request.session.get('list')
+    request.session['list'] = list
+    role = request.session.get('role')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    totalyear_loop = request.session.get('totalyear_loop')
     start_date_year = request.session.get('start_date_year')
     for i in range(len(default_dropdown)):
         default_dropdown.insert(count2, count)
-        count+=1
-        count2+=2
+        count += 1
+        count2 += 2
     res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
     print(res_dct)
     # import ipdb
     # ipdb.set_trace()
-    default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-    year_details=['2020','2021'] 
-    quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-    user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',] 
-    context={
-        'role':request.session.get('role'),
+    default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    year_details = ['2020', '2021']
+    quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+    user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+    context = {
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -5122,466 +5751,463 @@ def indirect_impact_rm(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
-        'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-        'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-        'raw_data' : raw_data
-    }
-   
-    return render(request, 'indirect_impact_rm.html',context)
-
-def indirect_impact_plastic(request):
-    if request.method=="POST":
-        # import ipdb
-        # ipdb.set_trace()
-        
-        role=request.session.get('role')
-        list=request.session.get('list')
-        print('list1 is',list)
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
-        start_date_year = request.session.get('start_date_year')
-        print(role)
-        default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
-        count = 1
-        count2 = 1
-        for i in range(len(default_dropdown)):
-            default_dropdown.insert(count2, count)
-            count+=1
-            count2+=2
-        res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
-        print(res_dct)
-        # import ipdb
-        # ipdb.set_trace()
-        default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-        year_details=['2020','2021'] 
-        quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-        user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
-
-
-        
-        # indirect_impact_data = ImpactsIndirects.objects.all()
-        # # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        # # for i in ref_parameters_list :
-        # #     import ipdb
-        # #     ipdb.set_trace()
-        # #     if i.get('subcategory') == transport_type[0]:
-        # #         emissionfactor = i.get('emissionfactor')
-
-
-        # try:
-        #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
-        #                                     projectname = request.session.get('name'),
-        #                                     # equipmentownership = vehical_owners,
-        #                                     # role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'Fuel - Stationary combustion',
-        #                                     # subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     totalcarbonfootprint = 20.0,
-        #                                     projid = request.session.get('roleid'),
-        #                                     # emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_INDIRECTS_data.save()
-        #             print(ImpactsIndirects)
-        # except Exception as e:
-        #     print(e)
-        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-        context={
-            'user_details':user_details,
-            'year_details':year_details,
-            'res_dct':res_dct,
-            'default_dropdown1':default_dropdown1,
-            'quarter_details':quarter_details,
-            'role':request.session.get('role'),
-            'list': request.session.get('list'),
-            'list_run': request.session.get('list_run'),
-            'start_date_year': request.session.get('start_date_year'),
-            'start_date_year_run': request.session.get('start_date_year_run'),
-            'totalyear_loop_run': request.session.get('totalyear_loop_run'),
-            'totalyear_loop': request.session.get('totalyear_loop'),
-            'list_length': request.session.get('list_length'),
-            'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-            'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-            'raw_data' : raw_data,
-        } 
-        user_equipment_render_list = request.session.get('user_equipment_render_list')
-        industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
-        indirect_render_list = request.session.get('indirect_render_list')
-
-        # import ipdb
-        # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
-            # if WhichUserEquipment[0]=='laptop':
-            #     return render(request,'di_laptop.html',context)
-            if user_equipment_render_list[0] == 'laptop':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
-            elif user_equipment_render_list[0] == 'pc':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
-            elif user_equipment_render_list[0] == 'tablet':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
-            elif user_equipment_render_list[0] == 'telephone':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
-            elif user_equipment_render_list[0] == 'projector':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
-            elif user_equipment_render_list[0] == 'monitor':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
-            elif user_equipment_render_list[0] == 'Video':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
-            else:
-                user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
-
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
-
-
-        else:
-            if len(indirect_render_list)>=1:
-
-                if indirect_render_list[0] == 'stationary_combustion':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
-                elif 'mobile_combustion':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
-                elif 'electricity':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
-                elif 'water':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
-                elif 'paper':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
-                elif 'waste_material':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
-                else:
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)  
-    default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
-    count = 1
-    count2 = 1
-
-    # import ipdb
-    # ipdb.set_trace()
-    list=request.session.get('list')
-    request.session['list']=list
-    role=request.session.get('role')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
-    totalyear_loop= request.session.get('totalyear_loop')
-    start_date_year = request.session.get('start_date_year')
-    for i in range(len(default_dropdown)):
-        default_dropdown.insert(count2, count)
-        count+=1
-        count2+=2
-    res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
-    print(res_dct)
-    # import ipdb
-    # ipdb.set_trace()
-    default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-    year_details=['2020','2021'] 
-    quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-    user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',] 
-
-
-    raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-
-    context={
-        'role':request.session.get('role'),
-        'list': request.session.get('list'),
-        'list_run': request.session.get('list_run'),
-        'start_date_year': request.session.get('start_date_year'),
-        'start_date_year_run': request.session.get('start_date_year_run'),
-        'totalyear_loop_run': request.session.get('totalyear_loop_run'),
-        'totalyear_loop': request.session.get('totalyear_loop'),
-        'list_length': request.session.get('list_length'),
-        'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-        'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-        'raw_data' : raw_data
-    }
-    return render(request, 'indirect_impact_plastic.html',context)
-
-def indirect_impact_paper(request):
-    if request.method=="POST":
-        # import ipdb
-        # ipdb.set_trace()
-        
-        role=request.session.get('role')
-        list=request.session.get('list')
-        print('list1 is',list)
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
-        start_date_year = request.session.get('start_date_year')
-        print(role)
-        default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
-        count = 1
-        count2 = 1
-        for i in range(len(default_dropdown)):
-            default_dropdown.insert(count2, count)
-            count+=1
-            count2+=2
-        res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
-        print(res_dct)
-        # import ipdb
-        # ipdb.set_trace()
-        default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-        year_details=['2020','2021'] 
-        quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-        user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
-
-        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-        # indirect_impact_data = ImpactsIndirects.objects.all()
-        # # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        # # for i in ref_parameters_list :
-        # #     import ipdb
-        # #     ipdb.set_trace()
-        # #     if i.get('subcategory') == transport_type[0]:
-        # #         emissionfactor = i.get('emissionfactor')
-
-
-        # try:
-        #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
-        #                                     projectname = request.session.get('name'),
-        #                                     # equipmentownership = vehical_owners,
-        #                                     # role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'Fuel - Stationary combustion',
-        #                                     # subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     totalcarbonfootprint = 20.0,
-        #                                     projid = request.session.get('roleid'),
-        #                                     # emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_INDIRECTS_data.save()
-        #             print(ImpactsIndirects)
-        # except Exception as e:
-        #     print(e)
-
-        context={
-            'user_details':user_details,
-            'year_details':year_details,
-            'res_dct':res_dct,
-            'default_dropdown1':default_dropdown1,
-            'quarter_details':quarter_details,
-            'role':request.session.get('role'),
-            'list': request.session.get('list'),
-            'list_run': request.session.get('list_run'),
-            'start_date_year': request.session.get('start_date_year'),
-            'start_date_year_run': request.session.get('start_date_year_run'),
-            'totalyear_loop_run': request.session.get('totalyear_loop_run'),
-            'totalyear_loop': request.session.get('totalyear_loop'),
-            'list_length': request.session.get('list_length'),
-            'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-            'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
-            'raw_data' : raw_data
-        } 
-        user_equipment_render_list = request.session.get('user_equipment_render_list')
-        industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
-        indirect_render_list = request.session.get('indirect_render_list')
-
-        # import ipdb
-        # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
-            # if WhichUserEquipment[0]=='laptop':
-            #     return render(request,'di_laptop.html',context)
-            if user_equipment_render_list[0] == 'laptop':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
-            elif user_equipment_render_list[0] == 'pc':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
-            elif user_equipment_render_list[0] == 'tablet':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
-            elif user_equipment_render_list[0] == 'telephone':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
-            elif user_equipment_render_list[0] == 'projector':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
-            elif user_equipment_render_list[0] == 'monitor':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
-            elif user_equipment_render_list[0] == 'Video':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
-            else:
-                user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
-
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
-
-
-        else:
-            if len(indirect_render_list)>=1:
-
-                if indirect_render_list[0] == 'stationary_combustion':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
-                elif 'mobile_combustion':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
-                elif 'electricity':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
-                elif 'water':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
-                elif 'paper':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
-                elif 'waste_material':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
-                else:
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)  
-    default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
-    count = 1
-    count2 = 1
-
-    # import ipdb
-    # ipdb.set_trace()
-    list=request.session.get('list')
-    request.session['list']=list
-    role=request.session.get('role')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
-    totalyear_loop= request.session.get('totalyear_loop')
-    start_date_year = request.session.get('start_date_year')
-    for i in range(len(default_dropdown)):
-        default_dropdown.insert(count2, count)
-        count+=1
-        count2+=2
-    res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
-    print(res_dct)
-    # import ipdb
-    # ipdb.set_trace()
-    default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-    year_details=['2020','2021'] 
-    quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-    user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',] 
-    raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-    context={
-        'role':request.session.get('role'),
-        'list': request.session.get('list'),
-        'list_run': request.session.get('list_run'),
-        'start_date_year': request.session.get('start_date_year'),
-        'start_date_year_run': request.session.get('start_date_year_run'),
-        'totalyear_loop_run': request.session.get('totalyear_loop_run'),
-        'totalyear_loop': request.session.get('totalyear_loop'),
-        'list_length': request.session.get('list_length'),
-        'noofworkingdays_drone' : request.session.get('noofworkingdays_drone'),
-        'noofworkingdays_monitor' : request.session.get('noofworkingdays_monitor'),
+        'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+        'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
         'raw_data': raw_data
     }
-    return render(request, 'indirect_impact_paper.html',context)
+
+    return render(request, 'indirect_impact_rm.html', context)
+
+
+def indirect_impact_plastic(request):
+    if request.method == "POST":
+        # import ipdb
+        # ipdb.set_trace()
+
+        role = request.session.get('role')
+        list = request.session.get('list')
+        print('list1 is', list)
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
+        start_date_year = request.session.get('start_date_year')
+        print(role)
+        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
+        count = 1
+        count2 = 1
+        for i in range(len(default_dropdown)):
+            default_dropdown.insert(count2, count)
+            count += 1
+            count2 += 2
+        res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
+        print(res_dct)
+        # import ipdb
+        # ipdb.set_trace()
+        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+        year_details = ['2020', '2021']
+        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+
+        # indirect_impact_data = ImpactsIndirects.objects.all()
+        # # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
+        # # for i in ref_parameters_list :
+        # #     import ipdb
+        # #     ipdb.set_trace()
+        # #     if i.get('subcategory') == transport_type[0]:
+        # #         emissionfactor = i.get('emissionfactor')
+
+        # try:
+        #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
+        #                                     projectname = request.session.get('name'),
+        #                                     # equipmentownership = vehical_owners,
+        #                                     # role = role,
+        #                                     # kmtravelledperday= buid_km_int[0],
+        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
+        #                                     category = 'Fuel - Stationary combustion',
+        #                                     # subcategory = transport_type[0],
+        #                                     phasetype ='run',
+        #                                     totalcarbonfootprint = 20.0,
+        #                                     projid = request.session.get('roleid'),
+        #                                     # emissionfactor = emissionfactor,
+        #                                     create_timestamp = create_timestamp,
+        #                                     update_timestamp = create_timestamp,
+        #                                     # typeoftransport = transport_type[0],
+        #                                     # workcountry = work_country
+        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
+        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
+        #             )
+        #             IMPACTS_INDIRECTS_data.save()
+        #             print(ImpactsIndirects)
+        # except Exception as e:
+        #     print(e)
+        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        context = {
+            'user_details': user_details,
+            'year_details': year_details,
+            'res_dct': res_dct,
+            'default_dropdown1': default_dropdown1,
+            'quarter_details': quarter_details,
+            'role': request.session.get('role'),
+            'list': request.session.get('list'),
+            'list_run': request.session.get('list_run'),
+            'start_date_year': request.session.get('start_date_year'),
+            'start_date_year_run': request.session.get('start_date_year_run'),
+            'totalyear_loop_run': request.session.get('totalyear_loop_run'),
+            'totalyear_loop': request.session.get('totalyear_loop'),
+            'list_length': request.session.get('list_length'),
+            'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+            'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'raw_data': raw_data,
+        }
+        user_equipment_render_list = request.session.get('user_equipment_render_list')
+        industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
+        indirect_render_list = request.session.get('indirect_render_list')
+
+        # import ipdb
+        # ipdb.set_trace()
+        if len(user_equipment_render_list) >= 1:
+
+            # if WhichUserEquipment[0]=='laptop':
+            #     return render(request,'di_laptop.html',context)
+            if user_equipment_render_list[0] == 'laptop':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_laptop.html', context)
+            elif user_equipment_render_list[0] == 'pc':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_pc.html', context)
+            elif user_equipment_render_list[0] == 'tablet':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_tablet.html', context)
+            elif user_equipment_render_list[0] == 'telephone':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_telephone.html', context)
+            elif user_equipment_render_list[0] == 'projector':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_printer.html', context)
+            elif user_equipment_render_list[0] == 'monitor':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_bt_speaker.html', context)
+            elif user_equipment_render_list[0] == 'Video':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_projector.html', context)
+            else:
+                user_equipment_render_list.pop(0)
+                return render(request, 'di_monitor.html', context)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+
+            return render(request, 'di_laptop.html', context)
+
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
+
+
+        else:
+            if len(indirect_render_list) >= 1:
+
+                if indirect_render_list[0] == 'stationary_combustion':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_fl.html', context)
+                elif 'mobile_combustion':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_mc.html', context)
+                elif 'electricity':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_el.html', context)
+                elif 'water':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_wt.html', context)
+                elif 'paper':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_paper.html', context)
+                elif 'waste_material':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_wt.html', context)
+                else:
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
+    count = 1
+    count2 = 1
+
+    # import ipdb
+    # ipdb.set_trace()
+    list = request.session.get('list')
+    request.session['list'] = list
+    role = request.session.get('role')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    totalyear_loop = request.session.get('totalyear_loop')
+    start_date_year = request.session.get('start_date_year')
+    for i in range(len(default_dropdown)):
+        default_dropdown.insert(count2, count)
+        count += 1
+        count2 += 2
+    res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
+    print(res_dct)
+    # import ipdb
+    # ipdb.set_trace()
+    default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    year_details = ['2020', '2021']
+    quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+    user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+
+    raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+
+    context = {
+        'role': request.session.get('role'),
+        'list': request.session.get('list'),
+        'list_run': request.session.get('list_run'),
+        'start_date_year': request.session.get('start_date_year'),
+        'start_date_year_run': request.session.get('start_date_year_run'),
+        'totalyear_loop_run': request.session.get('totalyear_loop_run'),
+        'totalyear_loop': request.session.get('totalyear_loop'),
+        'list_length': request.session.get('list_length'),
+        'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+        'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'raw_data': raw_data
+    }
+    return render(request, 'indirect_impact_plastic.html', context)
+
+
+def indirect_impact_paper(request):
+    if request.method == "POST":
+        # import ipdb
+        # ipdb.set_trace()
+
+        role = request.session.get('role')
+        list = request.session.get('list')
+        print('list1 is', list)
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
+        start_date_year = request.session.get('start_date_year')
+        print(role)
+        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
+        count = 1
+        count2 = 1
+        for i in range(len(default_dropdown)):
+            default_dropdown.insert(count2, count)
+            count += 1
+            count2 += 2
+        res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
+        print(res_dct)
+        # import ipdb
+        # ipdb.set_trace()
+        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+        year_details = ['2020', '2021']
+        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+
+        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        # indirect_impact_data = ImpactsIndirects.objects.all()
+        # # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
+        # # for i in ref_parameters_list :
+        # #     import ipdb
+        # #     ipdb.set_trace()
+        # #     if i.get('subcategory') == transport_type[0]:
+        # #         emissionfactor = i.get('emissionfactor')
+
+        # try:
+        #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
+        #                                     projectname = request.session.get('name'),
+        #                                     # equipmentownership = vehical_owners,
+        #                                     # role = role,
+        #                                     # kmtravelledperday= buid_km_int[0],
+        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
+        #                                     category = 'Fuel - Stationary combustion',
+        #                                     # subcategory = transport_type[0],
+        #                                     phasetype ='run',
+        #                                     totalcarbonfootprint = 20.0,
+        #                                     projid = request.session.get('roleid'),
+        #                                     # emissionfactor = emissionfactor,
+        #                                     create_timestamp = create_timestamp,
+        #                                     update_timestamp = create_timestamp,
+        #                                     # typeoftransport = transport_type[0],
+        #                                     # workcountry = work_country
+        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
+        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
+        #             )
+        #             IMPACTS_INDIRECTS_data.save()
+        #             print(ImpactsIndirects)
+        # except Exception as e:
+        #     print(e)
+
+        context = {
+            'user_details': user_details,
+            'year_details': year_details,
+            'res_dct': res_dct,
+            'default_dropdown1': default_dropdown1,
+            'quarter_details': quarter_details,
+            'role': request.session.get('role'),
+            'list': request.session.get('list'),
+            'list_run': request.session.get('list_run'),
+            'start_date_year': request.session.get('start_date_year'),
+            'start_date_year_run': request.session.get('start_date_year_run'),
+            'totalyear_loop_run': request.session.get('totalyear_loop_run'),
+            'totalyear_loop': request.session.get('totalyear_loop'),
+            'list_length': request.session.get('list_length'),
+            'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+            'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'raw_data': raw_data
+        }
+        user_equipment_render_list = request.session.get('user_equipment_render_list')
+        industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
+        indirect_render_list = request.session.get('indirect_render_list')
+
+        # import ipdb
+        # ipdb.set_trace()
+        if len(user_equipment_render_list) >= 1:
+
+            # if WhichUserEquipment[0]=='laptop':
+            #     return render(request,'di_laptop.html',context)
+            if user_equipment_render_list[0] == 'laptop':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_laptop.html', context)
+            elif user_equipment_render_list[0] == 'pc':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_pc.html', context)
+            elif user_equipment_render_list[0] == 'tablet':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_tablet.html', context)
+            elif user_equipment_render_list[0] == 'telephone':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_telephone.html', context)
+            elif user_equipment_render_list[0] == 'projector':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_printer.html', context)
+            elif user_equipment_render_list[0] == 'monitor':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_bt_speaker.html', context)
+            elif user_equipment_render_list[0] == 'Video':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_projector.html', context)
+            else:
+                user_equipment_render_list.pop(0)
+                return render(request, 'di_monitor.html', context)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+
+            return render(request, 'di_laptop.html', context)
+
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
+
+
+        else:
+            if len(indirect_render_list) >= 1:
+
+                if indirect_render_list[0] == 'stationary_combustion':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_fl.html', context)
+                elif 'mobile_combustion':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_mc.html', context)
+                elif 'electricity':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_el.html', context)
+                elif 'water':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_wt.html', context)
+                elif 'paper':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_paper.html', context)
+                elif 'waste_material':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_wt.html', context)
+                else:
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
+    count = 1
+    count2 = 1
+
+    # import ipdb
+    # ipdb.set_trace()
+    list = request.session.get('list')
+    request.session['list'] = list
+    role = request.session.get('role')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    totalyear_loop = request.session.get('totalyear_loop')
+    start_date_year = request.session.get('start_date_year')
+    for i in range(len(default_dropdown)):
+        default_dropdown.insert(count2, count)
+        count += 1
+        count2 += 2
+    res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
+    print(res_dct)
+    # import ipdb
+    # ipdb.set_trace()
+    default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    year_details = ['2020', '2021']
+    quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+    user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+    raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    context = {
+        'role': request.session.get('role'),
+        'list': request.session.get('list'),
+        'list_run': request.session.get('list_run'),
+        'start_date_year': request.session.get('start_date_year'),
+        'start_date_year_run': request.session.get('start_date_year_run'),
+        'totalyear_loop_run': request.session.get('totalyear_loop_run'),
+        'totalyear_loop': request.session.get('totalyear_loop'),
+        'list_length': request.session.get('list_length'),
+        'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+        'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'raw_data': raw_data
+    }
+    return render(request, 'indirect_impact_paper.html', context)
 
 
 def test_graph(request):
@@ -5647,22 +6273,21 @@ def error_500(request):
     return render(request, '500.html')
 
 
-
-def di_pc(request): 
-    if request.method == 'POST': 
+def di_pc(request):
+    if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
-        list=request.session.get('list')
+        list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
-        role=request.session.get('role')
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        role = request.session.get('role')
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
-        
-        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+
+        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
         # count = 1
         # count2 = 1
         # for i in range(len(default_dropdown)):
@@ -5675,10 +6300,9 @@ def di_pc(request):
         # ipdb.set_trace()
         # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
         # year_details=['2020','2021']
-        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
         # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
         role = request.session.get('role')
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -5686,7 +6310,7 @@ def di_pc(request):
         noofworkingdays_drone = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         # print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -5695,7 +6319,7 @@ def di_pc(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get(role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get(role[j - 1] + '_' + str(i)))
                 print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -5725,7 +6349,6 @@ def di_pc(request):
 
             noofworkingdays_build.append(Build_days_list)
             print('noofworkingdays_build', noofworkingdays_build)
-            
 
             # noofworkingdays_run.append(local_list)
             # print('noofworkingdays_run', noofworkingdays_run)
@@ -5733,19 +6356,17 @@ def di_pc(request):
 
             # noofworkingdays_drone.append(noofworkingdays_build)
             # print('noofworkingdays_drone', noofworkingdays_drone)
-            
 
             final_quater.append(quater_list)
             # print('final_quater', final_quater)
 
-
         final_quater = []
-        
+
         noofworkingdays_run = []
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -5754,7 +6375,7 @@ def di_pc(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get('bu_run_' + role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get('bu_run_' + role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -5788,7 +6409,6 @@ def di_pc(request):
 
             noofworkingdays_run.append(Build_days_list)
             print('noofworkingdays_run', noofworkingdays_run)
-           
 
             # noofworkingdays_monitor.append(noofworkingdays_build)
             # print('noofworkingdays_monitor', noofworkingdays_monitor)
@@ -5803,19 +6423,17 @@ def di_pc(request):
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
-        for k in range(1,len(role)+1):
-            # print(k)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
 
+        for k in range(1, len(role) + 1):
+            # print(k)
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -5824,61 +6442,59 @@ def di_pc(request):
 
         # import ipdb
         # ipdb.set_trace()
-        noofworkingdays_build2=[]
+        noofworkingdays_build2 = []
         noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
-        noofworkingdays_build1 =[int(i) for i in noofworkingdays_build1]
+        noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
         if noofworkingdays_build1:
             noofworkingdays_build1 = sum(noofworkingdays_build1)
             noofworkingdays_build2.append(noofworkingdays_build1)
-        print('noofworkingdays_build',noofworkingdays_build)
-        print('noofworkingdays_build1',noofworkingdays_build1)
+        print('noofworkingdays_build', noofworkingdays_build)
+        print('noofworkingdays_build1', noofworkingdays_build1)
 
-
-        noofworkingdays_run2=[]
+        noofworkingdays_run2 = []
         noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
-        noofworkingdays_run1 =[int(i) for i in noofworkingdays_run1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
         if noofworkingdays_run1:
             noofworkingdays_run1 = sum(noofworkingdays_run1)
             noofworkingdays_run1.append(noofworkingdays_run1)
         # print('noofworkingdays_build',noofworkingdays_build)
-        print('noofworkingdays_run2',noofworkingdays_run2)
+        print('noofworkingdays_run2', noofworkingdays_run2)
 
         direct_impact_data = ImpactsDirects.objects.all()
-        ref_parameters_list_desktop = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        
-        
-        emission_factor_list =[]
+        ref_parameters_list_desktop = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                        subcategory='Desktop').values()
+
+        emission_factor_list = []
         for i in transport_type:
-            tt = ref_parameters_list_desktop.filter(name= i).values()
+            tt = ref_parameters_list_desktop.filter(name=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['carbonfootprintperday'])
             emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
-            print('emission_factor_list',emission_factor_list)
+            print('emission_factor_list', emission_factor_list)
 
-        totalcarbonfootprint_desktop_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in range(len(noofworkingdays_build2))]
-        print('totalcarbonfootprint_desktop_build',totalcarbonfootprint_desktop_build)
+        totalcarbonfootprint_desktop_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
+                                              range(len(noofworkingdays_build2))]
+        print('totalcarbonfootprint_desktop_build', totalcarbonfootprint_desktop_build)
 
-        emission_factor_list_run =[]
+        emission_factor_list_run = []
         for i in transport_type_run:
-            tt = ref_parameters_list_desktop.filter(name= i).values()
+            tt = ref_parameters_list_desktop.filter(name=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['carbonfootprintperday'])
             emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
-            print('emission_factor_list_run',emission_factor_list_run)
+            print('emission_factor_list_run', emission_factor_list_run)
 
-        totalcarbonfootprint_desktop_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in range(len(noofworkingdays_build2))]
-        print('totalcarbonfootprint_desktop_build',totalcarbonfootprint_desktop_build)
-
-
+        totalcarbonfootprint_desktop_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
+                                            range(len(noofworkingdays_build2))]
+        print('totalcarbonfootprint_desktop_build', totalcarbonfootprint_desktop_build)
 
         # for i in ref_parameters_list :
         #     import ipdb
         #     ipdb.set_trace()
         #     if i.get('subcategory') == transport_type[0]:
         #         emissionfactor = i.get('emissionfactor')
-
 
         # try:
         #         for i in len()
@@ -5906,21 +6522,22 @@ def di_pc(request):
         # except Exception as e:
         #     print(e)
 
-
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-        
-        context={
+
+        context = {
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -5934,21 +6551,19 @@ def di_pc(request):
             'start_date_year_run': request.session.get('start_date_year_run'),
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
-            'daily_commute' : daily_commute,
+            'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'tablet_data' : tablet_data,
-            'raw_data' : raw_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'tablet_data': tablet_data,
+            'raw_data': raw_data,
         }
-
-
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
@@ -5956,110 +6571,110 @@ def di_pc(request):
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
 
-    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
-    role=request.session.get('role')
-    totalyear_loop= request.session.get('totalyear_loop')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
+    role = request.session.get('role')
+    totalyear_loop = request.session.get('totalyear_loop')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
     start_date_year = request.session.get('start_date_year')
     # for i in range(len(default_dropdown)):
     #     default_dropdown.insert(count2, count)
@@ -6071,30 +6686,31 @@ def di_pc(request):
     # ipdb.set_trace()
     # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
     # year_details=['2020','2021']
-    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
     # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
 
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-    context={
+    context = {
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
         # 'default_dropdown1':default_dropdown1,
         # 'quarter_details':quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
-        'role':request.session.get('role'),
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -6102,37 +6718,38 @@ def di_pc(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'daily_commute' : daily_commute,
+        'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data':laptop_data,
-        'monitor_data':monitor_data,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
-        'telephone_data' : telephone_data,
-        'printer_data' : printer_data,
-        'projector_data' : projector_data,
-        'lidar_data' : lidar_data,
-        'tablet_data' : tablet_data,
-        'raw_data' : raw_data
-       
-    }
-    return render(request, 'di_pc.html',context)
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'tablet_data': tablet_data,
+        'raw_data': raw_data
 
-def di_tablet(request): 
-    if request.method == 'POST': 
+    }
+    return render(request, 'di_pc.html', context)
+
+
+def di_tablet(request):
+    if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
-        list=request.session.get('list')
+        list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
-        role=request.session.get('role')
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        role = request.session.get('role')
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
-        
-        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+
+        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
         # count = 1
         # count2 = 1
         # for i in range(len(default_dropdown)):
@@ -6145,10 +6762,9 @@ def di_tablet(request):
         # ipdb.set_trace()
         # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
         # year_details=['2020','2021']
-        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
         # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
         role = request.session.get('role')
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -6156,7 +6772,7 @@ def di_tablet(request):
         noofworkingdays_drone = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         # print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -6165,7 +6781,7 @@ def di_tablet(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get(role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get(role[j - 1] + '_' + str(i)))
                 print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -6195,7 +6811,6 @@ def di_tablet(request):
 
             noofworkingdays_build.append(Build_days_list)
             print('noofworkingdays_build', noofworkingdays_build)
-            
 
             # noofworkingdays_run.append(local_list)
             # print('noofworkingdays_run', noofworkingdays_run)
@@ -6203,11 +6818,9 @@ def di_tablet(request):
 
             # noofworkingdays_drone.append(noofworkingdays_build)
             # print('noofworkingdays_drone', noofworkingdays_drone)
-            
 
             final_quater.append(quater_list)
             # print('final_quater', final_quater)
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -6215,7 +6828,7 @@ def di_tablet(request):
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -6224,7 +6837,7 @@ def di_tablet(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get('bu_run_' + role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get('bu_run_' + role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -6258,7 +6871,6 @@ def di_tablet(request):
 
             noofworkingdays_run.append(Build_days_list)
             print('noofworkingdays_run', noofworkingdays_run)
-           
 
             # noofworkingdays_monitor.append(noofworkingdays_build)
             # print('noofworkingdays_monitor', noofworkingdays_monitor)
@@ -6271,36 +6883,33 @@ def di_tablet(request):
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
-        for k in range(1,len(role)+1):
+
+        for k in range(1, len(role) + 1):
             # print(k)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
-
-
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
         direct_impact_data = ImpactsDirects.objects.all()
-        ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        for i in ref_parameters_list :
+        ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                subcategory='Desktop').values()
+        for i in ref_parameters_list:
             # import ipdb
             # ipdb.set_trace()
             if i.get('subcategory') == transport_type[0]:
                 emissionfactor = i.get('emissionfactor')
 
-
         # try:
         #             IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            # projectname = request.session.get('name'),
+        # projectname = request.session.get('name'),
         #                                     equipmentownership = vehical_owners,
         #                                     role = role,
         #                                     # kmtravelledperday= buid_km_int[0],
@@ -6322,19 +6931,21 @@ def di_tablet(request):
         #     print(e)
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-        context={
+        context = {
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -6349,21 +6960,19 @@ def di_tablet(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'daily_commute' : daily_commute,
+            'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'tablet_data' : tablet_data,
-            'raw_data' : raw_data
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'tablet_data': tablet_data,
+            'raw_data': raw_data
         }
-
-   
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
@@ -6371,109 +6980,109 @@ def di_tablet(request):
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
-    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
-    role=request.session.get('role')
-    totalyear_loop= request.session.get('totalyear_loop')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
+    role = request.session.get('role')
+    totalyear_loop = request.session.get('totalyear_loop')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
     start_date_year = request.session.get('start_date_year')
     # for i in range(len(default_dropdown)):
     #     default_dropdown.insert(count2, count)
@@ -6485,30 +7094,31 @@ def di_tablet(request):
     # ipdb.set_trace()
     # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
     # year_details=['2020','2021']
-    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
     # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
 
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-    context={
+    context = {
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
         # 'default_dropdown1':default_dropdown1,
         # 'quarter_details':quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
-        'role':request.session.get('role'),
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -6516,37 +7126,38 @@ def di_tablet(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'daily_commute' : daily_commute,
+        'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data':laptop_data,
-        'monitor_data':monitor_data,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
-        'telephone_data' : telephone_data,
-        'printer_data' : printer_data,
-        'projector_data' : projector_data,
-        'lidar_data' : lidar_data,
-        'tablet_data' : tablet_data,
-        'raw_data' : raw_data,
-       
-    }
-    return render(request, 'di_tablet.html',context)
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'tablet_data': tablet_data,
+        'raw_data': raw_data,
 
-def di_telephone(request): 
-    if request.method == 'POST': 
+    }
+    return render(request, 'di_tablet.html', context)
+
+
+def di_telephone(request):
+    if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
-        list=request.session.get('list')
+        list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
-        role=request.session.get('role')
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        role = request.session.get('role')
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
-        
-        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+
+        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
         # count = 1
         # count2 = 1
         # for i in range(len(default_dropdown)):
@@ -6559,10 +7170,9 @@ def di_telephone(request):
         # ipdb.set_trace()
         # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
         # year_details=['2020','2021']
-        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
         # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
         role = request.session.get('role')
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -6570,7 +7180,7 @@ def di_telephone(request):
         noofworkingdays_drone = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         # print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -6579,7 +7189,7 @@ def di_telephone(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get(role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get(role[j - 1] + '_' + str(i)))
                 print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -6609,7 +7219,6 @@ def di_telephone(request):
 
             noofworkingdays_build.append(Build_days_list)
             print('noofworkingdays_build', noofworkingdays_build)
-            
 
             # noofworkingdays_run.append(local_list)
             # print('noofworkingdays_run', noofworkingdays_run)
@@ -6617,11 +7226,9 @@ def di_telephone(request):
 
             # noofworkingdays_drone.append(noofworkingdays_build)
             # print('noofworkingdays_drone', noofworkingdays_drone)
-            
 
             final_quater.append(quater_list)
             # print('final_quater', final_quater)
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -6629,7 +7236,7 @@ def di_telephone(request):
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -6638,7 +7245,7 @@ def di_telephone(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get('bu_run_' + role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get('bu_run_' + role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -6672,7 +7279,6 @@ def di_telephone(request):
 
             noofworkingdays_run.append(Build_days_list)
             print('noofworkingdays_run', noofworkingdays_run)
-           
 
             # noofworkingdays_monitor.append(noofworkingdays_build)
             # print('noofworkingdays_monitor', noofworkingdays_monitor)
@@ -6681,23 +7287,21 @@ def di_telephone(request):
             final_quater.append(quater_list)
             print('final_quater', final_quater)
 
-
         vehical_owners = []
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
-        for k in range(1,len(role)+1):
+
+        for k in range(1, len(role) + 1):
             # print(k)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -6710,10 +7314,9 @@ def di_telephone(request):
         #     if i.get('subcategory') == transport_type[0]:
         #         emissionfactor = i.get('emissionfactor')
 
-
         # try:
         #             IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            # projectname = request.session.get('name'),
+        # projectname = request.session.get('name'),
         #                                     equipmentownership = vehical_owners,
         #                                     role = role,
         #                                     # kmtravelledperday= buid_km_int[0],
@@ -6734,23 +7337,24 @@ def di_telephone(request):
         # except Exception as e:
         #     print(e)
 
-
         # import ipdb
         # ipdb.set_trace()
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()   
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-        
-        context={
+
+        context = {
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -6765,129 +7369,129 @@ def di_telephone(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'daily_commute' : daily_commute,
+            'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'tablet_data' : tablet_data,
-            'raw_data' : raw_data
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'tablet_data': tablet_data,
+            'raw_data': raw_data
         }
-        
+
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
-    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
-    role=request.session.get('role')
-    totalyear_loop= request.session.get('totalyear_loop')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
+    role = request.session.get('role')
+    totalyear_loop = request.session.get('totalyear_loop')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
     start_date_year = request.session.get('start_date_year')
     # for i in range(len(default_dropdown)):
     #     default_dropdown.insert(count2, count)
@@ -6899,30 +7503,31 @@ def di_telephone(request):
     # ipdb.set_trace()
     # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
     # year_details=['2020','2021']
-    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
     # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
 
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-    context={
+    context = {
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
         # 'default_dropdown1':default_dropdown1,
         # 'quarter_details':quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
-        'role':request.session.get('role'),
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -6930,36 +7535,37 @@ def di_telephone(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'daily_commute' : daily_commute,
+        'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data':laptop_data,
-        'monitor_data':monitor_data,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
-        'telephone_data' : telephone_data,
-        'printer_data' : printer_data,
-        'projector_data' : projector_data,
-        'lidar_data' : lidar_data,
-        'tablet_data' : tablet_data,
-        'raw_data' : raw_data,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'tablet_data': tablet_data,
+        'raw_data': raw_data,
     }
-    return render(request, 'di_telephone.html',context)
+    return render(request, 'di_telephone.html', context)
 
-def di_printer(request): 
-    if request.method == 'POST': 
+
+def di_printer(request):
+    if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
-        list=request.session.get('list')
+        list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
-        role=request.session.get('role')
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        role = request.session.get('role')
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
-        
-        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+
+        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
         # count = 1
         # count2 = 1
         # for i in range(len(default_dropdown)):
@@ -6972,10 +7578,9 @@ def di_printer(request):
         # ipdb.set_trace()
         # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
         # year_details=['2020','2021']
-        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
         # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
         role = request.session.get('role')
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -6983,7 +7588,7 @@ def di_printer(request):
         noofworkingdays_drone = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         # print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -6992,7 +7597,7 @@ def di_printer(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get(role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get(role[j - 1] + '_' + str(i)))
                 print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -7022,7 +7627,6 @@ def di_printer(request):
 
             noofworkingdays_build.append(Build_days_list)
             print('noofworkingdays_build', noofworkingdays_build)
-            
 
             # noofworkingdays_run.append(local_list)
             # print('noofworkingdays_run', noofworkingdays_run)
@@ -7030,11 +7634,9 @@ def di_printer(request):
 
             # noofworkingdays_drone.append(noofworkingdays_build)
             # print('noofworkingdays_drone', noofworkingdays_drone)
-            
 
             final_quater.append(quater_list)
             # print('final_quater', final_quater)
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -7042,7 +7644,7 @@ def di_printer(request):
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -7051,7 +7653,7 @@ def di_printer(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get('bu_run_' + role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get('bu_run_' + role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -7085,7 +7687,6 @@ def di_printer(request):
 
             noofworkingdays_run.append(Build_days_list)
             print('noofworkingdays_run', noofworkingdays_run)
-           
 
             # noofworkingdays_monitor.append(noofworkingdays_build)
             # print('noofworkingdays_monitor', noofworkingdays_monitor)
@@ -7094,23 +7695,21 @@ def di_printer(request):
             final_quater.append(quater_list)
             print('final_quater', final_quater)
 
-
         vehical_owners = []
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
-        for k in range(1,len(role)+1):
+
+        for k in range(1, len(role) + 1):
             # print(k)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -7123,10 +7722,9 @@ def di_printer(request):
         #     if i.get('subcategory') == transport_type[0]:
         #         emissionfactor = i.get('emissionfactor')
 
-
         # try:
         #             IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            # projectname = request.session.get('name'),
+        # projectname = request.session.get('name'),
         #                                     equipmentownership = vehical_owners,
         #                                     role = role,
         #                                     # kmtravelledperday= buid_km_int[0],
@@ -7147,21 +7745,22 @@ def di_printer(request):
         # except Exception as e:
         #     print(e)
 
-
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-        context={
+        context = {
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -7176,129 +7775,129 @@ def di_printer(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'daily_commute' : daily_commute,
+            'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'tablet_data' : tablet_data,
-            'raw_data' : raw_data
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'tablet_data': tablet_data,
+            'raw_data': raw_data
         }
-        
+
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
-    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
-    role=request.session.get('role')
-    totalyear_loop= request.session.get('totalyear_loop')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
+    role = request.session.get('role')
+    totalyear_loop = request.session.get('totalyear_loop')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
     start_date_year = request.session.get('start_date_year')
     # for i in range(len(default_dropdown)):
     #     default_dropdown.insert(count2, count)
@@ -7310,30 +7909,31 @@ def di_printer(request):
     # ipdb.set_trace()
     # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
     # year_details=['2020','2021']
-    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
     # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
 
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-    context={
+    context = {
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
         # 'default_dropdown1':default_dropdown1,
         # 'quarter_details':quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
-        'role':request.session.get('role'),
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -7341,37 +7941,38 @@ def di_printer(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'daily_commute' : daily_commute,
+        'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data':laptop_data,
-        'monitor_data':monitor_data,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
-        'telephone_data' : telephone_data,
-        'printer_data' : printer_data,
-        'projector_data' : projector_data,
-        'lidar_data' : lidar_data,
-        'tablet_data' : tablet_data,
-        'raw_data' : raw_data,
-       
-    }
-    return render(request, 'di_printer.html',context)
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'tablet_data': tablet_data,
+        'raw_data': raw_data,
 
-def di_bt_speaker(request): 
-    if request.method == 'POST': 
+    }
+    return render(request, 'di_printer.html', context)
+
+
+def di_bt_speaker(request):
+    if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
-        list=request.session.get('list')
+        list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
-        role=request.session.get('role')
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        role = request.session.get('role')
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
-        
-        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+
+        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
         # count = 1
         # count2 = 1
         # for i in range(len(default_dropdown)):
@@ -7384,10 +7985,9 @@ def di_bt_speaker(request):
         # ipdb.set_trace()
         # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
         # year_details=['2020','2021']
-        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
         # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
         role = request.session.get('role')
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -7395,7 +7995,7 @@ def di_bt_speaker(request):
         noofworkingdays_drone = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         # print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -7404,7 +8004,7 @@ def di_bt_speaker(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get(role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get(role[j - 1] + '_' + str(i)))
                 print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -7434,7 +8034,6 @@ def di_bt_speaker(request):
 
             noofworkingdays_build.append(Build_days_list)
             print('noofworkingdays_build', noofworkingdays_build)
-            
 
             # noofworkingdays_run.append(local_list)
             # print('noofworkingdays_run', noofworkingdays_run)
@@ -7442,11 +8041,9 @@ def di_bt_speaker(request):
 
             # noofworkingdays_drone.append(noofworkingdays_build)
             # print('noofworkingdays_drone', noofworkingdays_drone)
-            
 
             final_quater.append(quater_list)
             # print('final_quater', final_quater)
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -7454,7 +8051,7 @@ def di_bt_speaker(request):
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -7463,7 +8060,7 @@ def di_bt_speaker(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get('bu_run_' + role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get('bu_run_' + role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -7497,7 +8094,6 @@ def di_bt_speaker(request):
 
             noofworkingdays_run.append(Build_days_list)
             print('noofworkingdays_run', noofworkingdays_run)
-           
 
             # noofworkingdays_monitor.append(noofworkingdays_build)
             # print('noofworkingdays_monitor', noofworkingdays_monitor)
@@ -7510,35 +8106,33 @@ def di_bt_speaker(request):
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
-        for k in range(1,len(role)+1):
-            # print(k)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
 
+        for k in range(1, len(role) + 1):
+            # print(k)
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
         direct_impact_data = ImpactsDirects.objects.all()
-        ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        for i in ref_parameters_list :
+        ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                subcategory='Printer').values()
+        for i in ref_parameters_list:
             # import ipdb
             # ipdb.set_trace()
             if i.get('subcategory') == transport_type[0]:
                 emissionfactor = i.get('emissionfactor')
 
-
         # try:
         #             IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            # projectname = request.session.get('name'),
+        # projectname = request.session.get('name'),
         #                                     equipmentownership = vehical_owners,
         #                                     role = role,
         #                                     # kmtravelledperday= buid_km_int[0],
@@ -7560,19 +8154,21 @@ def di_bt_speaker(request):
         #     print(e)
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-        
-        context={
+
+        context = {
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -7587,129 +8183,129 @@ def di_bt_speaker(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'daily_commute' : daily_commute,
+            'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'tablet_data' : tablet_data,
-            'raw_data' : raw_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'tablet_data': tablet_data,
+            'raw_data': raw_data,
         }
-        
+
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
-    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
-    role=request.session.get('role')
-    totalyear_loop= request.session.get('totalyear_loop')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
+    role = request.session.get('role')
+    totalyear_loop = request.session.get('totalyear_loop')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
     start_date_year = request.session.get('start_date_year')
     # for i in range(len(default_dropdown)):
     #     default_dropdown.insert(count2, count)
@@ -7721,29 +8317,30 @@ def di_bt_speaker(request):
     # ipdb.set_trace()
     # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
     # year_details=['2020','2021']
-    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
     # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
 
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
 
-    context={
+    context = {
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
         # 'default_dropdown1':default_dropdown1,
         # 'quarter_details':quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
-        'role':request.session.get('role'),
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -7751,36 +8348,37 @@ def di_bt_speaker(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'daily_commute' : daily_commute,
+        'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data':laptop_data,
-        'monitor_data':monitor_data,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
-        'telephone_data' : telephone_data,
-        'printer_data' : printer_data,
-        'projector_data' : projector_data,
-        'lidar_data' : lidar_data,
-        'tablet_data' : tablet_data,
-        'raw_data' : raw_data,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'tablet_data': tablet_data,
+        'raw_data': raw_data,
     }
-    return render(request, 'di_bt_speaker.html',context)
+    return render(request, 'di_bt_speaker.html', context)
 
-def di_projector(request): 
-    if request.method == 'POST': 
+
+def di_projector(request):
+    if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
-        list=request.session.get('list')
+        list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
-        role=request.session.get('role')
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        role = request.session.get('role')
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
-        
-        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+
+        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
         # count = 1
         # count2 = 1
         # for i in range(len(default_dropdown)):
@@ -7793,10 +8391,9 @@ def di_projector(request):
         # ipdb.set_trace()
         # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
         # year_details=['2020','2021']
-        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
         # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
         role = request.session.get('role')
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -7804,7 +8401,7 @@ def di_projector(request):
         noofworkingdays_drone = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         # print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -7813,7 +8410,7 @@ def di_projector(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get(role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get(role[j - 1] + '_' + str(i)))
                 print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -7843,7 +8440,6 @@ def di_projector(request):
 
             noofworkingdays_build.append(Build_days_list)
             print('noofworkingdays_build', noofworkingdays_build)
-            
 
             # noofworkingdays_run.append(local_list)
             # print('noofworkingdays_run', noofworkingdays_run)
@@ -7851,11 +8447,9 @@ def di_projector(request):
 
             # noofworkingdays_drone.append(noofworkingdays_build)
             # print('noofworkingdays_drone', noofworkingdays_drone)
-            
 
             final_quater.append(quater_list)
             # print('final_quater', final_quater)
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -7863,7 +8457,7 @@ def di_projector(request):
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -7872,7 +8466,7 @@ def di_projector(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get('bu_run_' + role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get('bu_run_' + role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -7906,7 +8500,6 @@ def di_projector(request):
 
             noofworkingdays_run.append(Build_days_list)
             print('noofworkingdays_run', noofworkingdays_run)
-           
 
             # noofworkingdays_monitor.append(noofworkingdays_build)
             # print('noofworkingdays_monitor', noofworkingdays_monitor)
@@ -7919,22 +8512,20 @@ def di_projector(request):
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
-        for k in range(1,len(role)+1):
+
+        for k in range(1, len(role) + 1):
             # print(k)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
-
 
         # direct_impact_data = ImpactsDirects.objects.all()
         # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
@@ -7944,10 +8535,9 @@ def di_projector(request):
         #     if i.get('subcategory') == transport_type[0]:
         #         emissionfactor = i.get('emissionfactor')
 
-
         # try:
         #             IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            # projectname = request.session.get('name'),
+        # projectname = request.session.get('name'),
         #                                     equipmentownership = vehical_owners,
         #                                     role = role,
         #                                     # kmtravelledperday= buid_km_int[0],
@@ -7968,20 +8558,21 @@ def di_projector(request):
         # except Exception as e:
         #     print(e)
 
-
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-        context={
+        context = {
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -7996,129 +8587,129 @@ def di_projector(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'daily_commute' : daily_commute,
+            'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'tablet_data' : tablet_data,
-            'raw_data' : raw_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'tablet_data': tablet_data,
+            'raw_data': raw_data,
         }
-        
+
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
-    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
-    role=request.session.get('role')
-    totalyear_loop= request.session.get('totalyear_loop')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
+    role = request.session.get('role')
+    totalyear_loop = request.session.get('totalyear_loop')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
     start_date_year = request.session.get('start_date_year')
     # for i in range(len(default_dropdown)):
     #     default_dropdown.insert(count2, count)
@@ -8130,30 +8721,31 @@ def di_projector(request):
     # ipdb.set_trace()
     # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
     # year_details=['2020','2021']
-    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
     # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
 
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-    context={
+    context = {
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
         # 'default_dropdown1':default_dropdown1,
         # 'quarter_details':quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
-        'role':request.session.get('role'),
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -8161,26 +8753,24 @@ def di_projector(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'raw_data' : raw_data
+        'raw_data': raw_data
     }
-    return render(request, 'di_projector.html',context)
+    return render(request, 'di_projector.html', context)
 
-def di_camera(request): 
-    if request.method == 'POST': 
+
+def di_camera(request):
+    if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
-        list=request.session.get('list')
+        list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
-        role=request.session.get('role')
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        role = request.session.get('role')
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
-        
-        
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -8188,7 +8778,7 @@ def di_camera(request):
         noofworkingdays_drone = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         # print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -8197,7 +8787,7 @@ def di_camera(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get(role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get(role[j - 1] + '_' + str(i)))
                 print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -8227,7 +8817,6 @@ def di_camera(request):
 
             noofworkingdays_build.append(Build_days_list)
             print('noofworkingdays_build', noofworkingdays_build)
-            
 
             # noofworkingdays_run.append(local_list)
             # print('noofworkingdays_run', noofworkingdays_run)
@@ -8235,11 +8824,9 @@ def di_camera(request):
 
             # noofworkingdays_drone.append(noofworkingdays_build)
             # print('noofworkingdays_drone', noofworkingdays_drone)
-            
 
             final_quater.append(quater_list)
             # print('final_quater', final_quater)
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -8247,7 +8834,7 @@ def di_camera(request):
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -8256,7 +8843,7 @@ def di_camera(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get('bu_run_' + role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get('bu_run_' + role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -8290,7 +8877,6 @@ def di_camera(request):
 
             noofworkingdays_run.append(Build_days_list)
             print('noofworkingdays_run', noofworkingdays_run)
-           
 
             # noofworkingdays_monitor.append(noofworkingdays_build)
             # print('noofworkingdays_monitor', noofworkingdays_monitor)
@@ -8305,23 +8891,21 @@ def di_camera(request):
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
-        for k in range(1,len(role)+1):
+
+        for k in range(1, len(role) + 1):
             # print(k)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
-        
         # direct_impact_data = ImpactsDirects.objects.all()
         # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
         # for i in ref_parameters_list :
@@ -8330,10 +8914,9 @@ def di_camera(request):
         #     if i.get('subcategory') == transport_type[0]:
         #         emissionfactor = i.get('emissionfactor')
 
-
         # try:
         #             IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            # projectname = request.session.get('name'),
+        # projectname = request.session.get('name'),
         #                                     equipmentownership = vehical_owners,
         #                                     role = role,
         #                                     # kmtravelledperday= buid_km_int[0],
@@ -8354,26 +8937,28 @@ def di_camera(request):
         # except Exception as e:
         #     print(e)
 
-
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
         # print('camera_data',camera_data)
         fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
         electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
-        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-        context={
-           
+        context = {
+
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'role': request.session.get('role'),
@@ -8383,22 +8968,22 @@ def di_camera(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'sensor_data' : sensor_data,
-            'daily_commute' : daily_commute,
+            'sensor_data': sensor_data,
+            'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'tablet_data' : tablet_data,
-            'electricity_data' :electricity_data,
-            'fuel_data' : fuel_data,
-            'camerat_data' : camera_data,
-            'raw_data' : raw_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'tablet_data': tablet_data,
+            'electricity_data': electricity_data,
+            'fuel_data': fuel_data,
+            'camerat_data': camera_data,
+            'raw_data': raw_data,
         }
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
@@ -8406,135 +8991,135 @@ def di_camera(request):
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
-        
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+
         # return render(request, 'di_connected_sensor.html',context)
-    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
-    role=request.session.get('role')
-    totalyear_loop= request.session.get('totalyear_loop')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
+    role = request.session.get('role')
+    totalyear_loop = request.session.get('totalyear_loop')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
     start_date_year = request.session.get('start_date_year')
 
-
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
     fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
     electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
-    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Camera').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-
-    context={
+    context = {
         'totalyear_loop': request.session.get('totalyear_loop'),
-        'role':request.session.get('role'),
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -8542,41 +9127,42 @@ def di_camera(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'sensor_data' : sensor_data,
-        'daily_commute' : daily_commute,
+        'sensor_data': sensor_data,
+        'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data':laptop_data,
-        'monitor_data':monitor_data,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
-        'telephone_data' : telephone_data,
-        'printer_data' : printer_data,
-        'projector_data' : projector_data,
-        'lidar_data' : lidar_data,
-        'tablet_data' : tablet_data,
-        'electricity_data' :electricity_data,
-        'fuel_data' : fuel_data,
-        'camerat_data' : camera_data,
-        'raw_data' : raw_data,
-       
-    }
-    return render(request, 'di_camera.html',context)
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'tablet_data': tablet_data,
+        'electricity_data': electricity_data,
+        'fuel_data': fuel_data,
+        'camerat_data': camera_data,
+        'raw_data': raw_data,
 
-def di_connected_sensor(request): 
-    if request.method == 'POST': 
+    }
+    return render(request, 'di_camera.html', context)
+
+
+def di_connected_sensor(request):
+    if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
-        list=request.session.get('list')
+        list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
-        role=request.session.get('role')
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        role = request.session.get('role')
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
-        
-        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+
+        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
         # count = 1
         # count2 = 1
         # for i in range(len(default_dropdown)):
@@ -8589,10 +9175,9 @@ def di_connected_sensor(request):
         # ipdb.set_trace()
         # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
         # year_details=['2020','2021']
-        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
         # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
         role = request.session.get('role')
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -8600,7 +9185,7 @@ def di_connected_sensor(request):
         noofworkingdays_drone = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         # print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -8609,7 +9194,7 @@ def di_connected_sensor(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get(role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get(role[j - 1] + '_' + str(i)))
                 print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -8639,7 +9224,6 @@ def di_connected_sensor(request):
 
             noofworkingdays_build.append(Build_days_list)
             print('noofworkingdays_build', noofworkingdays_build)
-            
 
             # noofworkingdays_run.append(local_list)
             # print('noofworkingdays_run', noofworkingdays_run)
@@ -8647,11 +9231,9 @@ def di_connected_sensor(request):
 
             # noofworkingdays_drone.append(noofworkingdays_build)
             # print('noofworkingdays_drone', noofworkingdays_drone)
-            
 
             final_quater.append(quater_list)
             # print('final_quater', final_quater)
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -8659,7 +9241,7 @@ def di_connected_sensor(request):
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -8668,7 +9250,7 @@ def di_connected_sensor(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get('bu_run_' + role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get('bu_run_' + role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -8702,7 +9284,6 @@ def di_connected_sensor(request):
 
             noofworkingdays_run.append(Build_days_list)
             print('noofworkingdays_run', noofworkingdays_run)
-           
 
             # noofworkingdays_monitor.append(noofworkingdays_build)
             # print('noofworkingdays_monitor', noofworkingdays_monitor)
@@ -8717,35 +9298,33 @@ def di_connected_sensor(request):
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
-        for k in range(1,len(role)+1):
+
+        for k in range(1, len(role) + 1):
             # print(k)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
-        
         direct_impact_data = ImpactsDirects.objects.all()
-        ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        for i in ref_parameters_list :
+        ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                subcategory='Printer').values()
+        for i in ref_parameters_list:
             # import ipdb
             # ipdb.set_trace()
             if i.get('subcategory') == transport_type[0]:
                 emissionfactor = i.get('emissionfactor')
 
-
         # try:
         #             IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            # projectname = request.session.get('name'),
+        # projectname = request.session.get('name'),
         #                                     equipmentownership = vehical_owners,
         #                                     role = role,
         #                                     # kmtravelledperday= buid_km_int[0],
@@ -8766,22 +9345,24 @@ def di_connected_sensor(request):
         # except Exception as e:
         #     print(e)
 
-
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-        context={
+        context = {
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -8796,130 +9377,130 @@ def di_connected_sensor(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'sensor_data' : sensor_data,
-            'daily_commute' : daily_commute,
+            'sensor_data': sensor_data,
+            'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'tablet_data' : tablet_data,
-            'raw_data' : raw_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'tablet_data': tablet_data,
+            'raw_data': raw_data,
         }
-        
+
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
-    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
-    role=request.session.get('role')
-    totalyear_loop= request.session.get('totalyear_loop')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
+    role = request.session.get('role')
+    totalyear_loop = request.session.get('totalyear_loop')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
     start_date_year = request.session.get('start_date_year')
     # for i in range(len(default_dropdown)):
     #     default_dropdown.insert(count2, count)
@@ -8931,31 +9512,33 @@ def di_connected_sensor(request):
     # ipdb.set_trace()
     # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
     # year_details=['2020','2021']
-    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
     # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
 
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-    context={
+    context = {
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
         # 'default_dropdown1':default_dropdown1,
         # 'quarter_details':quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
-        'role':request.session.get('role'),
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -8963,38 +9546,39 @@ def di_connected_sensor(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'sensor_data' : sensor_data,
-        'daily_commute' : daily_commute,
+        'sensor_data': sensor_data,
+        'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data':laptop_data,
-        'monitor_data':monitor_data,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
-        'telephone_data' : telephone_data,
-        'printer_data' : printer_data,
-        'projector_data' : projector_data,
-        'lidar_data' : lidar_data,
-        'tablet_data' : tablet_data,
-        'raw_data' : raw_data,
-       
-    }
-    return render(request, 'di_connected_sensor.html',context)
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'tablet_data': tablet_data,
+        'raw_data': raw_data,
 
-def di_lidar(request): 
-    if request.method == 'POST': 
+    }
+    return render(request, 'di_connected_sensor.html', context)
+
+
+def di_lidar(request):
+    if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
-        list=request.session.get('list')
+        list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
         WhichParametersImplemented = request.session.get('parameters_implemented')
-        role=request.session.get('role')
-        totalyear_loop_run= request.session.get('totalyear_loop_run')
-        start_date_year_run= request.session.get('start_date_year_run')
-        totalyear_loop= request.session.get('totalyear_loop')
+        role = request.session.get('role')
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
-        
-        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+
+        # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
         # count = 1
         # count2 = 1
         # for i in range(len(default_dropdown)):
@@ -9007,10 +9591,9 @@ def di_lidar(request):
         # ipdb.set_trace()
         # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
         # year_details=['2020','2021']
-        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+        # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
         # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
         role = request.session.get('role')
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -9018,7 +9601,7 @@ def di_lidar(request):
         noofworkingdays_drone = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         # print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -9027,7 +9610,7 @@ def di_lidar(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get(role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get(role[j - 1] + '_' + str(i)))
                 print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -9057,7 +9640,6 @@ def di_lidar(request):
 
             noofworkingdays_build.append(Build_days_list)
             print('noofworkingdays_build', noofworkingdays_build)
-            
 
             # noofworkingdays_run.append(local_list)
             # print('noofworkingdays_run', noofworkingdays_run)
@@ -9065,11 +9647,9 @@ def di_lidar(request):
 
             # noofworkingdays_drone.append(noofworkingdays_build)
             # print('noofworkingdays_drone', noofworkingdays_drone)
-            
 
             final_quater.append(quater_list)
             # print('final_quater', final_quater)
-
 
         final_quater = []
         noofworkingdays_build = []
@@ -9077,7 +9657,7 @@ def di_lidar(request):
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
-        list_length= request.session.get('list_length')
+        list_length = request.session.get('list_length')
         print(list_length)
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
@@ -9086,7 +9666,7 @@ def di_lidar(request):
             local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
-                Build_days_list.append(request.POST.get('bu_run_' + role[j-1] + '_' + str(i)))
+                Build_days_list.append(request.POST.get('bu_run_' + role[j - 1] + '_' + str(i)))
                 # print('Build_days_list', Build_days_list)
                 if Build_days_list == ['']:
                     Build_days_list = ['0']
@@ -9120,7 +9700,6 @@ def di_lidar(request):
 
             noofworkingdays_run.append(Build_days_list)
             print('noofworkingdays_run', noofworkingdays_run)
-           
 
             # noofworkingdays_monitor.append(noofworkingdays_build)
             # print('noofworkingdays_monitor', noofworkingdays_monitor)
@@ -9135,36 +9714,32 @@ def di_lidar(request):
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
-    
-        
-        for k in range(1,len(role)+1):
-            # print(k)
-            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k-1]))
-            print('vehical',vehical_owners)
-            transport_type.append(request.POST.get('type_transport_' + role[k-1]))
-            print('transport_type',transport_type)
-            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k-1]))
-            print('vehical_owners_run',vehical_owners_run)
-            transport_type_run.append(request.POST.get('type_transport_run_' + role[k-1]))
-            print('transport_type_run',transport_type_run)
 
+        for k in range(1, len(role) + 1):
+            # print(k)
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
-        
         direct_impact_data = ImpactsDirects.objects.all()
-        ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Lidar').values()
-        for i in ref_parameters_list :
+        ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Lidar').values()
+        for i in ref_parameters_list:
             # import ipdb
             # ipdb.set_trace()
             if i.get('subcategory') == transport_type[0]:
                 emissionfactor = i.get('emissionfactor')
 
-
         # try:
         #             IMPACTS_DIRECTS_data = ImpactsDirects(
-                                            # projectname = request.session.get('name'),
+        # projectname = request.session.get('name'),
         #                                     equipmentownership = vehical_owners,
         #                                     role = role,
         #                                     # kmtravelledperday= buid_km_int[0],
@@ -9188,20 +9763,23 @@ def di_lidar(request):
         country_list = settings.COUNTRY_LIST
         electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
         # print(electricity_data)
-        context={
+        context = {
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -9216,132 +9794,132 @@ def di_lidar(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'electricity_data' : electricity_data,
-            'country_list' :country_list,
-            'sensor_data' : sensor_data,
-            'daily_commute' : daily_commute,
+            'electricity_data': electricity_data,
+            'country_list': country_list,
+            'sensor_data': sensor_data,
+            'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data':laptop_data,
-            'monitor_data':monitor_data,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
-            'telephone_data' : telephone_data,
-            'printer_data' : printer_data,
-            'projector_data' : projector_data,
-            'lidar_data' : lidar_data,
-            'tablet_data' : tablet_data,
-            'raw_data' : raw_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'tablet_data': tablet_data,
+            'raw_data': raw_data,
         }
-        
+
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list)>=1:
-            
+        if len(user_equipment_render_list) >= 1:
+
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_laptop.html',context)
+                return render(request, 'di_laptop.html', context)
             elif user_equipment_render_list[0] == 'pc':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_pc.html',context)
+                return render(request, 'di_pc.html', context)
             elif user_equipment_render_list[0] == 'tablet':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_tablet.html',context)
+                return render(request, 'di_tablet.html', context)
             elif user_equipment_render_list[0] == 'telephone':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_telephone.html',context)
+                return render(request, 'di_telephone.html', context)
             elif user_equipment_render_list[0] == 'projector':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_printer.html',context)
+                return render(request, 'di_printer.html', context)
             elif user_equipment_render_list[0] == 'monitor':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_bt_speaker.html',context)
+                return render(request, 'di_bt_speaker.html', context)
             elif user_equipment_render_list[0] == 'Video':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request,'di_projector.html',context)
+                return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request,'di_monitor.html',context)
+                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
 
-            return render(request, 'di_laptop.html',context)
-       
-        elif len(industrial_equipment_render_list)>=1:
+            return render(request, 'di_laptop.html', context)
 
-                if industrial_equipment_render_list[0] == 'drone':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_drone.html',context)
-                elif industrial_equipment_render_list[0] == 'camera':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_camera.html',context)
-                elif industrial_equipment_render_list[0] == 'sensor':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_connected_sensor.html',context)
-                elif industrial_equipment_render_list[0] == 'lidar':
-                    industrial_equipment_render_list.pop(0)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                    return render(request,'di_lidar',context) 
-                else :
-                    industrial_equipment_render_list.pop(0)
-                    return render(request,'di_raspberrypi.html',context)
-                    request.session['industrial_equipment_render_list'] =industrial_equipment_render_list
-                return render(request, 'di_drone.html',context)
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                return render(request, 'di_raspberrypi.html', context)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+            return render(request, 'di_drone.html', context)
 
 
         else:
-            if len(indirect_render_list)>=1:
+            if len(indirect_render_list) >= 1:
 
                 if indirect_render_list[0] == 'stationary_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_fl.html',context)
+                    return render(request, 'indirect_impact_fl.html', context)
                 elif 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_mc.html',context)
+                    return render(request, 'indirect_impact_mc.html', context)
                 elif 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_el.html',context)
+                    return render(request, 'indirect_impact_el.html', context)
                 elif 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context) 
+                    return render(request, 'indirect_impact_wt.html', context)
                 elif 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_paper.html',context)
+                    return render(request, 'indirect_impact_paper.html', context)
                 elif 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_wt.html',context)
+                    return render(request, 'indirect_impact_wt.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request,'indirect_impact_rm.html',context)
-                return render(request, 'di_drone.html',context)
-    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]   
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
-    role=request.session.get('role')
-    totalyear_loop= request.session.get('totalyear_loop')
-    totalyear_loop_run= request.session.get('totalyear_loop_run')
-    start_date_year_run= request.session.get('start_date_year_run')
+    role = request.session.get('role')
+    totalyear_loop = request.session.get('totalyear_loop')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
     start_date_year = request.session.get('start_date_year')
     # for i in range(len(default_dropdown)):
     #     default_dropdown.insert(count2, count)
@@ -9353,32 +9931,34 @@ def di_lidar(request):
     # ipdb.set_trace()
     # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
     # year_details=['2020','2021']
-    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4'] 
+    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
     # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
 
     electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Desktop').values()
-    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Tablet').values()
-    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
-    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
-    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Lidar').values()
-    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
-    context={
-        'user_details':user_details,
-        'year_details':year_details,
-        'res_dct':res_dct,
-        'default_dropdown1':default_dropdown1,
-        'quarter_details':quarter_details,
+    context = {
+        'user_details': user_details,
+        'year_details': year_details,
+        'res_dct': res_dct,
+        'default_dropdown1': default_dropdown1,
+        'quarter_details': quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
-        'role':request.session.get('role'),
+        'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -9386,28 +9966,28 @@ def di_lidar(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'electricity_data' : electricity_data,
-        'country_list' :country_list,
-        'sensor_data' : sensor_data,
-        'daily_commute' : daily_commute,
+        'electricity_data': electricity_data,
+        'country_list': country_list,
+        'sensor_data': sensor_data,
+        'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data':laptop_data,
-        'monitor_data':monitor_data,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
-        'telephone_data' : telephone_data,
-        'printer_data' : printer_data,
-        'projector_data' : projector_data,
-        'lidar_data' : lidar_data,
-        'tablet_data' : tablet_data,
-        'raw_data' : raw_data,
-       
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'tablet_data': tablet_data,
+        'raw_data': raw_data,
+
     }
-    return render(request, 'di_lidar.html',context)
+    return render(request, 'di_lidar.html', context)
+
 
 def di_raspberrypi(request):
     return render(request, 'di_raspberrypi.html')
-
 
 
 def detailed_view_cmo(request):
@@ -9427,7 +10007,7 @@ def detailed_view_cmo(request):
     # dis = 0.044
     iis = 0.564
     ni = dis + iis
-    roe = iis/dis
+    roe = iis / dis
     # status = counts.keys()
     # status_count = counts.values()
     savco2 = savingsco2()
@@ -9439,37 +10019,37 @@ def detailed_view_cmo(request):
     nicy = idcy['totalcarbonfootprint__sum'] + iidcy['totalcarbonfootprint__sum']
     curyrempcnt = CompanyDetails.objects.filter(year=curr_year).values_list('noofemployees', flat=True)
     curyrempcnt = curyrempcnt[0]
-    avgco2emp = nicy/curyrempcnt
-    avgidemp = idcy['totalcarbonfootprint__sum']/curyrempcnt
-    avgiidemp = iidcy['totalcarbonfootprint__sum']/curyrempcnt
+    avgco2emp = nicy / curyrempcnt
+    avgidemp = idcy['totalcarbonfootprint__sum'] / curyrempcnt
+    avgiidemp = iidcy['totalcarbonfootprint__sum'] / curyrempcnt
     turnovercuryr = CompanyDetails.objects.filter(year=curr_year).values_list('turnover', flat=True)
     turnovercuryr = turnovercuryr[0]
 
-    directimpactproj = dis/projects_count
+    directimpactproj = dis / projects_count
 
     context = {
-        'projects_count' : projects_count,
+        'projects_count': projects_count,
         'status_list': Status_list,
         'counts': counts,
         'dis': dis,
         'iis': iis,
         'ni': round(ni),
-        'roe': round(roe,0),
+        'roe': round(roe, 0),
         # 'savco2': round(savco2*iis,2),
         # 'gain' : round(savco2/gain, 2),
         'idcy': idcy['totalcarbonfootprint__sum'],
         'iidcy': iidcy['totalcarbonfootprint__sum'],
-        'avgco2emp': round(avgco2emp,2),
-        'avgco2proj': round(nicy/turnovercuryr,2),
-        'avgco2turnover': round(nicy/turnovercuryr,2),
-        'avgidemp' : avgidemp,
-        'avgiidemp' : avgiidemp,
-        'directimpactproj': round(directimpactproj,2),
-        'directimpcuryremp' : round(idcy['totalcarbonfootprint__sum']/curyrempcnt,2),
-        'directimpcuryturnover' : round(iidcy['totalcarbonfootprint__sum']/turnovercuryr,2),
-        'indirectimpactproj': round(iis/projects_count, 2),
-        'indirectimpcuryremp' : round(iidcy['totalcarbonfootprint__sum']/curyrempcnt,2),
-        'indirectimpcuryturnover' : round(iidcy['totalcarbonfootprint__sum']/turnovercuryr,2),
+        'avgco2emp': round(avgco2emp, 2),
+        'avgco2proj': round(nicy / turnovercuryr, 2),
+        'avgco2turnover': round(nicy / turnovercuryr, 2),
+        'avgidemp': avgidemp,
+        'avgiidemp': avgiidemp,
+        'directimpactproj': round(directimpactproj, 2),
+        'directimpcuryremp': round(idcy['totalcarbonfootprint__sum'] / curyrempcnt, 2),
+        'directimpcuryturnover': round(iidcy['totalcarbonfootprint__sum'] / turnovercuryr, 2),
+        'indirectimpactproj': round(iis / projects_count, 2),
+        'indirectimpcuryremp': round(iidcy['totalcarbonfootprint__sum'] / curyrempcnt, 2),
+        'indirectimpcuryturnover': round(iidcy['totalcarbonfootprint__sum'] / turnovercuryr, 2),
     }
     return render(request, 'detailed_view_cmo.html', context)
 
@@ -9514,18 +10094,18 @@ def direct_impact_score():
 def indirect_impact_score():
     return ImpactsIndirects.objects.aggregate(Sum('totalcarbonfootprint'))
 
+
 def curyearimpacts():
     today = date.today()
     curr_year = today.year
-    impactsdirect = ImpactsDirects.objects.filter(year = curr_year)
-    impactsindirect = ImpactsIndirects.objects.filter(year = curr_year)
-    id_curryr=impactsdirect.aggregate(Sum('totalcarbonfootprint'))
-    iid_curryr=impactsdirect.aggregate(Sum('totalcarbonfootprint'))
-    return id_curryr,iid_curryr
+    impactsdirect = ImpactsDirects.objects.filter(year=curr_year)
+    impactsindirect = ImpactsIndirects.objects.filter(year=curr_year)
+    id_curryr = impactsdirect.aggregate(Sum('totalcarbonfootprint'))
+    iid_curryr = impactsdirect.aggregate(Sum('totalcarbonfootprint'))
+    return id_curryr, iid_curryr
 
 
 def view_detailed_result(request):
-
     user_equipment_list = request.session.get('WhichUserEquipment_list')
     industrial_equipment_list = request.session.get('WhichIndustrialEquipment_list')
     parameters_implemented_list = request.session.get('WhichParametersImplemented_list')
@@ -9600,7 +10180,6 @@ def view_detailed_result(request):
         impact_indirect_video_projector = direct_impact_all_data.filter(subcategory='Video projector')
     except Exception as e:
         print('Error occured during getting data in local', e)
-
 
     # indirect_impact_all_data = ImpactsIndirects.objects.filter(projid='149')
 
@@ -9809,6 +10388,7 @@ def project_status():
     }
     return result_dict
 
+
 def draft_duplicate_project(request):
     project_id = request.GET.get('id')
     project_id_split = project_id.split('_')[2]
@@ -9832,7 +10412,7 @@ def draft_mark_as_complete_project(request):
     print('Mark as complete project id is', project_id_split)
     return render(request, 'index.html', context)
 
-	
+
 def draft_delete_project(request):
     context_data = get_index_context_data(request)
     context = {
@@ -9843,7 +10423,6 @@ def draft_delete_project(request):
     project_id_split = project_id.split('_')[2]
     print('Deleting project id is', project_id_split)
     return render(request, 'index.html', context)
-
 
 
 # def complete_delete_project(request):
@@ -9899,9 +10478,12 @@ def get_index_context_data(request):
     dict_count = 1
     for items in pro_details:
         session_dict['session_dict_{}'.format(dict_count)] = items.__dict__
-        session_dict.get('session_dict_{}'.format(dict_count))['_state'] = str(session_dict.get('session_dict_{}'.format(dict_count))['_state'])
-        session_dict.get('session_dict_{}'.format(dict_count))['create_timestamp'] = session_dict.get('session_dict_{}'.format(dict_count))['create_timestamp'].strftime("%d %B %Y")
-        session_dict.get('session_dict_{}'.format(dict_count))['update_timestamp'] = session_dict.get('session_dict_{}'.format(dict_count))['update_timestamp'].strftime("%d %B %Y")
+        session_dict.get('session_dict_{}'.format(dict_count))['_state'] = str(
+            session_dict.get('session_dict_{}'.format(dict_count))['_state'])
+        session_dict.get('session_dict_{}'.format(dict_count))['create_timestamp'] = \
+        session_dict.get('session_dict_{}'.format(dict_count))['create_timestamp'].strftime("%d %B %Y")
+        session_dict.get('session_dict_{}'.format(dict_count))['update_timestamp'] = \
+        session_dict.get('session_dict_{}'.format(dict_count))['update_timestamp'].strftime("%d %B %Y")
         dict_count += 1
     # import ipdb
     # ipdb.set_trace()
@@ -9920,17 +10502,27 @@ def get_index_context_data(request):
         list_data_direct.append(i.__dict__)
     total_count = 0
     for i in data_direct:
-        list_data_direct[total_count]['indirect_carbonfootprint'] = data_indirect_footprint[total_count].get('totalcarbonfootprint')
-        list_data_direct[total_count]['Net_impact'] = data_indirect_footprint[total_count].get('totalcarbonfootprint') + data_direct_totalfootprint[total_count].get('totalcarbonfootprint')
-        list_data_direct[total_count]['roe'] = round(data_direct_totalfootprint[total_count].get('totalcarbonfootprint') / list_data_direct[total_count]['Net_impact'], 2)
+        list_data_direct[total_count]['indirect_carbonfootprint'] = data_indirect_footprint[total_count].get(
+            'totalcarbonfootprint')
+        list_data_direct[total_count]['Net_impact'] = data_indirect_footprint[total_count].get('totalcarbonfootprint') + \
+                                                      data_direct_totalfootprint[total_count].get(
+                                                          'totalcarbonfootprint')
+        list_data_direct[total_count]['roe'] = round(
+            data_direct_totalfootprint[total_count].get('totalcarbonfootprint') / list_data_direct[total_count][
+                'Net_impact'], 2)
         total_count += 1
 
     dict_count_direct = 1
     for items_direct in pro_detail_direct:
         session_dict_direct['session_dict_direct{}'.format(dict_count_direct)] = items_direct
-        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['_state'] = str(session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['_state'])
-        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['create_timestamp'] = session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['create_timestamp'].strftime("%d %B %Y")
-        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['update_timestamp'] = session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['update_timestamp'].strftime("%d %B %Y")
+        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['_state'] = str(
+            session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['_state'])
+        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['create_timestamp'] = \
+        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['create_timestamp'].strftime(
+            "%d %B %Y")
+        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['update_timestamp'] = \
+        session_dict_direct.get('session_dict_direct{}'.format(dict_count_direct))['update_timestamp'].strftime(
+            "%d %B %Y")
         dict_count_direct += 1
     # import ipdb
     # ipdb.set_trace()
@@ -9939,9 +10531,14 @@ def get_index_context_data(request):
     dict_count_indirect = 1
     for items_indirect in pro_detail_indirect:
         session_dict_indirect['session_dict_indirect{}'.format(dict_count_indirect)] = items_indirect
-        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['_state'] = str(session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['_state'])
-        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['create_timestamp'] = session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['create_timestamp'].strftime("%d %B %Y")
-        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['update_timestamp'] = session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['update_timestamp'].strftime("%d %B %Y")
+        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['_state'] = str(
+            session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['_state'])
+        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['create_timestamp'] = \
+        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['create_timestamp'].strftime(
+            "%d %B %Y")
+        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['update_timestamp'] = \
+        session_dict_indirect.get('session_dict_indirect{}'.format(dict_count_indirect))['update_timestamp'].strftime(
+            "%d %B %Y")
         dict_count_direct += 1
     # import ipdb
     # ipdb.set_trace()
@@ -9952,7 +10549,8 @@ def get_index_context_data(request):
 
     for items_in_direct in list_data_direct:
         session_dict_in_direct['session_dict_in_direct{}'.format(dict_count_in_direct)] = items_in_direct
-        session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'] = str(session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'])
+        session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'] = str(
+            session_dict_in_direct.get('session_dict_in_direct{}'.format(dict_count_in_direct))['_state'])
         dict_count_in_direct += 1
 
     print('session_dict_in_direct:', session_dict_in_direct)
@@ -9979,10 +10577,14 @@ def custom_add_data(request):
     i = [1, 2]
     if name and category:
         try:
-            save_data_in_custom = RefCarbonfootprint(name=name, category=category, subcategory=subcategory, emissionfactor=emission_factor,
-                                                     unit=unit, lcrecycling=lifecycle, lcusage=use_phase_emission, typeofimpact=type_of_impact,
+            save_data_in_custom = RefCarbonfootprint(name=name, category=category, subcategory=subcategory,
+                                                     emissionfactor=emission_factor,
+                                                     unit=unit, lcrecycling=lifecycle, lcusage=use_phase_emission,
+                                                     typeofimpact=type_of_impact,
                                                      lifespanyrs=lifespan, carbonfootprintperday=carbon_footprints,
-                                                     projectusingef=project_using_this, create_timestamp=create_timestamp, update_timestamp=create_timestamp, scope=scope)
+                                                     projectusingef=project_using_this,
+                                                     create_timestamp=create_timestamp,
+                                                     update_timestamp=create_timestamp, scope=scope)
             save_data_in_custom.save()
             print('Custom emission factor data has been saved')
         except Exception as e:
