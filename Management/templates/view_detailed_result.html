@@ -270,6 +270,7 @@ var barChart_Indirect = new Chart(ctx_indirect, {
 })
 
 
+
 var ctx5 = document.getElementById('stacked2')
 var barChart5 = new Chart(ctx5, {
   type: 'bar',
@@ -338,6 +339,51 @@ var barChart_second = new Chart(second_screen, {
    }
 
 })
+
+var tree_chart1 = document.getElementById('TreeChart1').getContext('2d');
+    var myChart = new Chart(tree_chart1, {
+        type: 'treemap',
+        data: {
+            labels: ['Root Node', 'Child Node 1', 'Child Node 2', 'Child Node 3', 'Child Node 4'],
+            datasets: [{
+                label: 'Tree Graph',
+                data: [1, 2, 3, 4, 5],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#AEC6CF', '#36A2EB'],
+                borderColor: '#000',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+
+var tree_chart2 = document.getElementById('TreeChart2').getContext('2d');
+    var myChart = new Chart(tree_chart2, {
+        type: 'treemap',
+        data: {
+            labels: ['Root Node', 'Child Node 1', 'Child Node 2', 'Child Node 3', 'Child Node 4'],
+            datasets: [{
+                label: 'Tree Graph',
+                data: [1, 2, 3, 4, 5],
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#AEC6CF', '#36A2EB'],
+                borderColor: '#000',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
 
 
 new Chart(document.getElementById("bubble-chart"), {
@@ -472,6 +518,7 @@ Plotly.newPlot('Tree2', data_tree2, layout2)
    }
 
 </script>
+
 
 <script>
     function edit_complete(edit_complete_id){
@@ -745,8 +792,9 @@ function mySearchFunction() {
                             </tr>
                             <tr>
                               <th scope="row" style="background-color: #34373D">People</th>
+                                {% for i in total_build_year %}
                                     <td>{{sum_of_people}}</td>
-                                    <td></td>
+                                {% endfor %}
                             </tr>
                             <tr>
                               <th scope="row" style="background-color: #34373D">User Equipment</th>
@@ -856,7 +904,7 @@ function mySearchFunction() {
                                       <option value="audi">2024</option>
                                     </select>
                             <div style="height: 210px; margin-left: 25px; width: 42%; margin-top: 60px; position: absolute; background-color: #23272E;">
-                                <canvas id="bubble-chart" width="450" height="200"></canvas>
+                                <canvas id="TreeChart1" width="400" height="200"></canvas>
                             </div>
                         </div>
                 </div>
@@ -925,7 +973,7 @@ function mySearchFunction() {
                                       <option value="audi">2024</option>
                                     </select>
                             <div style="height: 210px; margin-left: 25px; width: 42%; margin-top: 60px; position: absolute; background-color: #23272E;">
-                                <div id="Tree2"></div>
+                                <canvas id="TreeChart2" width="400" height="200"></canvas>
                             </div>
                         </div>
                 </div>

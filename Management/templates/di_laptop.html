@@ -263,7 +263,7 @@
                     <option class="di_option" value="Owned">Owned</option></td> 
                 <td class="load_cell">
                       <select class="di_select" name="work_country_{{i}}">
-                        {% for i in country_list %}
+                        {% for i in year_list %}
                           <option style="background-color: #34373D;" value="{{i}}">{{i}}</option>
                         {% endfor %}
                       </select>
@@ -347,7 +347,7 @@
                 <td class="load_cell">
                     
                         <select class="di_select" name="work_country_run_{{i}}">
-                          {% for i in country_list %}
+                          {% for i in year_list %}
                             <option style="background-color: #34373D;" value="{{i}}">{{i}}</option>
                           {% endfor %}
                         </select>
