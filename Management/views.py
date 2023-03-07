@@ -1055,7 +1055,7 @@ def load_plan(request):
         end_date_build1 = pd.to_datetime(end_date_build)
 
         # create a date range using pandas date_range() function
-        date_range_build = pd.date_range(start=start_date_build1, end=end_date_build1, freq='Q')
+        date_range_build = pd.date_range(start=start_date_build1, end=end_date_build1, freq='3M')
 
         # initialize an empty list to store the output
         quarter_list_build = []
@@ -1072,7 +1072,7 @@ def load_plan(request):
         end_date_run1 = pd.to_datetime(end_date_run)
 
         # create a date range using pandas date_range() function
-        date_range_run = pd.date_range(start=start_date_run1, end=end_date_run1, freq='Q')
+        date_range_run = pd.date_range(start=start_date_run1, end=end_date_run1, freq='3M')
 
         # initialize an empty list to store the output
         quarter_list_run = []
@@ -1114,6 +1114,7 @@ def load_plan(request):
         numeric_list_of_load_plan_build = [quarter_map[q] for q in quarter_list_build_load_plan]
         request.session['quarter_list_build_load_plan'] = quarter_list_build_load_plan
         request.session['year_list_build_load_plan'] = year_list_build_load_plan
+        request.session['year_list_build_load_plan_full'] = year_list_build_load_plan_full
         request.session['quarter_list_build_load_plan_length'] = len(quarter_list_build_load_plan)
         request.session['year_list_build_load_plan_length'] = len(year_list_build_load_plan)
         request.session['quarter_to_sequence_build'] = quarter_to_sequence_build
@@ -1134,6 +1135,7 @@ def load_plan(request):
             count += 1
         numeric_list_of_load_plan_run = [quarter_map[q] for q in quarter_list_run_load_plan]
         request.session['quarter_list_run_load_plan'] = quarter_list_run_load_plan
+        request.session['year_list_run_load_plan_full'] = year_list_run_load_plan_full
         request.session['year_list_run_load_plan'] = year_list_run_load_plan
         request.session['quarter_list_run_load_plan_length'] = len(year_list_run_load_plan)
         request.session['year_list_run_load_plan_length'] = len(year_list_run_load_plan)
@@ -1637,7 +1639,7 @@ def di_daily_commute(request):
             'list_count': request.session.get('list_count'),
             'list_count_run': request.session.get('list_count_run'),
             'span_build_list': request.session.get('span_build_list'),
-            'span_build_list_run': request.session.get('second_build_end_span'),
+            'span_build_list_run': request.session.get('span_list_run'),
             'business_travel': business_travel,
             'laptop_data': laptop_data,
             'monitor_data': monitor_data,
@@ -1808,6 +1810,10 @@ def di_business_travel(request):
                     count += 1
 
             Build_days_list = [int(i) for i in Build_days_list]
+
+            business_travel_build_days = copy.deepcopy(Build_days_list)
+            request.session['business_travel_build_days'] = business_travel_build_days
+
             print('Build_days_list', Build_days_list)
             Build_days_list = sum(Build_days_list)
 
@@ -1872,6 +1878,10 @@ def di_business_travel(request):
                     count += 1
 
             Build_days_list = [int(i) for i in Build_days_list]
+
+            business_travel_run_days = copy.deepcopy(Build_days_list)
+            request.session['business_travel_run_days'] = business_travel_run_days
+
             print('Build_days_list', Build_days_list)
             Build_days_list = sum(Build_days_list)
             # print(Build_days_list)
@@ -1990,54 +2000,131 @@ def di_business_travel(request):
             if i.get('subcategory') == transport_type[0]:
                 emissionfactor = i.get('emissionfactor')
 
-        try:
-            for i in range(len(transport_type)):
-                IMPACTS_DIRECTS_data = ImpactsDirects(
-                    projectname=request.session.get('name'),
-                    vehicleownership=vehical_owners[i],
-                    role=role[i],
-                    # kmtravelledperday= buid_km_int[0],
-                    # avgnoofdaysofficeperweek = buid_avg_int[0],
-                    category='People',
-                    subcategory='Business Travel',
-                    phasetype='Build',
-                    emissionfactor=emission_factor_list[i],
-                    create_timestamp=create_timestamp,
-                    update_timestamp=create_timestamp,
-                    typeoftransport=transport_type[i],
-                    projid=roleid,
-                    totalcarbonfootprint=totalcarbonfootprint_business_build[i],
-                    # nofworkingdays = total_noofworkingdays_build,
-                    # buildstartdate=start_date_year, buildenddate=end_date_year,
-                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                )
-                IMPACTS_DIRECTS_data.save()
-                print(IMPACTS_DIRECTS_data)
+        # ================= Getting Data in Yearly And Quarterly ===============================
+        # Build Data
+        business_travel_build_days = request.session.get('business_travel_build_days')
+        business_travel_build_days = [i for i in business_travel_build_days if i != 0]
+        print(business_travel_build_days)
 
-            for i in range(len(transport_type)):
-                IMPACTS_DIRECTS_data = ImpactsDirects(
-                    projectname=request.session.get('name'),
-                    vehicleownership=vehical_owners_run[i],
-                    role=role[i],
-                    # kmtravelledperday= buid_km_int[0],
-                    # avgnoofdaysofficeperweek = buid_avg_int[0],
-                    category='People',
-                    subcategory='Business Travel',
-                    phasetype='Run',
-                    emissionfactor=emission_factor_list_run[i],
-                    create_timestamp=create_timestamp,
-                    update_timestamp=create_timestamp,
-                    typeoftransport=transport_type_run[i],
-                    projid=roleid,
-                    totalcarbonfootprint=totalcarbonfootprint_business_run[i],
-                    # nofworkingdays = total_noofworkingdays_run,
-                    # buildstartdate=start_date_year, buildenddate=end_date_year,
-                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                )
-                IMPACTS_DIRECTS_data.save()
-                print(IMPACTS_DIRECTS_data)
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        load_plan_build_list = request.session.get('load_plan_build_list')
+        new_build_list = [x for x in business_travel_build_days[:len_build_quarter]]
+        print(new_build_list)
+        no_of_working_days_build = [int(i) for i in new_build_list]
+        no_of_working_days_build = sum(no_of_working_days_build)
+        print('Total no of working days in Build: ', no_of_working_days_build)
+
+        # RUn data
+
+        business_travel_run_days = request.session.get('business_travel_run_days')
+        business_travel_run_days = [i for i in business_travel_run_days if i != 0]
+        print(business_travel_run_days)
+
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        new_run_list = [x for x in business_travel_run_days[:len_run_quarter]]
+        print(new_run_list)
+        no_of_working_days_run = [int(i) for i in new_run_list]
+        no_of_working_days_run = sum(no_of_working_days_run)
+        print('Total no of working days in Build: ', no_of_working_days_run)
+
+        # Create dataframe from above data
+        # Build Phase
+        numeric_list_of_load_plan_build = request.session.get('numeric_list_of_load_plan_build')
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+        year_list_build_load_plan_full = request.session.get('year_list_build_load_plan_full')
+
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        business_travel_build_dataframe = pd.DataFrame({
+            'BuildQuarterData': new_build_list,
+            'Role': role[0],
+            'BuildStartDate': start_date_build,
+            'BuildEndDate': end_date_build,
+            'Phase': 'Build',
+            'Quarters': numeric_list_of_load_plan_build,
+            'BuildYearList': year_list_build_load_plan_full,
+
+        })
+        print(business_travel_build_dataframe)
+
+        # Run Phase
+        business_travel_run_dataframe = pd.DataFrame({
+            'RunQuarterData': new_run_list,
+            'Role': role[0],
+            'RunStartDate': start_date_run,
+            'RunEndDate': end_date_run,
+            'Phase': 'Run',
+            'Quarters': numeric_list_of_load_plan_run,
+            'RunYearList': year_list_run_load_plan_full,
+
+        })
+        print(business_travel_run_dataframe)
+        get_current_project_id = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+
+        try:
+            for index, row in business_travel_build_dataframe.iterrows():
+                for i in range(len(transport_type)):
+                    impact_directs_data_build = ImpactsDirects(
+                        projectname=request.session.get('name'),
+                        vehicleownership=vehical_owners[i],
+                        role=role[i],
+                        category='People',
+                        subcategory='Business Travel',
+                        phasetype=row['Phase'],
+                        buildstartdate=start_date_build,
+                        buildenddate=end_date_build,
+                        runstartdate=start_date_run,
+                        runenddate=end_date_run,
+                        year=row['BuildYearList'],
+                        quarter=row['Quarters'],
+                        projid=get_current_project_id,
+                        nofworkingdays=row['BuildQuarterData'],
+                        emissionfactor=emission_factor_list[i],
+                        create_timestamp=create_timestamp,
+                        update_timestamp=create_timestamp,
+                        typeoftransport=transport_type[i],
+                        totalcarbonfootprint=totalcarbonfootprint_business_build[i],
+                    )
+                    impact_directs_data_build.save()
         except Exception as e:
-            print(e)
+            print("==================== Error while adding data in Business travel Build ==========", e)
+
+        try:
+            for index, row in business_travel_run_dataframe.iterrows():
+                for i in range(len(transport_type)):
+                    impact_direct_data_run = ImpactsDirects(
+                        projectname=request.session.get('name'),
+                        vehicleownership=vehical_owners_run[i],
+                        role=role[i],
+                        category='People',
+                        subcategory='Business Travel',
+                        phasetype=row['Phase'],
+                        year=row['RunYearList'],
+                        quarter=row['Quarters'],
+                        nofworkingdays=row['RunQuarterData'],
+                        projid=get_current_project_id,
+                        buildstartdate=start_date_build,
+                        buildenddate=end_date_build,
+                        runstartdate=start_date_run,
+                        runenddate=end_date_run,
+                        emissionfactor=emission_factor_list_run[i],
+                        create_timestamp=create_timestamp,
+                        update_timestamp=create_timestamp,
+                        typeoftransport=transport_type_run[i],
+                        totalcarbonfootprint=totalcarbonfootprint_business_run[i],
+                    )
+                    impact_direct_data_run.save()
+        except Exception as e:
+            print("==================== Error while adding data in Business travel Run ==========", e)
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
@@ -2094,7 +2181,7 @@ def di_business_travel(request):
             'list_count_run': request.session.get('list_count_run'),
             'span_build_list': request.session.get('span_build_list'),
             'span_build_list_run': request.session.get('span_build_list_run'),
-
+            'year_list': settings.COUNTRY_LIST,
             'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
@@ -2506,6 +2593,8 @@ def di_laptop(request):
             category='Mobile Combustion - Business Travel').values()
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
             category='Mobile Combustion - Freight transport').values()
+
+
         context = {
             'user_details': user_details,
             'year_details': year_details,
@@ -3269,7 +3358,9 @@ def di_drone(request):
                         # print('i', i)
                     count += 1
 
-                # print(Build_days_list)
+                print(Build_days_list)
+                drone_build_list = copy.deepcopy(Build_days_list)
+                request.session['drone_build_list'] = drone_build_list
                 #
                 # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
                 # print('local_list', local_list)
@@ -3341,7 +3432,9 @@ def di_drone(request):
                         # print('i', i)
                     count += 1
 
-                # print(Build_days_list)
+                print(Build_days_list)
+                drone_run_list = copy.deepcopy(Build_days_list)
+                request.session['drone_run_list'] = drone_run_list
                 #
                 # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
                 # print('local_list', local_list)
@@ -3354,6 +3447,7 @@ def di_drone(request):
             # request.session['noofworkingdays_build'] = noofworkingdays_build
 
             noofworkingdays_run.append(Build_days_list)
+
             print('noofworkingdays_run', noofworkingdays_run)
             request.session['noofworkingdays_run'] = noofworkingdays_run
 
@@ -3471,53 +3565,131 @@ def di_drone(request):
         #     if i.get('subcategory') == transport_type[0]:
         #         emissionfactor = i.get('emissionfactor')
 
+        # ================= Getting Data in Yearly And Quarterly ===============================
+        # Build Data
+        drone_build_list = request.session.get('drone_build_list')
+        drone_build_list = [i for i in drone_build_list if i != '0']
+        print(drone_build_list)
+
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        load_plan_build_list = request.session.get('load_plan_build_list')
+        new_build_list = [x for x in drone_build_list[:len_build_quarter]]
+        print(new_build_list)
+        no_of_working_days_build = [int(i) for i in new_build_list]
+        no_of_working_days_build = sum(no_of_working_days_build)
+        print('Total no of working days in Build: ', no_of_working_days_build)
+
+        # RUn data
+
+        drone_run_list = request.session.get('drone_run_list')
+        drone_run_list = [i for i in drone_run_list if i != '0']
+        print(drone_run_list)
+
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        new_run_list = [x for x in drone_run_list[:len_run_quarter]]
+        print(new_run_list)
+        no_of_working_days_run = [int(i) for i in new_run_list]
+        no_of_working_days_run = sum(no_of_working_days_run)
+        print('Total no of working days in Build: ', no_of_working_days_run)
+
+        # Create dataframe from above data
+        # Build Phase
+        numeric_list_of_load_plan_build = request.session.get('numeric_list_of_load_plan_build')
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+        year_list_build_load_plan_full = request.session.get('year_list_build_load_plan_full')
+
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        drone_build_dataframe = pd.DataFrame({
+            'BuildQuarterData': new_build_list,
+            'Role': role[0],
+            'BuildStartDate': start_date_build,
+            'BuildEndDate': end_date_build,
+            'Phase': 'Build',
+            'Quarters': numeric_list_of_load_plan_build,
+            'BuildYearList': year_list_build_load_plan_full,
+
+        })
+        print(drone_build_dataframe)
+
+        # Run Phase
+        drone_run_dataframe = pd.DataFrame({
+            'RunQuarterData': new_run_list,
+            'Role': role[0],
+            'RunStartDate': start_date_run,
+            'RunEndDate': end_date_run,
+            'Phase': 'Run',
+            'Quarters': numeric_list_of_load_plan_run,
+            'RunYearList': year_list_run_load_plan_full,
+
+        })
+        print(drone_run_dataframe)
+        get_current_project_id = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+
         try:
-            for i in range(len(transport_type)):
-                IMPACTS_DIRECTS_data = ImpactsDirects(
-                    projectname=request.session.get('name'),
-                    equipmentownership=vehical_owners[i],
-                    role=role[i],
-                    category='Industrial Equipment',
-                    subcategory=transport_type[i],
-                    # typeoflaptop = transport_type[i],
-                    phasetype='Build',
-                    emissionfactor=emission_factor_list[i],
-                    create_timestamp=create_timestamp,
-                    update_timestamp=create_timestamp,
-
-                    totalcarbonfootprint=totalcarbonfootprint_drone_build[i],
-                    projid=roleid,
-                    # buildstartdate=start_date_year, buildenddate=end_date_year,
-                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                )
-                IMPACTS_DIRECTS_data.save()
-                print(IMPACTS_DIRECTS_data)
+            for index, row in drone_build_dataframe.iterrows():
+                for i in range(len(transport_type)):
+                    IMPACTS_DIRECTS_data = ImpactsDirects(
+                        projectname=request.session.get('name'),
+                        equipmentownership=vehical_owners[i],
+                        role=role[i],
+                        phasetype=row['Phase'],
+                        category='Industrial Equipment',
+                        subcategory=transport_type[i],
+                        nofworkingdays=row['BuildQuarterData'],
+                        buildstartdate=start_date_build,
+                        buildenddate=end_date_build,
+                        runstartdate=start_date_run,
+                        runenddate=end_date_run,
+                        year=row['BuildYearList'],
+                        quarter=row['Quarters'],
+                        emissionfactor=emission_factor_list[i],
+                        create_timestamp=create_timestamp,
+                        update_timestamp=create_timestamp,
+                        totalcarbonfootprint=totalcarbonfootprint_drone_build[i],
+                        projid=get_current_project_id,
+                    )
+                    IMPACTS_DIRECTS_data.save()
+                    print(IMPACTS_DIRECTS_data)
         except Exception as e:
-            print(e)
+            print('Error occured while saving data in Drone Build', e)
 
         try:
-            for i in range(len(transport_type_run)):
-                IMPACTS_DIRECTS_data = ImpactsDirects(
-                    projectname=request.session.get('name'),
-                    equipmentownership=vehical_owners_run[i],
-                    role=role[i],
-                    category='Industrial Equipment',
-                    subcategory=transport_type_run[i],
-                    # typeoflaptop = transport_type[i],
-                    phasetype='Run',
-                    emissionfactor=emission_factor_list_run[i],
-                    create_timestamp=create_timestamp,
-                    update_timestamp=create_timestamp,
-
-                    totalcarbonfootprint=totalcarbonfootprint_drone_run[i],
-                    projid=roleid,
-                    # buildstartdate=start_date_year, buildenddate=end_date_year,
-                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                )
-                IMPACTS_DIRECTS_data.save()
-                print(IMPACTS_DIRECTS_data)
+            for index, row in drone_run_dataframe.iterrows():
+                for i in range(len(transport_type_run)):
+                    IMPACTS_DIRECTS_data = ImpactsDirects(
+                        projectname=request.session.get('name'),
+                        equipmentownership=vehical_owners_run[i],
+                        role=role[i],
+                        category='Industrial Equipment',
+                        subcategory=transport_type_run[i],
+                        nofworkingdays=row['RunQuarterData'],
+                        buildstartdate=start_date_build,
+                        buildenddate=end_date_build,
+                        runstartdate=start_date_run,
+                        phasetype=row['Phase'],
+                        runenddate=end_date_run,
+                        year=row['RunYearList'],
+                        quarter=row['Quarters'],
+                        emissionfactor=emission_factor_list_run[i],
+                        create_timestamp=create_timestamp,
+                        update_timestamp=create_timestamp,
+                        totalcarbonfootprint=totalcarbonfootprint_drone_run[i],
+                        projid=roleid,
+                    )
+                    IMPACTS_DIRECTS_data.save()
+                    print(IMPACTS_DIRECTS_data)
         except Exception as e:
-            print(e)
+            print('Error occured while saving data in Drone Run', e)
 
         list_length = request.session.get('list_length')
 
@@ -3579,7 +3751,7 @@ def di_drone(request):
             'list_count': request.session.get('list_count'),
             'list_count_run': request.session.get('list_count_run'),
             'span_build_list': request.session.get('span_build_list'),
-            'span_build_list_run': request.session.get('span_build_list_run'),
+            'span_build_list_run': request.session.get('span_list_run'),
 
             'pc_data': pc_data,
             'telephone_data': telephone_data,
@@ -4480,6 +4652,10 @@ def indirect_impact_fl(request):
         noofworkingdays_run1 = []
         Build_days_list = [int(i) for i in noofworkingdays_run]
         print('noofworkingdays_run', Build_days_list)
+
+        fuel_combution_total_run = copy.deepcopy(Build_days_list)
+        request.session['fuel_combution_total_run'] = fuel_combution_total_run
+
         noofworkingdays_run = sum(Build_days_list)
         noofworkingdays_run1.append(noofworkingdays_run)
         print('noofworkingdays_run1', noofworkingdays_run1)
@@ -4529,24 +4705,67 @@ def indirect_impact_fl(request):
 
         indirect_impact_data = ImpactsIndirects.objects.all()
 
+        # ================= Getting Data in Yearly And Quarterly ===============================
+        # RUn data
+
+        fuel_combution_total_run = request.session.get('fuel_combution_total_run')
+        fuel_combution_total_run = [i for i in fuel_combution_total_run if i != '0']
+        print(fuel_combution_total_run)
+
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        new_run_list = [x for x in fuel_combution_total_run[:len_run_quarter]]
+        print(new_run_list)
+        no_of_working_days_run = [int(i) for i in new_run_list]
+        no_of_working_days_run = sum(no_of_working_days_run)
+        print('Total no of working days in Build: ', no_of_working_days_run)
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        # Run Phase
+        fuel_run_dataframe = pd.DataFrame({
+            'RunQuarterData': new_run_list,
+            'Role': role[0],
+            'RunStartDate': start_date_run,
+            'RunEndDate': end_date_run,
+            'Phase': 'Run',
+            'Quarters': numeric_list_of_load_plan_run,
+            'RunYearList': year_list_run_load_plan_full,
+
+        })
+        print(fuel_run_dataframe)
+        get_current_project_id = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
         try:
-            for i in range(len(emission_factor_list)):
-                IMPACTS_INDIRECTS_data = ImpactsIndirects(
-                    projectname=request.session.get('name'),
-                    category='Fuel - Stationary combustion',
-                    phasetype='Run',
-                    totalcarbonfootprint=totalcarbonfootprint_fuel[i],
-                    projid=roleid,
-                    emissionfactor=emission_factor_list[i],
-                    create_timestamp=create_timestamp,
-                    update_timestamp=create_timestamp,
-                    # buildstartdate=start_date_year, buildenddate=end_date_year,
-                    # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-                )
-                IMPACTS_INDIRECTS_data.save()
-                print(ImpactsIndirects)
+            for index, row in fuel_run_dataframe.iterrows():
+                for i in range(len(emission_factor_list)):
+                    IMPACTS_INDIRECTS_data = ImpactsIndirects(
+                        projectname=request.session.get('name'),
+                        category='Fuel - Stationary combustion',
+                        totalcarbonfootprint=totalcarbonfootprint_fuel[i],
+                        projid=get_current_project_id,
+
+                        # noofworkingdays=row['RunQuarterData'],
+                        runstartdate=start_date_run,
+                        runenddate=end_date_run,
+                        year=row['RunYearList'],
+                        quarter=row['Quarters'],
+                        phasetype=row['Phase'],
+
+                        emissionfactor=emission_factor_list[i],
+                        create_timestamp=create_timestamp,
+                        update_timestamp=create_timestamp,
+                    )
+                    IMPACTS_INDIRECTS_data.save()
+                    print(ImpactsIndirects)
         except Exception as e:
-            print(e)
+            print('=================== error occured while adding data in Fuel ======', e)
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
