@@ -235,6 +235,9 @@
     <div class="load_view city" id="Build" style="display: block;margin-left:20px;width: auto;margin-top: 5px;">
       <div class="load_wrapper" >
         <table class="load_table">
+          {% if span_build_list > 0 %}
+              <colgroup><col span="3" ><col span="{{span_build_list}}" style="visibility:collapse;"></colgroup>
+          {% endif %}
           <thead>
             <tr>
               <th class="sticky-col first-col-fix fixed-col" style="height: 40px;">Roles</th>
@@ -244,13 +247,13 @@
                     {% for r in totalyear_loop %}
                       <th colspan="4" class="load_cell_th">Year {{r}}</th>
                     {% endfor %}
-                   
+
             </tr>
             <tr>
               <th  class="sticky-col first-col-fix fixed-col" style="background-color: #121010;border-color: black; border-radius: 0px;">&nbsp;</th>
               <th  class="sticky-col first-col-fix fixed-col" style="background-color: #121010;border-color: black; border-radius: 0px;">&nbsp;</th>
               <th  class="sticky-col first-col-fix fixed-col" style="background-color: #121010;border-color: black; border-radius: 0px;">&nbsp;</th>
-              {% for j in list %}
+              {% for j in list_count %}
                       <th  class="sticky-col first-col load_cell">Q{{j}}</th>
               {% endfor %}
             </tr>
@@ -261,14 +264,14 @@
                 <td class="sticky-col first-col-fix fixed-col" style="height: 40px;">{{role}}</td>
                 <td  class="load_cell_1" >
                   <select class="load_cell_ips" style="float: left;" name="type_transport_{{role}}" id="cars">
-                    
+
                       <optgroup style="float: left;background-color: #6C757D;"label="Default">
                         {% for i in pc_data %}
                           <option style="background-color: #34373D;" value="{{i.name}}">{{i.name}}</option>
                         {% endfor %}
                       </optgroup>
                       <optgroup style="float: left;background-color: #6C757D;" label="Custom" >
-                
+
                       <!-- {% for i in res_dct %}
                         <option style="background-color: #34373D;" >{{i}}</option>
                       {% endfor %} -->
@@ -282,8 +285,8 @@
                 {% for list1 in list %}
                   <td class="load_cell"><input type="number" min="0" max="66" class="load_cell_ip" name="{{role}}_{{list1}}" id="bu('{{role}}_{{list1}}')" onclick="fun()"></td>
                 {% endfor %}
-                
-                
+
+
               </tr>
             {% endfor%}
           </tbody>
@@ -291,7 +294,7 @@
       </div>
     </div>
     <div class="footer"  style="margin-left:-500px; width:150%">
-      <div style="width:50%; float:left; text-align:center; margin-top:5px; margin-left: -80px;"
+      <div style="width:50%; float:left; text-align:center; margin-top:5px; margin-left: -80px;">
                <button type="button" onclick="history.back()" style="display: none; color:Black;" id="back-btn" ></button>
                <a href="#" style="color:#4FAFA2; "><img src="static/assets/img/back_button.png" style="margin-right:10px;" onclick="document.getElementById('back-btn').click()"  alt="Back"/>BACK</a>
       </div>
@@ -306,27 +309,30 @@
           <button type="submit" class="save" style="width:150px; text-align:end; border-radius:4px;  "><b class="continue" style="width:140px;">SAVE & CONTINUE</b></button>
       </div>
     </div>
-    
+
     <!---------------------- Run Phase ---------------------->
     <div class="load_view city" id="Run" style="display: none;margin-left:20px;width: auto;margin-top: 5px;">
       <div class="load_wrapper" >
         <table class="load_table">
+          {% if span_build_list_run > 0 %}
+              <colgroup><col span="3" ><col span="{{span_build_list_run}}" style="visibility:collapse;"></colgroup>
+          {% endif %}
           <thead>
             <tr>
               <th class="sticky-col first-col-fix fixed-col" style="height: 40px;">Roles</th>
               <th class="load_cell_th">Type</th>
               <th class="load_cell_th">Equipment Ownership</th>
               <th colspan="4" class="load_cell_th">{{start_date_year}}-Days</th>
-                    {% for r in totalyear_loop %}
+                    {% for r in totalyear_loop_run %}
                       <th colspan="4" class="load_cell_th">Year {{r}}</th>
                     {% endfor %}
-                   
+
             </tr>
             <tr>
               <th  class="sticky-col first-col-fix fixed-col" style="background-color: #121010;border-color: black; border-radius: 0px;">&nbsp;</th>
               <th  class="sticky-col first-col-fix fixed-col" style="background-color: #121010;border-color: black; border-radius: 0px;">&nbsp;</th>
               <th  class="sticky-col first-col-fix fixed-col" style="background-color: #121010;border-color: black; border-radius: 0px;">&nbsp;</th>
-              {% for j in list %}
+              {% for j in list_count_run %}
                       <th  class="sticky-col first-col load_cell">Q{{j}}</th>
               {% endfor %}
             </tr>
@@ -343,7 +349,7 @@
                       {% endfor %}
                     </optgroup>
                     <optgroup style="float: left;background-color: #6C757D;" label="Custom" >
-                
+
                       <!-- {% for i in res_dct %}
                         <option style="background-color: #34373D;" >{{i}}</option>
                       {% endfor %} -->
@@ -354,18 +360,18 @@
                 <td class="load_cell"><select class="di_select" name="vehical_ownership_run_{{role}}">
                   <option class="di_option" value="Company">Company</option>
                   <option class="di_option" value="Owned">Owned</option></td>
-                {% for list1 in list %}
+                {% for list1 in list_run %}
                   <td class="load_cell"><input type="number" min="0" max="66" class="load_cell_ip" name="bu_run_{{role}}_{{list1}}"></td>
                 {% endfor %}
-                
-                
+
+
               </tr>
             {% endfor%}
           </tbody>
         </table>
       </div>
     </div>
-    
+
     </form>
   </div>
 </div>
@@ -385,7 +391,7 @@
   <label style="font-size: 14px; color: #ADB5BD; margin-left: 40px; width: 420px; font-family: Ubuntu;">You will be directed to emission factor library to add the custom emission factor</label>
   <div style="margin: 0 auto; display: inline;">
       <div style="margin: 0 auto; display: inline;">
-          <button class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 148px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent"><a style="color: #4FAFA2;" href="{% url 'di_business_travel' %}">No, take me back.</a></button>
+          <button class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 148px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent"><a style="color: #4FAFA2;" href="{% url 'di_pc' %}">No, take me back.</a></button>
           <button class="action_btn cancel" style="font-size: 12px;  margin: 0 auto;  border: 2px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 54px; margin-left: 5px; height: 30px; color: #E6E9EE; border-color: #4FAFA2; background-color: #4FAFA2"><a href="{% url 'index' %}" style="color: #E6E9EE;">Yes</a></button>
       </div>
   </div>

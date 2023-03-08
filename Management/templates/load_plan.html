@@ -316,6 +316,7 @@
                       {% if span_build_list > 0 %}
                         <colgroup><col span="1" ><col span="{{span_build_list}}" style="visibility:collapse;"></colgroup>
                       {% endif %}
+                      <colgroup><col span="{{span}}" ><col span="{{span_buildend_list_end}}" ><col span="{{second_build_end_span}}" style="visibility:collapse;" ></colgroup>
 <!--                        <colgroup><col span="{{second_build_end_span}}" ><col span="{{span_buildend_list}}" style="visibility:collapse;"></colgroup>-->
 <!--                      <colgroup><col span="2" ><col span="2" style="visibility:collapse;"></colgroup>-->
 <!--                      {% if quarter_build_list == 'q1' %}-->
@@ -339,7 +340,7 @@
 <!--                      <colgroup><col span="5" ><col span="4" ><col span="4" ><col span="{{span_buildend_list}}" style="visibility:collapse;"></colgroup>-->
                       <thead>
                         <tr>
-                            <th class="sticky-col first-col-fix fixed-col" style="margin-left:20px;">Roles</th>
+                            <th class="sticky-col first-col-fix fixed-col" style="margin-left:20px; padding-left: 20px;">Roles</th>
                             <th colspan="4" class="load_cell_th">Year {{start_date_year}}</th>
                             {% for r in totalyear_loop %}
                               <th colspan="4" class="load_cell_th" id="year_{{r}}">Year {{r}}</th>
@@ -364,7 +365,7 @@
                     <tbody>
                         <tr>
                     {% for i in role %}
-                        <th class="sticky-col first-col-fix fixed-col" style="z-index:-1;"><input value="{{i}}" id="role_{{i}}" name="role" style="color:white; border:none; width: 54px;" class="sticky-col first-col-fix fixed-col"></th>
+                        <th class="sticky-col first-col-fix fixed-col" style="z-index:-1;"><input value="{{i}}" id="role_{{i}}" name="role" style="color:white; border:none; width: 54px; padding-left: 10px;" class="sticky-col first-col-fix fixed-col"></th>
                         {% for cell in list %}
                             <td class="load_cell" id="cell" ><input type="number" class="form-control load_cell_ip" id="cell_{{i}}_{{cell}}" name="{{i}}_{{cell}}" min="0" max="66" ></td>
                         {% endfor %}
@@ -382,22 +383,27 @@
                 <!--    <div style="float:right; width:100%; margin-top:5px; " >-->
                 <!--        <button type="submit" class="nebtn" style="width:10%; border-radius:4px;"><b  style="width:110px;">SAVE & CONTINUE</b></button>-->
                 <!--    </div>-->
-                <div style=" width:10%;   margin-top:5px; padding-left:1050px;" >
-                    <button type="submit" class="save" style="width:150px; text-align:end; border-radius:4px;  "><b class="continue" style="width:140px;">SAVE & CONTINUE</b></button>
+                <div style="display: flex">
+                    <div>
+                        <a onclick="history.back()" style="margin-left: 250px; margin-top: 5px; color: #4FAFA2; font-size: 14px; cursor: pointer">< BACK</a>
+                    </div>
+                    <div style=" width:10%; margin-top:5px; padding-left:750px;" >
+                        <button type="submit" class="save" style="width:150px; text-align:end; border-radius:4px;  "><b class="continue" style="width:140px;">SAVE & CONTINUE</b></button>
+                    </div>
                 </div>
-
             </div>
 
             <!---------------------Run Table  ------------------------>
             <div id="Run" class="load_view city" style="display:none;margin-left:20px;width: auto;margin-top: 5px;">
               <div class="load_wrapper">
                 <table class="load_table">
-                    {% if span_build_list_run > 0 %}
-                        <colgroup><col span="1" ><col span="{{span_build_list_run}}" style="visibility:collapse;"></colgroup>
+                    {% if span_list_run > 0 %}
+                        <colgroup><col span="1" ><col span="{{span_list_run}}" style="visibility:collapse;"></colgroup>
                     {% endif %}
+                        <colgroup><col span="{{span_run}}" ><col span="{{span_runend_list_end}}" ><col span="{{second_run_end_span}}" style="visibility:collapse;" ></colgroup>
                   <thead>
                       <tr>
-                          <th class="sticky-col first-col-fix fixed-col">Roles</th>
+                          <th class="sticky-col first-col-fix fixed-col" style="padding-left: 20px;">Roles</th>
                           <th colspan="4" class="load_cell_th">Year {{start_date_year_run}}</th>
                           {% for r in totalyear_loop_run %}
                             <th colspan="4" class="load_cell_th">Year {{r}}</th>
@@ -407,7 +413,7 @@
                       </tr>
                       <tr>
                           <th  class="sticky-col first-col-fix fixed-col" style="background-color: #121010;border-color: black; border-radius: 0px;">&nbsp;</th>
-                          {% for i in list_run %}
+                          {% for i in list_count_run %}
                             <th  class="sticky-col first-col load_cell">Q{{i}}</th>
                           {% endfor %}
                       </tr>
@@ -415,7 +421,7 @@
                   <tbody>
                   {% for role_list in role %}
                     <tr>
-                      <th class="sticky-col first-col-fix fixed-col" style="z-index:-1;">{{role_list}}</th>
+                      <th class="sticky-col first-col-fix fixed-col" style="z-index:-1; padding-left: 10px;">{{role_list}}</th>
                         {% for run_list in list_run %}
                             <td class="load_cell"><input type="number" class="load_cell_ip" id="cell_{{run_list}}" name="run{{role_list}}_{{run_list}}" min="0" max="66" ></td>
                         {% endfor %}
