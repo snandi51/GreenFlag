@@ -806,7 +806,7 @@ def load_plan(request):
         print('len_totalrolelist: ', len_totalrolelist)
 
         final_quater = []
-        noofworkingdays_build2 = []
+        load_plan_total_days_build_all_roles = []
         noofworkingdays_run = []
         noofworkingdays_list = []
         # import ipdb
@@ -840,8 +840,8 @@ def load_plan(request):
                     count += 1
 
                 print(local_list)
-                load_plan_build_list = copy.deepcopy(local_list)
-                request.session['load_plan_build_list'] = load_plan_build_list
+                # load_plan_build_list = copy.deepcopy(local_list)
+                # request.session['load_plan_build_list'] = load_plan_build_list
                 #
                 # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
                 # print('local_list', local_list)
@@ -852,14 +852,15 @@ def load_plan(request):
             # local_list =sum(local_list)
 
             print('local_list', local_list)
-            # import ipdb
-            # ipdb.set_trace()
 
-            noofworkingdays_build2.append(local_list)
-            print('noofworkingdays_build2', noofworkingdays_build2)
+            load_plan_total_days_build_all_roles.append(local_list)
+            print('load_plan_total_days_build_all_roles', load_plan_total_days_build_all_roles)
+            request.session['load_plan_total_days_build_all_roles'] = load_plan_total_days_build_all_roles
 
+
+            # No of working days are not correctly calculated
             noofworkingdays_build = []
-            noofworkingdays_build1 = [i for list1 in noofworkingdays_build2 for i in list1]
+            noofworkingdays_build1 = [i for list1 in load_plan_total_days_build_all_roles for i in list1]
             noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
             if noofworkingdays_build1:
                 noofworkingdays_build1 = sum(noofworkingdays_build1)
@@ -880,9 +881,10 @@ def load_plan(request):
             final_quater.append(quater_list)
             print('final_quater', final_quater)
 
+
         # RUN
         final_quater = []
-        noofworkingdays_run2 = []
+        load_plan_total_days_run_all_roles = []
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
@@ -943,12 +945,13 @@ def load_plan(request):
 
             # import ipdb
             # ipdb.set_trace()
-            noofworkingdays_run2.append(local_list)
-            print('noofworkingdays_run2', noofworkingdays_run2)
+            load_plan_total_days_run_all_roles.append(local_list)
+            print('load_plan_total_days_run_all_roles', load_plan_total_days_run_all_roles)
+            request.session['load_plan_total_days_run_all_roles'] = load_plan_total_days_run_all_roles
 
 
             noofworkingdays_run = []
-            noofworkingdays_run1 = [i for list1 in noofworkingdays_run2 for i in list1]
+            noofworkingdays_run1 = [i for list1 in load_plan_total_days_run_all_roles for i in list1]
             noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
             if noofworkingdays_run1:
                 noofworkingdays_run1 = sum(noofworkingdays_run1)
@@ -1147,6 +1150,74 @@ def load_plan(request):
         # import ipdb
         # ipdb.set_trace()
         # ==========================================================
+
+        # Extra code for Multiple roles
+        # Getting all values of Load Plan build/ Run list for all roles
+        load_plan_total_days_build_all_roles = request.session.get('load_plan_total_days_build_all_roles')
+        load_plan_total_days_run_all_roles = request.session.get('load_plan_total_days_run_all_roles')
+
+        # Build Phase
+        # Removing '0' from all the values
+        for item in load_plan_total_days_build_all_roles:
+            try:
+                item.remove('0')
+            except Exception as e:
+                print("Error while removing values ", e)
+
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in load_plan_total_days_build_all_roles:
+            if len(item) != len_build_quarter:
+                load_plan_total_days_build_all_roles[counter] = item[:len_build_quarter]
+            counter += 1
+        print(load_plan_total_days_build_all_roles)
+
+        # Make list integer and get sum by Role
+        load_plan_total_days_build_all_roles_int = []
+        sum_load_plan_total_days_build_all_roles = []
+        for item in load_plan_total_days_build_all_roles:
+            load_plan_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in load_plan_total_days_build_all_roles_int:
+            sum_load_plan_total_days_build_all_roles.append(sum(item))
+        request.session['load_plan_total_days_build_all_roles_int'] = load_plan_total_days_build_all_roles_int
+        print('Final List of load plan Build is: ', load_plan_total_days_build_all_roles_int)
+        print('Sum of load plan Build is: ', sum_load_plan_total_days_build_all_roles)
+        request.session['load_plan_total_days_build_sum'] = sum_load_plan_total_days_build_all_roles
+
+        # Run Phase
+        # Removing '0' from all the values
+        for item in load_plan_total_days_run_all_roles:
+            try:
+                item.remove('0')
+            except Exception as e:
+                print("Error while removing values ", e)
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan run quarter list
+        counter = 0
+        for item in load_plan_total_days_run_all_roles:
+            if len(item) != len_run_quarter:
+                load_plan_total_days_run_all_roles[counter] = item[:len_run_quarter]
+            counter += 1
+        print(load_plan_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        load_plan_total_days_run_all_roles_int = []
+        sum_load_plan_total_days_run_all_roles = []
+        for item in load_plan_total_days_run_all_roles:
+            load_plan_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in load_plan_total_days_run_all_roles_int:
+            sum_load_plan_total_days_run_all_roles.append(sum(item))
+        request.session['load_plan_total_days_run_all_roles_int'] = load_plan_total_days_run_all_roles_int
+        print('Final List of load plan Run is: ', load_plan_total_days_run_all_roles_int)
+        print('Sum of load plan Run is: ', sum_load_plan_total_days_run_all_roles)
+        request.session['load_plan_total_days_run_sum'] = sum_load_plan_total_days_run_all_roles
+        # ==========================================================
+
+        # Commenting below code to test new code for Multiple Roles
+        """
         load_plan_build_list = request.session.get('load_plan_build_list')
         load_plan_build_list = [i for i in load_plan_build_list if i != '0']
         print(load_plan_build_list)
@@ -1173,66 +1244,75 @@ def load_plan(request):
         print('Total no of working days in Run: ', no_of_working_days_run_plan_build)
 
         # ===========================================================
-
+        """
         # Create dataframe from above data
         # Build Phase
-        load_plan_build_dataframe = pd.DataFrame({
-            'BuildQuarterData': new_build_list,
-            'Role': role[0],
-            'Phase': 'Build',
-            'Quarters': numeric_list_of_load_plan_build,
-            'BuildYearList': year_list_build_load_plan_full,
+        all_dataframes_of_load_build_phase = []
+        for i in range(len(role)):
+            load_plan_build_dataframe = pd.DataFrame({
+                'BuildQuarterData': load_plan_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Build',
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
 
-        })
-        print(load_plan_build_dataframe)
+            })
+            print(load_plan_build_dataframe)
+            all_dataframes_of_load_build_phase.append(load_plan_build_dataframe)
 
         # Run Phase
-        load_plan_run_dataframe = pd.DataFrame({
-            'RunQuarterData': new_run_list,
-            'Role': role[0],
-            'Phase': 'Run',
-            'Quarters': numeric_list_of_load_plan_run,
-            'RunYearList': year_list_run_load_plan_full,
+        all_dataframes_of_load_run_phase = []
+        for i in range(len(role)):
+            load_plan_run_dataframe = pd.DataFrame({
+                'RunQuarterData': load_plan_total_days_run_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Run',
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
 
-        })
-        print(load_plan_run_dataframe)
+            })
+            print(load_plan_run_dataframe)
+            all_dataframes_of_load_run_phase.append(load_plan_run_dataframe)
+
         get_current_project_id = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
 
         # import ipdb
         # ipdb.set_trace()
         # Adding data for Load Plan Build Phase
         try:
-            for index, row in load_plan_build_dataframe.iterrows():
-                load_plan_build_data = LoadPlan(role=role[0],
-                                                name='xyz', workcountry=work_country,
-                                                phasetype=row['Phase'],
-                                                noofworkingdays=row['BuildQuarterData'],
-                                                buildstartdate=start_date_build, buildenddate=end_date_build,
-                                                runstartdate=start_date_run, runenddate=end_date_run,
-                                                create_timestamp=datetime.now(), update_timestamp=datetime.now(),
-                                                year=row['BuildYearList'], quarter=row['Quarters'],
-                                                noofresources=noofresources,
-                                                projid=get_current_project_id
-                                                )
-                load_plan_build_data.save()
+            for dataframe in all_dataframes_of_load_build_phase:
+                for index, row in dataframe.iterrows():
+                    load_plan_build_data = LoadPlan(role=row['Role'],
+                                                    name='xyz', workcountry=work_country,
+                                                    phasetype=row['Phase'],
+                                                    noofworkingdays=row['BuildQuarterData'],
+                                                    buildstartdate=start_date_build, buildenddate=end_date_build,
+                                                    runstartdate=start_date_run, runenddate=end_date_run,
+                                                    create_timestamp=datetime.now(), update_timestamp=datetime.now(),
+                                                    year=row['BuildYearList'], quarter=row['Quarters'],
+                                                    noofresources=noofresources,
+                                                    projid=get_current_project_id
+                                                    )
+                    load_plan_build_data.save()
         except Exception as e:
             print("Error while adding data in load plan: ", e)
 
         # Adding data for Load Plan Run Phase
         try:
-            for index, row in load_plan_run_dataframe.iterrows():
-                load_plan_run_data = LoadPlan(role=role[0],
-                                                name='xyz', workcountry=work_country,
-                                                phasetype=row['Phase'],
-                                                noofworkingdays=row['RunQuarterData'],
-                                                buildstartdate=start_date_build, buildenddate=end_date_build,
-                                                runstartdate=start_date_run, runenddate=end_date_run,
-                                                create_timestamp=datetime.now(), update_timestamp=datetime.now(),
-                                                year=row['RunYearList'], quarter=row['Quarters'],
-                                                noofresources=noofresources,
-                                                projid=get_current_project_id
-                                                )
-                load_plan_run_data.save()
+            for dataframe in all_dataframes_of_load_run_phase:
+                for index, row in dataframe.iterrows():
+                    load_plan_run_data = LoadPlan(role=row['Role'],
+                                                  name='xyz', workcountry=work_country,
+                                                  phasetype=row['Phase'],
+                                                  noofworkingdays=row['RunQuarterData'],
+                                                  buildstartdate=start_date_build, buildenddate=end_date_build,
+                                                  runstartdate=start_date_run, runenddate=end_date_run,
+                                                  create_timestamp=datetime.now(), update_timestamp=datetime.now(),
+                                                  year=row['RunYearList'], quarter=row['Quarters'],
+                                                  noofresources=noofresources,
+                                                  projid=get_current_project_id
+                                                  )
+                    load_plan_run_data.save()
         except Exception as e:
             print("Error while adding data in load plan: ", e)
 
@@ -1306,8 +1386,8 @@ def di_daily_commute(request):
     if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
-        noofworkingdays_build = request.session.get('noofworkingdays_build')
-        noofworkingdays_run = request.session.get('noofworkingdays_run')
+        noofworkingdays_build = request.session.get('load_plan_total_days_build_all_roles_int')
+        noofworkingdays_run = request.session.get('load_plan_total_days_run_all_roles_int')
         role = request.session.get('role')
         list = request.session.get('list')
         print('list1 is', list)
@@ -1400,7 +1480,9 @@ def di_daily_commute(request):
         buid_avg_int = [x / num for x in buid_avg_int]
         print('buid_avg_int', buid_avg_int)
 
-        build1 = [(buid_avg_int[i]) * ((noofworkingdays_build[i])) for i in range(len(noofworkingdays_build))]
+
+        load_plan_build_sum = [sum(x) for x in noofworkingdays_build]
+        build1 = [(buid_avg_int[i]) * (load_plan_build_sum[i]) for i in range(len(noofworkingdays_build))]
         print('build1', build1)
         # build1= build1[0]
         # print('build1',build1)
@@ -1440,8 +1522,8 @@ def di_daily_commute(request):
 
         run_avg_int = [x / num for x in run_avg_int]
         print('run_avg_int', run_avg_int)
-
-        build2 = [(run_avg_int[i]) * (int(noofworkingdays_run[i])) for i in range(len(noofworkingdays_run))]
+        load_plan_run_sum = [sum(x) for x in noofworkingdays_run]
+        build2 = [(run_avg_int[i]) * (int(load_plan_run_sum[i])) for i in range(len(noofworkingdays_run))]
         print('build2', build2)
         # build1= build1[0]
         # print('build1',build1)
@@ -1776,7 +1858,7 @@ def di_business_travel(request):
 
         final_quater = []
         noofworkingdays_build = []
-        noofworkingdays_run = []
+        local_list = []
         noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
@@ -1808,7 +1890,7 @@ def di_business_travel(request):
                         Build_days_list[count] = '0'
                         # print('i', i)
                     count += 1
-
+            local_list.append(Build_days_list)
             Build_days_list = [int(i) for i in Build_days_list]
 
             business_travel_build_days = copy.deepcopy(Build_days_list)
@@ -1831,6 +1913,9 @@ def di_business_travel(request):
             noofworkingdays_build.append(Build_days_list)
             print('noofworkingdays_build', noofworkingdays_build)
 
+
+
+
             # noofworkingdays_run.append(local_list)
             # print('noofworkingdays_run', noofworkingdays_run)
             # request.session['noofworkingdays_run'] = noofworkingdays_run
@@ -1842,19 +1927,24 @@ def di_business_travel(request):
             final_quater.append(quater_list)
             print('final_quater', final_quater)
 
+        business_travel_total_days_build_all_roles = copy.deepcopy(local_list)
+        request.session['business_travel_total_days_build_all_roles'] = business_travel_total_days_build_all_roles
+
         # noofworkingdays_build = request.session.get('noofworkingdays_build')
 
         final_quater = []
         noofworkingdays_run = []
         noofworkingdays_monitor = []
 
+
         list_length = request.session.get('list_length')
         print(list_length)
+
+        local_list_run = []
         # Create user input field and append in list:
         for j in range(1, len(role) + 1):
             print(j)
             Build_days_list = []
-            local_list_run = []
             quater_list = []
             for i in range(1, list_length + 1):
                 Build_days_list.append(request.POST.get('bu_run_' + role[j - 1] + '_' + str(i)))
@@ -1876,11 +1966,9 @@ def di_business_travel(request):
                         Build_days_list[count] = '0'
                         # print('i', i)
                     count += 1
-
+            local_list_run.append(Build_days_list)
             Build_days_list = [int(i) for i in Build_days_list]
 
-            business_travel_run_days = copy.deepcopy(Build_days_list)
-            request.session['business_travel_run_days'] = business_travel_run_days
 
             print('Build_days_list', Build_days_list)
             Build_days_list = sum(Build_days_list)
@@ -1905,6 +1993,9 @@ def di_business_travel(request):
 
             final_quater.append(quater_list)
             print('final_quater', final_quater)
+
+        business_travel_total_days_run_all_roles = copy.deepcopy(local_list_run)
+        request.session['business_travel_total_days_run_all_roles'] = business_travel_total_days_run_all_roles
 
         print('noofworkingdays_build', noofworkingdays_build)
         vehical_owners = []
@@ -1993,6 +2084,63 @@ def di_business_travel(request):
                 emissionfactor = i.get('emissionfactor')
 
         # ================= Getting Data in Yearly And Quarterly ===============================
+        # Extra code for Multiple roles
+        # Getting all values of Load Plan build/ Run list for all roles
+
+        business_travel_total_days_build_all_roles = request.session.get('business_travel_total_days_build_all_roles')
+        business_travel_total_days_run_all_roles = request.session.get('business_travel_total_days_run_all_roles')
+
+        # Build Phase
+        # Removing '0' from all the values
+
+        business_travel_total_days_build_all_roles = [[y for y in x if y != '0'] for x in business_travel_total_days_build_all_roles]
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in business_travel_total_days_build_all_roles:
+            if len(item) != len_build_quarter:
+                business_travel_total_days_build_all_roles[counter] = item[:len_build_quarter]
+            counter += 1
+        print(business_travel_total_days_build_all_roles)
+
+        # Make list integer and get sum by Role
+        business_travel_total_days_build_all_roles_int = []
+        sum_business_travel_total_days_build_all_roles = []
+        for item in business_travel_total_days_build_all_roles:
+            business_travel_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in business_travel_total_days_build_all_roles_int:
+            sum_business_travel_total_days_build_all_roles.append(sum(item))
+        print('Final List of Business Travel Build is: ', business_travel_total_days_build_all_roles_int)
+        print('Sum of Business Travel Build is: ', sum_business_travel_total_days_build_all_roles)
+
+        # Run Phase
+        # Removing '0' from all the values
+        business_travel_total_days_run_all_roles = [[y for y in x if y != '0'] for x in business_travel_total_days_run_all_roles]
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan run quarter list
+        counter = 0
+        for item in business_travel_total_days_run_all_roles:
+            if len(item) != len_run_quarter:
+                business_travel_total_days_run_all_roles[counter] = item[:len_run_quarter]
+            counter += 1
+        print(business_travel_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        business_travel_total_days_run_all_roles_int = []
+        sum_business_travel_total_days_run_all_roles = []
+        for item in business_travel_total_days_run_all_roles:
+            business_travel_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in business_travel_total_days_run_all_roles_int:
+            sum_business_travel_total_days_run_all_roles.append(sum(item))
+        print('Final List of Business Travel Run is: ', business_travel_total_days_run_all_roles_int)
+        print('Sum of Business Travel Run is: ', sum_business_travel_total_days_run_all_roles)
+
+        # Commenting this code for new multiple role code
+        """
         # Build Data
         business_travel_build_days = request.session.get('business_travel_build_days')
         business_travel_build_days = [i for i in business_travel_build_days if i != 0]
@@ -2024,14 +2172,23 @@ def di_business_travel(request):
 
         new_run_list = [x for x in business_travel_run_days[:len_run_quarter]]
         print(new_run_list)
+        
+        """
+        totalcarbonfootprint_business_build = []
+        for i in range(len(business_travel_total_days_build_all_roles_int)):
+            totalcarbonfootprint_business_build.append([j * emission_factor_list[i] for j in business_travel_total_days_build_all_roles_int[i]])
+        print('totalcarbonfootprint_business_build', totalcarbonfootprint_business_build)
 
-        totalcarbonfootprint_business_run = [emission_factor_list_run[0] * new_run_list[i] for i in
-                                             range(len(new_run_list))]
+        totalcarbonfootprint_business_run = []
+        for i in range(len(business_travel_total_days_run_all_roles_int)):
+            totalcarbonfootprint_business_run.append(
+                [j * emission_factor_list[i] for j in business_travel_total_days_run_all_roles_int[i]])
         print('totalcarbonfootprint_business_run', totalcarbonfootprint_business_run)
 
-        no_of_working_days_run = [int(i) for i in new_run_list]
-        no_of_working_days_run = sum(no_of_working_days_run)
-        print('Total no of working days in Build: ', no_of_working_days_run)
+
+        # no_of_working_days_run = [int(i) for i in new_run_list]
+        # no_of_working_days_run = sum(no_of_working_days_run)
+        # print('Total no of working days in Build: ', no_of_working_days_run)
 
         # Create dataframe from above data
         # Build Phase
@@ -2045,88 +2202,95 @@ def di_business_travel(request):
         start_date_run = request.session.get('start_date_run')
         end_date_run = request.session.get('end_date_run')
 
-        business_travel_build_dataframe = pd.DataFrame({
-            'BuildQuarterData': new_build_list,
-            'Role': role[0],
-            'TotalCarbonFootprintsBuild': totalcarbonfootprint_business_build,
-            'BuildStartDate': start_date_build,
-            'BuildEndDate': end_date_build,
-            'Phase': 'Build',
-            'Quarters': numeric_list_of_load_plan_build,
-            'BuildYearList': year_list_build_load_plan_full,
 
-        })
-        print(business_travel_build_dataframe)
+        all_dataframes_of_load_build_phase = []
+        for i in range(len(role)):
+            business_travel_build_dataframe = pd.DataFrame({
+                'BuildQuarterData': business_travel_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'TotalCarbonFootprintsBuild': totalcarbonfootprint_business_build[i],
+                'BuildStartDate': start_date_build,
+                'BuildEndDate': end_date_build,
+                'Phase': 'Build',
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
+
+            })
+            print(business_travel_build_dataframe)
+            all_dataframes_of_load_build_phase.append(business_travel_build_dataframe)
 
         # Run Phase
-        business_travel_run_dataframe = pd.DataFrame({
-            'RunQuarterData': new_run_list,
-            'Role': role[0],
-            'RunStartDate': start_date_run,
-            'RunEndDate': end_date_run,
-            'Phase': 'Run',
-            'TotalCarbonFootprintsRun': totalcarbonfootprint_business_run,
-            'Quarters': numeric_list_of_load_plan_run,
-            'RunYearList': year_list_run_load_plan_full,
+        all_dataframes_of_load_run_phase = []
+        for i in range(len(role)):
+            business_travel_run_dataframe = pd.DataFrame({
+                'RunQuarterData': business_travel_total_days_run_all_roles_int[i],
+                'Role': role[i],
+                'RunStartDate': start_date_run,
+                'RunEndDate': end_date_run,
+                'Phase': 'Run',
+                'TotalCarbonFootprintsRun': totalcarbonfootprint_business_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
 
-        })
-        print(business_travel_run_dataframe)
+            })
+            print(business_travel_run_dataframe)
+            all_dataframes_of_load_run_phase.append(business_travel_run_dataframe)
         get_current_project_id = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
-
-
         try:
-            for index, row in business_travel_build_dataframe.iterrows():
-                for i in range(len(transport_type)):
-                    impact_directs_data_build = ImpactsDirects(
-                        projectname=request.session.get('name'),
-                        vehicleownership=vehical_owners[i],
-                        role=role[i],
-                        category='People',
-                        subcategory='Business Travel',
-                        phasetype=row['Phase'],
-                        buildstartdate=start_date_build,
-                        buildenddate=end_date_build,
-                        runstartdate=start_date_run,
-                        runenddate=end_date_run,
-                        year=row['BuildYearList'],
-                        quarter=row['Quarters'],
-                        projid=get_current_project_id,
-                        nofworkingdays=row['BuildQuarterData'],
-                        emissionfactor=emission_factor_list[i],
-                        create_timestamp=create_timestamp,
-                        update_timestamp=create_timestamp,
-                        typeoftransport=transport_type[i],
-                        totalcarbonfootprint=row['TotalCarbonFootprintsBuild'],
-                    )
-                    impact_directs_data_build.save()
+            for dataframe in all_dataframes_of_load_build_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        impact_directs_data_build = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            vehicleownership=vehical_owners[i],
+                            role=row['Role'],
+                            category='People',
+                            subcategory='Business Travel',
+                            phasetype=row['Phase'],
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+                            year=row['BuildYearList'],
+                            quarter=row['Quarters'],
+                            projid=get_current_project_id,
+                            nofworkingdays=row['BuildQuarterData'],
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+                            typeoftransport=transport_type[i],
+                            totalcarbonfootprint=row['TotalCarbonFootprintsBuild'],
+                        )
+                        impact_directs_data_build.save()
         except Exception as e:
             print("==================== Error while adding data in Business travel Build ==========", e)
 
         try:
-            for index, row in business_travel_run_dataframe.iterrows():
-                for i in range(len(transport_type)):
-                    impact_direct_data_run = ImpactsDirects(
-                        projectname=request.session.get('name'),
-                        vehicleownership=vehical_owners_run[i],
-                        role=role[i],
-                        category='People',
-                        subcategory='Business Travel',
-                        phasetype=row['Phase'],
-                        year=row['RunYearList'],
-                        quarter=row['Quarters'],
-                        nofworkingdays=row['RunQuarterData'],
-                        projid=get_current_project_id,
-                        buildstartdate=start_date_build,
-                        buildenddate=end_date_build,
-                        runstartdate=start_date_run,
-                        runenddate=end_date_run,
-                        emissionfactor=emission_factor_list_run[i],
-                        create_timestamp=create_timestamp,
-                        update_timestamp=create_timestamp,
-                        typeoftransport=transport_type_run[i],
-                        totalcarbonfootprint=row['TotalCarbonFootprintsRun'],
-                    )
-                    impact_direct_data_run.save()
+            for dataframe in all_dataframes_of_load_run_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        impact_direct_data_run = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            vehicleownership=vehical_owners_run[i],
+                            role=row['Role'],
+                            category='People',
+                            subcategory='Business Travel',
+                            phasetype=row['Phase'],
+                            year=row['RunYearList'],
+                            quarter=row['Quarters'],
+                            nofworkingdays=row['RunQuarterData'],
+                            projid=get_current_project_id,
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+                            emissionfactor=emission_factor_list_run[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+                            typeoftransport=transport_type_run[i],
+                            totalcarbonfootprint=row['TotalCarbonFootprintsRun'],
+                        )
+                        impact_direct_data_run.save()
         except Exception as e:
             print("==================== Error while adding data in Business travel Run ==========", e)
 
@@ -2391,8 +2555,8 @@ def di_laptop(request):
     if request.method == "POST":
         # import ipdb
         # ipdb.set_trace()
-        noofworkingdays_build = request.session.get('noofworkingdays_build')
-        noofworkingdays_run = request.session.get('noofworkingdays_run')
+        load_plan_total_days_build_all_roles_sum = request.session.get('load_plan_total_days_build_sum')
+        load_plan_total_days_run_all_roles_sum = request.session.get('load_plan_total_days_run_sum')
         role = request.session.get('role')
         list = request.session.get('list')
         print('list1 is', list)
@@ -2485,12 +2649,19 @@ def di_laptop(request):
             emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
             print('emission_factor_list', emission_factor_list)
 
-        totalcarbonfootprint_laptop_build = [emission_factor_list[i] * noofworkingdays_build[i] for i in
-                                             range(len(noofworkingdays_build))]
+
+        # totalcarbonfootprint_laptop_build = []
+        # for i in range(len(load_plan_total_days_build_all_roles_sum)):
+        #     totalcarbonfootprint_laptop_build.append(
+        #         [j * emission_factor_list[i] for j in load_plan_total_days_build_all_roles_sum[i]])
+
+        totalcarbonfootprint_laptop_build = []
+        count = 0
+        for i in load_plan_total_days_build_all_roles_sum:
+            totalcarbonfootprint_laptop_build.append(i * emission_factor_list[count])
+            count += 1
         print('totalcarbonfootprint_laptop_build', totalcarbonfootprint_laptop_build)
 
-        # import ipdb
-        # ipdb.set_trace()
 
         emission_factor_list_run = []
         for i in transport_type_run:
@@ -2501,8 +2672,17 @@ def di_laptop(request):
             emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
             print('emission_factor_list_run', emission_factor_list_run)
 
-        totalcarbonfootprint_laptop_run = [emission_factor_list_run[i] * noofworkingdays_run[i] for i in
-                                           range(len(noofworkingdays_run))]
+        # totalcarbonfootprint_laptop_run = []
+        # for i in range(len(load_plan_total_days_run_all_roles_sum)):
+        #     totalcarbonfootprint_laptop_run.append(
+        #         [j * emission_factor_list[i] for j in load_plan_total_days_run_all_roles_sum[i]])
+        # print('totalcarbonfootprint_laptop_run', totalcarbonfootprint_laptop_run)
+
+        totalcarbonfootprint_laptop_run = []
+        count = 0
+        for i in load_plan_total_days_run_all_roles_sum:
+            totalcarbonfootprint_laptop_run.append(i * emission_factor_list[count])
+            count += 1
         print('totalcarbonfootprint_laptop_run', totalcarbonfootprint_laptop_run)
 
         now = datetime.now()
@@ -3386,6 +3566,10 @@ def di_drone(request):
 
             final_quater.append(quater_list)
             # print('final_quater', final_quater)
+        drone_total_no_of_days_build = copy.deepcopy(noofworkingdays_build)
+        request.session['drone_total_no_of_days_build'] = drone_total_no_of_days_build
+
+
         default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
         count = 1
         count2 = 1
@@ -3461,6 +3645,9 @@ def di_drone(request):
 
             final_quater.append(quater_list)
             print('final_quater', final_quater)
+
+        drone_total_no_of_days_run = copy.deepcopy(noofworkingdays_run)
+        request.session['drone_total_no_of_days_run'] = drone_total_no_of_days_run
 
         noofworkingdays_build2 = []
         noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
@@ -3564,7 +3751,67 @@ def di_drone(request):
         #         emissionfactor = i.get('emissionfactor')
 
         # ================= Getting Data in Yearly And Quarterly ===============================
+        # Extra code for Multiple roles
+        # Getting all values of Load Plan build/ Run list for all roles
+
+
+        drone_total_no_of_days_build = request.session.get('drone_total_no_of_days_build')
+        drone_total_no_of_days_run = request.session.get('drone_total_no_of_days_run')
+
+        # Build Phase
+        # Removing '0' from all the values
+        drone_total_no_of_days_build = [[y for y in x if y != '0'] for x in
+                                        drone_total_no_of_days_build]
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in drone_total_no_of_days_build:
+            if len(item) != len_build_quarter:
+                drone_total_no_of_days_build[counter] = item[:len_build_quarter]
+            counter += 1
+        print(drone_total_no_of_days_build)
+
+        # Make list integer and get sum by Role
+        drone_total_days_build_all_roles_int = []
+        sum_drone_total_days_build_all_roles = []
+        for item in drone_total_no_of_days_build:
+            drone_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in drone_total_days_build_all_roles_int:
+            sum_drone_total_days_build_all_roles.append(sum(item))
+        print('Final List of Drone Build is: ', drone_total_days_build_all_roles_int)
+        print('Sum of Drone Build is: ', sum_drone_total_days_build_all_roles)
+
+        # Run Phase
+        # Removing '0' from all the values
+        drone_total_no_of_days_run = [[y for y in x if y != '0'] for x in
+                                        drone_total_no_of_days_run]
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in drone_total_no_of_days_run:
+            if len(item) != len_run_quarter:
+                drone_total_no_of_days_run[counter] = item[:len_run_quarter]
+            counter += 1
+        print(drone_total_no_of_days_run)
+
+        # Make list integer and get sum by Role
+        drone_total_days_run_all_roles_int = []
+        sum_drone_total_days_run_all_roles = []
+        for item in drone_total_no_of_days_run:
+            drone_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in drone_total_days_run_all_roles_int:
+            sum_drone_total_days_run_all_roles.append(sum(item))
+        print('Final List of Drone Run is: ', drone_total_days_run_all_roles_int)
+        print('Sum of Drone Run is: ', sum_drone_total_days_run_all_roles)
+
+        #============================================================================
         # Build Data
+        # Commenting this code due to multiple role code
+        """
         drone_build_list = request.session.get('drone_build_list')
         drone_build_list = [i for i in drone_build_list if i != '0']
         print(drone_build_list)
@@ -3607,6 +3854,20 @@ def di_drone(request):
         no_of_working_days_run = [int(i) for i in new_run_list]
         no_of_working_days_run = sum(no_of_working_days_run)
         print('Total no of working days in Build: ', no_of_working_days_run)
+        
+        """
+
+        totalcarbonfootprint_drone_build = []
+        for i in range(len(drone_total_days_build_all_roles_int)):
+            totalcarbonfootprint_drone_build.append(
+                [j * emission_factor_list[i] for j in drone_total_days_build_all_roles_int[i]])
+        print('totalcarbonfootprint_drone_build', totalcarbonfootprint_drone_build)
+
+        totalcarbonfootprint_drone_run = []
+        for i in range(len(drone_total_days_run_all_roles_int)):
+            totalcarbonfootprint_drone_run.append(
+                [j * emission_factor_list[i] for j in drone_total_days_run_all_roles_int[i]])
+        print('totalcarbonfootprint_drone_run', totalcarbonfootprint_drone_run)
 
         # Create dataframe from above data
         # Build Phase
@@ -3620,88 +3881,94 @@ def di_drone(request):
         start_date_run = request.session.get('start_date_run')
         end_date_run = request.session.get('end_date_run')
 
-        drone_build_dataframe = pd.DataFrame({
-            'BuildQuarterData': new_build_list,
-            'Role': role[0],
-            'BuildStartDate': start_date_build,
-            'BuildEndDate': end_date_build,
-            'Phase': 'Build',
-            'TotalCarbonFootPrints': totalcarbonfootprint_drone_build,
-            'Quarters': numeric_list_of_load_plan_build,
-            'BuildYearList': year_list_build_load_plan_full,
+        all_dataframes_of_drone_build_phase = []
+        for i in range(len(role)):
+            drone_build_dataframe = pd.DataFrame({
+                'BuildQuarterData': drone_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'BuildStartDate': start_date_build,
+                'BuildEndDate': end_date_build,
+                'Phase': 'Build',
+                'TotalCarbonFootPrints': totalcarbonfootprint_drone_build[i],
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
 
-        })
-        print(drone_build_dataframe)
+            })
+            print(drone_build_dataframe)
+            all_dataframes_of_drone_build_phase.append(drone_build_dataframe)
 
         # Run Phase
-        drone_run_dataframe = pd.DataFrame({
-            'RunQuarterData': new_run_list,
-            'Role': role[0],
-            'RunStartDate': start_date_run,
-            'RunEndDate': end_date_run,
-            'Phase': 'Run',
-            'TotalCarbonFootPrints': totalcarbonfootprint_drone_run,
-            'Quarters': numeric_list_of_load_plan_run,
-            'RunYearList': year_list_run_load_plan_full,
+        all_dataframes_of_drone_run_phase = []
+        for i in range(len(role)):
+            drone_run_dataframe = pd.DataFrame({
+                'RunQuarterData': drone_total_days_run_all_roles_int[i],
+                'Role': role[i],
+                'RunStartDate': start_date_run,
+                'RunEndDate': end_date_run,
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_drone_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
 
-        })
-        print(drone_run_dataframe)
+            })
+            print(drone_run_dataframe)
+            all_dataframes_of_drone_run_phase.append(drone_run_dataframe)
         get_current_project_id = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
-
-
         try:
-            for index, row in drone_build_dataframe.iterrows():
-                for i in range(len(transport_type)):
-                    IMPACTS_DIRECTS_data = ImpactsDirects(
-                        projectname=request.session.get('name'),
-                        equipmentownership=vehical_owners[i],
-                        role=role[i],
-                        phasetype=row['Phase'],
-                        category='Industrial Equipment',
-                        subcategory=transport_type[i],
-                        nofworkingdays=row['BuildQuarterData'],
-                        buildstartdate=start_date_build,
-                        buildenddate=end_date_build,
-                        runstartdate=start_date_run,
-                        runenddate=end_date_run,
-                        year=row['BuildYearList'],
-                        quarter=row['Quarters'],
-                        emissionfactor=emission_factor_list[i],
-                        create_timestamp=create_timestamp,
-                        update_timestamp=create_timestamp,
-                        totalcarbonfootprint=row['TotalCarbonFootPrints'],
-                        projid=get_current_project_id,
-                    )
-                    IMPACTS_DIRECTS_data.save()
-                    print(IMPACTS_DIRECTS_data)
+            for dataframe in all_dataframes_of_drone_build_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners[i],
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            category='Industrial Equipment',
+                            subcategory=transport_type[i],
+                            nofworkingdays=row['BuildQuarterData'],
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+                            year=row['BuildYearList'],
+                            quarter=row['Quarters'],
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+                            projid=get_current_project_id,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
         except Exception as e:
             print('Error occured while saving data in Drone Build', e)
 
         try:
-            for index, row in drone_run_dataframe.iterrows():
-                for i in range(len(transport_type_run)):
-                    IMPACTS_DIRECTS_data = ImpactsDirects(
-                        projectname=request.session.get('name'),
-                        equipmentownership=vehical_owners_run[i],
-                        role=role[i],
-                        category='Industrial Equipment',
-                        subcategory=transport_type_run[i],
-                        nofworkingdays=row['RunQuarterData'],
-                        buildstartdate=start_date_build,
-                        buildenddate=end_date_build,
-                        runstartdate=start_date_run,
-                        phasetype=row['Phase'],
-                        runenddate=end_date_run,
-                        year=row['RunYearList'],
-                        quarter=row['Quarters'],
-                        emissionfactor=emission_factor_list_run[i],
-                        create_timestamp=create_timestamp,
-                        update_timestamp=create_timestamp,
-                        totalcarbonfootprint=row['TotalCarbonFootPrints'],
-                        projid=roleid,
-                    )
-                    IMPACTS_DIRECTS_data.save()
-                    print(IMPACTS_DIRECTS_data)
+            for dataframe in all_dataframes_of_drone_run_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type_run)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners_run[i],
+                            role=row['Role'],
+                            category='Industrial Equipment',
+                            subcategory=transport_type_run[i],
+                            nofworkingdays=row['RunQuarterData'],
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            phasetype=row['Phase'],
+                            runenddate=end_date_run,
+                            year=row['RunYearList'],
+                            quarter=row['Quarters'],
+                            emissionfactor=emission_factor_list_run[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+                            projid=roleid,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
         except Exception as e:
             print('Error occured while saving data in Drone Run', e)
 

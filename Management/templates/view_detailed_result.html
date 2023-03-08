@@ -728,7 +728,7 @@ function mySearchFunction() {
                      <button class="static-font" style="height: 30px; width: 160px; font-size: 12px; border-style: ridge; border-color: #4FAFA2;  background-color: transparent; border-width: 1px; color: #4FAFA2;"><img src="static/assets/img/ok_dashboard.png" height="15" width="15" style="margin-right: 6px; margin-top: -3px;">MARK AS COMPLETE</button>
                 </div>
             </div>
-            <label class="static-font" style="font-size: 14px; color: #6C757D;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</label>
+<!--            <label class="static-font" style="font-size: 14px; color: #6C757D;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</label>-->
         </div>
         <!-------------------------------Tab Section----------------------->
         <div class="w3-bar static-font" style="margin-left: 30px; margin-top: 7px; font-weight: 400; font-size: 16px; line-height: 20px;">
@@ -751,7 +751,7 @@ function mySearchFunction() {
                 <div id="draft_div" style=" margin-top: 30px; display: flex; width: 90%; height: 100px; margin-left: 20px; gap: 8px;">
                     <div style="width: 25%; border-radius: 5px; background-color: #1A1D23;">
                         <p class="static-font" style="padding: 10px; color: #3D8588; font-size: 14px;"><img height="15" width="20" style="margin-right: 6px;" src="static/assets/img/direct_impact_dashboard.png">Direct Impact</p>
-                        <label class="static-font" style="padding: 5px; margin-left: 10px; font-weight: 600; color: white; margin-top: -40px; font-size: 36px;">{{total_sum_of_direct_impact}}<label style="font-size: 14px; margin-left: 5px; font-weight: 400;">Units</label></label>
+                        <label class="static-font" style="padding: 5px; margin-left: 10px; font-weight: 600; color: white; margin-top: -40px; font-size: 36px;">0.044<label style="font-size: 14px; margin-left: 5px; font-weight: 400;">Units</label></label>
                     </div>
                     <div style="width: 25%; border-radius: 5px; background-color: #1A1D23;">
                         <p class="static-font" style="padding: 10px; font-size: 14px; color: #3D8588; "><img height="15" width="20" style="margin-right: 6px;" src="static/assets/img/indirect_impact_dashboard.png">Indirect Impact</p>
@@ -763,7 +763,7 @@ function mySearchFunction() {
                     </div>
                     <div style="width: 25%; border-radius: 5px; background-color: #1A1D23;">
                         <p class="static-font" style="padding: 10px; border-radius: 0px; font-size: 14px; color: #3D8588; "><img height="15" width="15" style="margin-right: 6px;" src="static/assets/img/return_dashboard.png">Return on Environment</p>
-                        <label class="static-font" style="padding: 5px; margin-left: 10px; font-weight: 600; color: white; margin-top: -40px; color: #489C69; font-size: 36px;">{{roe}}<label style="font-size: 14px; font-weight: 400; color: white; margin-left: 5px;">Units</label></label>
+                        <label class="static-font" style="padding: 5px; margin-left: 10px; font-weight: 600; color: white; margin-top: -40px; color: #489C69; font-size: 36px;">02<label style="font-size: 14px; font-weight: 400; color: white; margin-left: 5px;">Units</label></label>
                     </div>
                 </div>
                 <div id="draft_div2" style="padding-bottom: 180px; width: 90%; margin-top: 10px; margin-left: 20px; height: 300px; background-color: #1A1D23">
@@ -787,13 +787,13 @@ function mySearchFunction() {
                             <tr>
                               <th scope="row" style="background-color: #34373D">Direct Impact</th>
                                 {% for i in total_build_year %}
-                                    <td>{{total_sum_of_direct_impact}}</td>
+                                    <td>0.34</td>
                                 {% endfor %}
                             </tr>
                             <tr>
                               <th scope="row" style="background-color: #34373D">People</th>
                                 {% for i in total_build_year %}
-                                    <td>{{sum_of_people}}</td>
+                                    <td>0.68</td>
                                 {% endfor %}
                             </tr>
                             <tr>
