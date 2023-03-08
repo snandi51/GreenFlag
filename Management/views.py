@@ -1935,11 +1935,6 @@ def di_business_travel(request):
             emission_factor_list.append(tt_lists[0]['emissionfactor'])
             print('emission_factor_list', emission_factor_list)
 
-        # import ipdb
-        # ipdb.set_trace()
-        totalcarbonfootprint_business_build = [emission_factor_list[i] * noofworkingdays_build[i] for i in
-                                               range(len(noofworkingdays_build))]
-        print('totalcarbonfootprint_business_build', totalcarbonfootprint_business_build)
 
         emission_factor_list_run = []
         for i in transport_type_run:
@@ -1950,9 +1945,6 @@ def di_business_travel(request):
             emission_factor_list_run.append(tt_lists[0]['emissionfactor'])
             print('emission_factor_list_run', emission_factor_list_run)
 
-        totalcarbonfootprint_business_run = [emission_factor_list_run[i] * noofworkingdays_run[i] for i in
-                                             range(len(noofworkingdays_run))]
-        print('totalcarbonfootprint_business_run', totalcarbonfootprint_business_run)
 
         total_noofworkingdays_run = sum(noofworkingdays_run)
         print('total_noofworkingdays_run', total_noofworkingdays_run)
@@ -2012,6 +2004,11 @@ def di_business_travel(request):
         load_plan_build_list = request.session.get('load_plan_build_list')
         new_build_list = [x for x in business_travel_build_days[:len_build_quarter]]
         print(new_build_list)
+
+        totalcarbonfootprint_business_build = [emission_factor_list[0] * new_build_list[i] for i in
+                                               range(len(new_build_list))]
+        print('totalcarbonfootprint_business_build', totalcarbonfootprint_business_build)
+
         no_of_working_days_build = [int(i) for i in new_build_list]
         no_of_working_days_build = sum(no_of_working_days_build)
         print('Total no of working days in Build: ', no_of_working_days_build)
@@ -2027,6 +2024,11 @@ def di_business_travel(request):
 
         new_run_list = [x for x in business_travel_run_days[:len_run_quarter]]
         print(new_run_list)
+
+        totalcarbonfootprint_business_run = [emission_factor_list_run[0] * new_run_list[i] for i in
+                                             range(len(new_run_list))]
+        print('totalcarbonfootprint_business_run', totalcarbonfootprint_business_run)
+
         no_of_working_days_run = [int(i) for i in new_run_list]
         no_of_working_days_run = sum(no_of_working_days_run)
         print('Total no of working days in Build: ', no_of_working_days_run)
@@ -2046,6 +2048,7 @@ def di_business_travel(request):
         business_travel_build_dataframe = pd.DataFrame({
             'BuildQuarterData': new_build_list,
             'Role': role[0],
+            'TotalCarbonFootprintsBuild': totalcarbonfootprint_business_build,
             'BuildStartDate': start_date_build,
             'BuildEndDate': end_date_build,
             'Phase': 'Build',
@@ -2062,6 +2065,7 @@ def di_business_travel(request):
             'RunStartDate': start_date_run,
             'RunEndDate': end_date_run,
             'Phase': 'Run',
+            'TotalCarbonFootprintsRun': totalcarbonfootprint_business_run,
             'Quarters': numeric_list_of_load_plan_run,
             'RunYearList': year_list_run_load_plan_full,
 
@@ -2092,7 +2096,7 @@ def di_business_travel(request):
                         create_timestamp=create_timestamp,
                         update_timestamp=create_timestamp,
                         typeoftransport=transport_type[i],
-                        totalcarbonfootprint=totalcarbonfootprint_business_build[i],
+                        totalcarbonfootprint=row['TotalCarbonFootprintsBuild'],
                     )
                     impact_directs_data_build.save()
         except Exception as e:
@@ -2120,7 +2124,7 @@ def di_business_travel(request):
                         create_timestamp=create_timestamp,
                         update_timestamp=create_timestamp,
                         typeoftransport=transport_type_run[i],
-                        totalcarbonfootprint=totalcarbonfootprint_business_run[i],
+                        totalcarbonfootprint=row['TotalCarbonFootprintsRun'],
                     )
                     impact_direct_data_run.save()
         except Exception as e:
@@ -3537,9 +3541,6 @@ def di_drone(request):
             emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
             print('emission_factor_list', emission_factor_list)
 
-        totalcarbonfootprint_drone_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
-                                            range(len(noofworkingdays_build2))]
-        print('totalcarbonfootprint_drone_build', totalcarbonfootprint_drone_build)
 
         emission_factor_list_run = []
         for i in transport_type_run:
@@ -3550,9 +3551,6 @@ def di_drone(request):
             emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
             print('emission_factor_list_run', emission_factor_list_run)
 
-        totalcarbonfootprint_drone_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
-                                          range(len(noofworkingdays_run2))]
-        print('totalcarbonfootprint_drone_run', totalcarbonfootprint_drone_run)
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -3576,7 +3574,15 @@ def di_drone(request):
 
         load_plan_build_list = request.session.get('load_plan_build_list')
         new_build_list = [x for x in drone_build_list[:len_build_quarter]]
+        drone_build_list_int = [int(i) for i in new_build_list]
         print(new_build_list)
+
+
+        totalcarbonfootprint_drone_build = [emission_factor_list[0] * drone_build_list_int[i] for i in
+                                            range(len(drone_build_list_int))]
+        print('totalcarbonfootprint_drone_build', totalcarbonfootprint_drone_build)
+
+
         no_of_working_days_build = [int(i) for i in new_build_list]
         no_of_working_days_build = sum(no_of_working_days_build)
         print('Total no of working days in Build: ', no_of_working_days_build)
@@ -3591,7 +3597,13 @@ def di_drone(request):
         len_run_quarter = len(quarter_list_run_load_plan)
 
         new_run_list = [x for x in drone_run_list[:len_run_quarter]]
+        drone_run_list_int = [int(i) for i in new_run_list]
         print(new_run_list)
+
+        totalcarbonfootprint_drone_run = [emission_factor_list_run[0] * drone_run_list_int[i] for i in
+                                          range(len(drone_run_list_int))]
+        print('totalcarbonfootprint_drone_run', totalcarbonfootprint_drone_run)
+
         no_of_working_days_run = [int(i) for i in new_run_list]
         no_of_working_days_run = sum(no_of_working_days_run)
         print('Total no of working days in Build: ', no_of_working_days_run)
@@ -3614,6 +3626,7 @@ def di_drone(request):
             'BuildStartDate': start_date_build,
             'BuildEndDate': end_date_build,
             'Phase': 'Build',
+            'TotalCarbonFootPrints': totalcarbonfootprint_drone_build,
             'Quarters': numeric_list_of_load_plan_build,
             'BuildYearList': year_list_build_load_plan_full,
 
@@ -3627,6 +3640,7 @@ def di_drone(request):
             'RunStartDate': start_date_run,
             'RunEndDate': end_date_run,
             'Phase': 'Run',
+            'TotalCarbonFootPrints': totalcarbonfootprint_drone_run,
             'Quarters': numeric_list_of_load_plan_run,
             'RunYearList': year_list_run_load_plan_full,
 
@@ -3655,7 +3669,7 @@ def di_drone(request):
                         emissionfactor=emission_factor_list[i],
                         create_timestamp=create_timestamp,
                         update_timestamp=create_timestamp,
-                        totalcarbonfootprint=totalcarbonfootprint_drone_build[i],
+                        totalcarbonfootprint=row['TotalCarbonFootPrints'],
                         projid=get_current_project_id,
                     )
                     IMPACTS_DIRECTS_data.save()
@@ -3683,7 +3697,7 @@ def di_drone(request):
                         emissionfactor=emission_factor_list_run[i],
                         create_timestamp=create_timestamp,
                         update_timestamp=create_timestamp,
-                        totalcarbonfootprint=totalcarbonfootprint_drone_run[i],
+                        totalcarbonfootprint=row['TotalCarbonFootPrints'],
                         projid=roleid,
                     )
                     IMPACTS_DIRECTS_data.save()
@@ -4673,9 +4687,6 @@ def indirect_impact_fl(request):
             emission_factor_list.append(tt_lists[0]['emissionfactor'])
             print('emission_factor_list', emission_factor_list)
 
-        totalcarbonfootprint_fuel = [emission_factor_list[i] * noofworkingdays_run1[i] for i in
-                                     range(len(emission_factor_list))]
-        print('totalcarbonfootprint_fuel', totalcarbonfootprint_fuel)
 
         default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
         count = 1
@@ -4716,7 +4727,13 @@ def indirect_impact_fl(request):
         len_run_quarter = len(quarter_list_run_load_plan)
 
         new_run_list = [x for x in fuel_combution_total_run[:len_run_quarter]]
+        fuel_build_list_int = [int(i) for i in new_run_list]
         print(new_run_list)
+
+        totalcarbonfootprint_fuel = [emission_factor_list[0] * fuel_build_list_int[i] for i in
+                                     range(len(fuel_build_list_int))]
+        print('totalcarbonfootprint_fuel', totalcarbonfootprint_fuel)
+
         no_of_working_days_run = [int(i) for i in new_run_list]
         no_of_working_days_run = sum(no_of_working_days_run)
         print('Total no of working days in Build: ', no_of_working_days_run)
@@ -4735,6 +4752,7 @@ def indirect_impact_fl(request):
             'RunStartDate': start_date_run,
             'RunEndDate': end_date_run,
             'Phase': 'Run',
+            'TotalCarbonFootPrints': totalcarbonfootprint_fuel,
             'Quarters': numeric_list_of_load_plan_run,
             'RunYearList': year_list_run_load_plan_full,
 
@@ -4748,7 +4766,7 @@ def indirect_impact_fl(request):
                     IMPACTS_INDIRECTS_data = ImpactsIndirects(
                         projectname=request.session.get('name'),
                         category='Fuel - Stationary combustion',
-                        totalcarbonfootprint=totalcarbonfootprint_fuel[i],
+                        totalcarbonfootprint=row['TotalCarbonFootPrints'],
                         projid=get_current_project_id,
 
                         # noofworkingdays=row['RunQuarterData'],
