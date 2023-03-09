@@ -61,13 +61,14 @@ class ImpactsDirects(models.Model):
     workcountry = models.CharField(db_column='WorkCountry', max_length=50, blank=True, null=True)  # Field name made lowercase.
     create_timestamp = models.DateTimeField(db_column='Create_Timestamp')  # Field name made lowercase.
     update_timestamp = models.DateTimeField(db_column='Update_Timestamp')  # Field name made lowercase.
-    scope = models.CharField(db_column='Scope', max_length=30, blank=True, null=True)  # Field name made lowercase.
     avgnoofdaysofficeperweek = models.FloatField(db_column='AvgNoofDaysOfficePerWeek', blank=True, null=True)  # Field name made lowercase.
+    scope1 = models.FloatField(db_column='Scope1', blank=True, null=True)  # Field name made lowercase.
+    scope2 = models.FloatField(db_column='Scope2', blank=True, null=True)  # Field name made lowercase.
+    scope3 = models.FloatField(db_column='Scope3', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'IMPACTS_DIRECTS'
-
 
 
 class ImpactsIndirects(models.Model):
@@ -155,7 +156,6 @@ class DatacenterReseaux(models.Model):
     dcid = models.BigAutoField(db_column='DCId', primary_key=True)  # Field name made lowercase.
     directid = models.ForeignKey('ImpactsDirects', models.DO_NOTHING, db_column='DirectId', blank=True, null=True)  # Field name made lowercase.
     projid = models.BigIntegerField(db_column='ProjId', blank=True, null=True)  # Field name made lowercase.
-    category = models.CharField(db_column='Category', max_length=50)  # Field name made lowercase.
     phasetype = models.CharField(db_column='PhaseType', max_length=30)  # Field name made lowercase.
     typeofproject = models.CharField(db_column='TypeOfProject', max_length=50, blank=True, null=True)  # Field name made lowercase.
     calculationmethod = models.CharField(db_column='CalculationMethod', max_length=50, blank=True, null=True)  # Field name made lowercase.
@@ -167,10 +167,10 @@ class DatacenterReseaux(models.Model):
     structureddatavolume = models.IntegerField(db_column='StructuredDataVolume', blank=True, null=True)  # Field name made lowercase.
     unstructureddatavolume = models.IntegerField(db_column='UnstructuredDataVolume', blank=True, null=True)  # Field name made lowercase.
     invoiceamount = models.FloatField(db_column='InvoiceAmount', blank=True, null=True)  # Field name made lowercase.
-    buildstartdate = models.DateField(db_column='BuildStartDate')  # Field name made lowercase.
-    buildenddate = models.DateField(db_column='BuildEndDate')  # Field name made lowercase.
-    runstartdate = models.DateField(db_column='RunStartDate')  # Field name made lowercase.
-    runenddate = models.DateField(db_column='RunEndDate')  # Field name made lowercase.
+    buildstartdate = models.DateField(db_column='BuildStartDate', blank=True, null=True)  # Field name made lowercase.
+    buildenddate = models.DateField(db_column='BuildEndDate', blank=True, null=True)  # Field name made lowercase.
+    runstartdate = models.DateField(db_column='RunStartDate', blank=True, null=True)  # Field name made lowercase.
+    runenddate = models.DateField(db_column='RunEndDate', blank=True, null=True)  # Field name made lowercase.
     year = models.IntegerField(db_column='Year', blank=True, null=True)  # Field name made lowercase.
     quarter = models.IntegerField(db_column='Quarter', blank=True, null=True)  # Field name made lowercase.
     totalcarbonfootprintquarter = models.FloatField(db_column='TotalCarbonFootPrintQuarter', blank=True, null=True)  # Field name made lowercase.
