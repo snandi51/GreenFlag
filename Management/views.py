@@ -2783,10 +2783,8 @@ def di_laptop(request):
         plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
         paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
         mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
-        mobile_business_data = RefCarbonfootprint.objects.filter(
-            category='Mobile Combustion - Business Travel').values()
-        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
-            category='Mobile Combustion - Freight transport').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Freight transport').values()
 
 
         context = {
@@ -6171,31 +6169,31 @@ def di_dcn(request):
             )
             DatacenterReseaux_data.save()
 
-        # daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-        # laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
-        # business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-        # monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-        # drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
-        # pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
-        # tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
-        # telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
-        # printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
-        # projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
-        # lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
-        # camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
-        # raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-        # fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-        # sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
-        # electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
-        # bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
-        # raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Raspberry PI').values()
-        # water_data = RefCarbonfootprint.objects.filter(category='Water').values()
-        # waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
-        # plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
-        # paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
-        # mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
-        # mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
-        # mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Freight transport').values()
+        daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+        business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Freight transport').values()
 
         context = {
             # 'project_type_list': project_type_list,
@@ -6209,35 +6207,35 @@ def di_dcn(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'list_length': request.session.get('list_length'),
-            # 'laptop_data': laptop_data,
-            # 'daily_commute': daily_commute,
-            # 'business_travel': business_travel,
+            'laptop_data': laptop_data,
+            'daily_commute': daily_commute,
+            'business_travel': business_travel,
             'list_count': request.session.get('list_count'),
             'list_count_run': request.session.get('list_count_run'),
             'span_build_list': request.session.get('span_build_list'),
             'span_build_list_run': request.session.get('span_build_list_run'),
             'year_list': settings.COUNTRY_LIST,
-            # 'monitor_data': monitor_data,
-            # 'drone_data': drone_data,
-            # 'pc_data': pc_data,
-            # 'telephone_data': telephone_data,
-            # 'printer_data': printer_data,
-            # 'projector_data': projector_data,
-            # 'lidar_data': lidar_data,
-            # 'camera_data': camera_data,
-            # 'raw_data': raw_data,
-            # 'fuel_data': fuel_data,
-            # 'tablet_data': tablet_data,
-            # 'bt_data': bt_data,
-            # 'raspberry_data': raspberry_data,
-            # 'electricity_data': electricity_data,
-            # 'paper_data': paper_data,
-            # 'plastic_data': plastic_data,
-            # 'waste_data': waste_data,
-            # 'water_data': water_data,
-            # 'mobile_daily_data': mobile_daily_data,
-            # 'mobile_business_data': mobile_business_data,
-            # 'mobile_frieght_transport_data': mobile_frieght_transport_data,
+            'monitor_data': monitor_data,
+            'drone_data': drone_data,
+            'pc_data': pc_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
 
         }
         # return render(request, 'di_dcn.html', context)
@@ -6306,31 +6304,31 @@ def di_dcn(request):
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
                 return render(request, 'di_raspberrypi.html', context)
 
-    # daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    # laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
-    # business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
-    # monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
-    # drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
-    # pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
-    # tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
-    # telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
-    # printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
-    # projector_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Video projector').values()
-    # lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
-    # camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
-    # raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-    # fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-    # sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
-    # electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
-    # bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
-    # raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
-    # water_data = RefCarbonfootprint.objects.filter(category='Water').values()
-    # waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
-    # plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
-    # paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
-    # mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
-    # mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
-    # mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Freight transport').values()
+    daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+    business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+    raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Freight transport').values()
 
     # proj_type = RefParameters.objects.values_list('projecttypology')
     # proj_type = RefParameters.objects.values('projecttypology')
@@ -6349,36 +6347,36 @@ def di_dcn(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
-        # 'laptop_data': laptop_data,
-        # 'daily_commute': daily_commute,
-        # 'business_travel': business_travel,
+        'laptop_data': laptop_data,
+        'daily_commute': daily_commute,
+        'business_travel': business_travel,
 
         'list_count': request.session.get('list_count'),
         'list_count_run': request.session.get('list_count_run'),
         'span_build_list': request.session.get('span_build_list'),
         'span_build_list_run': request.session.get('span_build_list_run'),
         'year_list': settings.COUNTRY_LIST,
-        # 'monitor_data': monitor_data,
-        # 'drone_data': drone_data,
-        # 'pc_data': pc_data,
-        # 'telephone_data': telephone_data,
-        # 'printer_data': printer_data,
-        # 'projector_data': projector_data,
-        # 'lidar_data': lidar_data,
-        # 'camera_data': camera_data,
-        # 'raw_data': raw_data,
-        # 'fuel_data': fuel_data,
-        # 'tablet_data': tablet_data,
-        # 'bt_data': bt_data,
-        # 'raspberry_data': raspberry_data,
-        # 'electricity_data': electricity_data,
-        # 'paper_data': paper_data,
-        # 'plastic_data': plastic_data,
-        # 'waste_data': waste_data,
-        # 'water_data': water_data,
-        # 'mobile_daily_data': mobile_daily_data,
-        # 'mobile_business_data': mobile_business_data,
-        # 'mobile_frieght_transport_data': mobile_frieght_transport_data,
+        'monitor_data': monitor_data,
+        'drone_data': drone_data,
+        'pc_data': pc_data,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
     return render(request, 'di_dcn.html', context)
 
