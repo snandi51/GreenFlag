@@ -252,4 +252,3 @@ class CompanyDetails(models.Model):
         db_table = 'COMPANY_DETAILS'
 
 
-
