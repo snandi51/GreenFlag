@@ -4469,6 +4469,8 @@ def get_current_phase(request, all_years, current_year):
         build_year_list.append(int(build_start_year) + i)
 
     print('Build Year list: ', build_year_list)
+    # import ipdb
+    # ipdb.set_trace()
 
     request.session['build_year_list'] = build_year_list
 
@@ -4526,12 +4528,33 @@ def emission_lib(request):
 
 
 def datacenter_network(request):
-    i = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    i = [1, 2]
+
+    get_parameters_library = get_parameters_library_data(request)
+
+    print("Parameters", get_parameters_library[0])
     context = {
         'i': i,
+        'progress_bar': True,
+        # 'temp_list': temp_list[1],
+        'parameters_library_list': get_parameters_library[0],
+        # 'parameters_library_custom_list': get_parameters_library[1]
     }
     return render(request, 'datacenter_network.html', context)
 
+
+def get_parameters_library_data(request):
+    parameters_library_data = RefParameters.objects.all()
+    # parameters_library_data_custom = RefParameters.objects.filter(scope='Custom')
+    parameters_library_data_list = []
+    # parameters_library_data_custom_list = []
+    for item in parameters_library_data:
+        parameters_library_data_list.append(item.__dict__)
+
+    # for item_data in parameters_library_data_custom:
+    #     parameters_library_data_custom_list.append(item_data.__dict__)
+
+    return [parameters_library_data_list]
 
 def indirect_impact_el(request):
     # import ipdb
@@ -12087,20 +12110,161 @@ def curyearimpacts():
 
 
 def view_detailed_result(request):
+
+    # id get from
+    # if not in session then get from db table project_details
+    # 1.start year 2.end year 3.parameters_implemented_list which data is selected -
+
+
+
+
+    user_indirectid = request.GET.get('search')
+    print('user_indirectid =',user_indirectid)
+
+    project_name = request.session.get('name')
+    # import ipdb
+    # ipdb.set_trace()
+    if user_indirectid:
+
+        # ProjectDetails - projectname   *******
+        Non_session = ImpactsIndirects.objects.get(indirectid=user_indirectid)
+        db_project_name = Non_session.projectname
+        project_name = db_project_name
+
+
+
+
+
     user_equipment_list = request.session.get('WhichUserEquipment_list')
+    # ProjectDetails -whichuserequipment *******
     industrial_equipment_list = request.session.get('WhichIndustrialEquipment_list')
+    # ProjectDetails -whichindustrialequipment *******
     parameters_implemented_list = request.session.get('WhichParametersImplemented_list')
+    # ProjectDetails -whichindirectparameters *******
+
+    # import ipdb
+    # ipdb.set_trace()
+    if user_equipment_list is None and user_indirectid:
+        if industrial_equipment_list is None:
+            if parameters_implemented_list is None:
+                Non_session_data=ImpactsIndirects.objects.get(indirectid=user_indirectid)
+                Non_session_data_dict = model_to_dict(Non_session_data)
+                print('Non_session_data = ', Non_session_data)
+                print('Non_session_data_dict', Non_session_data_dict)
+
+                main_proj_id = Non_session_data_dict['projid']
+                print('main_proj_id', main_proj_id)
+
+                project_data = ProjectDetails.objects.get(projid=main_proj_id)
+                project_data_dict = model_to_dict(project_data)
+                print('project_data_dict =',project_data_dict)
+
+                user_equipment_list=project_data_dict['whichuserequipment']
+                industrial_equipment_list = project_data_dict['whichindustrialequipment']
+                parameters_implemented_list = project_data_dict['whichindirectparameters']
+                parameters_implemented_list = [project_data_dict['whichindirectparameters']]
+
+    # import ipdb
+    # ipdb.set_trace()
+    print('parameters_implemented_list =',parameters_implemented_list)
+
 
     all_param_list = []
     all_param_list.extend(user_equipment_list)
     all_param_list.extend(industrial_equipment_list)
     all_param_list.extend(parameters_implemented_list)
+    # import ipdb
+    # ipdb.set_trace()
+    total_build_year = request.session.get('build_year_list')
 
-    total_build_year = request.session.get('build_year_list'),
-    total_build_year = total_build_year[0]
-    total_build_year.insert(0, 'Total')
+
+    if total_build_year and not user_indirectid:
+        total_build_year.insert(0, 'Total')
+
+
+    import datetime
+    if user_indirectid:
+        Non_session_data = ImpactsIndirects.objects.get(indirectid=user_indirectid)
+        Non_session_data_dict = model_to_dict(Non_session_data)
+        print('Non_session_data = ', Non_session_data)
+        print('Non_session_data_dict', Non_session_data_dict)
+
+        main_proj_id = Non_session_data_dict['projid']
+        print('main_proj_id', main_proj_id)
+        project_data = ProjectDetails.objects.get(projid=main_proj_id)
+        project_data_dict = model_to_dict(project_data)
+        print('project_data_dict =', project_data_dict)
+
+
+        build_start_year1 = project_data_dict['buildstartdate']
+        # build_start_year = build_start_year.split('-')[0]
+        build_start_year = build_start_year1.timetuple().tm_year
+
+
+        build_end_year1 = project_data_dict['buildenddate']
+        # build_end_year = build_end_year.split('-')[0]
+        build_end_year = build_end_year1.timetuple().tm_year
+
+        print('build_start_year =',build_start_year)
+        print('build_end_year =', build_end_year)
+
+        build_year_list=[]
+
+        get_build_num_of_year = int(build_end_year) - int(build_start_year)
+        for i in range(get_build_num_of_year + 1):
+            build_year_list.append(int(build_start_year) + i)
+
+        build_year_list.insert(0, 'Total')
+        total_build_year = build_year_list
+
+        print('total_build_year without session =',total_build_year)
+
+    # ProjectDetails = buildstartdate - buildenddate   *******
+
+
+
     total_run_year = request.session.get('run_year_list'),
+    # ProjectDetails = runstartdate - runenddate  *******
+
+    # import ipdb
+    # ipdb.set_trace()
+    if user_indirectid:
+        project_data = ProjectDetails.objects.get(projid=main_proj_id)
+        project_data_dict = model_to_dict(project_data)
+        print('project_data_dict =', project_data_dict)
+
+        run_start_year1 = project_data_dict['runstartdate']
+        # run_start_year = run_start_year.split('-')[0]
+        run_start_year = run_start_year1.timetuple().tm_year
+
+        run_end_year1 = project_data_dict['runenddate']
+        # run_end_year = run_end_year.split('-')[0]
+        run_end_year = run_end_year1.timetuple().tm_year
+        # import ipdb
+        # ipdb.set_trace()
+        print('run_start_year =', run_start_year)
+        print('run_end_year =', run_end_year)
+
+        run_year_list = []
+
+        get_run_num_of_year = int(run_end_year) - int(run_start_year)
+        for i in range(get_run_num_of_year + 1):
+            run_year_list.append(int(run_start_year) + i)
+
+        print('Run Year list: ', run_year_list)
+        # import ipdb
+        # ipdb.set_trace()
+        total_run_year = run_year_list
+
     get_current_id = request.session.get('current_project_id')
+    if get_current_id is None:
+        project_data = ProjectDetails.objects.get(projid=main_proj_id)
+        project_data_dict = model_to_dict(project_data)
+        print('project_data_dict =', project_data_dict)
+        get_current_id = project_data_dict['projid']
+
+    # ProjectDetails -projid   *******
+
 
     # Add Notepad code here saved as view_detailed_page_python
     # Comment below code for RUN ===================================================
@@ -12271,7 +12435,8 @@ def view_detailed_result(request):
     '''
     """
 
-    project_name = request.session.get('name')
+
+
     projects_count = noofcols()
     result_dict = project_status()
     Status_list = result_dict['status_list']
@@ -12298,7 +12463,11 @@ def view_detailed_result(request):
         '2022': 0.24,
         '2023': 0.14,
     }
-    print('The total years are: ', request.session.get('build_year_list'))
+    print('The total years are in session: ', request.session.get('build_year_list'))
+
+    # import ipdb
+    # ipdb.set_trace()
+
     context = {
         'projects_count': projects_count,
         'status_list': Status_list,
