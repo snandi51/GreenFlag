@@ -5,7 +5,7 @@ from Management.models import RefCarbonfootprint
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.conf import settings
-from Management.models import RefCarbonfootprint, RefParameters
+from Management.models import RefCarbonfootprint, RefParameters, DatacenterReseaux
 from datetime import datetime
 from Management.models import LoadPlan
 from django.forms.models import model_to_dict
@@ -1827,6 +1827,7 @@ def di_daily_commute(request):
 
 
 def di_business_travel(request):
+    country_list = settings.COUNTRY_LIST
     if request.method == 'POST':
         # import ipdb
         # ipdb.set_trace()
@@ -2327,7 +2328,12 @@ def di_business_travel(request):
             category='Mobile Combustion - Freight transport').values()
 
         phase_type = request.session.get('phase_type'),
+
+        proj_type1 = RefParameters.objects.all().values_list('projecttypology', flat=True).distinct()
+
         context = {
+            'country_list': country_list,
+            'proj_type1': proj_type1,
             'user_details': user_details,
             'year_details': year_details,
             'res_dct': res_dct,
@@ -2379,101 +2385,101 @@ def di_business_travel(request):
 
         # import ipdb
         # ipdb.set_trace()
-        if len(user_equipment_render_list) >= 1:
-
-            # if WhichUserEquipment[0]=='laptop':
-            #     return render(request,'di_laptop.html',context)
-            if user_equipment_render_list[0] == 'laptop':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request, 'di_laptop.html', context)
-            elif user_equipment_render_list[0] == 'pc':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request, 'di_pc.html', context)
-            elif user_equipment_render_list[0] == 'tablet':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request, 'di_tablet.html', context)
-            elif user_equipment_render_list[0] == 'telephone':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request, 'di_telephone.html', context)
-            elif user_equipment_render_list[0] == 'projector':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'speaker':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request, 'di_bt_speaker.html', context)
-            elif user_equipment_render_list[0] == 'Video':
-                user_equipment_render_list.pop(0)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-                return render(request, 'di_projector.html', context)
-            else:
-                user_equipment_render_list.pop(0)
-                return render(request, 'di_monitor.html', context)
-                request.session['user_equipment_render_list'] = user_equipment_render_list
-
-            return render(request, 'di_laptop.html', context)
-
-        elif len(industrial_equipment_render_list) >= 1:
-
-            if industrial_equipment_render_list[0] == 'drone':
-                industrial_equipment_render_list.pop(0)
-                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_drone.html', context)
-            elif industrial_equipment_render_list[0] == 'camera':
-                industrial_equipment_render_list.pop(0)
-                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_camera.html', context)
-            elif industrial_equipment_render_list[0] == 'sensor':
-                industrial_equipment_render_list.pop(0)
-                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_connected_sensor.html', context)
-            elif industrial_equipment_render_list[0] == 'lidar':
-                industrial_equipment_render_list.pop(0)
-                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar.html', context)
-            else:
-                industrial_equipment_render_list.pop(0)
-                return render(request, 'di_raspberrypi.html', context)
-                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-            return render(request, 'di_drone.html', context)
-
-        else:
-            if len(indirect_render_list) >= 1:
-
-                if indirect_render_list[0] == 'stationary_combustion':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_fl.html', context)
-                elif indirect_render_list[0] == 'mobile_combustion':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_mc.html', context)
-                elif indirect_render_list[0] == 'electricity':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_el.html', context)
-                elif indirect_render_list[0] == 'water':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
-                elif indirect_render_list[0] == 'paper':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_paper.html', context)
-                elif indirect_render_list[0] == 'waste_material':
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_waste.html', context)
-                else:
-                    indirect_render_list.pop(0)
-                    request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_rm.html', context)
-                return render(request, 'di_drone.html', context)
+        # if len(user_equipment_render_list) >= 1:
+        #
+        #     # if WhichUserEquipment[0]=='laptop':
+        #     #     return render(request,'di_laptop.html',context)
+        #     if user_equipment_render_list[0] == 'laptop':
+        #         user_equipment_render_list.pop(0)
+        #         request.session['user_equipment_render_list'] = user_equipment_render_list
+        #         return render(request, 'di_laptop.html', context)
+        #     elif user_equipment_render_list[0] == 'pc':
+        #         user_equipment_render_list.pop(0)
+        #         request.session['user_equipment_render_list'] = user_equipment_render_list
+        #         return render(request, 'di_pc.html', context)
+        #     elif user_equipment_render_list[0] == 'tablet':
+        #         user_equipment_render_list.pop(0)
+        #         request.session['user_equipment_render_list'] = user_equipment_render_list
+        #         return render(request, 'di_tablet.html', context)
+        #     elif user_equipment_render_list[0] == 'telephone':
+        #         user_equipment_render_list.pop(0)
+        #         request.session['user_equipment_render_list'] = user_equipment_render_list
+        #         return render(request, 'di_telephone.html', context)
+        #     elif user_equipment_render_list[0] == 'projector':
+        #         user_equipment_render_list.pop(0)
+        #         request.session['user_equipment_render_list'] = user_equipment_render_list
+        #         return render(request, 'di_printer.html', context)
+        #     elif user_equipment_render_list[0] == 'speaker':
+        #         user_equipment_render_list.pop(0)
+        #         request.session['user_equipment_render_list'] = user_equipment_render_list
+        #         return render(request, 'di_bt_speaker.html', context)
+        #     elif user_equipment_render_list[0] == 'Video':
+        #         user_equipment_render_list.pop(0)
+        #         request.session['user_equipment_render_list'] = user_equipment_render_list
+        #         return render(request, 'di_projector.html', context)
+        #     else:
+        #         user_equipment_render_list.pop(0)
+        #         return render(request, 'di_monitor.html', context)
+        #         request.session['user_equipment_render_list'] = user_equipment_render_list
+        #
+        #     return render(request, 'di_laptop.html', context)
+        #
+        # elif len(industrial_equipment_render_list) >= 1:
+        #
+        #     if industrial_equipment_render_list[0] == 'drone':
+        #         industrial_equipment_render_list.pop(0)
+        #         request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+        #         return render(request, 'di_drone.html', context)
+        #     elif industrial_equipment_render_list[0] == 'camera':
+        #         industrial_equipment_render_list.pop(0)
+        #         request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+        #         return render(request, 'di_camera.html', context)
+        #     elif industrial_equipment_render_list[0] == 'sensor':
+        #         industrial_equipment_render_list.pop(0)
+        #         request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+        #         return render(request, 'di_connected_sensor.html', context)
+        #     elif industrial_equipment_render_list[0] == 'lidar':
+        #         industrial_equipment_render_list.pop(0)
+        #         request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+        #         return render(request, 'di_lidar.html', context)
+        #     else:
+        #         industrial_equipment_render_list.pop(0)
+        #         return render(request, 'di_raspberrypi.html', context)
+        #         request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+        #     return render(request, 'di_drone.html', context)
+        #
+        # else:
+        #     if len(indirect_render_list) >= 1:
+        #
+        #         if indirect_render_list[0] == 'stationary_combustion':
+        #             indirect_render_list.pop(0)
+        #             request.session['indirect_render_list'] = indirect_render_list
+        #             return render(request, 'indirect_impact_fl.html', context)
+        #         elif indirect_render_list[0] == 'mobile_combustion':
+        #             indirect_render_list.pop(0)
+        #             request.session['indirect_render_list'] = indirect_render_list
+        #             return render(request, 'indirect_impact_mc.html', context)
+        #         elif indirect_render_list[0] == 'electricity':
+        #             indirect_render_list.pop(0)
+        #             request.session['indirect_render_list'] = indirect_render_list
+        #             return render(request, 'indirect_impact_el.html', context)
+        #         elif indirect_render_list[0] == 'water':
+        #             indirect_render_list.pop(0)
+        #             request.session['indirect_render_list'] = indirect_render_list
+        #             return render(request, 'indirect_impact_wt.html', context)
+        #         elif indirect_render_list[0] == 'paper':
+        #             indirect_render_list.pop(0)
+        #             request.session['indirect_render_list'] = indirect_render_list
+        #             return render(request, 'indirect_impact_paper.html', context)
+        #         elif indirect_render_list[0] == 'waste_material':
+        #             indirect_render_list.pop(0)
+        #             request.session['indirect_render_list'] = indirect_render_list
+        #             return render(request, 'indirect_impact_waste.html', context)
+        #         else:
+        #             indirect_render_list.pop(0)
+        #             request.session['indirect_render_list'] = indirect_render_list
+        #             return render(request, 'indirect_impact_rm.html', context)
+    return render(request, 'di_dcn.html', context)
 
     default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
@@ -2518,7 +2524,11 @@ def di_business_travel(request):
     fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
 
+    proj_type1 = RefParameters.objects.all().values_list('projecttypology', flat=True).distinct()
+
     context = {
+        'country_list': country_list,
+        'proj_type1': proj_type1,
         'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
@@ -4880,7 +4890,1474 @@ def indirect_impact_el(request):
 
 
 def di_dcn(request):
-    return render(request, 'di_dcn.html')
+    country_list = settings.COUNTRY_LIST
+    if request.method == 'POST':
+        # import ipdb
+        # ipdb.set_trace()
+
+
+        # refparam = RefParameters.objects.all()
+        # proj_type = RefParameters.objects.values('projecttypology').annotate(projtype_count=Count('projecttypology')).filter(projtype_count=1)
+
+        # proj_type = RefParameters.objects.values('projecttypology')
+
+        # proj_type = RefParameters.objects.values_list('projecttypology')
+        # project_type_list = list(proj_type)
+        # project_type_list = list(dict.fromkeys(project_type_list))
+        # project_type_list = [item for tuple_item in project_type_list for item in tuple_item]
+        # project_type_list3 = [string[:-2] for string in project_type_list]
+        proj_type2 = request.POST.get("proj_type")
+        calc_method = request.POST.get("calc_method")
+        bill = float(request.POST.get("bill"))
+        buildnoenv = int(request.POST.get("buildnoenv"))
+        buildhrs = int(request.POST.get("buildhrs"))
+        buildcountry = request.POST.get("buildcountry")
+        builduserscount = int(request.POST.get("builduserscount"))
+        buildstrdata = request.POST.get("buildstrdata")
+        buildunstrdata = request.POST.get("buildunstrdata")
+        runnoenv = int(request.POST.get("runnoenv"))
+        runcountry = request.POST.get("runcountry")
+        runnousers = int(request.POST.get("runnousers"))
+        runstrdata = float(request.POST.get("runstrdata"))
+        rununstrdata = float(request.POST.get("rununstrdata"))
+        server_type = request.POST.get("server_type")
+
+        # Decision Making
+        ref_param = RefParameters.objects.all()
+        if proj_type2 == 'Decision making':
+
+            Decision_making = ref_param.filter(projecttypology='Decision making').values()
+
+            # Server Compute
+            dm_server_compute = Decision_making.filter(componentstype='Server Compute').values()
+            # CPU
+            dm_sc_cpu = dm_server_compute.filter(components='Server CPU (Core x Hour x Day x User x Env)').values()
+            # dm_sc_cpu = pd.DataFrame(list(dm_sc_cpu))
+            # Batch
+            dm_sc_batch = dm_server_compute.filter(components='Batch Compute (Core x Hour x Go x Day x Env)').values()
+            # dm_sc_batch = pd.DataFrame(list(dm_sc_batch))
+            # Storage
+            dm_storage = Decision_making.filter(componentstype='Storage').values()
+            # dm_storage = pd.DataFrame(list(dm_storage))
+            # Str Storage
+            dm_storage_cpu = dm_storage.filter(components='Structured Storage / SQL (Go x Hour x Day x Env)').values()
+            # dm_storage_cpu = pd.DataFrame(list(dm_storage_cpu))
+            # Blob
+            dm_storage_batch = dm_storage.filter(components="Blob Storage / File (Go x Hour x Day x Env) Disque Dur (Disque ou SSD)").values()
+
+            # Client Compute
+            dm_client_compute = Decision_making.filter(componentstype='Client Compute').values()
+            dm_cc_client = dm_client_compute.filter(components='Client CPU / Browser (CORE x Hour x Day x User x Env)').values()
+
+            # Network
+            dm_network = Decision_making.filter(componentstype='Network').values()
+            # Local Networking
+            dm_n_local = dm_network.filter(components='Local Networking (Gb x User x Day x Env)').values()
+            # Global Networking
+            dm_n_global = dm_network.filter(components='Global Networking (Gb x User x Day x Env)').values()
+
+            grid_emission_factor = RefCarbonfootprint.objects.values_list('emissionfactor')
+            grid_emission_factor = grid_emission_factor.filter(name=buildcountry).values()
+            grid_emission_factor = pd.DataFrame(list(grid_emission_factor))
+            grid_emission_factor = grid_emission_factor['emissionfactor'][0]
+
+            grid_emission_factor_unit = RefCarbonfootprint.objects.values_list('unit')
+            grid_emission_factor_unit = grid_emission_factor_unit.filter(name=buildcountry).values()
+            grid_emission_factor_unit = pd.DataFrame(list(grid_emission_factor_unit))
+            grid_emission_factor_unit = grid_emission_factor_unit['unit'][0]
+
+            #converting into DataFrame
+            dm_sc_cpu_df = pd.DataFrame.from_records(dm_sc_cpu)
+            dm_sc_batch_df = pd.DataFrame.from_records(dm_sc_batch)
+            dm_storage_cpu_df = pd.DataFrame.from_records(dm_storage_cpu)
+            dm_storage_batch_df = pd.DataFrame.from_records(dm_storage_batch)
+            dm_cc_client_df = pd.DataFrame.from_records(dm_cc_client)
+            dm_n_local_df = pd.DataFrame.from_records(dm_n_local)
+            dm_n_global_df = pd.DataFrame.from_records(dm_n_global)
+
+            ###############Calculation Logic Starts##############
+            # Server Compute CPU
+            energy_emission_per_day_sc_cpu_build = dm_sc_cpu_df.utilisationvalue * dm_sc_cpu_df.projectvalueperbuild * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_build = dm_sc_cpu_df.fabricationvalueperhrs * 8 * dm_sc_cpu_df.projectvalueperbuild
+            total_emission_per_quarter_sc_cpu_build = (energy_emission_per_day_sc_cpu_build + material_emission_per_day_sc_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_cpu_run = dm_sc_cpu_df['utilisationvalue'] * dm_sc_cpu_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_run = dm_sc_cpu_df['fabricationvalueperhrs'] * 8 * dm_sc_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_sc_cpu_run = (energy_emission_per_day_sc_cpu_run + material_emission_per_day_sc_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Server Compute Batch
+            energy_emission_per_day_sc_batch_build = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_build = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_sc_batch_build = (energy_emission_per_day_sc_batch_build + material_emission_per_day_sc_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_batch_run = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_run = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperrun']
+            total_emission_per_quarter_sc_batch_run = (energy_emission_per_day_sc_batch_run + material_emission_per_day_sc_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Structured Storage
+            energy_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_cpu_build = (energy_emission_per_day_dm_storage_cpu_build + material_emission_per_day_dm_storage_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_cpu_run = (energy_emission_per_day_dm_storage_cpu_run + material_emission_per_day_dm_storage_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Blob Storage
+            energy_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['utilisationvalue'] * dm_storage_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_batch_build = (energy_emission_per_day_dm_storage_batch_build + material_emission_per_day_dm_storage_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['utilisationvalue'] * dm_storage_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_batch_run = (energy_emission_per_day_dm_storage_batch_run + material_emission_per_day_dm_storage_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Client Compute
+            energy_emission_per_day_dm_cc_client_build = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_build = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_cc_client_build = (energy_emission_per_day_dm_cc_client_build + material_emission_per_day_dm_cc_client_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_cc_client_run = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_run = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperrun']
+            total_emission_per_quarter_dm_cc_client_run = (energy_emission_per_day_dm_cc_client_run + material_emission_per_day_dm_cc_client_run) * 90  # request.session['noofworkingdays_list'][0]
+
+            # Local Networking
+            energy_emission_per_day_dm_n_local_build = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_build = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_n_local_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_local_build = (energy_emission_per_day_dm_n_local_build + material_emission_per_day_dm_n_local_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_local_run = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_run = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_n_local_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_local_run = (energy_emission_per_day_dm_n_local_run + material_emission_per_day_dm_n_local_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Global Networking
+            energy_emission_per_day_dm_n_global_build = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_build = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_global_build = (energy_emission_per_day_dm_n_global_build + material_emission_per_day_dm_n_global_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_global_run = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_run = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_global_run = (energy_emission_per_day_dm_n_global_run + material_emission_per_day_dm_n_global_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Total Carbon Footprint
+            totalcarbonfootprintquarter_build = total_emission_per_quarter_sc_cpu_build + total_emission_per_quarter_sc_batch_build + total_emission_per_quarter_dm_storage_cpu_build + total_emission_per_quarter_dm_storage_batch_build + total_emission_per_quarter_dm_cc_client_build + total_emission_per_quarter_dm_n_local_build + total_emission_per_quarter_dm_n_global_build
+            totalcarbonfootprintquarter_run = total_emission_per_quarter_sc_cpu_run + total_emission_per_quarter_sc_batch_run + total_emission_per_quarter_dm_storage_cpu_run + total_emission_per_quarter_dm_storage_batch_run + total_emission_per_quarter_dm_cc_client_run + total_emission_per_quarter_dm_n_local_run + total_emission_per_quarter_dm_n_global_run
+
+            #create timestamp
+            now = datetime.now()
+            create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+            # Database Insert
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get('current_project_id'),
+                phasetype='Build',
+                typeofproject='Decision making',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=buildnoenv,
+                location=buildcountry,
+                noofusers=builduserscount,
+                structureddatavolume=buildstrdata,
+                unstructureddatavolume=buildunstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                noofhoursequimentutilisedbuildphase=buildhrs,
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_build,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp = create_timestamp,
+                update_timestamp = create_timestamp
+            )
+            DatacenterReseaux_data.save()
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get('current_project_id'),
+                phasetype='Run',
+                typeofproject='Decision making',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=runnoenv,
+                location=runcountry,
+                noofusers=runnousers,
+                structureddatavolume=runstrdata,
+                unstructureddatavolume=rununstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_run,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp=create_timestamp,
+                update_timestamp=create_timestamp
+            )
+            DatacenterReseaux_data.save()
+
+        elif proj_type2 == 'Data visualisation':
+
+            # Data visualisation
+
+            # ref_param = RefParameters.objects.all()
+            Data_visualisation = ref_param.filter(projecttypology='Data visualisation').values()
+
+            # Server Compute
+            dm_server_compute = Data_visualisation.filter(componentstype='Server Compute').values()
+            # CPU
+            dm_sc_cpu = dm_server_compute.filter(components='Server CPU (Core x Hour x Day x User x Env)').values()
+            # dm_sc_cpu = pd.DataFrame(list(dm_sc_cpu))
+            # Batch
+            dm_sc_batch = dm_server_compute.filter(components='Batch Compute (Core x Hour x Go x Day x Env)').values()
+
+            # Storage
+            dm_storage = Data_visualisation.filter(componentstype='Storage').values()
+            # Str Storage
+            dm_storage_cpu = dm_storage.filter(components='Structured Storage / SQL (Go x Hour x Day x Env)').values()
+            # Blob
+            dm_storage_batch = dm_storage.filter(components="Blob Storage / File (Go x Hour x Day x Env) Disque Dur (Disque ou SSD)").values()
+
+            # Client Compute
+            dm_client_compute = Data_visualisation.filter(componentstype='Client Compute').values()
+            dm_cc_client = dm_client_compute.filter(components='Client CPU / Browser (CORE x Hour x Day x User x Env)').values()
+
+            # Network
+            dm_network = Data_visualisation.filter(componentstype='Network').values()
+            # Local Networking
+            dm_n_local = dm_network.filter(components='Local Networking (Gb x User x Day x Env)').values()
+            # Global Networking
+            dm_n_global = dm_network.filter(components='Global Networking (Gb x User x Day x Env)').values()
+
+            grid_emission_factor = RefCarbonfootprint.objects.values_list('emissionfactor')
+            grid_emission_factor = grid_emission_factor.filter(name=buildcountry).values()
+            grid_emission_factor = pd.DataFrame(list(grid_emission_factor))
+            grid_emission_factor = grid_emission_factor['emissionfactor'][0]
+
+            grid_emission_factor_unit = RefCarbonfootprint.objects.values_list('unit')
+            grid_emission_factor_unit = grid_emission_factor_unit.filter(name=buildcountry).values()
+            grid_emission_factor_unit = pd.DataFrame(list(grid_emission_factor_unit))
+            grid_emission_factor_unit = grid_emission_factor_unit['unit'][0]
+
+            # converting into DataFrame
+            dm_sc_cpu_df = pd.DataFrame.from_records(dm_sc_cpu)
+            dm_sc_batch_df = pd.DataFrame.from_records(dm_sc_batch)
+            dm_storage_cpu_df = pd.DataFrame.from_records(dm_storage_cpu)
+            dm_storage_batch_df = pd.DataFrame.from_records(dm_storage_batch)
+            dm_cc_client_df = pd.DataFrame.from_records(dm_cc_client)
+            dm_n_local_df = pd.DataFrame.from_records(dm_n_local)
+            dm_n_global_df = pd.DataFrame.from_records(dm_n_global)
+
+            ###############Calculation Logic Starts##############
+            # Server Compute CPU
+            energy_emission_per_day_sc_cpu_build = dm_sc_cpu_df['utilisationvalue'] * dm_sc_cpu_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_build = dm_sc_cpu_df['fabricationvalueperhrs'] * 8 * dm_sc_cpu_df['projectvalueperbuild']
+            total_emission_per_quarter_sc_cpu_build = (energy_emission_per_day_sc_cpu_build + material_emission_per_day_sc_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_cpu_run = dm_sc_cpu_df['utilisationvalue'] * dm_sc_cpu_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_run = dm_sc_cpu_df['fabricationvalueperhrs'] * 8 * dm_sc_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_sc_cpu_run = (energy_emission_per_day_sc_cpu_run + material_emission_per_day_sc_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Server Compute Batch
+            energy_emission_per_day_sc_batch_build = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_build = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_sc_batch_build = (energy_emission_per_day_sc_batch_build + material_emission_per_day_sc_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_batch_run = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_run = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperrun']
+            total_emission_per_quarter_sc_batch_run = (energy_emission_per_day_sc_batch_run + material_emission_per_day_sc_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Structured Storage
+            energy_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_cpu_build = (energy_emission_per_day_dm_storage_cpu_build + material_emission_per_day_dm_storage_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_cpu_run = (energy_emission_per_day_dm_storage_cpu_run + material_emission_per_day_dm_storage_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Blob Storage
+            energy_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['utilisationvalue'] * dm_storage_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_batch_build = (energy_emission_per_day_dm_storage_batch_build + material_emission_per_day_dm_storage_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['utilisationvalue'] * dm_storage_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_batch_run = (energy_emission_per_day_dm_storage_batch_run + material_emission_per_day_dm_storage_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Client Compute
+            energy_emission_per_day_dm_cc_client_build = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_build = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_cc_client_build = (energy_emission_per_day_dm_cc_client_build + material_emission_per_day_dm_cc_client_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_cc_client_run = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_run = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperrun']
+            total_emission_per_quarter_dm_cc_client_run = (energy_emission_per_day_dm_cc_client_run + material_emission_per_day_dm_cc_client_run) * 90  # request.session['noofworkingdays_list'][0]
+
+            # Local Networking
+            energy_emission_per_day_dm_n_local_build = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_build = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_n_local_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_local_build = (energy_emission_per_day_dm_n_local_build + material_emission_per_day_dm_n_local_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_local_run = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_run = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_local_run = (energy_emission_per_day_dm_n_local_run + material_emission_per_day_dm_n_local_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Global Networking
+            energy_emission_per_day_dm_n_global_build = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_build = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_global_build = (energy_emission_per_day_dm_n_global_build + material_emission_per_day_dm_n_global_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_global_run = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_run = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_global_run = (energy_emission_per_day_dm_n_global_run + material_emission_per_day_dm_n_global_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Total Carbon Footprint
+            totalcarbonfootprintquarter_build = total_emission_per_quarter_sc_cpu_build + total_emission_per_quarter_sc_batch_build + total_emission_per_quarter_dm_storage_cpu_build + total_emission_per_quarter_dm_storage_batch_build + total_emission_per_quarter_dm_cc_client_build + total_emission_per_quarter_dm_n_local_build + total_emission_per_quarter_dm_n_global_build
+            totalcarbonfootprintquarter_run = total_emission_per_quarter_sc_cpu_run + total_emission_per_quarter_sc_batch_run + total_emission_per_quarter_dm_storage_cpu_run + total_emission_per_quarter_dm_storage_batch_run + total_emission_per_quarter_dm_cc_client_run + total_emission_per_quarter_dm_n_local_run + total_emission_per_quarter_dm_n_global_run
+
+            # timestamp
+            now = datetime.now()
+            create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+            # Database Insert
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get("current_project_id"),
+                phasetype='Build',
+                typeofproject='Data visualisation',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=buildnoenv,
+                location=buildcountry,
+                noofusers=builduserscount,
+                structureddatavolume=buildstrdata,
+                unstructureddatavolume=buildunstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                noofhoursequimentutilisedbuildphase=buildhrs,
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_build,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp=create_timestamp,
+                update_timestamp=create_timestamp,
+            )
+            DatacenterReseaux_data.save()
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get("current_project_id"),
+                phasetype='Run',
+                typeofproject='Data visualisation',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=runnoenv,
+                location=runcountry,
+                noofusers=runnousers,
+                structureddatavolume=runstrdata,
+                unstructureddatavolume=rununstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_run,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp=create_timestamp,
+                update_timestamp=create_timestamp,
+            )
+            DatacenterReseaux_data.save()
+
+        elif proj_type2 == 'Website':
+            # Website
+
+            # ref_param = RefParameters.objects.all()
+            Website = ref_param.filter(projecttypology='Website').values()
+
+            # Server Compute
+            dm_server_compute = Website.filter(componentstype='Server Compute').values()
+            # CPU
+            dm_sc_cpu = dm_server_compute.filter(components='Server CPU (Core x Hour x Day x User x Env)').values()
+            # dm_sc_cpu = pd.DataFrame(list(dm_sc_cpu))
+            # Batch
+            dm_sc_batch = dm_server_compute.filter(components='Batch Compute (Core x Hour x Go x Day x Env)').values()
+
+            # Storage
+            dm_storage = Website.filter(componentstype='Storage').values()
+            # Str Storage
+            dm_storage_cpu = dm_storage.filter(components='Structured Storage / SQL (Go x Hour x Day x Env)').values()
+            # Blob
+            dm_storage_batch = dm_storage.filter(components="Blob Storage / File (Go x Hour x Day x Env) Disque Dur (Disque ou SSD)").values()
+
+            # Client Compute
+            dm_client_compute = Website.filter(componentstype='Client Compute').values()
+            dm_cc_client = dm_client_compute.filter(components='Client CPU / Browser (CORE x Hour x Day x User x Env)').values()
+
+            # Network
+            dm_network = Website.filter(componentstype='Network').values()
+            # Local Networking
+            dm_n_local = dm_network.filter(components='Local Networking (Gb x User x Day x Env)').values()
+            # Global Networking
+            dm_n_global = dm_network.filter(components='Global Networking (Gb x User x Day x Env)').values()
+
+            grid_emission_factor = RefCarbonfootprint.objects.values_list('emissionfactor')
+            grid_emission_factor = grid_emission_factor.filter(name=buildcountry).values()
+            grid_emission_factor = pd.DataFrame(list(grid_emission_factor))
+            grid_emission_factor = grid_emission_factor['emissionfactor'][0]
+
+            grid_emission_factor_unit = RefCarbonfootprint.objects.values_list('unit')
+            grid_emission_factor_unit = grid_emission_factor_unit.filter(name=buildcountry).values()
+            grid_emission_factor_unit = pd.DataFrame(list(grid_emission_factor_unit))
+            grid_emission_factor_unit = grid_emission_factor_unit['unit'][0]
+
+            # converting into DataFrame
+            dm_sc_cpu_df = pd.DataFrame.from_records(dm_sc_cpu)
+            dm_sc_batch_df = pd.DataFrame.from_records(dm_sc_batch)
+            dm_storage_cpu_df = pd.DataFrame.from_records(dm_storage_cpu)
+            dm_storage_batch_df = pd.DataFrame.from_records(dm_storage_batch)
+            dm_cc_client_df = pd.DataFrame.from_records(dm_cc_client)
+            dm_n_local_df = pd.DataFrame.from_records(dm_n_local)
+            dm_n_global_df = pd.DataFrame.from_records(dm_n_global)
+
+            ###############Calculation Logic Starts##############
+            # Server Compute CPU
+            energy_emission_per_day_sc_cpu_build = dm_sc_cpu_df['utilisationvalue'] * dm_sc_cpu_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_build = dm_sc_cpu_df['fabricationvalueperhrs'] * 8 * dm_sc_cpu_df['projectvalueperbuild']
+            total_emission_per_quarter_sc_cpu_build = (energy_emission_per_day_sc_cpu_build + material_emission_per_day_sc_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_cpu_run = dm_sc_cpu_df['utilisationvalue'] * dm_sc_cpu_df[ 'projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_run = dm_sc_cpu_df['fabricationvalueperhrs'] * 8 * dm_sc_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_sc_cpu_run = (energy_emission_per_day_sc_cpu_run + material_emission_per_day_sc_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Server Compute Batch
+            energy_emission_per_day_sc_batch_build = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_build = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_sc_batch_build = (energy_emission_per_day_sc_batch_build + material_emission_per_day_sc_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_batch_run = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_run = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperrun']
+            total_emission_per_quarter_sc_batch_run = (energy_emission_per_day_sc_batch_run + material_emission_per_day_sc_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Structured Storage
+            energy_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_cpu_build = (energy_emission_per_day_dm_storage_cpu_build + material_emission_per_day_dm_storage_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_cpu_run = (energy_emission_per_day_dm_storage_cpu_run + material_emission_per_day_dm_storage_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Blob Storage
+            energy_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['utilisationvalue'] * dm_storage_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_batch_build = (energy_emission_per_day_dm_storage_batch_build + material_emission_per_day_dm_storage_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['utilisationvalue'] * dm_storage_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_batch_run = (energy_emission_per_day_dm_storage_batch_run + material_emission_per_day_dm_storage_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Client Compute
+            energy_emission_per_day_dm_cc_client_build = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_build = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_cc_client_build = (energy_emission_per_day_dm_cc_client_build + material_emission_per_day_dm_cc_client_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_cc_client_run = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_run = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperrun']
+            total_emission_per_quarter_dm_cc_client_run = (energy_emission_per_day_dm_cc_client_run + material_emission_per_day_dm_cc_client_run) * 90  # request.session['noofworkingdays_list'][0]
+
+            # Local Networking
+            energy_emission_per_day_dm_n_local_build = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_build = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_n_local_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_local_build = (energy_emission_per_day_dm_n_local_build + material_emission_per_day_dm_n_local_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_local_run = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_run = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_local_run = (energy_emission_per_day_dm_n_local_run + material_emission_per_day_dm_n_local_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Global Networking
+            energy_emission_per_day_dm_n_global_build = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_build = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_global_build = (energy_emission_per_day_dm_n_global_build + material_emission_per_day_dm_n_global_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_global_run = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_run = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_global_run = (energy_emission_per_day_dm_n_global_run + material_emission_per_day_dm_n_global_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Total Carbon Footprint
+            totalcarbonfootprintquarter_build = total_emission_per_quarter_sc_cpu_build + total_emission_per_quarter_sc_batch_build + total_emission_per_quarter_dm_storage_cpu_build + total_emission_per_quarter_dm_storage_batch_build + total_emission_per_quarter_dm_cc_client_build + total_emission_per_quarter_dm_n_local_build + total_emission_per_quarter_dm_n_global_build
+            totalcarbonfootprintquarter_run = total_emission_per_quarter_sc_cpu_run + total_emission_per_quarter_sc_batch_run + total_emission_per_quarter_dm_storage_cpu_run + total_emission_per_quarter_dm_storage_batch_run + total_emission_per_quarter_dm_cc_client_run + total_emission_per_quarter_dm_n_local_run + total_emission_per_quarter_dm_n_global_run
+
+            now = datetime.now()
+            create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+            # Database Insert
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get("current_project_id"),
+                phasetype='Build',
+                typeofproject='Website',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=buildnoenv,
+                location=buildcountry,
+                noofusers=builduserscount,
+                structureddatavolume=buildstrdata,
+                unstructureddatavolume=buildunstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                noofhoursequimentutilisedbuildphase=buildhrs,
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_build,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp=create_timestamp,
+                update_timestamp = create_timestamp,
+            )
+            DatacenterReseaux_data.save()
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get("current_project_id"),
+                phasetype='Run',
+                typeofproject='Website',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=runnoenv,
+                location=runcountry,
+                noofusers=runnousers,
+                structureddatavolume=runstrdata,
+                unstructureddatavolume=rununstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_run,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp=create_timestamp,
+                update_timestamp=create_timestamp,
+            )
+            DatacenterReseaux_data.save()
+        elif proj_type2 == 'Transaction':
+            # Transaction
+
+            # ref_param = RefParameters.objects.all()
+            Transaction = ref_param.filter(projecttypology='Transaction').values()
+
+            # Server Compute
+            dm_server_compute = Transaction.filter(componentstype='Server Compute').values()
+            # CPU
+            dm_sc_cpu = dm_server_compute.filter(components='Server CPU (Core x Hour x Day x User x Env)').values()
+            # dm_sc_cpu = pd.DataFrame(list(dm_sc_cpu))
+            # Batch
+            dm_sc_batch = dm_server_compute.filter(components='Batch Compute (Core x Hour x Go x Day x Env)').values()
+
+            # Storage
+            dm_storage = Transaction.filter(componentstype='Storage').values()
+            # Str Storage
+            dm_storage_cpu = dm_storage.filter(components='Structured Storage / SQL (Go x Hour x Day x Env)').values()
+            # Blob
+            dm_storage_batch = dm_storage.filter(components="Blob Storage / File (Go x Hour x Day x Env) Disque Dur (Disque ou SSD)").values()
+
+            # Client Compute
+            dm_client_compute = Transaction.filter(componentstype='Client Compute').values()
+            dm_cc_client = dm_client_compute.filter(components='Client CPU / Browser (CORE x Hour x Day x User x Env)').values()
+
+            # Network
+            dm_network = Transaction.filter(componentstype='Network').values()
+            # Local Networking
+            dm_n_local = dm_network.filter(components='Local Networking (Gb x User x Day x Env)').values()
+            # Global Networking
+            dm_n_global = dm_network.filter(components='Global Networking (Gb x User x Day x Env)').values()
+
+            grid_emission_factor = RefCarbonfootprint.objects.values_list('emissionfactor')
+            grid_emission_factor = grid_emission_factor.filter(name=buildcountry).values()
+            grid_emission_factor = pd.DataFrame(list(grid_emission_factor))
+            grid_emission_factor = grid_emission_factor['emissionfactor'][0]
+
+            grid_emission_factor_unit = RefCarbonfootprint.objects.values_list('unit')
+            grid_emission_factor_unit = grid_emission_factor_unit.filter(name=buildcountry).values()
+            grid_emission_factor_unit = pd.DataFrame(list(grid_emission_factor_unit))
+            grid_emission_factor_unit = grid_emission_factor_unit['unit'][0]
+
+            # converting into DataFrame
+            dm_sc_cpu_df = pd.DataFrame.from_records(dm_sc_cpu)
+            dm_sc_batch_df = pd.DataFrame.from_records(dm_sc_batch)
+            dm_storage_cpu_df = pd.DataFrame.from_records(dm_storage_cpu)
+            dm_storage_batch_df = pd.DataFrame.from_records(dm_storage_batch)
+            dm_cc_client_df = pd.DataFrame.from_records(dm_cc_client)
+            dm_n_local_df = pd.DataFrame.from_records(dm_n_local)
+            dm_n_global_df = pd.DataFrame.from_records(dm_n_global)
+
+            ###############Calculation Logic Starts##############
+            # Server Compute CPU
+            energy_emission_per_day_sc_cpu_build = dm_sc_cpu_df['utilisationvalue'] * dm_sc_cpu_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_build = dm_sc_cpu_df['fabricationvalueperhrs'] * 8 * dm_sc_cpu_df['projectvalueperbuild']
+            total_emission_per_quarter_sc_cpu_build = (energy_emission_per_day_sc_cpu_build + material_emission_per_day_sc_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_cpu_run = dm_sc_cpu_df['utilisationvalue'] * dm_sc_cpu_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_run = dm_sc_cpu_df['fabricationvalueperhrs'] * 8 * dm_sc_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_sc_cpu_run = (energy_emission_per_day_sc_cpu_run + material_emission_per_day_sc_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Server Compute Batch
+            energy_emission_per_day_sc_batch_build = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_build = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_sc_batch_build = (energy_emission_per_day_sc_batch_build + material_emission_per_day_sc_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_batch_run = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_run = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperrun']
+            total_emission_per_quarter_sc_batch_run = (energy_emission_per_day_sc_batch_run + material_emission_per_day_sc_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Structured Storage
+            energy_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_cpu_build = (energy_emission_per_day_dm_storage_cpu_build + material_emission_per_day_dm_storage_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_cpu_run = (energy_emission_per_day_dm_storage_cpu_run + material_emission_per_day_dm_storage_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Blob Storage
+            energy_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['utilisationvalue'] * dm_storage_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_batch_build = (energy_emission_per_day_dm_storage_batch_build + material_emission_per_day_dm_storage_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['utilisationvalue'] * dm_storage_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_batch_run = (energy_emission_per_day_dm_storage_batch_run + material_emission_per_day_dm_storage_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Client Compute
+            energy_emission_per_day_dm_cc_client_build = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_build = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_cc_client_build = (energy_emission_per_day_dm_cc_client_build + material_emission_per_day_dm_cc_client_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_cc_client_run = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_run = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperrun']
+            total_emission_per_quarter_dm_cc_client_run = (energy_emission_per_day_dm_cc_client_run + material_emission_per_day_dm_cc_client_run) * 90  # request.session['noofworkingdays_list'][0]
+
+            # Local Networking
+            energy_emission_per_day_dm_n_local_build = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_build = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_n_local_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_local_build = (energy_emission_per_day_dm_n_local_build + material_emission_per_day_dm_n_local_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_local_run = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_run = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_local_run = (energy_emission_per_day_dm_n_local_run + material_emission_per_day_dm_n_local_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Global Networking
+            energy_emission_per_day_dm_n_global_build = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_build = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_global_build = (energy_emission_per_day_dm_n_global_build + material_emission_per_day_dm_n_global_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_global_run = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_run = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_global_run = (energy_emission_per_day_dm_n_global_run + material_emission_per_day_dm_n_global_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Total Carbon Footprint
+            totalcarbonfootprintquarter_build = total_emission_per_quarter_sc_cpu_build + total_emission_per_quarter_sc_batch_build + total_emission_per_quarter_dm_storage_cpu_build + total_emission_per_quarter_dm_storage_batch_build + total_emission_per_quarter_dm_cc_client_build + total_emission_per_quarter_dm_n_local_build + total_emission_per_quarter_dm_n_global_build
+            totalcarbonfootprintquarter_run = total_emission_per_quarter_sc_cpu_run + total_emission_per_quarter_sc_batch_run + total_emission_per_quarter_dm_storage_cpu_run + total_emission_per_quarter_dm_storage_batch_run + total_emission_per_quarter_dm_cc_client_run + total_emission_per_quarter_dm_n_local_run + total_emission_per_quarter_dm_n_global_run
+
+            now = datetime.now()
+            create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+            # Database Insert
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get("current_project_id"),
+                phasetype='Build',
+                typeofproject='Transaction',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=buildnoenv,
+                location=buildcountry,
+                noofusers=builduserscount,
+                structureddatavolume=buildstrdata,
+                unstructureddatavolume=buildunstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                noofhoursequimentutilisedbuildphase=buildhrs,
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_build,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp=create_timestamp,
+                update_timestamp = create_timestamp,
+            )
+            DatacenterReseaux_data.save()
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get("current_project_id"),
+                phasetype='Run',
+                typeofproject='Transaction',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=runnoenv,
+                location=runcountry,
+                noofusers=runnousers,
+                structureddatavolume=runstrdata,
+                unstructureddatavolume=rununstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_run,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp=create_timestamp,
+                update_timestamp=create_timestamp,
+            )
+            DatacenterReseaux_data.save()
+        elif proj_type2 == 'Mobile application':
+            # Mobile application
+
+            # ref_param = RefParameters.objects.all()
+            Mobile_application = ref_param.filter(projecttypology='Mobile application').values()
+
+            # Server Compute
+            dm_server_compute = Mobile_application.filter(componentstype='Server Compute').values()
+            # CPU
+            dm_sc_cpu = dm_server_compute.filter(components='Server CPU (Core x Hour x Day x User x Env)').values()
+            # dm_sc_cpu = pd.DataFrame(list(dm_sc_cpu))
+            # Batch
+            dm_sc_batch = dm_server_compute.filter(components='Batch Compute (Core x Hour x Go x Day x Env)').values()
+
+            # Storage
+            dm_storage = Mobile_application.filter(componentstype='Storage').values()
+            # Str Storage
+            dm_storage_cpu = dm_storage.filter(components='Structured Storage / SQL (Go x Hour x Day x Env)').values()
+            # Blob
+            dm_storage_batch = dm_storage.filter(components="Blob Storage / File (Go x Hour x Day x Env) Disque Dur (Disque ou SSD)").values()
+
+            # Client Compute
+            dm_client_compute = Mobile_application.filter(componentstype='Client Compute').values()
+            dm_cc_client = dm_client_compute.filter(components='Client CPU / Browser (CORE x Hour x Day x User x Env)').values()
+
+            # Network
+            dm_network = Mobile_application.filter(componentstype='Network').values()
+            # Local Networking
+            dm_n_local = dm_network.filter(components='Local Networking (Gb x User x Day x Env)').values()
+            # Global Networking
+            dm_n_global = dm_network.filter(components='Global Networking (Gb x User x Day x Env)').values()
+
+            grid_emission_factor = RefCarbonfootprint.objects.values_list('emissionfactor')
+            grid_emission_factor = grid_emission_factor.filter(name=buildcountry).values()
+            grid_emission_factor = pd.DataFrame(list(grid_emission_factor))
+            grid_emission_factor = grid_emission_factor['emissionfactor'][0]
+
+            grid_emission_factor_unit = RefCarbonfootprint.objects.values_list('unit')
+            grid_emission_factor_unit = grid_emission_factor_unit.filter(name=buildcountry).values()
+            grid_emission_factor_unit = pd.DataFrame(list(grid_emission_factor_unit))
+            grid_emission_factor_unit = grid_emission_factor_unit['unit'][0]
+
+            # converting into DataFrame
+            dm_sc_cpu_df = pd.DataFrame.from_records(dm_sc_cpu)
+            dm_sc_batch_df = pd.DataFrame.from_records(dm_sc_batch)
+            dm_storage_cpu_df = pd.DataFrame.from_records(dm_storage_cpu)
+            dm_storage_batch_df = pd.DataFrame.from_records(dm_storage_batch)
+            dm_cc_client_df = pd.DataFrame.from_records(dm_cc_client)
+            dm_n_local_df = pd.DataFrame.from_records(dm_n_local)
+            dm_n_global_df = pd.DataFrame.from_records(dm_n_global)
+
+            ###############Calculation Logic Starts##############
+            # Server Compute CPU
+            energy_emission_per_day_sc_cpu_build = dm_sc_cpu_df.utilisationvalue * dm_sc_cpu_df.projectvalueperbuild * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_build = dm_sc_cpu_df.fabricationvalueperhrs * 8 * dm_sc_cpu_df.projectvalueperbuild
+            total_emission_per_quarter_sc_cpu_build = (energy_emission_per_day_sc_cpu_build + material_emission_per_day_sc_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_cpu_run = dm_sc_cpu_df['utilisationvalue'] * dm_sc_cpu_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_run = dm_sc_cpu_df['fabricationvalueperhrs'] * 8 * dm_sc_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_sc_cpu_run = (energy_emission_per_day_sc_cpu_run + material_emission_per_day_sc_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Server Compute Batch
+            energy_emission_per_day_sc_batch_build = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_build = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_sc_batch_build = (energy_emission_per_day_sc_batch_build + material_emission_per_day_sc_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_batch_run = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_run = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperrun']
+            total_emission_per_quarter_sc_batch_run = (energy_emission_per_day_sc_batch_run + material_emission_per_day_sc_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Structured Storage
+            energy_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_cpu_build = (energy_emission_per_day_dm_storage_cpu_build + material_emission_per_day_dm_storage_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_cpu_run = (energy_emission_per_day_dm_storage_cpu_run + material_emission_per_day_dm_storage_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Blob Storage
+            energy_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['utilisationvalue'] * dm_storage_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_batch_build = (energy_emission_per_day_dm_storage_batch_build + material_emission_per_day_dm_storage_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['utilisationvalue'] * dm_storage_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_batch_run = (energy_emission_per_day_dm_storage_batch_run + material_emission_per_day_dm_storage_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Client Compute
+            energy_emission_per_day_dm_cc_client_build = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_build = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_cc_client_build = (energy_emission_per_day_dm_cc_client_build + material_emission_per_day_dm_cc_client_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_cc_client_run = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_run = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperrun']
+            total_emission_per_quarter_dm_cc_client_run = (energy_emission_per_day_dm_cc_client_run + material_emission_per_day_dm_cc_client_run) * 90  # request.session['noofworkingdays_list'][0]
+
+            # Local Networking
+            energy_emission_per_day_dm_n_local_build = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_build = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_n_local_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_local_build = (energy_emission_per_day_dm_n_local_build + material_emission_per_day_dm_n_local_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_local_run = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_run = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_n_local_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_local_run = (energy_emission_per_day_dm_n_local_run + material_emission_per_day_dm_n_local_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Global Networking
+            energy_emission_per_day_dm_n_global_build = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_build = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_global_build = (energy_emission_per_day_dm_n_global_build + material_emission_per_day_dm_n_global_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_global_run = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_run = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_global_run = (energy_emission_per_day_dm_n_global_run + material_emission_per_day_dm_n_global_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Total Carbon Footprint
+            totalcarbonfootprintquarter_build = total_emission_per_quarter_sc_cpu_build + total_emission_per_quarter_sc_batch_build + total_emission_per_quarter_dm_storage_cpu_build + total_emission_per_quarter_dm_storage_batch_build + total_emission_per_quarter_dm_cc_client_build + total_emission_per_quarter_dm_n_local_build + total_emission_per_quarter_dm_n_global_build
+            totalcarbonfootprintquarter_run = total_emission_per_quarter_sc_cpu_run + total_emission_per_quarter_sc_batch_run + total_emission_per_quarter_dm_storage_cpu_run + total_emission_per_quarter_dm_storage_batch_run + total_emission_per_quarter_dm_cc_client_run + total_emission_per_quarter_dm_n_local_run + total_emission_per_quarter_dm_n_global_run
+
+            now = datetime.now()
+            create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+            # Database Insert
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get("current_project_id"),
+                phasetype='Build',
+                typeofproject='Mobile application',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=buildnoenv,
+                location=buildcountry,
+                noofusers=builduserscount,
+                structureddatavolume=buildstrdata,
+                unstructureddatavolume=buildunstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                noofhoursequimentutilisedbuildphase=buildhrs,
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_build,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp=create_timestamp,
+                update_timestamp=create_timestamp,
+            )
+            DatacenterReseaux_data.save()
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get("current_project_id"),
+                phasetype='Run',
+                typeofproject='Mobile application',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=runnoenv,
+                location=runcountry,
+                noofusers=runnousers,
+                structureddatavolume=runstrdata,
+                unstructureddatavolume=rununstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_run,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp=create_timestamp,
+                update_timestamp=create_timestamp,
+            )
+            DatacenterReseaux_data.save()
+        elif proj_type2 == 'Management portal':
+            # Management portal
+
+            # ref_param = RefParameters.objects.all()
+            Management_portal = ref_param.filter(projecttypology='Management portal').values()
+
+            # Server Compute
+            dm_server_compute = Management_portal.filter(componentstype='Server Compute').values()
+            # CPU
+            dm_sc_cpu = dm_server_compute.filter(components='Server CPU (Core x Hour x Day x User x Env)').values()
+            # dm_sc_cpu = pd.DataFrame(list(dm_sc_cpu))
+            # Batch
+            dm_sc_batch = dm_server_compute.filter(components='Batch Compute (Core x Hour x Go x Day x Env)').values()
+
+            # Storage
+            dm_storage = Management_portal.filter(componentstype='Storage').values()
+            # Str Storage
+            dm_storage_cpu = dm_storage.filter(components='Structured Storage / SQL (Go x Hour x Day x Env)').values()
+            # Blob
+            dm_storage_batch = dm_storage.filter(components="Blob Storage / File (Go x Hour x Day x Env) Disque Dur (Disque ou SSD)").values()
+
+            # Client Compute
+            dm_client_compute = Management_portal.filter(componentstype='Client Compute').values()
+            dm_cc_client = dm_client_compute.filter(components='Client CPU / Browser (CORE x Hour x Day x User x Env)').values()
+
+            # Network
+            dm_network = Management_portal.filter(componentstype='Network').values()
+            # Local Networking
+            dm_n_local = dm_network.filter(components='Local Networking (Gb x User x Day x Env)').values()
+            # Global Networking
+            dm_n_global = dm_network.filter(components='Global Networking (Gb x User x Day x Env)').values()
+
+            grid_emission_factor = RefCarbonfootprint.objects.values_list('emissionfactor')
+            grid_emission_factor = grid_emission_factor.filter(name=buildcountry).values()
+            grid_emission_factor = pd.DataFrame(list(grid_emission_factor))
+            grid_emission_factor = grid_emission_factor['emissionfactor'][0]
+
+            grid_emission_factor_unit = RefCarbonfootprint.objects.values_list('unit')
+            grid_emission_factor_unit = grid_emission_factor_unit.filter(name=buildcountry).values()
+            grid_emission_factor_unit = pd.DataFrame(list(grid_emission_factor_unit))
+            grid_emission_factor_unit = grid_emission_factor_unit['unit'][0]
+
+            # converting into DataFrame
+            dm_sc_cpu_df = pd.DataFrame.from_records(dm_sc_cpu)
+            dm_sc_batch_df = pd.DataFrame.from_records(dm_sc_batch)
+            dm_storage_cpu_df = pd.DataFrame.from_records(dm_storage_cpu)
+            dm_storage_batch_df = pd.DataFrame.from_records(dm_storage_batch)
+            dm_cc_client_df = pd.DataFrame.from_records(dm_cc_client)
+            dm_n_local_df = pd.DataFrame.from_records(dm_n_local)
+            dm_n_global_df = pd.DataFrame.from_records(dm_n_global)
+
+            ###############Calculation Logic Starts##############
+            # Server Compute CPU
+            energy_emission_per_day_sc_cpu_build = dm_sc_cpu_df['utilisationvalue'] * dm_sc_cpu_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_build = dm_sc_cpu_df['fabricationvalueperhrs'] * 8 * dm_sc_cpu_df['projectvalueperbuild']
+            total_emission_per_quarter_sc_cpu_build = (energy_emission_per_day_sc_cpu_build + material_emission_per_day_sc_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_cpu_run = dm_sc_cpu_df['utilisationvalue'] * dm_sc_cpu_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_run = dm_sc_cpu_df['fabricationvalueperhrs'] * 8 * dm_sc_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_sc_cpu_run = (energy_emission_per_day_sc_cpu_run + material_emission_per_day_sc_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Server Compute Batch
+            energy_emission_per_day_sc_batch_build = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_build = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_sc_batch_build = (energy_emission_per_day_sc_batch_build + material_emission_per_day_sc_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_batch_run = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_run = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperrun']
+            total_emission_per_quarter_sc_batch_run = (energy_emission_per_day_sc_batch_run + material_emission_per_day_sc_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Structured Storage
+            energy_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_cpu_build = (energy_emission_per_day_dm_storage_cpu_build + material_emission_per_day_dm_storage_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_cpu_run = (energy_emission_per_day_dm_storage_cpu_run + material_emission_per_day_dm_storage_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Blob Storage
+            energy_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['utilisationvalue'] * dm_storage_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_batch_build = (energy_emission_per_day_dm_storage_batch_build + material_emission_per_day_dm_storage_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['utilisationvalue'] * dm_storage_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_batch_run = (energy_emission_per_day_dm_storage_batch_run + material_emission_per_day_dm_storage_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Client Compute
+            energy_emission_per_day_dm_cc_client_build = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_build = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_cc_client_build = (energy_emission_per_day_dm_cc_client_build + material_emission_per_day_dm_cc_client_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_cc_client_run = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_run = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperrun']
+            total_emission_per_quarter_dm_cc_client_run = (energy_emission_per_day_dm_cc_client_run + material_emission_per_day_dm_cc_client_run) * 90  # request.session['noofworkingdays_list'][0]
+
+            # Local Networking
+            energy_emission_per_day_dm_n_local_build = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_build = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_n_local_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_local_build = (energy_emission_per_day_dm_n_local_build + material_emission_per_day_dm_n_local_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_local_run = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_run = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_n_local_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_local_run = (energy_emission_per_day_dm_n_local_run + material_emission_per_day_dm_n_local_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Global Networking
+            energy_emission_per_day_dm_n_global_build = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_build = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_global_build = (energy_emission_per_day_dm_n_global_build + material_emission_per_day_dm_n_global_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_global_run = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_run = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_global_run = (energy_emission_per_day_dm_n_global_run + material_emission_per_day_dm_n_global_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Total Carbon Footprint
+            totalcarbonfootprintquarter_build = total_emission_per_quarter_sc_cpu_build + total_emission_per_quarter_sc_batch_build + total_emission_per_quarter_dm_storage_cpu_build + total_emission_per_quarter_dm_storage_batch_build + total_emission_per_quarter_dm_cc_client_build + total_emission_per_quarter_dm_n_local_build + total_emission_per_quarter_dm_n_global_build
+            totalcarbonfootprintquarter_run = total_emission_per_quarter_sc_cpu_run + total_emission_per_quarter_sc_batch_run + total_emission_per_quarter_dm_storage_cpu_run + total_emission_per_quarter_dm_storage_batch_run + total_emission_per_quarter_dm_cc_client_run + total_emission_per_quarter_dm_n_local_run + total_emission_per_quarter_dm_n_global_run
+
+            now = datetime.now()
+            create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+            # Database Insert
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get("current_project_id"),
+                phasetype='Build',
+                typeofproject='Management portal',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=buildnoenv,
+                location=buildcountry,
+                noofusers=builduserscount,
+                structureddatavolume=buildstrdata,
+                unstructureddatavolume=buildunstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                noofhoursequimentutilisedbuildphase=buildhrs,
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_build,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp=create_timestamp,
+                update_timestamp=create_timestamp,
+            )
+            DatacenterReseaux_data.save()
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get("current_project_id"),
+                phasetype='Run',
+                typeofproject='Management portal',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=runnoenv,
+                location=runcountry,
+                noofusers=runnousers,
+                structureddatavolume=runstrdata,
+                unstructureddatavolume=rununstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_run,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp=create_timestamp,
+                update_timestamp=create_timestamp,
+            )
+            DatacenterReseaux_data.save()
+        elif proj_type2 == 'Geographic Information System':
+            # Geographic Information System
+
+            # ref_param = RefParameters.objects.all()
+            Geographic_Information_System = ref_param.filter(projecttypology='Geographic Information System').values()
+
+            # Server Compute
+            dm_server_compute = Geographic_Information_System.filter(componentstype='Server Compute').values()
+            # CPU
+            dm_sc_cpu = dm_server_compute.filter(components='Server CPU (Core x Hour x Day x User x Env)').values()
+            # dm_sc_cpu = pd.DataFrame(list(dm_sc_cpu))
+            # Batch
+            dm_sc_batch = dm_server_compute.filter(components='Batch Compute (Core x Hour x Go x Day x Env)').values()
+
+            # Storage
+            dm_storage = Geographic_Information_System.filter(componentstype='Storage').values()
+            # Str Storage
+            dm_storage_cpu = dm_storage.filter(components='Structured Storage / SQL (Go x Hour x Day x Env)').values()
+            # Blob
+            dm_storage_batch = dm_storage.filter( components="Blob Storage / File (Go x Hour x Day x Env) Disque Dur (Disque ou SSD)").values()
+
+            # Client Compute
+            dm_client_compute = Geographic_Information_System.filter(componentstype='Client Compute').values()
+            dm_cc_client = dm_client_compute.filter(components='Client CPU / Browser (CORE x Hour x Day x User x Env)').values()
+
+            # Network
+            dm_network = Geographic_Information_System.filter(componentstype='Network').values()
+            # Local Networking
+            dm_n_local = dm_network.filter(components='Local Networking (Gb x User x Day x Env)').values()
+            # Global Networking
+            dm_n_global = dm_network.filter(components='Global Networking (Gb x User x Day x Env)').values()
+
+            grid_emission_factor = RefCarbonfootprint.objects.values_list('emissionfactor')
+            grid_emission_factor = grid_emission_factor.filter(name=buildcountry).values()
+            grid_emission_factor = pd.DataFrame(list(grid_emission_factor))
+            grid_emission_factor = grid_emission_factor['emissionfactor'][0]
+
+            grid_emission_factor_unit = RefCarbonfootprint.objects.values_list('unit')
+            grid_emission_factor_unit = grid_emission_factor_unit.filter(name=buildcountry).values()
+            grid_emission_factor_unit = pd.DataFrame(list(grid_emission_factor_unit))
+            grid_emission_factor_unit = grid_emission_factor_unit['unit'][0]
+
+            # converting into DataFrame
+            dm_sc_cpu_df = pd.DataFrame.from_records(dm_sc_cpu)
+            dm_sc_batch_df = pd.DataFrame.from_records(dm_sc_batch)
+            dm_storage_cpu_df = pd.DataFrame.from_records(dm_storage_cpu)
+            dm_storage_batch_df = pd.DataFrame.from_records(dm_storage_batch)
+            dm_cc_client_df = pd.DataFrame.from_records(dm_cc_client)
+            dm_n_local_df = pd.DataFrame.from_records(dm_n_local)
+            dm_n_global_df = pd.DataFrame.from_records(dm_n_global)
+
+            ###############Calculation Logic Starts##############
+            # Server Compute CPU
+            energy_emission_per_day_sc_cpu_build = dm_sc_cpu_df.utilisationvalue * dm_sc_cpu_df.projectvalueperbuild * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_build = dm_sc_cpu_df.fabricationvalueperhrs * 8 * dm_sc_cpu_df.projectvalueperbuild
+            total_emission_per_quarter_sc_cpu_build = (energy_emission_per_day_sc_cpu_build + material_emission_per_day_sc_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_cpu_run = dm_sc_cpu_df['utilisationvalue'] * dm_sc_cpu_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_cpu_run = dm_sc_cpu_df['fabricationvalueperhrs'] * 8 * dm_sc_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_sc_cpu_run = (energy_emission_per_day_sc_cpu_run + material_emission_per_day_sc_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Server Compute Batch
+            energy_emission_per_day_sc_batch_build = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_build = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_sc_batch_build = (energy_emission_per_day_sc_batch_build + material_emission_per_day_sc_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_sc_batch_run = dm_sc_batch_df['utilisationvalue'] * dm_sc_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_sc_batch_run = dm_sc_batch_df['fabricationvalueperhrs'] * 8 * dm_sc_batch_df['projectvalueperrun']
+            total_emission_per_quarter_sc_batch_run = (energy_emission_per_day_sc_batch_run + material_emission_per_day_sc_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Structured Storage
+            energy_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_build = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_cpu_build = (energy_emission_per_day_dm_storage_cpu_build + material_emission_per_day_dm_storage_cpu_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['utilisationvalue'] * dm_storage_cpu_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_cpu_run = dm_storage_cpu_df['fabricationvalueperhrs'] * 8 * dm_storage_cpu_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_cpu_run = (energy_emission_per_day_dm_storage_cpu_run + material_emission_per_day_dm_storage_cpu_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Blob Storage
+            energy_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['utilisationvalue'] *  dm_storage_batch_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_build = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_storage_batch_build = (energy_emission_per_day_dm_storage_batch_build + material_emission_per_day_dm_storage_batch_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['utilisationvalue'] * dm_storage_batch_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_storage_batch_run = dm_storage_batch_df['fabricationvalueperhrs'] * 8 * dm_storage_batch_df['projectvalueperrun']
+            total_emission_per_quarter_dm_storage_batch_run = (energy_emission_per_day_dm_storage_batch_run + material_emission_per_day_dm_storage_batch_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Client Compute
+            energy_emission_per_day_dm_cc_client_build = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_build = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_cc_client_build = (energy_emission_per_day_dm_cc_client_build + material_emission_per_day_dm_cc_client_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_cc_client_run = dm_cc_client_df['utilisationvalue'] * dm_cc_client_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_cc_client_run = dm_cc_client_df['fabricationvalueperhrs'] * 8 * dm_cc_client_df['projectvalueperrun']
+            total_emission_per_quarter_dm_cc_client_run = (energy_emission_per_day_dm_cc_client_run + material_emission_per_day_dm_cc_client_run) * 90  # request.session['noofworkingdays_list'][0]
+
+            # Local Networking
+            energy_emission_per_day_dm_n_local_build = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_build = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_n_local_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_local_build = (energy_emission_per_day_dm_n_local_build + material_emission_per_day_dm_n_local_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_local_run = dm_n_local_df['utilisationvalue'] * dm_n_local_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_local_run = dm_n_local_df['fabricationvalueperhrs'] * 8 * dm_n_local_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_local_run = (energy_emission_per_day_dm_n_local_run + material_emission_per_day_dm_n_local_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Global Networking
+            energy_emission_per_day_dm_n_global_build = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperbuild'] * builduserscount * buildnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_build = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperbuild']
+            total_emission_per_quarter_dm_n_global_build = (energy_emission_per_day_dm_n_global_build + material_emission_per_day_dm_n_global_build) * 90  # request.session['noofworkingdays_list'][0]
+
+            energy_emission_per_day_dm_n_global_run = dm_n_global_df['utilisationvalue'] * dm_n_global_df['projectvalueperrun'] * runnousers * runnoenv * grid_emission_factor
+            material_emission_per_day_dm_n_global_run = dm_n_global_df['fabricationvalueperhrs'] * 8 * dm_n_global_df['projectvalueperrun']
+            total_emission_per_quarter_dm_n_global_run = (energy_emission_per_day_dm_n_global_run + material_emission_per_day_dm_n_global_run) * 90  # request.session['noofworkingdays_list'][1]
+
+            # Total Carbon Footprint
+            totalcarbonfootprintquarter_build = total_emission_per_quarter_sc_cpu_build + total_emission_per_quarter_sc_batch_build + total_emission_per_quarter_dm_storage_cpu_build + total_emission_per_quarter_dm_storage_batch_build + total_emission_per_quarter_dm_cc_client_build + total_emission_per_quarter_dm_n_local_build + total_emission_per_quarter_dm_n_global_build
+            totalcarbonfootprintquarter_run = total_emission_per_quarter_sc_cpu_run + total_emission_per_quarter_sc_batch_run + total_emission_per_quarter_dm_storage_cpu_run + total_emission_per_quarter_dm_storage_batch_run + total_emission_per_quarter_dm_cc_client_run + total_emission_per_quarter_dm_n_local_run + total_emission_per_quarter_dm_n_global_run
+
+            now = datetime.now()
+            create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+            # Database Insert
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get("current_project_id"),
+                phasetype='Build',
+                typeofproject='Geographic Information System',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=buildnoenv,
+                location=buildcountry,
+                noofusers=builduserscount,
+                structureddatavolume=buildstrdata,
+                unstructureddatavolume=buildunstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                noofhoursequimentutilisedbuildphase=buildhrs,
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_build,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp=create_timestamp,
+                update_timestamp = create_timestamp,
+            )
+            DatacenterReseaux_data.save()
+
+            DatacenterReseaux_data = DatacenterReseaux(
+                projid=request.session.get("current_project_id"),
+                phasetype='Run',
+                typeofproject='Geographic Information System',
+                calculationmethod=calc_method,
+                emissionfactor=grid_emission_factor,
+                unit=grid_emission_factor_unit,
+                noofenvironments=runnoenv,
+                location=runcountry,
+                noofusers=runnousers,
+                structureddatavolume=runstrdata,
+                unstructureddatavolume=rununstrdata,
+                invoiceamount=bill,
+                buildstartdate=request.session.get('start_date_build'),
+                buildenddate=request.session.get('end_date_build'),
+                runstartdate=request.session.get('start_date_run'),
+                runenddate=request.session.get('end_date_build'),
+                totalcarbonfootprintquarter=totalcarbonfootprintquarter_run,
+                typeofservers=server_type,
+                scope='Default',
+                create_timestamp=create_timestamp,
+                update_timestamp=create_timestamp,
+            )
+            DatacenterReseaux_data.save()
+
+        # daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+        # laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+        # business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+        # monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
+        # drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        # pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        # tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        # telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        # printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        # projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Video projector').values()
+        # lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        # camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+        # raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        # fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        # sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
+        # electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        # bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        # raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Raspberry PI').values()
+        # water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        # waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        # plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        # paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        # mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        # mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+        # mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Freight transport').values()
+
+        context = {
+            # 'project_type_list': project_type_list,
+            'country_list': country_list,
+            # 'proj_type': proj_type,
+            'role': request.session.get('role'),
+            'list': request.session.get('list'),
+            'list_run': request.session.get('list_run'),
+            'start_date_year': request.session.get('start_date_year'),
+            'start_date_year_run': request.session.get('start_date_year_run'),
+            'totalyear_loop_run': request.session.get('totalyear_loop_run'),
+            'totalyear_loop': request.session.get('totalyear_loop'),
+            'list_length': request.session.get('list_length'),
+            # 'laptop_data': laptop_data,
+            # 'daily_commute': daily_commute,
+            # 'business_travel': business_travel,
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
+            'year_list': settings.COUNTRY_LIST,
+            # 'monitor_data': monitor_data,
+            # 'drone_data': drone_data,
+            # 'pc_data': pc_data,
+            # 'telephone_data': telephone_data,
+            # 'printer_data': printer_data,
+            # 'projector_data': projector_data,
+            # 'lidar_data': lidar_data,
+            # 'camera_data': camera_data,
+            # 'raw_data': raw_data,
+            # 'fuel_data': fuel_data,
+            # 'tablet_data': tablet_data,
+            # 'bt_data': bt_data,
+            # 'raspberry_data': raspberry_data,
+            # 'electricity_data': electricity_data,
+            # 'paper_data': paper_data,
+            # 'plastic_data': plastic_data,
+            # 'waste_data': waste_data,
+            # 'water_data': water_data,
+            # 'mobile_daily_data': mobile_daily_data,
+            # 'mobile_business_data': mobile_business_data,
+            # 'mobile_frieght_transport_data': mobile_frieght_transport_data,
+
+        }
+        # return render(request, 'di_dcn.html', context)
+
+        user_equipment_render_list = request.session.get('user_equipment_render_list')
+        industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
+        indirect_render_list = request.session.get('indirect_render_list')
+
+        if len(user_equipment_render_list) >= 1:
+            # if WhichUserEquipment[0]=='laptop':
+            #     return render(request,'di_laptop.html',context)
+            if user_equipment_render_list[0] == 'laptop':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_laptop.html', context)
+            elif user_equipment_render_list[0] == 'pc':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_pc.html', context)
+            elif user_equipment_render_list[0] == 'tablet':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_tablet.html', context)
+            elif user_equipment_render_list[0] == 'telephone':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_telephone.html', context)
+            elif user_equipment_render_list[0] == 'projector':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_printer.html', context)
+            elif user_equipment_render_list[0] == 'monitor':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_bt_speaker.html', context)
+            elif user_equipment_render_list[0] == 'Video':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_projector.html', context)
+            else:
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_monitor.html', context)
+
+            return render(request, 'di_laptop.html', context)
+
+        elif len(industrial_equipment_render_list) >= 1:
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar.html', context)
+            else:
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_raspberrypi.html', context)
+
+    # daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+    # laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+    # business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+    # monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
+    # drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    # pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    # tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    # telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    # printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    # projector_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Video projector').values()
+    # lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    # camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+    # raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    # fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    # sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
+    # electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    # bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    # raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    # water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    # waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    # plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    # paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    # mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    # mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    # mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Freight transport').values()
+
+    # proj_type = RefParameters.objects.values_list('projecttypology')
+    # proj_type = RefParameters.objects.values('projecttypology')
+    # project_type_list = list(proj_type)
+    # project_type_list = list(dict.fromkeys(project_type_list))
+    # project_type_list = [item for tuple_item in project_type_list for item in tuple_item]
+    context = {
+        # 'project_type_list': project_type_list,
+        'country_list': country_list,
+        # 'proj_type': proj_type,
+        'role': request.session.get('role'),
+        'list': request.session.get('list'),
+        'list_run': request.session.get('list_run'),
+        'start_date_year': request.session.get('start_date_year'),
+        'start_date_year_run': request.session.get('start_date_year_run'),
+        'totalyear_loop_run': request.session.get('totalyear_loop_run'),
+        'totalyear_loop': request.session.get('totalyear_loop'),
+        'list_length': request.session.get('list_length'),
+        # 'laptop_data': laptop_data,
+        # 'daily_commute': daily_commute,
+        # 'business_travel': business_travel,
+
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
+        'year_list': settings.COUNTRY_LIST,
+        # 'monitor_data': monitor_data,
+        # 'drone_data': drone_data,
+        # 'pc_data': pc_data,
+        # 'telephone_data': telephone_data,
+        # 'printer_data': printer_data,
+        # 'projector_data': projector_data,
+        # 'lidar_data': lidar_data,
+        # 'camera_data': camera_data,
+        # 'raw_data': raw_data,
+        # 'fuel_data': fuel_data,
+        # 'tablet_data': tablet_data,
+        # 'bt_data': bt_data,
+        # 'raspberry_data': raspberry_data,
+        # 'electricity_data': electricity_data,
+        # 'paper_data': paper_data,
+        # 'plastic_data': plastic_data,
+        # 'waste_data': waste_data,
+        # 'water_data': water_data,
+        # 'mobile_daily_data': mobile_daily_data,
+        # 'mobile_business_data': mobile_business_data,
+        # 'mobile_frieght_transport_data': mobile_frieght_transport_data,
+    }
+    return render(request, 'di_dcn.html', context)
 
 
 def Help(request):
