@@ -158,7 +158,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-CSRF_TRUSTED_ORIGINS = ['https://greenflagdev.azurewebsites.net']
+CSRF_TRUSTED_ORIGINS = ['https://greenflag.azurewebsites.net']
 
 LOGIN_REDIRECT_URL = 'index'
 HOME_URL = 'index'
