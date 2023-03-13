@@ -2350,7 +2350,7 @@ def di_business_travel(request):
             'laptop_data': laptop_data,
             'daily_commute': daily_commute,
             'business_travel': business_travel,
-
+            'sensor_data': sensor_data,
             'list_count': request.session.get('list_count'),
             'list_count_run': request.session.get('list_count_run'),
             'span_build_list': request.session.get('span_build_list'),
@@ -2837,8 +2837,7 @@ def di_laptop(request):
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
-        # import ipdb
-        # ipdb.set_trace()
+
         if len(user_equipment_render_list) >= 1:
 
             # if WhichUserEquipment[0]=='laptop':
@@ -2863,7 +2862,7 @@ def di_laptop(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'monitor':
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_bt_speaker.html', context)
@@ -3128,11 +3127,8 @@ def di_monitor(request):
         # import ipdb
         # ipdb.set_trace()
 
-        noofworkingdays_build_int = [int(i) for i in noofworkingdays_build]
-        noofworkingdays_build_int = sum(noofworkingdays_build)
 
         final_quater = []
-        noofworkingdays_build = []
         noofworkingdays_run = []
         noofworkingdays_monitor = []
         # import ipdb
@@ -3180,7 +3176,6 @@ def di_monitor(request):
 
             noofworkingdays_run.append(Build_days_list)
             print('noofworkingdays_run', noofworkingdays_run)
-            request.session['noofworkingdays_run'] = noofworkingdays_run
 
             # noofworkingdays_monitor.append(noofworkingdays_build)
             # print('noofworkingdays_monitor', noofworkingdays_monitor)
@@ -3188,6 +3183,28 @@ def di_monitor(request):
 
             final_quater.append(quater_list)
             print('final_quater', final_quater)
+
+        monitor_total_build_days = copy.deepcopy(noofworkingdays_build)
+        request.session['monitor_total_build_days'] = monitor_total_build_days
+
+        monitor_total_run_days = copy.deepcopy(noofworkingdays_run)
+        request.session['monitor_total_build_days'] = monitor_total_run_days
+
+        noofworkingdays_build2 = []
+        noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
+        noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
+        if noofworkingdays_build1:
+            noofworkingdays_build1 = sum(noofworkingdays_build1)
+            noofworkingdays_build2.append(noofworkingdays_build1)
+        # print('noofworkingdays_build',noofworkingdays_build)
+        # print('noofworkingdays_build1',noofworkingdays_build1)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
 
         # import ipdb
         # ipdb.set_trace()
@@ -3209,39 +3226,39 @@ def di_monitor(request):
 
         roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
 
-        ref_parameters_list_pc = RefCarbonfootprint.objects.filter(category='User Equipment',
-                                                                   subcategory='Desktop').values()
+        ref_parameters_list_monitor = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                        subcategory='Screen/Monitor').values()
         emission_factor_list = []
         for i in transport_type:
-            tt = ref_parameters_list_pc.filter(name=i).values()
+            tt = ref_parameters_list_monitor.filter(name=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['carbonfootprintperday'])
             emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
             print('emission_factor_list', emission_factor_list)
 
-        totalcarbonfootprint_drone_build = [emission_factor_list[i] * noofworkingdays_build[i] for i in
-                                            range(len(noofworkingdays_build))]
-        print('totalcarbonfootprint_laptop_build', totalcarbonfootprint_laptop_build)
+        # totalcarbonfootprint_monitor_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
+        #                                       range(len(noofworkingdays_build2))]
+        # print('totalcarbonfootprint_monitor_build', totalcarbonfootprint_monitor_build)
 
         # import ipdb
         # ipdb.set_trace()
 
-        ref_parameters_list_pc_run = []
+        emission_factor_list_run = []
         for i in transport_type_run:
-            tt = ref_parameters_list_laptop.filter(name=i).values()
+            tt = ref_parameters_list_monitor.filter(name=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['carbonfootprintperday'])
             emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
             print('emission_factor_list_run', emission_factor_list_run)
 
-        totalcarbonfootprint_laptop_run = [emission_factor_list_run[i] * noofworkingdays_run[i] for i in
-                                           range(len(noofworkingdays_run))]
-        print('totalcarbonfootprint_laptop_run', totalcarbonfootprint_laptop_run)
+        # totalcarbonfootprint_monitor_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
+        #                                     range(len(noofworkingdays_run2))]
+        # print('totalcarbonfootprint_monitor_run', totalcarbonfootprint_monitor_run)
 
-        # now = datetime.now()
-        # create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
         # direct_impact_data = ImpactsDirects.objects.all()
         # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
@@ -3251,26 +3268,172 @@ def di_monitor(request):
         #     if i.get('subcategory') == transport_type[0]:
         #         emissionfactor = i.get('emissionfactor')
 
+        # Build Phase
+        # Removing '0' from all the values
+        monitor_total_build_days = [[y for y in x if y != '0'] for x in
+                                             monitor_total_build_days]
+
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in monitor_total_build_days:
+            if len(item) != len_build_quarter:
+                monitor_total_build_days[counter] = item[:len_build_quarter]
+            counter += 1
+        print(monitor_total_build_days)
+
+        # Make list integer and get sum by Role
+        monitor_total_days_build_all_roles_int = []
+        sum_monitor_total_days_build_all_roles = []
+        for item in monitor_total_build_days:
+            monitor_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in monitor_total_days_build_all_roles_int:
+            sum_monitor_total_days_build_all_roles.append(sum(item))
+        print('Final List of Monitor Build is: ', monitor_total_days_build_all_roles_int)
+        print('Sum of PC Monitor is: ', sum_monitor_total_days_build_all_roles)
+
+        # Run Phase
+        # Removing '0' from all the values
+        monitor_total_days_run_all_roles = [[y for y in x if y != '0'] for x in
+                                           monitor_total_run_days]
+
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in monitor_total_days_run_all_roles:
+            if len(item) != len_run_quarter:
+                monitor_total_days_run_all_roles[counter] = item[:len_run_quarter]
+            counter += 1
+        print(monitor_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        monitor_total_days_run_all_roles_int = []
+        sum_monitor_total_days_run_all_roles = []
+        for item in monitor_total_days_run_all_roles:
+            monitor_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in monitor_total_days_run_all_roles_int:
+            sum_monitor_total_days_run_all_roles.append(sum(item))
+        print('Final List of Tablet Run is: ', monitor_total_days_run_all_roles_int)
+        print('Sum of Tablet Run is: ', sum_monitor_total_days_run_all_roles)
+
+        totalcarbonfootprint_monitor_build = [emission_factor_list[i] * sum_monitor_total_days_build_all_roles[i] for i in
+                                             range(len(monitor_total_days_build_all_roles_int))]
+        print('totalcarbonfootprint_tablet_build', totalcarbonfootprint_monitor_build)
+
+        totalcarbonfootprint_monitor_run = [emission_factor_list_run[i] * sum_monitor_total_days_run_all_roles[i] for i in
+                                           range(len(monitor_total_days_run_all_roles_int))]
+        print('totalcarbonfootprint_tablet_run', totalcarbonfootprint_monitor_run)
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_build = request.session.get('numeric_list_of_load_plan_build')
+        year_list_build_load_plan_full = request.session.get('year_list_build_load_plan_full')
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_monitor_build_phase = []
+        for i in range(len(role)):
+            tablet_monitor_dataframe = pd.DataFrame({
+                'BuildQuarterData': monitor_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Build',
+                'TotalCarbonFootPrints': totalcarbonfootprint_monitor_build[i],
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
+
+            })
+            print(tablet_monitor_dataframe)
+            all_dataframes_of_monitor_build_phase.append(tablet_monitor_dataframe)
+
+        # Run Phase
+        all_dataframes_of_monitor_run_phase = []
+        for i in range(len(role)):
+            monitor_run_dataframe = pd.DataFrame({
+                'RunQuarterData': monitor_total_days_run_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_monitor_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
+
+            })
+            print(monitor_run_dataframe)
+            all_dataframes_of_monitor_run_phase.append(monitor_run_dataframe)
+
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
         try:
-            IMPACTS_DIRECTS_data = ImpactsDirects(
-                projectname=request.session.get('name'),
-                equipmentownership=vehical_owners,
-                role=role,
-                # kmtravelledperday= buid_km_int[0],
-                # avgnoofdaysofficeperweek = buid_avg_int[0],
-                category='User Equipment',
-                subcategory=transport_type[0],
-                phasetype='Build',
-                emissionfactor=emissionfactor,
-                create_timestamp=create_timestamp,
-                update_timestamp=create_timestamp,
-                # typeoftransport = transport_type[0],
-                # workcountry = work_country
-                # buildstartdate=start_date_year, buildenddate=end_date_year,
-                # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-            )
-            IMPACTS_DIRECTS_data.save()
-            print(IMPACTS_DIRECTS_data)
+            for dataframe in all_dataframes_of_monitor_build_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners[i],
+
+                            category='User Equipment',
+                            subcategory=transport_type[i],
+                            # typeoflaptop = transport_type[i],
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['BuildQuarterData'],
+                            year=row['BuildYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        try:
+            for dataframe in all_dataframes_of_monitor_run_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type_run)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners_run[i],
+
+                            category='User Equipment',
+                            subcategory=transport_type_run[i],
+                            # typeoflaptop = transport_type[i],
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['RunQuarterData'],
+                            year=row['RunYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            emissionfactor=emission_factor_list_run[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            projid=roleid,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
         except Exception as e:
             print(e)
 
@@ -3287,11 +3450,24 @@ def di_monitor(request):
         projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                            subcategory='Video projector').values()
         lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
-        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
         camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
         context = {
             # 'user_details':user_details,
             # 'year_details':year_details,
@@ -3300,6 +3476,7 @@ def di_monitor(request):
             # 'quarter_details':quarter_details,
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
+            'list_count': request.session.get('list_count'),
             'role': request.session.get('role'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'start_date_year': request.session.get('start_date_year'),
@@ -3307,20 +3484,31 @@ def di_monitor(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'laptop_data': laptop_data,
             'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data': laptop_data,
             'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
+            'list_count_run': request.session.get('list_count_run'),
             'telephone_data': telephone_data,
             'printer_data': printer_data,
             'projector_data': projector_data,
             'lidar_data': lidar_data,
-            'fuel_data': fuel_data,
-            'electricity_data': electricity_data,
             'camera_data': camera_data,
             'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
@@ -3353,7 +3541,7 @@ def di_monitor(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'monitor':
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_bt_speaker.html', context)
@@ -3385,13 +3573,12 @@ def di_monitor(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -3400,26 +3587,26 @@ def di_monitor(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
@@ -3458,17 +3645,26 @@ def di_monitor(request):
     projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                        subcategory='Video projector').values()
     lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
-    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
     camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
 
     context = {
-        'user_details': user_details,
-        'year_details': year_details,
-        'res_dct': res_dct,
-        'default_dropdown1': default_dropdown1,
-        'quarter_details': quarter_details,
+
         'totalyear_loop': request.session.get('totalyear_loop'),
         'role': request.session.get('role'),
         'list': request.session.get('list'),
@@ -3478,9 +3674,9 @@ def di_monitor(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'laptop_data': laptop_data,
         'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data': laptop_data,
         'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
@@ -3488,10 +3684,20 @@ def di_monitor(request):
         'printer_data': printer_data,
         'projector_data': projector_data,
         'lidar_data': lidar_data,
-        'fuel_data': fuel_data,
-        'electricity_data': electricity_data,
         'camera_data': camera_data,
         'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
 
     }
 
@@ -4096,7 +4302,7 @@ def di_drone(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'monitor':
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_bt_speaker.html', context)
@@ -4572,7 +4778,6 @@ def indirect_impact_el(request):
         WhichParametersImplemented = request.session.get('parameters_implemented')
         print(role)
 
-        noofworkingdays_build = []
         noofworkingdays_run = []
 
         # import ipdb
@@ -4586,65 +4791,82 @@ def indirect_impact_el(request):
             print('noofworkingdays_run', noofworkingdays_run)
             if noofworkingdays_run == ['']:
                 noofworkingdays_run = ['0']
-                # print('local_list', local_list)
                 print('noofworkingdays_run', noofworkingdays_run)
-                # else:
-                #     local_list.append(request.POST.get('run' + role_list[j-1] + '_' + str(i)))
-                #     print('local_list', local_list)
-
-                # local_list.append(request.POST.get('dr_' + role[j-1] + '_' + str(i)))
-                # print('local_list', local_list)
-                # quater_list.append(i)
-                # count = 0
-                # for i in local_list:
-                #     if i == '':
-                #         local_list[count] = '0'
-                #         print('i', i)
-                #     count += 1
-
-                # print(local_list)
-                #
-                # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
-                # print('local_list', local_list)
-                # quater_list.append(i)
 
             print('noofworkingdays_run', noofworkingdays_run)
 
-            # noofworkingdays_build.append(local_list)
-            # print('noofworkingdays_build', noofworkingdays_build)
-            # request.session['noofworkingdays_build'] = noofworkingdays_build
+        selected_electricity = []
+        selected_electricity.append(request.POST.get('type_electricity_run'))
+        print('selected_electricity', selected_electricity)
 
-            # noofworkingdays_run.append(local_list)
-            # print('noofworkingdays_run', noofworkingdays_run)
-            # request.session['noofworkingdays_run'] = noofworkingdays_run
+        selected_country = []
+        selected_country.append(request.POST.get('type_country_run'))
+        print('selected_country', selected_country)
 
-            # noofworkingdays_fuel.append(noofworkingdays_run)
-            # print('noofworkingdays_fuel', noofworkingdays_fuel)
-            # request.session['noofworkingdays_fuel'] = noofworkingdays_fuel
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
 
-            # final_quater.append(quater_list)
-            # print('final_quater', final_quater)
+        ref_parameters_list_electricity = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        emission_factor_list = []
+        for i in selected_country:
+            tt = ref_parameters_list_electricity.filter(subcategory=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list', emission_factor_list)
 
-        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
-        count = 1
-        count2 = 1
-        for i in range(len(default_dropdown)):
-            default_dropdown.insert(count2, count)
-            count += 1
-            count2 += 2
-        res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
-        print(res_dct)
-        # import ipdb
-        # ipdb.set_trace()
-        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-        year_details = ['2020', '2021']
-        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
-        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+
+        noofworkingdays_electricity = [x for x in noofworkingdays_run if x != '0']
+
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        noofworkingdays_electricity = noofworkingdays_electricity[:len_run_quarter]
+        print(noofworkingdays_electricity)
+
+        # Make list integer and get sum by Role
+        sum_noofworkingdays_electricity_total_days_run_all_roles = []
+        noofworkingdays_electricity_int = [eval(i) for i in noofworkingdays_electricity]
+        sum_noofworkingdays_electricity_total_days_run_all_roles.append(sum(noofworkingdays_electricity_int))
+        print('Final List of electricity Run is: ', noofworkingdays_electricity_int)
+        print('Sum of Electricity Run is: ', sum_noofworkingdays_electricity_total_days_run_all_roles)
+
+
+        totalcarbonfootprint_electricity_run = [emission_factor_list[i] * sum_noofworkingdays_electricity_total_days_run_all_roles[i] for i in
+                                                range(len(sum_noofworkingdays_electricity_total_days_run_all_roles))]
+        print('totalcarbonfootprint_electricity_run', totalcarbonfootprint_electricity_run)
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_electricity_phase = []
+        for i in range(len(selected_country)):
+            electricity_dataframe = pd.DataFrame({
+                'QuarterData': noofworkingdays_electricity_int,
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_electricity_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'YearList': year_list_run_load_plan_full,
+
+            })
+            print(electricity_dataframe)
+            all_dataframes_of_electricity_phase.append(electricity_dataframe)
+
+
+
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
 
         fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
 
-        # import ipdb
-        # ipdb.set_trace()
         fuel_data_list = []
 
         for i in fuel_data:
@@ -4683,51 +4905,65 @@ def indirect_impact_el(request):
         projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                            subcategory='Video projector').values()
         lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
-        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
         camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
         fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
+
         submit = 1
 
-        # indirect_impact_data = ImpactsIndirects.objects.all()
-        # # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        # # for i in ref_parameters_list :
-        # #     import ipdb
-        # #     ipdb.set_trace()
-        # #     if i.get('subcategory') == transport_type[0]:
-        # #         emissionfactor = i.get('emissionfactor')
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
-        # try:
-        #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
-        #                                     projectname = request.session.get('name'),
-        #                                     # equipmentownership = vehical_owners,
-        #                                     # role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'Fuel - Stationary combustion',
-        #                                     # subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     totalcarbonfootprint = 20.0,
-        #                                     projid = request.session.get('roleid'),
-        #                                     # emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_INDIRECTS_data.save()
-        #             print(ImpactsIndirects)
-        # except Exception as e:
-        #     print(e)
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        try:
+            for dataframe in all_dataframes_of_electricity_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(selected_country)):
+                        IMPACTS_INDIRECTS_data = ImpactsIndirects(
+                            projectname=request.session.get('name'),
+                            category='Grid Electricity',
+                            emissionfactor=emission_factor_list[i],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['QuarterData'],
+                            year=row['YearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            location=selected_country[i],
+                            projid=roleid,
+
+                        )
+                        IMPACTS_INDIRECTS_data.save()
+                        print(IMPACTS_INDIRECTS_data)
+        except Exception as e:
+            print(e)
 
         context = {
-            'user_details': user_details,
-            'year_details': year_details,
-            'res_dct': res_dct,
-            'default_dropdown1': default_dropdown1,
-            'quarter_details': quarter_details,
+
             'role': request.session.get('role'),
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
@@ -4739,11 +4975,31 @@ def indirect_impact_el(request):
             'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
             'fuel_data_list': fuel_data_list,
-            'paper_data': paper_data,
-            'submit': submit,
+            'laptop_data': laptop_data,
+            'daily_commute': daily_commute,
+            'business_travel': business_travel,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
+            'drone_data': drone_data,
+            'pc_data': pc_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
             'camera_data': camera_data,
             'raw_data': raw_data,
             'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
@@ -4754,8 +5010,6 @@ def indirect_impact_el(request):
         # ipdb.set_trace()
         if len(user_equipment_render_list) >= 1:
 
-            # if WhichUserEquipment[0]=='laptop':
-            #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
@@ -4808,13 +5062,12 @@ def indirect_impact_el(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -4823,31 +5076,32 @@ def indirect_impact_el(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_rm.html', context)
                 return render(request, 'di_drone.html', context)
+
     default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
@@ -4886,10 +5140,24 @@ def indirect_impact_el(request):
     projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                        subcategory='Video projector').values()
     lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
-    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
     camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
     fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
+
     context = {
         'role': request.session.get('role'),
         'list': request.session.get('list'),
@@ -4901,11 +5169,31 @@ def indirect_impact_el(request):
         'list_length': request.session.get('list_length'),
         'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'electricity_data': electricity_data,
-        'submit': submit,
+        'laptop_data': laptop_data,
+        'daily_commute': daily_commute,
+        'business_travel': business_travel,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
+        'drone_data': drone_data,
+        'pc_data': pc_data,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
         'camera_data': camera_data,
         'raw_data': raw_data,
         'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
     return render(request, 'indirect_impact_el.html', context)
 
@@ -6267,7 +6555,7 @@ def di_dcn(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'monitor':
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_bt_speaker.html', context)
@@ -6534,7 +6822,7 @@ def indirect_impact_fl(request):
                         totalcarbonfootprint=row['TotalCarbonFootPrints'],
                         projid=get_current_project_id,
 
-                        # noofworkingdays=row['RunQuarterData'],
+                        nofworkingdays=row['RunQuarterData'],
                         runstartdate=start_date_run,
                         runenddate=end_date_run,
                         year=row['RunYearList'],
@@ -6640,8 +6928,6 @@ def indirect_impact_fl(request):
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
-        # import ipdb
-        # ipdb.set_trace()
         if len(user_equipment_render_list) >= 1:
 
             if user_equipment_render_list[0] == 'laptop':
@@ -6664,7 +6950,7 @@ def indirect_impact_fl(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'monitor':
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_bt_speaker.html', context)
@@ -6674,9 +6960,8 @@ def indirect_impact_fl(request):
                 return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-
+                return render(request, 'di_monitor.html', context)
             return render(request, 'di_laptop.html', context)
 
         elif len(industrial_equipment_render_list) >= 1:
@@ -6699,8 +6984,8 @@ def indirect_impact_fl(request):
                 return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
-                return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_raspberrypi.html', context)
             return render(request, 'di_drone.html', context)
 
         else:
@@ -6734,7 +7019,7 @@ def indirect_impact_fl(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_rm.html', context)
-                return render(request, 'di_drone.html', context)
+                # return render(request, 'di_drone.html', context)
 
         # return render(request, 'indirect_impact_el.html',context)
     default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
@@ -6881,40 +7166,355 @@ def indirect_impact_mc(request):
         quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
         user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
-        # indirect_impact_data = ImpactsIndirects.objects.all()
-        # # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        # # for i in ref_parameters_list :
-        # #     import ipdb
-        # #     ipdb.set_trace()
-        # #     if i.get('subcategory') == transport_type[0]:
-        # #         emissionfactor = i.get('emissionfactor')
+        noofworkingdays_mobile_business = []
+        noofworkingdays_mobile_daily = []
+        noofworkingdays_mobile_freight = []
+        list_length = request.session.get('list_length')
+        print(list_length)
+        # Create user input field and append in list:
 
-        # try:
-        #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
-        #                                     projectname = request.session.get('name'),
-        #                                     # equipmentownership = vehical_owners,
-        #                                     # role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'Fuel - Stationary combustion',
-        #                                     # subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     totalcarbonfootprint = 20.0,
-        #                                     projid = request.session.get('roleid'),
-        #                                     # emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_INDIRECTS_data.save()
-        #             print(ImpactsIndirects)
-        # except Exception as e:
-        #     print(e)
+        for i in range(1, list_length + 1):
+            noofworkingdays_mobile_business.append(request.POST.get('business_daily_' + str(i)))
+            noofworkingdays_mobile_daily.append(request.POST.get('mobile_daily_' + str(i)))
+            noofworkingdays_mobile_freight.append(request.POST.get('mobile_ft_' + str(i)))
 
+            print('noofworkingdays_mobile_business', noofworkingdays_mobile_business)
+            if noofworkingdays_mobile_business == ['']:
+                noofworkingdays_mobile_business = ['0']
+                # print('local_list', local_list)
+                print('noofworkingdays_mobile_business', noofworkingdays_mobile_business)
+
+            print('noofworkingdays_mobile_business', noofworkingdays_mobile_business)
+            print('noofworkingdays_mobile_daily', noofworkingdays_mobile_daily)
+            print('noofworkingdays_mobile_freight', noofworkingdays_mobile_freight)
+
+        noofworkingdays_mobile_business1 = []
+        noofworkingdays_mobile_business_int = [int(i) for i in noofworkingdays_mobile_business]
+        print('noofworkingdays_mobile_business', noofworkingdays_mobile_business)
+        noofworkingdays_mobile_business_sum = sum(noofworkingdays_mobile_business_int)
+        noofworkingdays_mobile_business1.append(noofworkingdays_mobile_business_sum)
+        print('noofworkingdays_mobile_business1', noofworkingdays_mobile_business1)
+        print("===================== sum of mobile business is: ", noofworkingdays_mobile_business1)
+
+        noofworkingdays_mobile_daily1 = []
+        noofworkingdays_mobile_daily_int = [int(i) for i in noofworkingdays_mobile_daily]
+        print('noofworkingdays_mobile_daily_int', noofworkingdays_mobile_daily_int)
+        noofworkingdays_mobile_daily_sum = sum(noofworkingdays_mobile_daily_int)
+        noofworkingdays_mobile_daily1.append(noofworkingdays_mobile_daily_sum)
+        print('noofworkingdays_mobile_daily1', noofworkingdays_mobile_daily1)
+        print("===================== sum of mobile daily is: ", noofworkingdays_mobile_daily1)
+
+        noofworkingdays_mobile_freight1 = []
+        noofworkingdays_mobile_freight_int = [int(i) for i in noofworkingdays_mobile_freight]
+        print('noofworkingdays_mobile_freight_int', noofworkingdays_mobile_freight_int)
+        noofworkingdays_mobile_freight_sum = sum(noofworkingdays_mobile_freight_int)
+        noofworkingdays_mobile_freight1.append(noofworkingdays_mobile_freight_sum)
+        print('noofworkingdays_mobile_freight1', noofworkingdays_mobile_freight1)
+        print("===================== sum of mobile freight is: ", noofworkingdays_mobile_freight1)
+
+        vehical_type_mobile_business = []
+        vehical_type_mobile_daily = []
+        vehical_type_mobile_frieght = []
+
+        vehical_type_mobile_business.append(request.POST.get('business_daily'))
+        print('vehical_type_mobile_business', vehical_type_mobile_business)
+
+        vehical_type_mobile_daily.append(request.POST.get('mobile_daily'))
+        print('vehical_type_mobile_daily', vehical_type_mobile_daily)
+
+        vehical_type_mobile_frieght.append(request.POST.get('mobile_ft'))
+        print('vehical_type_mobile_frieght', vehical_type_mobile_frieght)
+
+        ref_parameters_list_mobile_business = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel ').values()
+
+        noofworkingdays_mobile_business = copy.deepcopy(noofworkingdays_mobile_business)
+        request.session['noofworkingdays_mobile_business'] = noofworkingdays_mobile_business
+
+        noofworkingdays_mobile_daily = copy.deepcopy(noofworkingdays_mobile_daily)
+        request.session['noofworkingdays_mobile_daily'] = noofworkingdays_mobile_daily
+
+        noofworkingdays_mobile_freight = copy.deepcopy(noofworkingdays_mobile_freight)
+        request.session['noofworkingdays_mobile_freight'] = noofworkingdays_mobile_freight
+
+
+        emission_factor_list_business = []
+        for i in vehical_type_mobile_business:
+            tt = ref_parameters_list_mobile_business.filter(subcategory=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list_business.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list_business', emission_factor_list_business)
+
+
+        # totalcarbonfootprint_mobile_business = [emission_factor_list_business[i] * noofworkingdays_mobile_business1[i]
+        #                                         for i in range(len(noofworkingdays_mobile_business1))]
+        # print('totalcarbonfootprint_mobile_business', totalcarbonfootprint_mobile_business)
+
+        ref_parameters_list_mobile_daily = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Daily Commute').values()
+        emission_factor_list_daily = []
+        for i in vehical_type_mobile_daily:
+            tt = ref_parameters_list_mobile_daily.filter(subcategory=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list_daily.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list_daily', emission_factor_list_daily)
+
+        # totalcarbonfootprint_mobile_daily = [emission_factor_list_daily[i] * noofworkingdays_mobile_daily1[i] for i in
+        #                                      range(len(noofworkingdays_mobile_daily1))]
+        # print('totalcarbonfootprint_mobile_daily', totalcarbonfootprint_mobile_daily)
+
+        ref_parameters_list_mobile_ft = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport ').values()
+        emission_factor_list_ft = []
+        for i in vehical_type_mobile_frieght:
+            tt = ref_parameters_list_mobile_ft.filter(subcategory=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list_ft.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list_ft', emission_factor_list_ft)
+
+        # totalcarbonfootprint_mobile_frieght = [emission_factor_list_ft[i] * noofworkingdays_mobile_freight1[i] for i in
+        #                                        range(len(noofworkingdays_mobile_freight1))]
+        # print('totalcarbonfootprint_mobile_frieght', totalcarbonfootprint_mobile_frieght)
+
+        # Run Phase
+        # Removing '0' from all the values
+        noofworkingdays_mobile_business = [x for x in noofworkingdays_mobile_business if x != '0']
+
+        noofworkingdays_mobile_daily = [x for x in noofworkingdays_mobile_daily if x != '0']
+
+        noofworkingdays_mobile_freight = [x for x in noofworkingdays_mobile_freight if x != '0']
+
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        noofworkingdays_mobile_business = noofworkingdays_mobile_business[:len_run_quarter]
+        print(noofworkingdays_mobile_business)
+
+        noofworkingdays_mobile_daily = noofworkingdays_mobile_daily[:len_run_quarter]
+        print(noofworkingdays_mobile_daily)
+
+        noofworkingdays_mobile_freight = noofworkingdays_mobile_freight[:len_run_quarter]
+        print(noofworkingdays_mobile_freight)
+
+        # Make list integer and get sum by Role
+        sum_noofworkingdays_mobile_total_days_run_all_roles = []
+        noofworkingdays_mobile_business_int = [eval(i) for i in noofworkingdays_mobile_business]
+        sum_noofworkingdays_mobile_total_days_run_all_roles.append(sum(noofworkingdays_mobile_business_int))
+        print('Final List of Tablet Run is: ', noofworkingdays_mobile_business_int)
+        print('Sum of Tablet Run is: ', sum_noofworkingdays_mobile_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        sum_mobile_daily_total_days_run_all_roles = []
+        mobile_daily_business_int = [eval(i) for i in noofworkingdays_mobile_daily]
+        sum_mobile_daily_total_days_run_all_roles.append(sum(mobile_daily_business_int))
+        print('Final List of Tablet Run is: ', mobile_daily_business_int)
+        print('Sum of Tablet Run is: ', sum_mobile_daily_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        sum_mobile_freight_total_days_run_all_roles = []
+        mobile_freight_business_int = [eval(i) for i in noofworkingdays_mobile_freight]
+        sum_mobile_freight_total_days_run_all_roles.append(sum(mobile_freight_business_int))
+        print('Final List of Tablet Run is: ', mobile_freight_business_int)
+        print('Sum of Tablet Run is: ', sum_mobile_freight_total_days_run_all_roles)
+
+
+        totalcarbonfootprint_mobile_business = [emission_factor_list_business[i] * sum_noofworkingdays_mobile_total_days_run_all_roles[i]
+                                                for i in range(len(sum_noofworkingdays_mobile_total_days_run_all_roles))]
+        print('totalcarbonfootprint_mobile_business', totalcarbonfootprint_mobile_business)
+
+
+        totalcarbonfootprint_mobile_daily = [emission_factor_list_daily[i] * sum_mobile_daily_total_days_run_all_roles[i] for i in
+                                             range(len(sum_mobile_daily_total_days_run_all_roles))]
+        print('totalcarbonfootprint_mobile_daily', totalcarbonfootprint_mobile_daily)
+
+
+        totalcarbonfootprint_mobile_frieght = [emission_factor_list_ft[i] * sum_mobile_freight_total_days_run_all_roles[i] for i in
+                                               range(len(sum_mobile_freight_total_days_run_all_roles))]
+        print('totalcarbonfootprint_mobile_frieght', totalcarbonfootprint_mobile_frieght)
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_mobile_business_phase = []
+        for i in range(len(vehical_type_mobile_business)):
+            mobile_business_dataframe = pd.DataFrame({
+                'QuarterData': noofworkingdays_mobile_business_int,
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_mobile_business[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'YearList': year_list_run_load_plan_full,
+
+            })
+            print(mobile_business_dataframe)
+            all_dataframes_of_mobile_business_phase.append(mobile_business_dataframe)
+
+        all_dataframes_of_mobile_daily_business_phase = []
+        for i in range(len(vehical_type_mobile_daily)):
+            mobile_business_daily_dataframe = pd.DataFrame({
+                'QuarterData': mobile_daily_business_int,
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_mobile_daily[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'YearList': year_list_run_load_plan_full,
+
+            })
+            print(mobile_business_daily_dataframe)
+            all_dataframes_of_mobile_daily_business_phase.append(mobile_business_daily_dataframe)
+
+        all_dataframes_of_mobile_frieght_business_phase = []
+        for i in range(len(vehical_type_mobile_frieght)):
+            mobile_business_frieght_dataframe = pd.DataFrame({
+                'QuarterData': mobile_daily_business_int,
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_mobile_frieght[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'YearList': year_list_run_load_plan_full,
+
+            })
+            print(mobile_business_frieght_dataframe)
+            all_dataframes_of_mobile_frieght_business_phase.append(mobile_business_frieght_dataframe)
+
+
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        try:
+            for dataframe in all_dataframes_of_mobile_business_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(vehical_type_mobile_business)):
+                        IMPACTS_INDIRECTS_data = ImpactsIndirects(
+                            projectname=request.session.get('name'),
+                            category='Mobile Combustion - Business Travel',
+
+                            emissionfactor=emission_factor_list_business[i],
+                            typeoftransport=vehical_type_mobile_business[i],
+
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['QuarterData'],
+                            year=row['YearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_INDIRECTS_data.save()
+                        print(IMPACTS_INDIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        try:
+            for dataframe in all_dataframes_of_mobile_daily_business_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(vehical_type_mobile_daily)):
+                        IMPACTS_INDIRECTS_data = ImpactsIndirects(
+                            projectname=request.session.get('name'),
+                            category='Mobile Combustion - Daily Commute',
+
+                            emissionfactor=emission_factor_list_daily[i],
+                            typeoftransport=vehical_type_mobile_daily[i],
+
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['QuarterData'],
+                            year=row['YearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_INDIRECTS_data.save()
+                        print(IMPACTS_INDIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        try:
+            for dataframe in all_dataframes_of_mobile_frieght_business_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(vehical_type_mobile_frieght)):
+                        IMPACTS_INDIRECTS_data = ImpactsIndirects(
+                            projectname=request.session.get('name'),
+                            category='Mobile Combustion - Freight transport',
+
+                            emissionfactor=emission_factor_list_ft[i],
+                            typeoftransport=vehical_type_mobile_frieght[i],
+
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['QuarterData'],
+                            year=row['YearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_INDIRECTS_data.save()
+                        print(IMPACTS_INDIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+        business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
 
         context = {
             'user_details': user_details,
@@ -6932,16 +7532,40 @@ def indirect_impact_mc(request):
             'list_length': request.session.get('list_length'),
             'noofworkingdays_fuel': request.session.get('noofworkingdays_fuel'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'raw_data': raw_data
+            'laptop_data': laptop_data,
+            'daily_commute': daily_commute,
+            'business_travel': business_travel,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
+            'drone_data': drone_data,
+            'pc_data': pc_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
+
         # import ipdb
         # ipdb.set_trace()
         if len(user_equipment_render_list) >= 1:
-
             # if WhichUserEquipment[0]=='laptop':
             #     return render(request,'di_laptop.html',context)
             if user_equipment_render_list[0] == 'laptop':
@@ -6974,10 +7598,8 @@ def indirect_impact_mc(request):
                 return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
-
-            return render(request, 'di_laptop.html', context)
+                return render(request, 'di_monitor.html', context)
 
         elif len(industrial_equipment_render_list) >= 1:
 
@@ -6996,13 +7618,11 @@ def indirect_impact_mc(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
-                return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-            return render(request, 'di_drone.html', context)
-
+                return render(request, 'di_raspberrypi.html', context)
 
         else:
             if len(indirect_render_list) >= 1:
@@ -7011,31 +7631,30 @@ def indirect_impact_mc(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_rm.html', context)
-                return render(request, 'di_drone.html', context)
 
     default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
@@ -7063,7 +7682,35 @@ def indirect_impact_mc(request):
     quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
     user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
+    daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+    business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
 
     context = {
         'role': request.session.get('role'),
@@ -7076,15 +7723,37 @@ def indirect_impact_mc(request):
         'list_length': request.session.get('list_length'),
         'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'raw_data': raw_data
+        'laptop_data': laptop_data,
+        'daily_commute': daily_commute,
+        'business_travel': business_travel,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
+        'drone_data': drone_data,
+        'pc_data': pc_data,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
     return render(request, 'indirect_impact_mc.html', context)
 
 
 def indirect_impact_wt(request):
     if request.method == "POST":
-        # import ipdb
-        # ipdb.set_trace()
 
         role = request.session.get('role')
         list = request.session.get('list')
@@ -7093,6 +7762,8 @@ def indirect_impact_wt(request):
         start_date_year_run = request.session.get('start_date_year_run')
         totalyear_loop = request.session.get('totalyear_loop')
         start_date_year = request.session.get('start_date_year')
+        list_length = request.session.get('list_length')
+
         print(role)
         default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
         count = 1
@@ -7110,39 +7781,146 @@ def indirect_impact_wt(request):
         quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
         user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
-        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-        # indirect_impact_data = ImpactsIndirects.objects.all()
-        # # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        # # for i in ref_parameters_list :
-        # #     import ipdb
-        # #     ipdb.set_trace()
-        # #     if i.get('subcategory') == transport_type[0]:
-        # #         emissionfactor = i.get('emissionfactor')
+        noofworkingdays_run = []
+        for i in range(1, list_length + 1):
+            noofworkingdays_run.append(request.POST.get(str(i)))
+            print('noofworkingdays_run', noofworkingdays_run)
+            if noofworkingdays_run == ['']:
+                noofworkingdays_run = ['0']
+                # print('local_list', local_list)
+                print('noofworkingdays_run', noofworkingdays_run)
 
-        # try:
-        #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
-        #                                     projectname = request.session.get('name'),
-        #                                     # equipmentownership = vehical_owners,
-        #                                     # role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'Fuel - Stationary combustion',
-        #                                     # subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     totalcarbonfootprint = 20.0,
-        #                                     projid = request.session.get('roleid'),
-        #                                     # emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_INDIRECTS_data.save()
-        #             print(ImpactsIndirects)
-        # except Exception as e:
-        #     print(e)
+            print('noofworkingdays_run2222', noofworkingdays_run)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
+
+        type_water = []
+        type_water.append(request.POST.get('type_water'))
+        print('type_water', type_water)
+
+
+        ref_parameters_list_water = RefCarbonfootprint.objects.filter(category='Water').values()
+        emission_factor_list = []
+        for i in type_water:
+            tt = ref_parameters_list_water.filter(subcategory=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list', emission_factor_list)
+
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        noofworkingdays_water = [x for x in noofworkingdays_run if x != '0']
+
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+
+        noofworkingdays_water = noofworkingdays_water[:len_run_quarter]
+        print(noofworkingdays_water)
+
+        # Make list integer and get sum by Role
+        sum_noofworkingdays_water_total_days_run_all_roles = []
+        noofworkingdays_water_business_int = [eval(i) for i in noofworkingdays_water]
+        sum_noofworkingdays_water_total_days_run_all_roles.append(sum(noofworkingdays_water_business_int))
+        print('Final List of Water Run is: ', noofworkingdays_water_business_int)
+        print('Sum of Water Run is: ', sum_noofworkingdays_water_total_days_run_all_roles)
+
+        totalcarbonfootprint_water_run = [emission_factor_list[i] * sum_noofworkingdays_water_total_days_run_all_roles[i] for i in
+                                          range(len(sum_noofworkingdays_water_total_days_run_all_roles))]
+        print('totalcarbonfootprint_water_run', totalcarbonfootprint_water_run)
+
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+
+        all_dataframes_of_water_phase = []
+        for i in range(len(type_water)):
+            water_dataframe = pd.DataFrame({
+                'QuarterData': noofworkingdays_water_business_int,
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_water_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'YearList': year_list_run_load_plan_full,
+
+            })
+            print(water_dataframe)
+            all_dataframes_of_water_phase.append(water_dataframe)
+
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        try:
+            for dataframe in all_dataframes_of_water_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(type_water)):
+                        IMPACTS_INDIRECTS_data = ImpactsIndirects(
+                            projectname=request.session.get('name'),
+                            category='Water',
+
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['QuarterData'],
+                            year=row['YearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            emissionfactor=emission_factor_list[i],
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_INDIRECTS_data.save()
+                        print(IMPACTS_INDIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+        business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
 
         context = {
             'user_details': user_details,
@@ -7160,7 +7938,31 @@ def indirect_impact_wt(request):
             'list_length': request.session.get('list_length'),
             'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'raw_data': raw_data
+            'laptop_data': laptop_data,
+            'daily_commute': daily_commute,
+            'business_travel': business_travel,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
+            'drone_data': drone_data,
+            'pc_data': pc_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
@@ -7224,13 +8026,12 @@ def indirect_impact_wt(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -7239,31 +8040,32 @@ def indirect_impact_wt(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_rm.html', context)
                 return render(request, 'di_drone.html', context)
+
     default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
@@ -7303,7 +8105,31 @@ def indirect_impact_wt(request):
         'list_length': request.session.get('list_length'),
         'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'raw_data': raw_data
+        'laptop_data': laptop_data,
+        'daily_commute': daily_commute,
+        'business_travel': business_travel,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
+        'drone_data': drone_data,
+        'pc_data': pc_data,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
 
     return render(request, 'indirect_impact_wt.html', context)
@@ -7338,39 +8164,151 @@ def indirect_impact_waste(request):
         quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
         user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
-        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-        # indirect_impact_data = ImpactsIndirects.objects.all()
-        # # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        # # for i in ref_parameters_list :
-        # #     import ipdb
-        # #     ipdb.set_trace()
-        # #     if i.get('subcategory') == transport_type[0]:
-        # #         emissionfactor = i.get('emissionfactor')
+        noofworkingdays_run = []
 
-        # try:
-        #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
-        #                                     projectname = request.session.get('name'),
-        #                                     # equipmentownership = vehical_owners,
-        #                                     # role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'Fuel - Stationary combustion',
-        #                                     # subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     totalcarbonfootprint = 20.0,
-        #                                     projid = request.session.get('roleid'),
-        #                                     # emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_INDIRECTS_data.save()
-        #             print(ImpactsIndirects)
-        # except Exception as e:
-        #     print(e)
+        # import ipdb
+        # ipdb.set_trace()
+        list_length = request.session.get('list_length')
+        print(list_length)
+        # Create user input field and append in list:
+
+        for i in range(1, list_length + 1):
+            noofworkingdays_run.append(request.POST.get(str(i)))
+            print('noofworkingdays_run', noofworkingdays_run)
+            if noofworkingdays_run == ['']:
+                noofworkingdays_run = ['0']
+                # print('local_list', local_list)
+                print('noofworkingdays_run', noofworkingdays_run)
+
+            print('noofworkingdays_run2222', noofworkingdays_run)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
+
+        selected_waste = []
+        selected_waste.append(request.POST.get('selected_waste'))
+        print('selected_waste', selected_waste)
+
+        ref_parameters_list_waste = RefCarbonfootprint.objects.filter(category='Waste').values()
+        emission_factor_list = []
+        for i in selected_waste:
+            tt = ref_parameters_list_waste.filter(subcategory=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list', emission_factor_list)
+
+        # Run Phase
+        # Removing '0' from all the values
+        noofworkingdays_waste = [x for x in noofworkingdays_run if x != '0']
+
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        noofworkingdays_waste = noofworkingdays_waste[:len_run_quarter]
+        print(noofworkingdays_waste)
+
+        # Make list integer and get sum by Role
+        sum_noofworkingdays_waste_days_run_all_roles = []
+        noofworkingdays_waste_int = [eval(i) for i in noofworkingdays_waste]
+        sum_noofworkingdays_waste_days_run_all_roles.append(sum(noofworkingdays_waste_int))
+        print('Final List of Waste Run is: ', noofworkingdays_waste_int)
+        print('Sum of Waste Run is: ', sum_noofworkingdays_waste_days_run_all_roles)
+
+        totalcarbonfootprint_waste_run = [emission_factor_list[i] * sum_noofworkingdays_waste_days_run_all_roles[i] for i in
+                                          range(len(sum_noofworkingdays_waste_days_run_all_roles))]
+        print('totalcarbonfootprint_waste_run', totalcarbonfootprint_waste_run)
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+
+        all_dataframes_of_waste_phase = []
+        for i in range(len(selected_waste)):
+            waste_dataframe = pd.DataFrame({
+                'QuarterData': noofworkingdays_waste_int,
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_waste_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'YearList': year_list_run_load_plan_full,
+
+            })
+            print(waste_dataframe)
+            all_dataframes_of_waste_phase.append(waste_dataframe)
+
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        try:
+            for dataframe in all_dataframes_of_waste_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(selected_waste)):
+                        IMPACTS_INDIRECTS_data = ImpactsIndirects(
+                            projectname=request.session.get('name'),
+                            category='Waste',
+
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['QuarterData'],
+                            year=row['YearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            projid=roleid,
+                        )
+                        IMPACTS_INDIRECTS_data.save()
+                        print(IMPACTS_INDIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+        business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
 
         context = {
             'user_details': user_details,
@@ -7388,7 +8326,31 @@ def indirect_impact_waste(request):
             'list_length': request.session.get('list_length'),
             'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'raw_data': raw_data
+            'laptop_data': laptop_data,
+            'daily_commute': daily_commute,
+            'business_travel': business_travel,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
+            'drone_data': drone_data,
+            'pc_data': pc_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
@@ -7452,13 +8414,12 @@ def indirect_impact_waste(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -7467,26 +8428,26 @@ def indirect_impact_waste(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
@@ -7518,7 +8479,35 @@ def indirect_impact_waste(request):
     quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
     user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
+    daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+    business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
 
     context = {
         'role': request.session.get('role'),
@@ -7531,7 +8520,31 @@ def indirect_impact_waste(request):
         'list_length': request.session.get('list_length'),
         'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'laptop_data': laptop_data,
+        'daily_commute': daily_commute,
+        'business_travel': business_travel,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
+        'drone_data': drone_data,
+        'pc_data': pc_data,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'camera_data': camera_data,
         'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
 
     return render(request, 'indirect_impact_waste.html', context)
@@ -7566,38 +8579,150 @@ def indirect_impact_rm(request):
         quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
         user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
-        # indirect_impact_data = ImpactsIndirects.objects.all()
-        # # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        # # for i in ref_parameters_list :
-        # #     import ipdb
-        # #     ipdb.set_trace()
-        # #     if i.get('subcategory') == transport_type[0]:
-        # #         emissionfactor = i.get('emissionfactor')
+        noofworkingdays_run = []
 
-        # try:
-        #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
-        #                                     projectname = request.session.get('name'),
-        #                                     # equipmentownership = vehical_owners,
-        #                                     # role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'Fuel - Stationary combustion',
-        #                                     # subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     totalcarbonfootprint = 20.0,
-        #                                     projid = request.session.get('roleid'),
-        #                                     # emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_INDIRECTS_data.save()
-        #             print(ImpactsIndirects)
-        # except Exception as e:
-        #     print(e)
+        # import ipdb
+        # ipdb.set_trace()
+        list_length = request.session.get('list_length')
+        print(list_length)
+        # Create user input field and append in list:
+
+        for i in range(1, list_length + 1):
+            noofworkingdays_run.append(request.POST.get(str(i)))
+            print('noofworkingdays_run', noofworkingdays_run)
+            if noofworkingdays_run == ['']:
+                noofworkingdays_run = ['0']
+                # print('local_list', local_list)
+                print('noofworkingdays_run', noofworkingdays_run)
+
+            print('noofworkingdays_run2222', noofworkingdays_run)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
+
+        selected_rm = []
+        selected_rm.append(request.POST.get('type_rm'))
+        print('selected_rm', selected_rm)
+
+        ref_parameters_list_rm = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        emission_factor_list = []
+        for i in selected_rm:
+            tt = ref_parameters_list_rm.filter(subcategory=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list', emission_factor_list)
+
+        # Run Phase
+        # Removing '0' from all the values
+        noofworkingdays_mobile_raw = [x for x in noofworkingdays_run if x != '0']
+
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        noofworkingdays_mobile_raw = noofworkingdays_mobile_raw[:len_run_quarter]
+        print(noofworkingdays_mobile_raw)
+
+        # Make list integer and get sum by Role
+        sum_noofworkingdays_raw_total_days_run_all_roles = []
+        noofworkingdays_raw_int = [eval(i) for i in noofworkingdays_mobile_raw]
+        sum_noofworkingdays_raw_total_days_run_all_roles.append(sum(noofworkingdays_raw_int))
+        print('Final List of Raw Run is: ', noofworkingdays_raw_int)
+        print('Sum of Raw Run is: ', sum_noofworkingdays_raw_total_days_run_all_roles)
+
+        totalcarbonfootprint_rm = [emission_factor_list[i] * sum_noofworkingdays_raw_total_days_run_all_roles[i] for i in
+                                   range(len(sum_noofworkingdays_raw_total_days_run_all_roles))]
+        print('totalcarbonfootprint_rm', totalcarbonfootprint_rm)
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_raw_phase = []
+        for i in range(len(selected_rm)):
+            raw_dataframe = pd.DataFrame({
+                'QuarterData': noofworkingdays_raw_int,
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_rm[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'YearList': year_list_run_load_plan_full,
+
+            })
+            print(raw_dataframe)
+            all_dataframes_of_raw_phase.append(raw_dataframe)
+
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        try:
+            for dataframe in all_dataframes_of_raw_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(selected_rm)):
+                        IMPACTS_INDIRECTS_data = ImpactsIndirects(
+                            projectname=request.session.get('name'),
+                            category='Raw Material',
+
+                            emissionfactor=emission_factor_list[i],
+                            # location = selected_country[i],
+
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['QuarterData'],
+                            year=row['YearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_INDIRECTS_data.save()
+                        print(IMPACTS_INDIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+        business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
 
         context = {
             'user_details': user_details,
@@ -7615,7 +8740,31 @@ def indirect_impact_rm(request):
             'list_length': request.session.get('list_length'),
             'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'raw_data': raw_data
+            'laptop_data': laptop_data,
+            'daily_commute': daily_commute,
+            'business_travel': business_travel,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
+            'drone_data': drone_data,
+            'pc_data': pc_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
@@ -7679,13 +8828,12 @@ def indirect_impact_rm(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -7694,31 +8842,32 @@ def indirect_impact_rm(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_rm.html', context)
                 return render(request, 'di_drone.html', context)
+
     default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
@@ -7744,6 +8893,37 @@ def indirect_impact_rm(request):
     year_details = ['2020', '2021']
     quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
     user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+
+    daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+    business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+    raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
+
     context = {
         'role': request.session.get('role'),
         'list': request.session.get('list'),
@@ -7755,7 +8935,31 @@ def indirect_impact_rm(request):
         'list_length': request.session.get('list_length'),
         'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'raw_data': raw_data
+        'laptop_data': laptop_data,
+        'daily_commute': daily_commute,
+        'business_travel': business_travel,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
+        'drone_data': drone_data,
+        'pc_data': pc_data,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
 
     return render(request, 'indirect_impact_rm.html', context)
@@ -8016,40 +9220,161 @@ def indirect_impact_paper(request):
         quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
         user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
 
+        noofworkingdays_run = []
+
+        # import ipdb
+        # ipdb.set_trace()
+        list_length = request.session.get('list_length')
+        print(list_length)
+        # Create user input field and append in list:
+
+        for i in range(1, list_length + 1):
+            noofworkingdays_run.append(request.POST.get(str(i)))
+            print('noofworkingdays_run', noofworkingdays_run)
+            if noofworkingdays_run == ['']:
+                noofworkingdays_run = ['0']
+                # print('local_list', local_list)
+                print('noofworkingdays_run', noofworkingdays_run)
+            print('noofworkingdays_run2222', noofworkingdays_run)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
+
+        selected_paper = []
+        selected_paper.append(request.POST.get('type_paper'))
+        print('selected_paper', selected_paper)
+
+        ref_parameters_list_paper = RefCarbonfootprint.objects.filter(category='Paper').values()
+        emission_factor_list = []
+        for i in selected_paper:
+            tt = ref_parameters_list_paper.filter(subcategory=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list', emission_factor_list)
+
+        # Run Phase
+        # Removing '0' from all the values
+        noofworkingdays_paper = [x for x in noofworkingdays_run if x != '0']
+
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        noofworkingdays_paper = noofworkingdays_paper[:len_run_quarter]
+        print(noofworkingdays_paper)
+
+        # Make list integer and get sum by Role
+        sum_noofworkingdays_paper_total_days_run_all_roles = []
+        noofworkingdays_paper_int = [eval(i) for i in noofworkingdays_paper]
+        sum_noofworkingdays_paper_total_days_run_all_roles.append(sum(noofworkingdays_paper_int))
+        print('Final List of Paper Run is: ', noofworkingdays_paper_int)
+        print('Sum of Paper Run is: ', sum_noofworkingdays_paper_total_days_run_all_roles)
+
+
+        totalcarbonfootprint_paper_run = [emission_factor_list[i] * sum_noofworkingdays_paper_total_days_run_all_roles[i] for i in
+                                          range(len(sum_noofworkingdays_paper_total_days_run_all_roles))]
+        print('totalcarbonfootprint_paper_run', totalcarbonfootprint_paper_run)
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_paper_phase = []
+        for i in range(len(selected_paper)):
+            paper_dataframe = pd.DataFrame({
+                'QuarterData': noofworkingdays_paper_int,
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_paper_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'YearList': year_list_run_load_plan_full,
+
+            })
+            print(paper_dataframe)
+            all_dataframes_of_paper_phase.append(paper_dataframe)
+
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        try:
+            for dataframe in all_dataframes_of_paper_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(selected_paper)):
+                        IMPACTS_INDIRECTS_data = ImpactsIndirects(
+                            projectname=request.session.get('name'),
+                            # equipmentownership = vehical_owners_run[i],
+                            # role = role[i],
+
+                            category='Paper',
+                            # subcategory = transport_type_run[i],
+                            # typeoflaptop = transport_type[i],
+
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['QuarterData'],
+                            year=row['YearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+
+                            emissionfactor=emission_factor_list[i],
+                            # location = selected_country[i],
+
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_INDIRECTS_data.save()
+                        print(IMPACTS_INDIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+        business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
-        # indirect_impact_data = ImpactsIndirects.objects.all()
-        # # ref_parameters_list = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Drones').values()
-        # # for i in ref_parameters_list :
-        # #     import ipdb
-        # #     ipdb.set_trace()
-        # #     if i.get('subcategory') == transport_type[0]:
-        # #         emissionfactor = i.get('emissionfactor')
-
-        # try:
-        #             IMPACTS_INDIRECTS_data = ImpactsIndirects(
-        #                                     projectname = request.session.get('name'),
-        #                                     # equipmentownership = vehical_owners,
-        #                                     # role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'Fuel - Stationary combustion',
-        #                                     # subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     totalcarbonfootprint = 20.0,
-        #                                     projid = request.session.get('roleid'),
-        #                                     # emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_INDIRECTS_data.save()
-        #             print(ImpactsIndirects)
-        # except Exception as e:
-        #     print(e)
-
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
         context = {
             'user_details': user_details,
             'year_details': year_details,
@@ -8066,7 +9391,31 @@ def indirect_impact_paper(request):
             'list_length': request.session.get('list_length'),
             'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'raw_data': raw_data
+            'laptop_data': laptop_data,
+            'daily_commute': daily_commute,
+            'business_travel': business_travel,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
+            'drone_data': drone_data,
+            'pc_data': pc_data,
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
@@ -8130,13 +9479,12 @@ def indirect_impact_paper(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -8145,31 +9493,32 @@ def indirect_impact_paper(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_rm.html', context)
                 return render(request, 'di_drone.html', context)
+
     default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
     count = 1
     count2 = 1
@@ -8195,7 +9544,36 @@ def indirect_impact_paper(request):
     year_details = ['2020', '2021']
     quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
     user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+    daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+    business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
+
     context = {
         'role': request.session.get('role'),
         'list': request.session.get('list'),
@@ -8207,7 +9585,31 @@ def indirect_impact_paper(request):
         'list_length': request.session.get('list_length'),
         'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'raw_data': raw_data
+        'laptop_data': laptop_data,
+        'daily_commute': daily_commute,
+        'business_travel': business_travel,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
+        'drone_data': drone_data,
+        'pc_data': pc_data,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
     return render(request, 'indirect_impact_paper.html', context)
 
@@ -8419,8 +9821,13 @@ def di_pc(request):
             final_quater.append(quater_list)
             print('final_quater', final_quater)
 
-        # import ipdb
-        # ipdb.set_trace()
+        pc_total_build_days = copy.deepcopy(noofworkingdays_build)
+        request.session['pc_total_build_days'] = pc_total_build_days
+
+        pc_total_run_days = copy.deepcopy(noofworkingdays_run)
+        request.session['pc_total_run_days'] = pc_total_run_days
+
+
         vehical_owners = []
         transport_type = []
         vehical_owners_run = []
@@ -8439,90 +9846,214 @@ def di_pc(request):
 
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+        request.session['create_timestamp'] = create_timestamp
 
         roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
 
         # import ipdb
         # ipdb.set_trace()
+
         noofworkingdays_build2 = []
         noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
         noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
         if noofworkingdays_build1:
             noofworkingdays_build1 = sum(noofworkingdays_build1)
             noofworkingdays_build2.append(noofworkingdays_build1)
-        print('noofworkingdays_build', noofworkingdays_build)
-        print('noofworkingdays_build1', noofworkingdays_build1)
+        # print('noofworkingdays_build',noofworkingdays_build)
+        # print('noofworkingdays_build1',noofworkingdays_build1)
 
         noofworkingdays_run2 = []
         noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
         noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
         if noofworkingdays_run1:
             noofworkingdays_run1 = sum(noofworkingdays_run1)
-            noofworkingdays_run1.append(noofworkingdays_run1)
-        # print('noofworkingdays_build',noofworkingdays_build)
-        print('noofworkingdays_run2', noofworkingdays_run2)
+            noofworkingdays_run2.append(noofworkingdays_run1)
 
         direct_impact_data = ImpactsDirects.objects.all()
-        ref_parameters_list_desktop = RefCarbonfootprint.objects.filter(category='User Equipment',
-                                                                        subcategory='Desktop').values()
+        ref_parameters_list_pc = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                   subcategory='Desktop').values()
 
         emission_factor_list = []
         for i in transport_type:
-            tt = ref_parameters_list_desktop.filter(name=i).values()
+            tt = ref_parameters_list_pc.filter(name=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['carbonfootprintperday'])
             emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
             print('emission_factor_list', emission_factor_list)
 
-        totalcarbonfootprint_desktop_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
-                                              range(len(noofworkingdays_build2))]
-        print('totalcarbonfootprint_desktop_build', totalcarbonfootprint_desktop_build)
-
         emission_factor_list_run = []
         for i in transport_type_run:
-            tt = ref_parameters_list_desktop.filter(name=i).values()
+            tt = ref_parameters_list_pc.filter(name=i).values()
             # tt = pd.DataFrame(list(tt))
             tt_lists = [i for i in tt]
             print(tt_lists[0]['carbonfootprintperday'])
             emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
             print('emission_factor_list_run', emission_factor_list_run)
 
-        totalcarbonfootprint_desktop_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
-                                            range(len(noofworkingdays_build2))]
-        print('totalcarbonfootprint_desktop_build', totalcarbonfootprint_desktop_build)
+        totalcarbonfootprint_pc_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
+                                       range(len(noofworkingdays_build2))]
+        print('totalcarbonfootprint_pc_run', totalcarbonfootprint_pc_run)
 
-        # for i in ref_parameters_list :
-        #     import ipdb
-        #     ipdb.set_trace()
-        #     if i.get('subcategory') == transport_type[0]:
-        #         emissionfactor = i.get('emissionfactor')
+        # Extra code for Multiple roles
+        # Getting all values of Load Plan build/ Run list for all roles
+        pc_total_build_days = request.session.get('pc_total_build_days')
+        pc_total_run_days = request.session.get('pc_total_run_days')
 
-        # try:
-        #         for i in len()
-        #             IMPACTS_DIRECTS_data = ImpactsDirects(
-        #                                     projectname = request.session.get('name'),
-        #                                     equipmentownership = vehical_owners[i],
-        #                                     role = role[i],
-        #                                     projid = roleid,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'User Equipment',
-        #                                     subcategory = transport_type[i],
-        #                                     phasetype ='run',
-        #                                     emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     totalcarbonfootprint =
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_DIRECTS_data.save()
-        #             print(IMPACTS_DIRECTS_data)
-        # except Exception as e:
-        #     print(e)
+        # Build Phase
+        # Removing '0' from all the values
+        pc_total_days_build_all_roles = [[y for y in x if y != '0'] for x in
+                                         pc_total_build_days]
+
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in pc_total_days_build_all_roles:
+            if len(item) != len_build_quarter:
+                pc_total_days_build_all_roles[counter] = item[:len_build_quarter]
+            counter += 1
+        print(pc_total_days_build_all_roles)
+
+        # Make list integer and get sum by Role
+        pc_total_days_build_all_roles_int = []
+        sum_pc_total_days_build_all_roles = []
+        for item in pc_total_days_build_all_roles:
+            pc_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in pc_total_days_build_all_roles_int:
+            sum_pc_total_days_build_all_roles.append(sum(item))
+        print('Final List of PC Build is: ', pc_total_days_build_all_roles_int)
+        print('Sum of PC Build is: ', sum_pc_total_days_build_all_roles)
+
+        totalcarbonfootprint_pc_build = []
+        for i in range(len(pc_total_days_build_all_roles_int)):
+            totalcarbonfootprint_pc_build.append(
+                [j * emission_factor_list[i] for j in pc_total_days_build_all_roles_int[i]])
+        print('totalcarbonfootprint_pc_build', pc_total_days_build_all_roles_int)
+
+        # Run Phase
+        # Removing '0' from all the values
+        pc_total_days_run_all_roles = [[y for y in x if y != '0'] for x in
+                                       pc_total_run_days]
+
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in pc_total_days_run_all_roles:
+            if len(item) != len_run_quarter:
+                pc_total_days_run_all_roles[counter] = item[:len_run_quarter]
+            counter += 1
+        print(pc_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        pc_total_days_run_all_roles_int = []
+        sum_pc_total_days_run_all_roles = []
+        for item in pc_total_days_run_all_roles:
+            pc_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in pc_total_days_run_all_roles_int:
+            sum_pc_total_days_run_all_roles.append(sum(item))
+        print('Final List of PC Build is: ', pc_total_days_run_all_roles_int)
+        print('Sum of PC Build is: ', sum_pc_total_days_run_all_roles)
+
+        totalcarbonfootprint_pc_run = []
+        for i in range(len(pc_total_days_run_all_roles_int)):
+            totalcarbonfootprint_pc_run.append(
+                [j * emission_factor_list[i] for j in pc_total_days_run_all_roles_int[i]])
+        print('totalcarbonfootprint_pc_run', pc_total_days_run_all_roles_int)
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_build = request.session.get('numeric_list_of_load_plan_build')
+        year_list_build_load_plan_full = request.session.get('year_list_build_load_plan_full')
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+        # Build Phase
+
+        all_dataframes_of_pc_build_phase = []
+        for i in range(len(role)):
+            pc_build_dataframe = pd.DataFrame({
+                'BuildQuarterData': pc_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Build',
+                'TotalCarbonFootPrints': totalcarbonfootprint_pc_build[i],
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
+
+            })
+            print(pc_build_dataframe)
+            all_dataframes_of_pc_build_phase.append(pc_build_dataframe)
+
+
+        # Run Phase
+        all_dataframes_of_pc_run_phase = []
+        for i in range(len(role)):
+            pc_run_dataframe = pd.DataFrame({
+                'RunQuarterData': pc_total_days_run_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_pc_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
+
+            })
+            print(pc_run_dataframe)
+            all_dataframes_of_pc_run_phase.append(pc_run_dataframe)
+
+        try:
+            for dataframe in all_dataframes_of_pc_build_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners[i],
+                            projid=roleid,
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['BuildQuarterData'],
+                            year=row['BuildYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+
+                            category='User Equipment',
+                            subcategory=transport_type[i],
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        try:
+            for dataframe in all_dataframes_of_pc_run_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type_run)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners_run[i],
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['RunQuarterData'],
+                            year=row['RunYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+                            projid=roleid,
+
+                            category='User Equipment',
+                            subcategory=transport_type_run[i],
+                            emissionfactor=emission_factor_list_run[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
@@ -8537,7 +10068,25 @@ def di_pc(request):
         projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                            subcategory='Video projector').values()
         lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
+
 
         context = {
             # 'user_details':user_details,
@@ -8547,15 +10096,16 @@ def di_pc(request):
             # 'quarter_details':quarter_details,
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
+            'list_cont': request.session.get('list_cont'),
             'role': request.session.get('role'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'start_date_year': request.session.get('start_date_year'),
             'start_date_year_run': request.session.get('start_date_year_run'),
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
+            'laptop_data': laptop_data,
             'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data': laptop_data,
             'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
@@ -8563,16 +10113,27 @@ def di_pc(request):
             'printer_data': printer_data,
             'projector_data': projector_data,
             'lidar_data': lidar_data,
-            'tablet_data': tablet_data,
+            'camera_data': camera_data,
             'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
-        # import ipdb
-        # ipdb.set_trace()
+
         if len(user_equipment_render_list) >= 1:
 
             # if WhichUserEquipment[0]=='laptop':
@@ -8597,7 +10158,7 @@ def di_pc(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'monitor':
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_bt_speaker.html', context)
@@ -8629,13 +10190,12 @@ def di_pc(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -8644,26 +10204,26 @@ def di_pc(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
@@ -8703,7 +10263,23 @@ def di_pc(request):
     projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                        subcategory='Video projector').values()
     lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
 
     context = {
         # 'user_details':user_details,
@@ -8720,6 +10296,7 @@ def di_pc(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'laptop_data': laptop_data,
         'daily_commute': daily_commute,
         'business_travel': business_travel,
         'laptop_data': laptop_data,
@@ -8730,8 +10307,20 @@ def di_pc(request):
         'printer_data': printer_data,
         'projector_data': projector_data,
         'lidar_data': lidar_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
         'tablet_data': tablet_data,
-        'raw_data': raw_data
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
 
     }
     return render(request, 'di_pc.html', context)
@@ -8825,7 +10414,6 @@ def di_tablet(request):
             # print('final_quater', final_quater)
 
         final_quater = []
-        noofworkingdays_build = []
         noofworkingdays_run = []
         noofworkingdays_monitor = []
         # import ipdb
@@ -8881,10 +10469,32 @@ def di_tablet(request):
             final_quater.append(quater_list)
             print('final_quater', final_quater)
 
+        noofworkingdays_build2 = []
+        noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
+        noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
+        if noofworkingdays_build1:
+            noofworkingdays_build1 = sum(noofworkingdays_build1)
+            noofworkingdays_build2.append(noofworkingdays_build1)
+        # print('noofworkingdays_build',noofworkingdays_build)
+        # print('noofworkingdays_build1',noofworkingdays_build1)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
+
         vehical_owners = []
         transport_type = []
         vehical_owners_run = []
         transport_type_run = []
+
+        tablet_total_build_days = copy.deepcopy(noofworkingdays_build)
+        request.session['tablet_total_build_days'] = tablet_total_build_days
+
+        tablet_total_run_days = copy.deepcopy(noofworkingdays_run)
+        request.session['tablet_total_build_days'] = tablet_total_run_days
 
         for k in range(1, len(role) + 1):
             # print(k)
@@ -8897,40 +10507,214 @@ def di_tablet(request):
             transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
             print('transport_type_run', transport_type_run)
 
+        # import ipdb
+        # ipdb.set_trace()
+
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        ref_parameters_list_tablet = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                       subcategory='Tablet').values()
+        emission_factor_list = []
+        for i in transport_type:
+            tt = ref_parameters_list_tablet.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list', emission_factor_list)
+
+        # totalcarbonfootprint_tablet_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
+        #                                      range(len(noofworkingdays_build2))]
+        # print('totalcarbonfootprint_tablet_build', totalcarbonfootprint_tablet_build)
+
+        emission_factor_list_run = []
+        for i in transport_type_run:
+            tt = ref_parameters_list_tablet.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list_run', emission_factor_list_run)
+
+        # totalcarbonfootprint_tablet_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
+        #                                    range(len(noofworkingdays_run2))]
+        # print('totalcarbonfootprint_tablet_run', totalcarbonfootprint_tablet_run)
+
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
-        direct_impact_data = ImpactsDirects.objects.all()
-        ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',
-                                                                subcategory='Desktop').values()
-        for i in ref_parameters_list:
-            # import ipdb
-            # ipdb.set_trace()
-            if i.get('subcategory') == transport_type[0]:
-                emissionfactor = i.get('emissionfactor')
+        # direct_impact_data = ImpactsDirects.objects.all()
+        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
+        # for i in ref_parameters_list :
+        #     import ipdb
+        #     ipdb.set_trace()
+        #     if i.get('subcategory') == transport_type[0]:
+        #         emissionfactor = i.get('emissionfactor')
 
-        # try:
-        #             IMPACTS_DIRECTS_data = ImpactsDirects(
-        # projectname = request.session.get('name'),
-        #                                     equipmentownership = vehical_owners,
-        #                                     role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'User Equipment',
-        #                                     subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     # emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_DIRECTS_data.save()
-        #             print(IMPACTS_DIRECTS_data)
-        # except Exception as e:
-        #     print(e)
+        # Extra code for Multiple roles ================================================
+        # Getting all values of Load Plan build/ Run list for all roles
+
+        # Build Phase
+        # Removing '0' from all the values
+        tablet_total_days_build_all_roles = [[y for y in x if y != '0'] for x in
+                                             tablet_total_build_days]
+
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in tablet_total_days_build_all_roles:
+            if len(item) != len_build_quarter:
+                tablet_total_days_build_all_roles[counter] = item[:len_build_quarter]
+            counter += 1
+        print(tablet_total_days_build_all_roles)
+
+        # Make list integer and get sum by Role
+        tablet_total_days_build_all_roles_int = []
+        sum_tablet_total_days_build_all_roles = []
+        for item in tablet_total_days_build_all_roles:
+            tablet_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in tablet_total_days_build_all_roles_int:
+            sum_tablet_total_days_build_all_roles.append(sum(item))
+        print('Final List of Tablet Build is: ', tablet_total_days_build_all_roles_int)
+        print('Sum of PC Tablet is: ', sum_tablet_total_days_build_all_roles)
+
+        # Run Phase
+        # Removing '0' from all the values
+        tablet_total_days_run_all_roles = [[y for y in x if y != '0'] for x in
+                                       tablet_total_run_days]
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in tablet_total_days_run_all_roles:
+            if len(item) != len_run_quarter:
+                tablet_total_days_run_all_roles[counter] = item[:len_run_quarter]
+            counter += 1
+        print(tablet_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        tablet_total_days_run_all_roles_int = []
+        sum_tablet_total_days_run_all_roles = []
+        for item in tablet_total_days_run_all_roles:
+            tablet_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in tablet_total_days_run_all_roles_int:
+            sum_tablet_total_days_run_all_roles.append(sum(item))
+        print('Final List of Tablet Run is: ', tablet_total_days_run_all_roles_int)
+        print('Sum of Tablet Run is: ', sum_tablet_total_days_run_all_roles)
+
+        totalcarbonfootprint_tablet_build = [emission_factor_list[i] * sum_tablet_total_days_build_all_roles[i] for i in
+                                             range(len(tablet_total_build_days))]
+        print('totalcarbonfootprint_tablet_build', totalcarbonfootprint_tablet_build)
+
+        totalcarbonfootprint_tablet_run = [emission_factor_list_run[i] * sum_tablet_total_days_run_all_roles[i] for i in
+                                           range(len(tablet_total_run_days))]
+        print('totalcarbonfootprint_tablet_run', totalcarbonfootprint_tablet_run)
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_build = request.session.get('numeric_list_of_load_plan_build')
+        year_list_build_load_plan_full = request.session.get('year_list_build_load_plan_full')
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_tablet_build_phase = []
+        for i in range(len(role)):
+            tablet_build_dataframe = pd.DataFrame({
+                'BuildQuarterData': tablet_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Build',
+                'TotalCarbonFootPrints': totalcarbonfootprint_tablet_build[i],
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
+
+            })
+            print(tablet_build_dataframe)
+            all_dataframes_of_tablet_build_phase.append(tablet_build_dataframe)
+
+        # Run Phase
+        all_dataframes_of_tablet_run_phase = []
+        for i in range(len(role)):
+            tablet_run_dataframe = pd.DataFrame({
+                'RunQuarterData': tablet_total_days_run_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_tablet_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
+
+            })
+            print(tablet_run_dataframe)
+            all_dataframes_of_tablet_run_phase.append(tablet_run_dataframe)
+        # ==============================================================================
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        try:
+            for dataframe in all_dataframes_of_tablet_build_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners[i],
+                            category='User Equipment',
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['BuildQuarterData'],
+                            year=row['BuildYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+
+                            subcategory=transport_type[i],
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+                            projid=roleid,
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        try:
+            for dataframe in all_dataframes_of_tablet_run_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type_run)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners_run[i],
+                            category='User Equipment',
+                            subcategory=transport_type_run[i],
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['RunQuarterData'],
+                            year=row['RunYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            emissionfactor=emission_factor_list_run[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+                            projid=roleid,
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
@@ -8945,7 +10729,25 @@ def di_tablet(request):
         projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                            subcategory='Video projector').values()
         lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
+
 
         context = {
             # 'user_details':user_details,
@@ -8954,6 +10756,7 @@ def di_tablet(request):
             # 'default_dropdown1':default_dropdown1,
             # 'quarter_details':quarter_details,
             'list': request.session.get('list'),
+            'list_count': request.session.get('list_count'),
             'list_run': request.session.get('list_run'),
             'role': request.session.get('role'),
             'totalyear_loop': request.session.get('totalyear_loop'),
@@ -8962,9 +10765,9 @@ def di_tablet(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'laptop_data': laptop_data,
             'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data': laptop_data,
             'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
@@ -8972,8 +10775,20 @@ def di_tablet(request):
             'printer_data': printer_data,
             'projector_data': projector_data,
             'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
             'tablet_data': tablet_data,
-            'raw_data': raw_data
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
@@ -9006,7 +10821,7 @@ def di_tablet(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'monitor':
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_bt_speaker.html', context)
@@ -9038,13 +10853,12 @@ def di_tablet(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -9053,31 +10867,32 @@ def di_tablet(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_rm.html', context)
                 return render(request, 'di_drone.html', context)
+
     # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
@@ -9111,7 +10926,23 @@ def di_tablet(request):
     projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                        subcategory='Video projector').values()
     lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
 
     context = {
         # 'user_details':user_details,
@@ -9128,9 +10959,9 @@ def di_tablet(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'laptop_data': laptop_data,
         'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data': laptop_data,
         'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
@@ -9138,8 +10969,20 @@ def di_tablet(request):
         'printer_data': printer_data,
         'projector_data': projector_data,
         'lidar_data': lidar_data,
-        'tablet_data': tablet_data,
+        'camera_data': camera_data,
         'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
 
     }
     return render(request, 'di_tablet.html', context)
@@ -9178,7 +11021,6 @@ def di_telephone(request):
 
         final_quater = []
         noofworkingdays_build = []
-        noofworkingdays_run = []
         noofworkingdays_drone = []
         # import ipdb
         # ipdb.set_trace()
@@ -9233,7 +11075,6 @@ def di_telephone(request):
             # print('final_quater', final_quater)
 
         final_quater = []
-        noofworkingdays_build = []
         noofworkingdays_run = []
         noofworkingdays_monitor = []
         # import ipdb
@@ -9294,6 +11135,22 @@ def di_telephone(request):
         vehical_owners_run = []
         transport_type_run = []
 
+        noofworkingdays_build2 = []
+        noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
+        noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
+        if noofworkingdays_build1:
+            noofworkingdays_build1 = sum(noofworkingdays_build1)
+            noofworkingdays_build2.append(noofworkingdays_build1)
+        # print('noofworkingdays_build',noofworkingdays_build)
+        # print('noofworkingdays_build1',noofworkingdays_build1)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
+
         for k in range(1, len(role) + 1):
             # print(k)
             vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
@@ -9305,39 +11162,222 @@ def di_telephone(request):
             transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
             print('transport_type_run', transport_type_run)
 
+        telephone_total_build_days = copy.deepcopy(noofworkingdays_build)
+        request.session['telephone_total_build_days'] = telephone_total_build_days
+
+        telephone_total_run_days = copy.deepcopy(noofworkingdays_run)
+        request.session['telephone_total_run_days'] = telephone_total_run_days
+
+
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        ref_parameters_list_telephone = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                          subcategory='Telephone').values()
+        emission_factor_list = []
+        for i in transport_type:
+            tt = ref_parameters_list_telephone.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list', emission_factor_list)
+
+        # totalcarbonfootprint_telephone_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
+        #                                         range(len(noofworkingdays_build2))]
+        # print('totalcarbonfootprint_telephone_build', totalcarbonfootprint_telephone_build)
+
+        # import ipdb
+        # ipdb.set_trace()
+
+        emission_factor_list_run = []
+        for i in transport_type_run:
+            tt = ref_parameters_list_telephone.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list_run', emission_factor_list_run)
+
+        # totalcarbonfootprint_telephone_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
+        #                                       range(len(noofworkingdays_run2))]
+        # print('totalcarbonfootprint_telephone_run', totalcarbonfootprint_telephone_run)
+
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
-        # direct_impact_data = ImpactsDirects.objects.all()
-        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Telephone').values()
+        direct_impact_data = ImpactsDirects.objects.all()
+        ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                subcategory='Telephone').values()
         # for i in ref_parameters_list :
         #     # import ipdb
         #     # ipdb.set_trace()
         #     if i.get('subcategory') == transport_type[0]:
         #         emissionfactor = i.get('emissionfactor')
 
-        # try:
-        #             IMPACTS_DIRECTS_data = ImpactsDirects(
-        # projectname = request.session.get('name'),
-        #                                     equipmentownership = vehical_owners,
-        #                                     role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'User Equipment',
-        #                                     subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_DIRECTS_data.save()
-        #             print(IMPACTS_DIRECTS_data)
-        # except Exception as e:
-        #     print(e)
+        # Build Phase
+        # Removing '0' from all the values
+        telephone_total_days_build_all_roles = [[y for y in x if y != '0'] for x in
+                                             telephone_total_build_days]
+
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in telephone_total_days_build_all_roles:
+            if len(item) != len_build_quarter:
+                telephone_total_days_build_all_roles[counter] = item[:len_build_quarter]
+            counter += 1
+        print(telephone_total_days_build_all_roles)
+
+        # Make list integer and get sum by Role
+        telephone_total_days_build_all_roles_int = []
+        sum_telephone_total_days_build_all_roles = []
+        for item in telephone_total_days_build_all_roles:
+            telephone_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in telephone_total_days_build_all_roles_int:
+            sum_telephone_total_days_build_all_roles.append(sum(item))
+        print('Final List of Telephone Build is: ', telephone_total_days_build_all_roles_int)
+        print('Sum of PC Telephone is: ', sum_telephone_total_days_build_all_roles)
+
+        # Run Phase
+        # Removing '0' from all the values
+        telephone_total_days_run_all_roles = [[y for y in x if y != '0'] for x in
+                                           telephone_total_run_days]
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in telephone_total_days_run_all_roles:
+            if len(item) != len_run_quarter:
+                telephone_total_days_run_all_roles[counter] = item[:len_run_quarter]
+            counter += 1
+        print(telephone_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        telephone_total_days_run_all_roles_int = []
+        sum_telephone_total_days_run_all_roles = []
+        for item in telephone_total_days_run_all_roles:
+            telephone_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in telephone_total_days_run_all_roles_int:
+            sum_telephone_total_days_run_all_roles.append(sum(item))
+        print('Final List of Tablet Run is: ', telephone_total_days_run_all_roles_int)
+        print('Sum of Tablet Run is: ', sum_telephone_total_days_run_all_roles)
+
+        totalcarbonfootprint_telephone_build = [emission_factor_list[i] * sum_telephone_total_days_build_all_roles[i] for i in
+                                             range(len(telephone_total_build_days))]
+        print('totalcarbonfootprint_telephone_build', totalcarbonfootprint_telephone_build)
+
+        totalcarbonfootprint_telephone_run = [emission_factor_list_run[i] * sum_telephone_total_days_run_all_roles[i] for i in
+                                           range(len(telephone_total_run_days))]
+        print('totalcarbonfootprint_telephone_run', totalcarbonfootprint_telephone_run)
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_build = request.session.get('numeric_list_of_load_plan_build')
+        year_list_build_load_plan_full = request.session.get('year_list_build_load_plan_full')
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_telephone_build_phase = []
+        for i in range(len(role)):
+            telephone_build_dataframe = pd.DataFrame({
+                'BuildQuarterData': telephone_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Build',
+                'TotalCarbonFootPrints': totalcarbonfootprint_telephone_build[i],
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
+
+            })
+            print(telephone_build_dataframe)
+            all_dataframes_of_telephone_build_phase.append(telephone_build_dataframe)
+
+        # Run Phase
+        all_dataframes_of_telephone_run_phase = []
+        for i in range(len(role)):
+            telephone_run_dataframe = pd.DataFrame({
+                'RunQuarterData': telephone_total_days_run_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_telephone_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
+
+            })
+            print(telephone_run_dataframe)
+            all_dataframes_of_telephone_run_phase.append(telephone_run_dataframe)
+
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        try:
+            for dataframe in all_dataframes_of_telephone_build_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners[i],
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['BuildQuarterData'],
+                            year=row['BuildYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            category='User Equipment',
+                            subcategory=transport_type[i],
+
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            projid=roleid,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        try:
+            for dataframe in all_dataframes_of_telephone_run_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type_run)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners_run[i],
+                            category='User Equipment',
+                            subcategory=transport_type_run[i],
+                            emissionfactor=emission_factor_list_run[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['RunQuarterData'],
+                            year=row['RunYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            projid=roleid,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
 
         # import ipdb
         # ipdb.set_trace()
@@ -9354,7 +11394,24 @@ def di_telephone(request):
         projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                            subcategory='Video projector').values()
         lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
 
         context = {
             # 'user_details':user_details,
@@ -9371,6 +11428,7 @@ def di_telephone(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'laptop_data': laptop_data,
             'daily_commute': daily_commute,
             'business_travel': business_travel,
             'laptop_data': laptop_data,
@@ -9381,16 +11439,26 @@ def di_telephone(request):
             'printer_data': printer_data,
             'projector_data': projector_data,
             'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
             'tablet_data': tablet_data,
-            'raw_data': raw_data
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
         indirect_render_list = request.session.get('indirect_render_list')
 
-        # import ipdb
-        # ipdb.set_trace()
         if len(user_equipment_render_list) >= 1:
 
             # if WhichUserEquipment[0]=='laptop':
@@ -9415,7 +11483,7 @@ def di_telephone(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'monitor':
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_bt_speaker.html', context)
@@ -9447,13 +11515,12 @@ def di_telephone(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -9462,31 +11529,32 @@ def di_telephone(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_rm.html', context)
                 return render(request, 'di_drone.html', context)
+
     # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
@@ -9520,7 +11588,23 @@ def di_telephone(request):
     projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                        subcategory='Video projector').values()
     lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
 
     context = {
         # 'user_details':user_details,
@@ -9537,6 +11621,7 @@ def di_telephone(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'laptop_data': laptop_data,
         'daily_commute': daily_commute,
         'business_travel': business_travel,
         'laptop_data': laptop_data,
@@ -9547,8 +11632,20 @@ def di_telephone(request):
         'printer_data': printer_data,
         'projector_data': projector_data,
         'lidar_data': lidar_data,
-        'tablet_data': tablet_data,
+        'camera_data': camera_data,
         'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
     return render(request, 'di_telephone.html', context)
 
@@ -9641,7 +11738,6 @@ def di_printer(request):
             # print('final_quater', final_quater)
 
         final_quater = []
-        noofworkingdays_build = []
         noofworkingdays_run = []
         noofworkingdays_monitor = []
         # import ipdb
@@ -9697,6 +11793,21 @@ def di_printer(request):
             final_quater.append(quater_list)
             print('final_quater', final_quater)
 
+        noofworkingdays_build2 = []
+        noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
+        noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
+        if noofworkingdays_build1:
+            noofworkingdays_build1 = sum(noofworkingdays_build1)
+            noofworkingdays_build2.append(noofworkingdays_build1)
+        # print('noofworkingdays_build',noofworkingdays_build)
+        # print('noofworkingdays_build1',noofworkingdays_build1)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
         vehical_owners = []
         transport_type = []
         vehical_owners_run = []
@@ -9713,39 +11824,219 @@ def di_printer(request):
             transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
             print('transport_type_run', transport_type_run)
 
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        # import ipdb
+        # ipdb.set_trace()
+        printer_total_build_days = copy.deepcopy(noofworkingdays_build)
+        request.session['printer_total_build_days'] = printer_total_build_days
+
+        printer_total_run_days = copy.deepcopy(noofworkingdays_run)
+        request.session['printer_total_build_days'] = printer_total_run_days
+
+        ref_parameters_list_printer = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                        subcategory='Printer').values()
+        emission_factor_list = []
+        for i in transport_type:
+            tt = ref_parameters_list_printer.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list', emission_factor_list)
+
+        # totalcarbonfootprint_printer_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
+        #                                       range(len(noofworkingdays_build2))]
+        # print('totalcarbonfootprint_printer_build', totalcarbonfootprint_printer_build)
+
+        emission_factor_list_run = []
+        for i in transport_type_run:
+            tt = ref_parameters_list_printer.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list_run', emission_factor_list_run)
+
+        # totalcarbonfootprint_printer_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
+        #                                     range(len(noofworkingdays_run2))]
+        # print('totalcarbonfootprint_printer_run', totalcarbonfootprint_printer_run)
+
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
         # direct_impact_data = ImpactsDirects.objects.all()
-        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
+        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
         # for i in ref_parameters_list :
-        #     # import ipdb
-        #     # ipdb.set_trace()
+        #     import ipdb
+        #     ipdb.set_trace()
         #     if i.get('subcategory') == transport_type[0]:
         #         emissionfactor = i.get('emissionfactor')
 
-        # try:
-        #             IMPACTS_DIRECTS_data = ImpactsDirects(
-        # projectname = request.session.get('name'),
-        #                                     equipmentownership = vehical_owners,
-        #                                     role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'User Equipment',
-        #                                     subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_DIRECTS_data.save()
-        #             print(IMPACTS_DIRECTS_data)
-        # except Exception as e:
-        #     print(e)
+        # Build Phase
+        # Removing '0' from all the values
+        printer_total_days_build_all_roles = [[y for y in x if y != '0'] for x in
+                                             printer_total_build_days]
+
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in printer_total_days_build_all_roles:
+            if len(item) != len_build_quarter:
+                printer_total_days_build_all_roles[counter] = item[:len_build_quarter]
+            counter += 1
+        print(printer_total_days_build_all_roles)
+
+        # Make list integer and get sum by Role
+        printer_total_days_build_all_roles_int = []
+        sum_printer_total_days_build_all_roles = []
+        for item in printer_total_days_build_all_roles:
+            printer_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in printer_total_days_build_all_roles_int:
+            sum_printer_total_days_build_all_roles.append(sum(item))
+        print('Final List of Printer Build is: ', printer_total_days_build_all_roles_int)
+        print('Sum of PC Printer is: ', sum_printer_total_days_build_all_roles)
+
+        # Run Phase
+        # Removing '0' from all the values
+        printer_total_days_run_all_roles = [[y for y in x if y != '0'] for x in
+                                           printer_total_run_days]
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in printer_total_days_run_all_roles:
+            if len(item) != len_run_quarter:
+                printer_total_days_run_all_roles[counter] = item[:len_run_quarter]
+            counter += 1
+        print(printer_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        printer_total_days_run_all_roles_int = []
+        sum_printer_total_days_run_all_roles = []
+        for item in printer_total_days_run_all_roles:
+            printer_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in printer_total_days_run_all_roles_int:
+            sum_printer_total_days_run_all_roles.append(sum(item))
+        print('Final List of Printer Run is: ', printer_total_days_run_all_roles_int)
+        print('Sum of Printer Run is: ', sum_printer_total_days_run_all_roles)
+
+        # Get carbon footprint data
+        totalcarbonfootprint_printer_build = [emission_factor_list[i] * sum_printer_total_days_build_all_roles[i] for i in
+                                             range(len(printer_total_build_days))]
+        print('totalcarbonfootprint_printer_build', totalcarbonfootprint_printer_build)
+
+        totalcarbonfootprint_printer_run = [emission_factor_list_run[i] * sum_printer_total_days_run_all_roles[i] for i in
+                                           range(len(printer_total_run_days))]
+        print('totalcarbonfootprint_printer_run', totalcarbonfootprint_printer_run)
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_build = request.session.get('numeric_list_of_load_plan_build')
+        year_list_build_load_plan_full = request.session.get('year_list_build_load_plan_full')
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_printer_build_phase = []
+        for i in range(len(role)):
+            printer_build_dataframe = pd.DataFrame({
+                'BuildQuarterData': printer_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Build',
+                'TotalCarbonFootPrints': totalcarbonfootprint_printer_build[i],
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
+
+            })
+            print(printer_build_dataframe)
+            all_dataframes_of_printer_build_phase.append(printer_build_dataframe)
+
+        # Run Phase
+        all_dataframes_of_printer_run_phase = []
+        for i in range(len(role)):
+            printer_run_dataframe = pd.DataFrame({
+                'RunQuarterData': printer_total_days_run_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_printer_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
+
+            })
+            print(printer_run_dataframe)
+            all_dataframes_of_printer_run_phase.append(printer_run_dataframe)
+
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        try:
+            for dataframe in all_dataframes_of_printer_build_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners[i],
+                            category='User Equipment',
+                            subcategory=transport_type[i],
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['BuildQuarterData'],
+                            year=row['BuildYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            projid=roleid,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        try:
+            for dataframe in all_dataframes_of_printer_run_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type_run)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners_run[i],
+                            category='User Equipment',
+                            subcategory=transport_type_run[i],
+                            emissionfactor=emission_factor_list_run[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['RunQuarterData'],
+                            year=row['RunYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            projid=roleid,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
@@ -9760,7 +12051,24 @@ def di_printer(request):
         projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                            subcategory='Video projector').values()
         lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
 
         context = {
             # 'user_details':user_details,
@@ -9770,16 +12078,18 @@ def di_printer(request):
             # 'quarter_details':quarter_details,
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
+            'list_count': request.session.get('list_run'),
             'role': request.session.get('role'),
+            'list_count_run': request.session.get('list_count_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'start_date_year': request.session.get('start_date_year'),
             'start_date_year_run': request.session.get('start_date_year_run'),
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'laptop_data': laptop_data,
             'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data': laptop_data,
             'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
@@ -9787,8 +12097,20 @@ def di_printer(request):
             'printer_data': printer_data,
             'projector_data': projector_data,
             'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
             'tablet_data': tablet_data,
-            'raw_data': raw_data
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
@@ -9821,7 +12143,7 @@ def di_printer(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'monitor':
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_bt_speaker.html', context)
@@ -9831,10 +12153,10 @@ def di_printer(request):
                 return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_monitor.html', context)
 
-            return render(request, 'di_laptop.html', context)
+            # return render(request, 'di_laptop.html', context)
 
         elif len(industrial_equipment_render_list) >= 1:
 
@@ -9853,13 +12175,12 @@ def di_printer(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -9868,31 +12189,32 @@ def di_printer(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_rm.html', context)
                 return render(request, 'di_drone.html', context)
+
     # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
@@ -9926,7 +12248,23 @@ def di_printer(request):
     projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                        subcategory='Video projector').values()
     lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
 
     context = {
         # 'user_details':user_details,
@@ -9943,6 +12281,7 @@ def di_printer(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'laptop_data': laptop_data,
         'daily_commute': daily_commute,
         'business_travel': business_travel,
         'laptop_data': laptop_data,
@@ -9953,8 +12292,20 @@ def di_printer(request):
         'printer_data': printer_data,
         'projector_data': projector_data,
         'lidar_data': lidar_data,
-        'tablet_data': tablet_data,
+        'camera_data': camera_data,
         'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
 
     }
     return render(request, 'di_printer.html', context)
@@ -10048,9 +12399,7 @@ def di_bt_speaker(request):
             # print('final_quater', final_quater)
 
         final_quater = []
-        noofworkingdays_build = []
         noofworkingdays_run = []
-        noofworkingdays_monitor = []
         # import ipdb
         # ipdb.set_trace()
         list_length = request.session.get('list_length')
@@ -10104,6 +12453,22 @@ def di_bt_speaker(request):
             final_quater.append(quater_list)
             print('final_quater', final_quater)
 
+        noofworkingdays_build2 = []
+        noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
+        noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
+        if noofworkingdays_build1:
+            noofworkingdays_build1 = sum(noofworkingdays_build1)
+            noofworkingdays_build2.append(noofworkingdays_build1)
+        # print('noofworkingdays_build',noofworkingdays_build)
+        # print('noofworkingdays_build1',noofworkingdays_build1)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
+
         vehical_owners = []
         transport_type = []
         vehical_owners_run = []
@@ -10132,28 +12497,223 @@ def di_bt_speaker(request):
             if i.get('subcategory') == transport_type[0]:
                 emissionfactor = i.get('emissionfactor')
 
-        # try:
-        #             IMPACTS_DIRECTS_data = ImpactsDirects(
-        # projectname = request.session.get('name'),
-        #                                     equipmentownership = vehical_owners,
-        #                                     role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'User Equipment',
-        #                                     subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_DIRECTS_data.save()
-        #             print(IMPACTS_DIRECTS_data)
-        # except Exception as e:
-        #     print(e)
+        speaker_total_build_days = copy.deepcopy(noofworkingdays_build)
+        request.session['speaker_total_build_days'] = speaker_total_build_days
+
+        speaker_total_run_days = copy.deepcopy(noofworkingdays_run)
+        request.session['speaker_total_build_days'] = speaker_total_run_days
+
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        ref_parameters_list_bt = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                   subcategory='Bluetooth speaker').values()
+        emission_factor_list = []
+        for i in transport_type:
+            tt = ref_parameters_list_bt.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list', emission_factor_list)
+
+        # totalcarbonfootprint_bt_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
+        #                                  range(len(noofworkingdays_build2))]
+        # print('totalcarbonfootprint_bt_build', totalcarbonfootprint_bt_build)
+
+        emission_factor_list_run = []
+        for i in transport_type_run:
+            tt = ref_parameters_list_bt.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list_run', emission_factor_list_run)
+
+        # totalcarbonfootprint_bt_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
+        #                                range(len(noofworkingdays_run2))]
+        # print('totalcarbonfootprint_bt_run', totalcarbonfootprint_bt_run)
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        # direct_impact_data = ImpactsDirects.objects.all()
+        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
+        # for i in ref_parameters_list :
+        #     import ipdb
+        #     ipdb.set_trace()
+        #     if i.get('subcategory') == transport_type[0]:
+        #         emissionfactor = i.get('emissionfactor')
+
+        # Build Phase
+        # Removing '0' from all the values
+        speaker_total_days_build_all_roles = [[y for y in x if y != '0'] for x in
+                                             speaker_total_build_days]
+
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in speaker_total_days_build_all_roles:
+            if len(item) != len_build_quarter:
+                speaker_total_days_build_all_roles[counter] = item[:len_build_quarter]
+            counter += 1
+        print(speaker_total_days_build_all_roles)
+
+        # Make list integer and get sum by Role
+        speaker_total_days_build_all_roles_int = []
+        sum_speaker_total_days_build_all_roles = []
+        for item in speaker_total_days_build_all_roles:
+            speaker_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in speaker_total_days_build_all_roles_int:
+            sum_speaker_total_days_build_all_roles.append(sum(item))
+        print('Final List of Speaker Build is: ', speaker_total_days_build_all_roles_int)
+        print('Sum of PC Speaker is: ', sum_speaker_total_days_build_all_roles)
+
+        # Run Phase
+        # Removing '0' from all the values
+        speaker_total_days_run_all_roles = [[y for y in x if y != '0'] for x in
+                                            speaker_total_run_days]
+
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in speaker_total_days_run_all_roles:
+            if len(item) != len_run_quarter:
+                speaker_total_days_run_all_roles[counter] = item[:len_run_quarter]
+            counter += 1
+        print(speaker_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        speaker_total_days_run_all_roles_int = []
+        sum_speaker_total_days_run_all_roles = []
+        for item in speaker_total_days_run_all_roles:
+            speaker_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in speaker_total_days_run_all_roles_int:
+            sum_speaker_total_days_run_all_roles.append(sum(item))
+        print('Final List of Speaker Run is: ', speaker_total_days_run_all_roles_int)
+        print('Sum of Speaker Run is: ', sum_speaker_total_days_run_all_roles)
+
+        totalcarbonfootprint_speaker_build = [emission_factor_list[i] * sum_speaker_total_days_build_all_roles[i] for i in
+                                             range(len(speaker_total_build_days))]
+        print('totalcarbonfootprint_speaker_build', totalcarbonfootprint_speaker_build)
+
+        totalcarbonfootprint_speaker_run = [emission_factor_list_run[i] * sum_speaker_total_days_run_all_roles[i] for i in
+                                           range(len(speaker_total_run_days))]
+        print('totalcarbonfootprint_speaker_run', totalcarbonfootprint_speaker_run)
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_build = request.session.get('numeric_list_of_load_plan_build')
+        year_list_build_load_plan_full = request.session.get('year_list_build_load_plan_full')
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_speaker_build_phase = []
+        for i in range(len(role)):
+            speaker_build_dataframe = pd.DataFrame({
+                'BuildQuarterData': speaker_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Build',
+                'TotalCarbonFootPrints': totalcarbonfootprint_speaker_build[i],
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
+
+            })
+            print(speaker_build_dataframe)
+            all_dataframes_of_speaker_build_phase.append(speaker_build_dataframe)
+
+        # Run Phase
+        all_dataframes_of_speaker_run_phase = []
+        for i in range(len(role)):
+            speaker_run_dataframe = pd.DataFrame({
+                'RunQuarterData': speaker_total_days_run_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_speaker_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
+
+            })
+            print(speaker_run_dataframe)
+            all_dataframes_of_speaker_run_phase.append(speaker_run_dataframe)
+
+        # =====================================================================
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+
+        try:
+            for dataframe in all_dataframes_of_speaker_build_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners[i],
+                            category='User Equipment',
+                            subcategory=transport_type[i],
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['BuildQuarterData'],
+                            year=row['BuildYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            projid=roleid,
+                            # buildstartdate=start_date_year, buildenddate=end_date_year,
+                            # runstartdate=start_date_year_run, runenddate=end_date_year_run,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        try:
+            for dataframe in all_dataframes_of_speaker_run_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type_run)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners_run[i],
+
+                            category='User Equipment',
+                            subcategory=transport_type_run[i],
+
+                            emissionfactor=emission_factor_list_run[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['RunQuarterData'],
+                            year=row['RunYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
@@ -10168,7 +12728,24 @@ def di_bt_speaker(request):
         projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                            subcategory='Video projector').values()
         lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
 
         context = {
             # 'user_details':user_details,
@@ -10178,6 +12755,7 @@ def di_bt_speaker(request):
             # 'quarter_details':quarter_details,
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
+            'list_count': request.session.get('list_count'),
             'role': request.session.get('role'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'start_date_year': request.session.get('start_date_year'),
@@ -10195,8 +12773,20 @@ def di_bt_speaker(request):
             'printer_data': printer_data,
             'projector_data': projector_data,
             'lidar_data': lidar_data,
-            'tablet_data': tablet_data,
+            'camera_data': camera_data,
             'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
@@ -10229,7 +12819,7 @@ def di_bt_speaker(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'monitor':
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_bt_speaker.html', context)
@@ -10239,10 +12829,10 @@ def di_bt_speaker(request):
                 return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_monitor.html', context)
 
-            return render(request, 'di_laptop.html', context)
+            # return render(request, 'di_laptop.html', context)
 
         elif len(industrial_equipment_render_list) >= 1:
 
@@ -10261,13 +12851,12 @@ def di_bt_speaker(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -10276,31 +12865,32 @@ def di_bt_speaker(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_rm.html', context)
                 return render(request, 'di_drone.html', context)
+
     # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
     # count = 1
     # count2 = 1
@@ -10334,6 +12924,23 @@ def di_bt_speaker(request):
     projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                        subcategory='Video projector').values()
     lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+    raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
 
     context = {
         # 'user_details':user_details,
@@ -10360,8 +12967,20 @@ def di_bt_speaker(request):
         'printer_data': printer_data,
         'projector_data': projector_data,
         'lidar_data': lidar_data,
-        'tablet_data': tablet_data,
+        'camera_data': camera_data,
         'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
     return render(request, 'di_bt_speaker.html', context)
 
@@ -10401,8 +13020,6 @@ def di_projector(request):
         noofworkingdays_build = []
         noofworkingdays_run = []
         noofworkingdays_drone = []
-        # import ipdb
-        # ipdb.set_trace()
         list_length = request.session.get('list_length')
         # print(list_length)
         # Create user input field and append in list:
@@ -10454,7 +13071,6 @@ def di_projector(request):
             # print('final_quater', final_quater)
 
         final_quater = []
-        noofworkingdays_build = []
         noofworkingdays_run = []
         noofworkingdays_monitor = []
         # import ipdb
@@ -10510,6 +13126,23 @@ def di_projector(request):
             final_quater.append(quater_list)
             print('final_quater', final_quater)
 
+
+        noofworkingdays_build2 = []
+        noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
+        noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
+        if noofworkingdays_build1:
+            noofworkingdays_build1 = sum(noofworkingdays_build1)
+            noofworkingdays_build2.append(noofworkingdays_build1)
+        # print('noofworkingdays_build',noofworkingdays_build)
+        # print('noofworkingdays_build1',noofworkingdays_build1)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
+
         vehical_owners = []
         transport_type = []
         vehical_owners_run = []
@@ -10529,36 +13162,219 @@ def di_projector(request):
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
+        projector_total_build_days = copy.deepcopy(noofworkingdays_build)
+        request.session['projector_total_build_days'] = projector_total_build_days
+
+        projector_total_run_days = copy.deepcopy(noofworkingdays_run)
+        request.session['projector_total_build_days'] = projector_total_run_days
+
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        # import ipdb
+        # ipdb.set_trace()
+
+        ref_parameters_list_projector = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                                          subcategory='Video projector').values()
+        emission_factor_list = []
+        for i in transport_type:
+            tt = ref_parameters_list_projector.filter(subcategory=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list', emission_factor_list)
+
+        # totalcarbonfootprint_projector_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
+        #                                         range(len(noofworkingdays_build2))]
+        # print('totalcarbonfootprint_projector_build', totalcarbonfootprint_projector_build)
+
+        emission_factor_list_run = []
+        for i in transport_type_run:
+            tt = ref_parameters_list_projector.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list_run', emission_factor_list_run)
+
+        # totalcarbonfootprint_projector_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
+        #                                       range(len(noofworkingdays_run2))]
+        # print('totalcarbonfootprint_projector_run', totalcarbonfootprint_projector_run)
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
         # direct_impact_data = ImpactsDirects.objects.all()
-        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
+        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
         # for i in ref_parameters_list :
-        #     # import ipdb
-        #     # ipdb.set_trace()
+        #     import ipdb
+        #     ipdb.set_trace()
         #     if i.get('subcategory') == transport_type[0]:
         #         emissionfactor = i.get('emissionfactor')
 
-        # try:
-        #             IMPACTS_DIRECTS_data = ImpactsDirects(
-        # projectname = request.session.get('name'),
-        #                                     equipmentownership = vehical_owners,
-        #                                     role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'User Equipment',
-        #                                     subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     # emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_DIRECTS_data.save()
-        #             print(IMPACTS_DIRECTS_data)
-        # except Exception as e:
-        #     print(e)
+        # ============= Multiple role logic
+
+        # Build Phase
+        # Removing '0' from all the values
+        projector_total_days_build_all_roles = [[y for y in x if y != '0'] for x in
+                                             projector_total_build_days]
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in projector_total_days_build_all_roles:
+            if len(item) != len_build_quarter:
+                projector_total_days_build_all_roles[counter] = item[:len_build_quarter]
+            counter += 1
+        print(projector_total_days_build_all_roles)
+
+        # Make list integer and get sum by Role
+        projector_total_days_build_all_roles_int = []
+        sum_projector_total_days_build_all_roles = []
+        for item in projector_total_days_build_all_roles:
+            projector_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in projector_total_days_build_all_roles_int:
+            sum_projector_total_days_build_all_roles.append(sum(item))
+        print('Final List of Projector Build is: ', projector_total_days_build_all_roles_int)
+        print('Sum of PC Projector is: ', sum_projector_total_days_build_all_roles)
+
+        # Run Phase
+        # Removing '0' from all the values
+        projector_total_days_run_all_roles = [[y for y in x if y != '0'] for x in
+                                           projector_total_run_days]
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in projector_total_days_run_all_roles:
+            if len(item) != len_run_quarter:
+                projector_total_days_run_all_roles[counter] = item[:len_run_quarter]
+            counter += 1
+        print(projector_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        projector_total_days_run_all_roles_int = []
+        sum_projector_total_days_run_all_roles = []
+        for item in projector_total_days_run_all_roles:
+            projector_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in projector_total_days_run_all_roles_int:
+            sum_projector_total_days_run_all_roles.append(sum(item))
+        print('Final List of Projector Run is: ', projector_total_days_run_all_roles_int)
+        print('Sum of Projector Run is: ', sum_projector_total_days_run_all_roles)
+
+        totalcarbonfootprint_projector_build = [emission_factor_list[i] * sum_projector_total_days_build_all_roles[i] for i in
+                                             range(len(projector_total_build_days))]
+        print('totalcarbonfootprint_projector_build', totalcarbonfootprint_projector_build)
+
+        totalcarbonfootprint_projector_run = [emission_factor_list_run[i] * sum_projector_total_days_run_all_roles[i] for i in
+                                           range(len(projector_total_run_days))]
+        print('totalcarbonfootprint_projector_run', totalcarbonfootprint_projector_run)
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_build = request.session.get('numeric_list_of_load_plan_build')
+        year_list_build_load_plan_full = request.session.get('year_list_build_load_plan_full')
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_projector_build_phase = []
+        for i in range(len(role)):
+            projector_build_dataframe = pd.DataFrame({
+                'BuildQuarterData': projector_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Build',
+                'TotalCarbonFootPrints': totalcarbonfootprint_projector_build[i],
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
+
+            })
+            print(projector_build_dataframe)
+            all_dataframes_of_projector_build_phase.append(projector_build_dataframe)
+
+        # Run Phase
+        all_dataframes_of_projector_run_phase = []
+        for i in range(len(role)):
+            projector_run_dataframe = pd.DataFrame({
+                'RunQuarterData': projector_total_days_run_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_projector_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
+
+            })
+            print(projector_run_dataframe)
+            all_dataframes_of_projector_run_phase.append(projector_run_dataframe)
+
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        try:
+            for dataframe in all_dataframes_of_projector_build_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners[i],
+
+                            category='User Equipment',
+                            subcategory=transport_type[i],
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['BuildQuarterData'],
+                            year=row['BuildYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            projid=roleid,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        try:
+            for dataframe in all_dataframes_of_projector_run_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type_run)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners_run[i],
+
+                            category='User Equipment',
+                            subcategory=transport_type_run[i],
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['RunQuarterData'],
+                            year=row['RunYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+
+                            emissionfactor=emission_factor_list_run[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+                            projid=roleid,
+
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
@@ -10573,7 +13389,25 @@ def di_projector(request):
         projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                            subcategory='Video projector').values()
         lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
+
         context = {
             # 'user_details':user_details,
             # 'year_details':year_details,
@@ -10589,6 +13423,7 @@ def di_projector(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'laptop_data': laptop_data,
             'daily_commute': daily_commute,
             'business_travel': business_travel,
             'laptop_data': laptop_data,
@@ -10599,8 +13434,20 @@ def di_projector(request):
             'printer_data': printer_data,
             'projector_data': projector_data,
             'lidar_data': lidar_data,
-            'tablet_data': tablet_data,
+            'camera_data': camera_data,
             'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
@@ -10633,7 +13480,7 @@ def di_projector(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'monitor':
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_bt_speaker.html', context)
@@ -10641,12 +13488,16 @@ def di_projector(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_projector.html', context)
-            else:
+            elif user_equipment_render_list[0] == 'screen':
                 user_equipment_render_list.pop(0)
-                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_monitor.html', context)
+            else:
+                pass
+                # return render(request, 'di_monitor.html', context)
 
-            return render(request, 'di_laptop.html', context)
+
+            # return render(request, 'di_laptop.html', context)
 
         elif len(industrial_equipment_render_list) >= 1:
 
@@ -10665,13 +13516,12 @@ def di_projector(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -10680,26 +13530,26 @@ def di_projector(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
@@ -10738,7 +13588,23 @@ def di_projector(request):
     projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                        subcategory='Video projector').values()
     lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
 
     context = {
         # 'user_details':user_details,
@@ -10755,7 +13621,31 @@ def di_projector(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'raw_data': raw_data
+        'laptop_data': laptop_data,
+        'daily_commute': daily_commute,
+        'business_travel': business_travel,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
+        'drone_data': drone_data,
+        'pc_data': pc_data,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
     return render(request, 'di_projector.html', context)
 
@@ -10831,7 +13721,6 @@ def di_camera(request):
             # print('final_quater', final_quater)
 
         final_quater = []
-        noofworkingdays_build = []
         noofworkingdays_run = []
         noofworkingdays_monitor = []
         # import ipdb
@@ -10889,6 +13778,22 @@ def di_camera(request):
         # import ipdb
         # ipdb.set_trace()
 
+        noofworkingdays_build2 = []
+        noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
+        noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
+        if noofworkingdays_build1:
+            noofworkingdays_build1 = sum(noofworkingdays_build1)
+            noofworkingdays_build2.append(noofworkingdays_build1)
+        # print('noofworkingdays_build',noofworkingdays_build)
+        # print('noofworkingdays_build1',noofworkingdays_build1)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
+
         vehical_owners = []
         transport_type = []
         vehical_owners_run = []
@@ -10905,39 +13810,223 @@ def di_camera(request):
             transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
             print('transport_type_run', transport_type_run)
 
+        camera_total_build_days = copy.deepcopy(noofworkingdays_build)
+        request.session['camera_total_build_days'] = camera_total_build_days
+
+        camera_total_run_days = copy.deepcopy(noofworkingdays_run)
+        request.session['camera_total_build_days'] = camera_total_run_days
+
+
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        # import ipdb
+        # ipdb.set_trace()
+
+        ref_parameters_list_camera = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                                       subcategory='Camera').values()
+        emission_factor_list = []
+        for i in transport_type:
+            tt = ref_parameters_list_camera.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list', emission_factor_list)
+
+        # totalcarbonfootprint_camera_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
+        #                                      range(len(noofworkingdays_build2))]
+        # print('totalcarbonfootprint_camera_build', totalcarbonfootprint_camera_build)
+
+        emission_factor_list_run = []
+        for i in transport_type_run:
+            tt = ref_parameters_list_camera.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list_run.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list_run', emission_factor_list_run)
+
+        # totalcarbonfootprint_camera_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
+        #                                    range(len(noofworkingdays_run2))]
+        # print('totalcarbonfootprint_camera_run', totalcarbonfootprint_camera_run)
+
         now = datetime.now()
         create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
         # direct_impact_data = ImpactsDirects.objects.all()
-        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Printer').values()
+        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
         # for i in ref_parameters_list :
-        #     # import ipdb
-        #     # ipdb.set_trace()
+        #     import ipdb
+        #     ipdb.set_trace()
         #     if i.get('subcategory') == transport_type[0]:
         #         emissionfactor = i.get('emissionfactor')
 
-        # try:
-        #             IMPACTS_DIRECTS_data = ImpactsDirects(
-        # projectname = request.session.get('name'),
-        #                                     equipmentownership = vehical_owners,
-        #                                     role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'Industrial Equipment',
-        #                                     subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     # emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_DIRECTS_data.save()
-        #             print(IMPACTS_DIRECTS_data)
-        # except Exception as e:
-        #     print(e)
+        # ================ Multirole logic =================
+        # Build Phase
+        # Removing '0' from all the values
+        camera_total_days_build_all_roles = [[y for y in x if y != '0'] for x in
+                                             camera_total_build_days]
+
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in camera_total_days_build_all_roles:
+            if len(item) != len_build_quarter:
+                camera_total_days_build_all_roles[counter] = item[:len_build_quarter]
+            counter += 1
+        print(camera_total_days_build_all_roles)
+
+        # Make list integer and get sum by Role
+        camera_total_days_build_all_roles_int = []
+        sum_camera_total_days_build_all_roles = []
+        for item in camera_total_days_build_all_roles:
+            camera_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in camera_total_days_build_all_roles_int:
+            sum_camera_total_days_build_all_roles.append(sum(item))
+        print('Final List of Camera Build is: ', camera_total_days_build_all_roles_int)
+        print('Sum of PC Camera is: ', sum_camera_total_days_build_all_roles)
+
+        # Run Phase
+        # Removing '0' from all the values
+        camera_total_days_run_all_roles = [[y for y in x if y != '0'] for x in
+                                           camera_total_run_days]
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in camera_total_days_run_all_roles:
+            if len(item) != len_build_quarter:
+                camera_total_days_run_all_roles[counter] = item[:len_run_quarter]
+            counter += 1
+        print(camera_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        camera_total_days_run_all_roles_int = []
+        sum_camera_total_days_run_all_roles = []
+        for item in camera_total_days_run_all_roles:
+            camera_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in camera_total_days_run_all_roles_int:
+            sum_camera_total_days_run_all_roles.append(sum(item))
+        print('Final List of Camera Run is: ', camera_total_days_run_all_roles_int)
+        print('Sum of Camera Run is: ', sum_camera_total_days_run_all_roles)
+
+        totalcarbonfootprint_camera_build = [emission_factor_list[i] * sum_camera_total_days_build_all_roles[i] for i in
+                                             range(len(camera_total_build_days))]
+        print('totalcarbonfootprint_camera_build', totalcarbonfootprint_camera_build)
+
+        totalcarbonfootprint_camera_run = [emission_factor_list_run[i] * sum_camera_total_days_run_all_roles[i] for i in
+                                           range(len(camera_total_run_days))]
+        print('totalcarbonfootprint_camera_run', totalcarbonfootprint_camera_run)
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_build = request.session.get('numeric_list_of_load_plan_build')
+        year_list_build_load_plan_full = request.session.get('year_list_build_load_plan_full')
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_camera_build_phase = []
+        for i in range(len(role)):
+            camera_build_dataframe = pd.DataFrame({
+                'BuildQuarterData': camera_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Build',
+                'TotalCarbonFootPrints': totalcarbonfootprint_camera_build[i],
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
+
+            })
+            print(camera_build_dataframe)
+            all_dataframes_of_camera_build_phase.append(camera_build_dataframe)
+
+        # Run Phase
+        all_dataframes_of_camera_run_phase = []
+        for i in range(len(role)):
+            camera_run_dataframe = pd.DataFrame({
+                'RunQuarterData': camera_total_days_run_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_camera_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
+
+            })
+            print(camera_run_dataframe)
+            all_dataframes_of_camera_run_phase.append(camera_run_dataframe)
+
+        # ==============================================================================
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        try:
+            for dataframe in all_dataframes_of_camera_build_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners[i],
+                            category='Industrial Equipment',
+                            subcategory=transport_type[i],
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['BuildQuarterData'],
+                            year=row['BuildYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        try:
+            for dataframe in all_dataframes_of_camera_run_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type_run)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners_run[i],
+                            category='Industrial Equipment',
+                            subcategory=transport_type_run[i],
+                            emissionfactor=emission_factor_list_run[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['RunQuarterData'],
+                            year=row['RunYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            projid=roleid,
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
@@ -10952,28 +14041,41 @@ def di_camera(request):
         projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                            subcategory='Video projector').values()
         lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
-        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
-                                                        subcategory='Connected Sensors').values()
-        # print('camera_data',camera_data)
-        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
         camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
+
         context = {
 
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'role': request.session.get('role'),
+            'sensor_data': sensor_data,
             'totalyear_loop': request.session.get('totalyear_loop'),
             'start_date_year': request.session.get('start_date_year'),
             'start_date_year_run': request.session.get('start_date_year_run'),
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'sensor_data': sensor_data,
+            'laptop_data': laptop_data,
+            'list_count_run': request.session.get('list_count_run'),
             'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data': laptop_data,
             'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
@@ -10981,11 +14083,20 @@ def di_camera(request):
             'printer_data': printer_data,
             'projector_data': projector_data,
             'lidar_data': lidar_data,
-            'tablet_data': tablet_data,
-            'electricity_data': electricity_data,
-            'fuel_data': fuel_data,
-            'camerat_data': camera_data,
+            'camera_data': camera_data,
             'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
@@ -11017,7 +14128,7 @@ def di_camera(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'monitor':
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_bt_speaker.html', context)
@@ -11049,13 +14160,12 @@ def di_camera(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -11064,26 +14174,26 @@ def di_camera(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
@@ -11112,12 +14222,23 @@ def di_camera(request):
     projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                        subcategory='Video projector').values()
     lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
-    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
-                                                    subcategory='Connected Sensors').values()
-    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
     camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
 
     context = {
         'totalyear_loop': request.session.get('totalyear_loop'),
@@ -11129,7 +14250,7 @@ def di_camera(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'sensor_data': sensor_data,
+        'laptop_data': laptop_data,
         'daily_commute': daily_commute,
         'business_travel': business_travel,
         'laptop_data': laptop_data,
@@ -11140,11 +14261,20 @@ def di_camera(request):
         'printer_data': printer_data,
         'projector_data': projector_data,
         'lidar_data': lidar_data,
-        'tablet_data': tablet_data,
-        'electricity_data': electricity_data,
-        'fuel_data': fuel_data,
-        'camerat_data': camera_data,
+        'camera_data': camera_data,
         'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
 
     }
     return render(request, 'di_camera.html', context)
@@ -11238,7 +14368,6 @@ def di_connected_sensor(request):
             # print('final_quater', final_quater)
 
         final_quater = []
-        noofworkingdays_build = []
         noofworkingdays_run = []
         noofworkingdays_monitor = []
         # import ipdb
@@ -11296,6 +14425,80 @@ def di_connected_sensor(request):
         # import ipdb
         # ipdb.set_trace()
 
+        sensor_total_build_days = copy.deepcopy(noofworkingdays_build)
+        request.session['sensor_total_build_days'] = sensor_total_build_days
+
+        sensor_total_run_days = copy.deepcopy(noofworkingdays_run)
+        request.session['sensor_total_run_days'] = sensor_total_run_days
+
+        # Build Phase
+        # Removing '0' from all the values
+        sensor_total_build_days = [[y for y in x if y != '0'] for x in
+                                             sensor_total_build_days]
+
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in sensor_total_build_days:
+            if len(item) != len_build_quarter:
+                sensor_total_build_days[counter] = item[:len_build_quarter]
+            counter += 1
+        print(sensor_total_build_days)
+
+        # Make list integer and get sum by Role
+        sensor_total_days_build_all_roles_int = []
+        sum_sensor_total_days_build_all_roles = []
+        for item in sensor_total_build_days:
+            sensor_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in sensor_total_days_build_all_roles_int:
+            sum_sensor_total_days_build_all_roles.append(sum(item))
+        print('Final List of Sensor Build is: ', sensor_total_days_build_all_roles_int)
+        print('Sum of PC Sensor is: ', sum_sensor_total_days_build_all_roles)
+
+        # Run Phase
+        # Removing '0' from all the values
+        sensor_total_run_days = [[y for y in x if y != '0'] for x in
+                                           sensor_total_run_days]
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in sensor_total_run_days:
+            if len(item) != len_run_quarter:
+                sensor_total_run_days[counter] = item[:len_run_quarter]
+            counter += 1
+        print(sensor_total_run_days)
+
+        # Make list integer and get sum by Role
+        sensor_total_days_run_all_roles_int = []
+        sum_sensor_total_days_run_all_roles = []
+        for item in sensor_total_run_days:
+            sensor_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in sensor_total_days_run_all_roles_int:
+            sum_sensor_total_days_run_all_roles.append(sum(item))
+        print('Final List of Sensor Run is: ', sensor_total_days_run_all_roles_int)
+        print('Sum of Sensor Run is: ', sum_sensor_total_days_run_all_roles)
+
+
+        noofworkingdays_build2 = []
+        noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
+        noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
+        if noofworkingdays_build1:
+            noofworkingdays_build1 = sum(noofworkingdays_build1)
+            noofworkingdays_build2.append(noofworkingdays_build1)
+        # print('noofworkingdays_build',noofworkingdays_build)
+        # print('noofworkingdays_build1',noofworkingdays_build1)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
+
         vehical_owners = []
         transport_type = []
         vehical_owners_run = []
@@ -11324,28 +14527,166 @@ def di_connected_sensor(request):
             if i.get('subcategory') == transport_type[0]:
                 emissionfactor = i.get('emissionfactor')
 
-        # try:
-        #             IMPACTS_DIRECTS_data = ImpactsDirects(
-        # projectname = request.session.get('name'),
-        #                                     equipmentownership = vehical_owners,
-        #                                     role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'Industrial Equipment',
-        #                                     subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     # emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_DIRECTS_data.save()
-        #             print(IMPACTS_DIRECTS_data)
-        # except Exception as e:
-        #     print(e)
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        ref_parameters_list_sensor = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+
+                                                                           subcategory='Connected Sensors').values()
+        emission_factor_list = []
+        for i in transport_type:
+            tt = ref_parameters_list_sensor.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list', emission_factor_list)
+
+        totalcarbonfootprint_sensor_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
+                                             range(len(noofworkingdays_build2))]
+        print('totalcarbonfootprint_sensor_build', totalcarbonfootprint_sensor_build)
+
+        emission_factor_list_run = []
+        for i in transport_type_run:
+            tt = ref_parameters_list_sensor.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list_run.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list_run', emission_factor_list_run)
+
+        totalcarbonfootprint_sensor_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
+                                           range(len(noofworkingdays_run2))]
+        print('totalcarbonfootprint_sensor_run', totalcarbonfootprint_sensor_run)
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        # direct_impact_data = ImpactsDirects.objects.all()
+        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
+        # for i in ref_parameters_list :
+        #     import ipdb
+        #     ipdb.set_trace()
+        #     if i.get('subcategory') == transport_type[0]:
+        #         emissionfactor = i.get('emissionfactor')
+
+        totalcarbonfootprint_sensor_build = [emission_factor_list_run[i] * sum_sensor_total_days_run_all_roles[i] for i in
+                                           range(len(sum_sensor_total_days_build_all_roles))]
+        print('totalcarbonfootprint_sensor_run', totalcarbonfootprint_sensor_run)
+
+        totalcarbonfootprint_sensor_run = [emission_factor_list_run[i] * sum_sensor_total_days_build_all_roles[i] for i in
+                                           range(len(sum_sensor_total_days_run_all_roles))]
+        print('totalcarbonfootprint_sensor_run', totalcarbonfootprint_sensor_run)
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_build = request.session.get('numeric_list_of_load_plan_build')
+        year_list_build_load_plan_full = request.session.get('year_list_build_load_plan_full')
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_sensor_build_phase = []
+        for i in range(len(role)):
+            sensor_build_dataframe = pd.DataFrame({
+                'BuildQuarterData': sensor_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Build',
+                'TotalCarbonFootPrints': totalcarbonfootprint_sensor_build[i],
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
+
+            })
+            print(sensor_build_dataframe)
+            all_dataframes_of_sensor_build_phase.append(sensor_build_dataframe)
+
+        # Run Phase
+        all_dataframes_of_sensor_run_phase = []
+        for i in range(len(role)):
+            sensor_run_dataframe = pd.DataFrame({
+                'RunQuarterData': sensor_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_sensor_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
+
+            })
+            print(sensor_run_dataframe)
+            all_dataframes_of_sensor_run_phase.append(sensor_run_dataframe)
+
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        try:
+            for dataframe in all_dataframes_of_sensor_build_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners[i],
+                            category='Industrial Equipment',
+                            subcategory=transport_type[i],
+                            # typeoflaptop = transport_type[i],
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['BuildQuarterData'],
+                            year=row['BuildYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        try:
+            for dataframe in all_dataframes_of_sensor_run_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type_run)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners_run[i],
+                     
+                            category='Industrial Equipment',
+                            subcategory=transport_type_run[i],
+                            # typeoflaptop = transport_type[i],
+                
+                            emissionfactor=emission_factor_list_run[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['RunQuarterData'],
+                            year=row['RunYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
 
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
@@ -11360,9 +14701,24 @@ def di_connected_sensor(request):
         projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                            subcategory='Video projector').values()
         lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
         sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
                                                         subcategory='Connected Sensors').values()
-        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
 
         context = {
             # 'user_details':user_details,
@@ -11379,7 +14735,7 @@ def di_connected_sensor(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'sensor_data': sensor_data,
+            'laptop_data': laptop_data,
             'daily_commute': daily_commute,
             'business_travel': business_travel,
             'laptop_data': laptop_data,
@@ -11390,8 +14746,20 @@ def di_connected_sensor(request):
             'printer_data': printer_data,
             'projector_data': projector_data,
             'lidar_data': lidar_data,
-            'tablet_data': tablet_data,
+            'camera_data': camera_data,
             'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
@@ -11424,7 +14792,7 @@ def di_connected_sensor(request):
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_printer.html', context)
-            elif user_equipment_render_list[0] == 'monitor':
+            elif user_equipment_render_list[0] == 'speaker':
                 user_equipment_render_list.pop(0)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
                 return render(request, 'di_bt_speaker.html', context)
@@ -11456,13 +14824,12 @@ def di_connected_sensor(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
                 return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
             return render(request, 'di_drone.html', context)
-
 
         else:
             if len(indirect_render_list) >= 1:
@@ -11471,26 +14838,26 @@ def di_connected_sensor(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
@@ -11529,9 +14896,23 @@ def di_connected_sensor(request):
     projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                        subcategory='Video projector').values()
     lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+    raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
     sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
                                                     subcategory='Connected Sensors').values()
-    raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
 
     context = {
         # 'user_details':user_details,
@@ -11548,7 +14929,7 @@ def di_connected_sensor(request):
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'sensor_data': sensor_data,
+        'laptop_data': laptop_data,
         'daily_commute': daily_commute,
         'business_travel': business_travel,
         'laptop_data': laptop_data,
@@ -11559,8 +14940,20 @@ def di_connected_sensor(request):
         'printer_data': printer_data,
         'projector_data': projector_data,
         'lidar_data': lidar_data,
-        'tablet_data': tablet_data,
+        'camera_data': camera_data,
         'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
 
     }
     return render(request, 'di_connected_sensor.html', context)
@@ -11654,7 +15047,6 @@ def di_lidar(request):
             # print('final_quater', final_quater)
 
         final_quater = []
-        noofworkingdays_build = []
         noofworkingdays_run = []
         noofworkingdays_monitor = []
         # import ipdb
@@ -11712,6 +15104,28 @@ def di_lidar(request):
         # import ipdb
         # ipdb.set_trace()
 
+        lidar_total_build_days = copy.deepcopy(noofworkingdays_build)
+        request.session['lidar_total_build_days'] = lidar_total_build_days
+
+        lidar_total_run_days = copy.deepcopy(noofworkingdays_run)
+        request.session['lidar_total_run_days'] = lidar_total_run_days
+
+        noofworkingdays_build2 = []
+        noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
+        noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
+        if noofworkingdays_build1:
+            noofworkingdays_build1 = sum(noofworkingdays_build1)
+            noofworkingdays_build2.append(noofworkingdays_build1)
+        # print('noofworkingdays_build',noofworkingdays_build)
+        # print('noofworkingdays_build1',noofworkingdays_build1)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
+
         vehical_owners = []
         transport_type = []
         vehical_owners_run = []
@@ -11739,31 +15153,224 @@ def di_lidar(request):
             if i.get('subcategory') == transport_type[0]:
                 emissionfactor = i.get('emissionfactor')
 
-        # try:
-        #             IMPACTS_DIRECTS_data = ImpactsDirects(
-        # projectname = request.session.get('name'),
-        #                                     equipmentownership = vehical_owners,
-        #                                     role = role,
-        #                                     # kmtravelledperday= buid_km_int[0],
-        #                                     # avgnoofdaysofficeperweek = buid_avg_int[0],
-        #                                     category = 'Industrial Equipment',
-        #                                     subcategory = transport_type[0],
-        #                                     phasetype ='run',
-        #                                     # emissionfactor = emissionfactor,
-        #                                     create_timestamp = create_timestamp,
-        #                                     update_timestamp = create_timestamp,
-        #                                     # typeoftransport = transport_type[0],
-        #                                     # workcountry = work_country
-        #                                     # buildstartdate=start_date_year, buildenddate=end_date_year,
-        #                                     # runstartdate=start_date_year_run, runenddate=end_date_year_run,
-        #             )
-        #             IMPACTS_DIRECTS_data.save()
-        #             print(IMPACTS_DIRECTS_data)
-        # except Exception as e:
-        #     print(e)
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
 
-        country_list = settings.COUNTRY_LIST
-        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        # import ipdb
+        # ipdb.set_trace()
+
+        ref_parameters_list_lidar = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                                      subcategory='Lidar').values()
+        emission_factor_list = []
+        for i in transport_type:
+            tt = ref_parameters_list_lidar.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list', emission_factor_list)
+
+        # totalcarbonfootprint_lidar_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
+        #                                     range(len(noofworkingdays_build2))]
+        # print('totalcarbonfootprint_lidar_build', totalcarbonfootprint_lidar_build)
+
+        emission_factor_list_run = []
+        for i in transport_type_run:
+            tt = ref_parameters_list_lidar.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['carbonfootprintperday'])
+            emission_factor_list_run.append(tt_lists[0]['carbonfootprintperday'])
+            print('emission_factor_list_run', emission_factor_list_run)
+
+        # totalcarbonfootprint_lidar_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
+        #                                   range(len(noofworkingdays_run2))]
+        # print('totalcarbonfootprint_lidar_run', totalcarbonfootprint_lidar_run)
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        # direct_impact_data = ImpactsDirects.objects.all()
+        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
+        # for i in ref_parameters_list :
+        #     import ipdb
+        #     ipdb.set_trace()
+        #     if i.get('subcategory') == transport_type[0]:
+        #         emissionfactor = i.get('emissionfactor')
+
+        # ============================================================
+
+        # Build Phase
+        # Removing '0' from all the values
+        lidar_total_days_build_all_roles = [[y for y in x if y != '0'] for x in
+                                             lidar_total_build_days]
+
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in lidar_total_days_build_all_roles:
+            if len(item) != len_build_quarter:
+                lidar_total_days_build_all_roles[counter] = item[:len_build_quarter]
+            counter += 1
+        print(lidar_total_days_build_all_roles)
+
+        # Make list integer and get sum by Role
+        lidar_total_days_build_all_roles_int = []
+        sum_lidar_total_days_build_all_roles = []
+        for item in lidar_total_days_build_all_roles:
+            lidar_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in lidar_total_days_build_all_roles_int:
+            sum_lidar_total_days_build_all_roles.append(sum(item))
+        print('Final List of Lidar Build is: ', lidar_total_days_build_all_roles_int)
+        print('Sum of PC Lidar is: ', sum_lidar_total_days_build_all_roles)
+
+        # Run Phase
+        # Removing '0' from all the values
+        lidar_total_days_run_all_roles = [[y for y in x if y != '0'] for x in
+                                           lidar_total_run_days]
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in lidar_total_days_run_all_roles:
+            if len(item) != len_run_quarter:
+                lidar_total_days_run_all_roles[counter] = item[:len_run_quarter]
+            counter += 1
+        print(lidar_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        lidar_total_days_run_all_roles_int = []
+        sum_lidar_total_days_run_all_roles = []
+        for item in lidar_total_days_run_all_roles:
+            lidar_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in lidar_total_days_run_all_roles_int:
+            sum_lidar_total_days_run_all_roles.append(sum(item))
+        print('Final List of Lidar Run is: ', lidar_total_days_run_all_roles_int)
+        print('Sum of Lidar Run is: ', sum_lidar_total_days_run_all_roles)
+
+        totalcarbonfootprint_lidar_build = [emission_factor_list[i] * sum_lidar_total_days_build_all_roles[i] for i in
+                                            range(len(sum_lidar_total_days_build_all_roles))]
+        print('totalcarbonfootprint_lidar_build', totalcarbonfootprint_lidar_build)
+
+        totalcarbonfootprint_lidar_run = [emission_factor_list_run[i] * sum_lidar_total_days_run_all_roles[i] for i in
+                                          range(len(sum_lidar_total_days_run_all_roles))]
+        print('totalcarbonfootprint_lidar_run', totalcarbonfootprint_lidar_run)
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_build = request.session.get('numeric_list_of_load_plan_build')
+        year_list_build_load_plan_full = request.session.get('year_list_build_load_plan_full')
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_lidar_build_phase = []
+        for i in range(len(role)):
+            lidar_build_dataframe = pd.DataFrame({
+                'BuildQuarterData': lidar_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Build',
+                'TotalCarbonFootPrints': totalcarbonfootprint_lidar_build[i],
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
+
+            })
+            print(lidar_build_dataframe)
+            all_dataframes_of_lidar_build_phase.append(lidar_build_dataframe)
+
+        # Run Phase
+        all_dataframes_of_lidar_run_phase = []
+        for i in range(len(role)):
+            lidar_run_dataframe = pd.DataFrame({
+                'RunQuarterData': lidar_total_days_run_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_lidar_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
+
+            })
+            print(lidar_run_dataframe)
+            all_dataframes_of_lidar_run_phase.append(lidar_run_dataframe)
+
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        try:
+            for dataframe in all_dataframes_of_lidar_build_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners[i],
+                            category='Industrial Equipment',
+                            subcategory=transport_type[i],
+                            # typeoflaptop = transport_type[i],
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['BuildQuarterData'],
+                            year=row['BuildYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        try:
+            for dataframe in all_dataframes_of_lidar_run_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type_run)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners_run[i],
+
+                            category='Industrial Equipment',
+                            subcategory=transport_type_run[i],
+                            # typeoflaptop = transport_type[i],
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['RunQuarterData'],
+                            year=row['RunYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            emissionfactor=emission_factor_list_run[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
@@ -11777,10 +15384,26 @@ def di_lidar(request):
         projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                            subcategory='Video projector').values()
         lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
         sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
                                                         subcategory='Connected Sensors').values()
-        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
         # print(electricity_data)
+
         context = {
             # 'user_details':user_details,
             # 'year_details':year_details,
@@ -11796,9 +15419,7 @@ def di_lidar(request):
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
             'list_length': request.session.get('list_length'),
             'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-            'electricity_data': electricity_data,
-            'country_list': country_list,
-            'sensor_data': sensor_data,
+            'laptop_data': laptop_data,
             'daily_commute': daily_commute,
             'business_travel': business_travel,
             'laptop_data': laptop_data,
@@ -11809,9 +15430,731 @@ def di_lidar(request):
             'printer_data': printer_data,
             'projector_data': projector_data,
             'lidar_data': lidar_data,
-            'tablet_data': tablet_data,
+            'camera_data': camera_data,
             'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
         }
+
+        user_equipment_render_list = request.session.get('user_equipment_render_list')
+        industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
+        indirect_render_list = request.session.get('indirect_render_list')
+
+        # import ipdb
+        # ipdb.set_trace()
+        if len(user_equipment_render_list) >= 1:
+
+            # if WhichUserEquipment[0]=='laptop':
+            #     return render(request,'di_laptop.html',context)
+            if user_equipment_render_list[0] == 'laptop':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_laptop.html', context)
+            elif user_equipment_render_list[0] == 'pc':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_pc.html', context)
+            elif user_equipment_render_list[0] == 'tablet':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_tablet.html', context)
+            elif user_equipment_render_list[0] == 'telephone':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_telephone.html', context)
+            elif user_equipment_render_list[0] == 'projector':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_printer.html', context)
+            elif user_equipment_render_list[0] == 'speaker':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_bt_speaker.html', context)
+            elif user_equipment_render_list[0] == 'Video':
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_projector.html', context)
+            else:
+                user_equipment_render_list.pop(0)
+                request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_monitor.html', context)
+
+
+            # return render(request, 'di_laptop.html', context)
+
+        elif len(industrial_equipment_render_list) >= 1:
+
+            if industrial_equipment_render_list[0] == 'drone':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_drone.html', context)
+            elif industrial_equipment_render_list[0] == 'camera':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_camera.html', context)
+            elif industrial_equipment_render_list[0] == 'sensor':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_connected_sensor.html', context)
+            elif industrial_equipment_render_list[0] == 'lidar':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_lidar.html', context)
+            elif industrial_equipment_render_list[0] == 'raspberry':
+                industrial_equipment_render_list.pop(0)
+                request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
+                return render(request, 'di_raspberrypi.html', context)
+            else:
+                pass
+            # return render(request, 'di_drone.html', context)
+
+        else:
+            if len(indirect_render_list) >= 1:
+
+                if indirect_render_list[0] == 'stationary_combustion':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_fl.html', context)
+                elif indirect_render_list[0] == 'mobile_combustion':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_mc.html', context)
+                elif indirect_render_list[0] == 'electricity':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_el.html', context)
+                elif indirect_render_list[0] == 'water':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_wt.html', context)
+                elif indirect_render_list[0] == 'paper':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_paper.html', context)
+                elif indirect_render_list[0] == 'waste_material':
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_waste.html', context)
+                else:
+                    indirect_render_list.pop(0)
+                    request.session['indirect_render_list'] = indirect_render_list
+                    return render(request, 'indirect_impact_rm.html', context)
+                return render(request, 'di_drone.html', context)
+    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
+    # count = 1
+    # count2 = 1
+    role = request.session.get('role')
+    totalyear_loop = request.session.get('totalyear_loop')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    start_date_year = request.session.get('start_date_year')
+    # for i in range(len(default_dropdown)):
+    #     default_dropdown.insert(count2, count)
+    #     count+=1
+    #     count2+=2
+    # res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
+    # print(res_dct)
+    # import ipdb
+    # ipdb.set_trace()
+    # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    # year_details=['2020','2021']
+    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
+    # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
+
+    daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+    business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+    monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+    pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+    projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                       subcategory='Video projector').values()
+    lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+    raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
+
+    context = {
+        # 'user_details':user_details,
+        # 'year_details':year_details,
+        # 'res_dct':res_dct,
+        # 'default_dropdown1':default_dropdown1,
+        # 'quarter_details':quarter_details,
+        'totalyear_loop': request.session.get('totalyear_loop'),
+        'role': request.session.get('role'),
+        'list': request.session.get('list'),
+        'list_run': request.session.get('list_run'),
+        'start_date_year': request.session.get('start_date_year'),
+        'start_date_year_run': request.session.get('start_date_year_run'),
+        'totalyear_loop_run': request.session.get('totalyear_loop_run'),
+        'list_length': request.session.get('list_length'),
+        'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+        'laptop_data': laptop_data,
+        'daily_commute': daily_commute,
+        'business_travel': business_travel,
+        'laptop_data': laptop_data,
+        'monitor_data': monitor_data,
+        'drone_data': drone_data,
+        'pc_data': pc_data,
+        'telephone_data': telephone_data,
+        'printer_data': printer_data,
+        'projector_data': projector_data,
+        'lidar_data': lidar_data,
+        'camera_data': camera_data,
+        'raw_data': raw_data,
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
+
+    }
+    return render(request, 'di_lidar.html', context)
+
+
+def di_raspberrypi(request):
+    if request.method == "POST":
+        # import ipdb
+        # ipdb.set_trace()
+
+        role = request.session.get('role')
+        list = request.session.get('list')
+        WhichUserEquipment = request.session.get('user_equipment')
+        WhichIndustrialEquipment = request.session.get('industrial_equipment')
+        WhichParametersImplemented = request.session.get('parameters_implemented')
+        print('list1 is', list)
+        totalyear_loop_run = request.session.get('totalyear_loop_run')
+        start_date_year_run = request.session.get('start_date_year_run')
+        totalyear_loop = request.session.get('totalyear_loop')
+        start_date_year = request.session.get('start_date_year')
+        print(role)
+
+        final_quater = []
+        noofworkingdays_build = []
+        noofworkingdays_drone = []
+        # import ipdb
+        # ipdb.set_trace()
+        list_length = request.session.get('list_length')
+        # print(list_length)
+        # Create user input field and append in list:
+        for j in range(1, len(role) + 1):
+            print(j)
+            Build_days_list = []
+            local_list_run = []
+            quater_list = []
+            for i in range(1, list_length + 1):
+                Build_days_list.append(request.POST.get(role[j - 1] + '_' + str(i)))
+                print('Build_days_list', Build_days_list)
+                if Build_days_list == ['']:
+                    Build_days_list = ['0']
+                    # print('local_list', local_list)
+                    # print('local_list', local_list)
+                # else:
+                #     local_list.append(request.POST.get('run' + role_list[j-1] + '_' + str(i)))
+                #     print('local_list', local_list)
+
+                # local_list.append(request.POST.get('dr_' + role[j-1] + '_' + str(i)))
+                # print('local_list', local_list)
+                quater_list.append(i)
+                count = 0
+                for i in Build_days_list:
+                    if i == '':
+                        Build_days_list[count] = '0'
+                        # print('i', i)
+                    count += 1
+
+                # print(Build_days_list)
+                #
+                # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
+                # print('local_list', local_list)
+                # quater_list.append(i)
+
+            # print('Build_days_list', Build_days_list)
+
+            noofworkingdays_build.append(Build_days_list)
+            print('noofworkingdays_build', noofworkingdays_build)
+            request.session['noofworkingdays_build'] = noofworkingdays_build
+
+            # noofworkingdays_run.append(local_list)
+            # print('noofworkingdays_run', noofworkingdays_run)
+            # request.session['noofworkingdays_run'] = noofworkingdays_run
+
+            # noofworkingdays_drone.append(noofworkingdays_build)
+            # print('noofworkingdays_drone', noofworkingdays_drone)
+            request.session['noofworkingdays_drone'] = noofworkingdays_drone
+
+            final_quater.append(quater_list)
+            # print('final_quater', final_quater)
+        default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
+        count = 1
+        count2 = 1
+        for i in range(len(default_dropdown)):
+            default_dropdown.insert(count2, count)
+            count += 1
+            count2 += 2
+        res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
+        print(res_dct)
+        # import ipdb
+        # ipdb.set_trace()
+        default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+        year_details = ['2020', '2021']
+        quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+        user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+
+        final_quater = []
+        noofworkingdays_run = []
+        noofworkingdays_monitor = []
+        # import ipdb
+        # ipdb.set_trace()
+        list_length = request.session.get('list_length')
+        print(list_length)
+        # Create user input field and append in list:
+        for j in range(1, len(role) + 1):
+            print(j)
+            Build_days_list = []
+            local_list_run = []
+            quater_list = []
+            for i in range(1, list_length + 1):
+                Build_days_list.append(request.POST.get('bu_run_' + role[j - 1] + '_' + str(i)))
+                # print('Build_days_list', Build_days_list)
+                if Build_days_list == ['']:
+                    Build_days_list = ['0']
+                    # print('local_list', local_list)
+                    # print('Build_days_list', Build_days_list)
+                # else:
+                #     local_list.append(request.POST.get('run' + role_list[j-1] + '_' + str(i)))
+                #     print('local_list', local_list)
+
+                # local_list.append(request.POST.get('mo_' + role[j-1] + '_' + str(i)))
+                # print('local_list', local_list)
+                quater_list.append(i)
+                count = 0
+                for i in Build_days_list:
+                    if i == '':
+                        Build_days_list[count] = '0'
+                        # print('i', i)
+                    count += 1
+
+                # print(Build_days_list)
+                #
+                # local_list.append(request.POST.get('run' + role[j-1] + '_' + str(i)))
+                # print('local_list', local_list)
+                # quater_list.append(i)
+
+            # print('Build_days_list', Build_days_list)
+
+            # noofworkingdays_build.append(Build_days_list)
+            # print('noofworkingdays_build', noofworkingdays_build)
+            # request.session['noofworkingdays_build'] = noofworkingdays_build
+
+            noofworkingdays_run.append(Build_days_list)
+            print('noofworkingdays_run', noofworkingdays_run)
+            request.session['noofworkingdays_run'] = noofworkingdays_run
+
+            # noofworkingdays_monitor.append(noofworkingdays_build)
+            # print('noofworkingdays_monitor', noofworkingdays_monitor)
+            # request.session['noofworkingdays_monitor'] = noofworkingdays_monitor
+
+            final_quater.append(quater_list)
+            print('final_quater', final_quater)
+
+        rasp_total_build_days = copy.deepcopy(noofworkingdays_build)
+        request.session['rasp_total_build_days'] = rasp_total_build_days
+
+        rasp_total_run_days = copy.deepcopy(noofworkingdays_run)
+        request.session['rasp_total_run_days'] = rasp_total_run_days
+
+        noofworkingdays_build2 = []
+        noofworkingdays_build1 = [i for list1 in noofworkingdays_build for i in list1]
+        noofworkingdays_build1 = [int(i) for i in noofworkingdays_build1]
+        if noofworkingdays_build1:
+            noofworkingdays_build1 = sum(noofworkingdays_build1)
+            noofworkingdays_build2.append(noofworkingdays_build1)
+        # print('noofworkingdays_build',noofworkingdays_build)
+        # print('noofworkingdays_build1',noofworkingdays_build1)
+
+        noofworkingdays_run2 = []
+        noofworkingdays_run1 = [i for list1 in noofworkingdays_run for i in list1]
+        noofworkingdays_run1 = [int(i) for i in noofworkingdays_run1]
+        if noofworkingdays_run1:
+            noofworkingdays_run1 = sum(noofworkingdays_run1)
+            noofworkingdays_run2.append(noofworkingdays_run1)
+
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+
+        # import ipdb
+        # ipdb.set_trace()
+        fuel_data_list = []
+
+        for i in fuel_data:
+            i.pop('carbonid')
+            i.pop('name')
+            i.pop('lcprod')
+            i.pop('lctransport')
+            i.pop('lcusage')
+            i.pop('lcrecycling')
+            i.pop('lifespanyrs')
+            i.pop('emissionfactor')
+            i.pop('carbonfootprintperday')
+            i.pop('lcunit')
+            i.pop('lcemissionfactor')
+            i.pop('yearpublished')
+            i.pop('projectusingef')
+            i.pop('scope')
+            i.pop('status')
+            i.pop('typeofimpact')
+            i.pop('update_timestamp')
+            i.pop('create_timestamp')
+            i.pop('projid_id')
+
+            fuel_data_list.append(i)
+
+        # import ipdb
+        # ipdb.set_trace()
+        vehical_owners = []
+        transport_type = []
+        vehical_owners_run = []
+        transport_type_run = []
+
+        for k in range(1, len(role) + 1):
+            # print(k)
+            vehical_owners.append(request.POST.get('vehical_ownership_' + role[k - 1]))
+            print('vehical', vehical_owners)
+            transport_type.append(request.POST.get('type_transport_' + role[k - 1]))
+            print('transport_type', transport_type)
+            vehical_owners_run.append(request.POST.get('vehical_ownership_run_' + role[k - 1]))
+            print('vehical_owners_run', vehical_owners_run)
+            transport_type_run.append(request.POST.get('type_transport_run_' + role[k - 1]))
+            print('transport_type_run', transport_type_run)
+
+        roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
+
+        ref_parameters_list_raspberry = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                                          subcategory='Raspberry PI').values()
+        emission_factor_list = []
+        for i in transport_type:
+            tt = ref_parameters_list_raspberry.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list', emission_factor_list)
+
+        # totalcarbonfootprint_raspberry_build = [emission_factor_list[i] * noofworkingdays_build2[i] for i in
+        #                                         range(len(noofworkingdays_build2))]
+        # print('totalcarbonfootprint_raspberry_build', totalcarbonfootprint_raspberry_build)
+
+        emission_factor_list_run = []
+        for i in transport_type_run:
+            tt = ref_parameters_list_raspberry.filter(name=i).values()
+            # tt = pd.DataFrame(list(tt))
+            tt_lists = [i for i in tt]
+            print(tt_lists[0]['emissionfactor'])
+            emission_factor_list_run.append(tt_lists[0]['emissionfactor'])
+            print('emission_factor_list_run', emission_factor_list_run)
+
+        # totalcarbonfootprint_raspberry_run = [emission_factor_list_run[i] * noofworkingdays_run2[i] for i in
+        #                                       range(len(noofworkingdays_run2))]
+        # print('totalcarbonfootprint_raspberry_run', totalcarbonfootprint_raspberry_run)
+
+        now = datetime.now()
+        create_timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        # direct_impact_data = ImpactsDirects.objects.all()
+        # ref_parameters_list = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
+        # for i in ref_parameters_list :
+        #     import ipdb
+        #     ipdb.set_trace()
+        #     if i.get('subcategory') == transport_type[0]:
+        #         emissionfactor = i.get('emissionfactor')
+
+        # =========================================================
+
+        # Build Phase
+        # Removing '0' from all the values
+        rasp_total_days_build_all_roles = [[y for y in x if y != '0'] for x in
+                                             rasp_total_build_days]
+
+        quarter_list_build_load_plan = request.session.get('quarter_list_build_load_plan')
+        len_build_quarter = len(quarter_list_build_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in rasp_total_days_build_all_roles:
+            if len(item) != len_build_quarter:
+                rasp_total_days_build_all_roles[counter] = item[:len_build_quarter]
+            counter += 1
+        print(rasp_total_days_build_all_roles)
+
+        # Make list integer and get sum by Role
+        rasp_total_days_build_all_roles_int = []
+        sum_rasp_total_days_build_all_roles = []
+        for item in rasp_total_days_build_all_roles:
+            rasp_total_days_build_all_roles_int.append([eval(i) for i in item])
+        for item in rasp_total_days_build_all_roles_int:
+            sum_rasp_total_days_build_all_roles.append(sum(item))
+        print('Final List of Rasp Build is: ', rasp_total_days_build_all_roles_int)
+        print('Sum of PC Rasp is: ', sum_rasp_total_days_build_all_roles)
+
+        # Run Phase
+        # Removing '0' from all the values
+        rasp_total_days_run_all_roles = [[y for y in x if y != '0'] for x in
+                                           rasp_total_run_days]
+        quarter_list_run_load_plan = request.session.get('quarter_list_run_load_plan')
+        len_run_quarter = len(quarter_list_run_load_plan)
+
+        # Chopping logic to make list equal to Load plan build quarter list
+        counter = 0
+        for item in rasp_total_days_run_all_roles:
+            if len(item) != len_run_quarter:
+                rasp_total_days_run_all_roles[counter] = item[:len_run_quarter]
+            counter += 1
+        print(rasp_total_days_run_all_roles)
+
+        # Make list integer and get sum by Role
+        rasp_total_days_run_all_roles_int = []
+        sum_rasp_total_days_run_all_roles = []
+        for item in rasp_total_days_run_all_roles:
+            rasp_total_days_run_all_roles_int.append([eval(i) for i in item])
+        for item in rasp_total_days_run_all_roles_int:
+            sum_rasp_total_days_run_all_roles.append(sum(item))
+        print('Final List of Rasp Run is: ', rasp_total_days_run_all_roles_int)
+        print('Sum of Rasp Run is: ', sum_rasp_total_days_run_all_roles)
+
+        totalcarbonfootprint_raspberry_build = [emission_factor_list_run[i] * sum_rasp_total_days_build_all_roles[i] for i in
+                                              range(len(sum_rasp_total_days_build_all_roles))]
+        print('totalcarbonfootprint_raspberry_Build', totalcarbonfootprint_raspberry_build)
+
+        totalcarbonfootprint_raspberry_run = [emission_factor_list_run[i] * sum_rasp_total_days_run_all_roles[i] for i in
+                                              range(len(sum_rasp_total_days_run_all_roles))]
+        print('totalcarbonfootprint_raspberry_run', totalcarbonfootprint_raspberry_run)
+
+        # Create dataframe from above data
+        numeric_list_of_load_plan_build = request.session.get('numeric_list_of_load_plan_build')
+        year_list_build_load_plan_full = request.session.get('year_list_build_load_plan_full')
+        numeric_list_of_load_plan_run = request.session.get('numeric_list_of_load_plan_run')
+        year_list_run_load_plan_full = request.session.get('year_list_run_load_plan_full')
+
+        all_dataframes_of_rasp_build_phase = []
+        for i in range(len(role)):
+            rasp_build_dataframe = pd.DataFrame({
+                'BuildQuarterData': rasp_total_days_build_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Build',
+                'TotalCarbonFootPrints': totalcarbonfootprint_raspberry_build[i],
+                'Quarters': numeric_list_of_load_plan_build,
+                'BuildYearList': year_list_build_load_plan_full,
+
+            })
+            print(rasp_build_dataframe)
+            all_dataframes_of_rasp_build_phase.append(rasp_build_dataframe)
+
+        # Run Phase
+        all_dataframes_of_rasp_run_phase = []
+        for i in range(len(role)):
+            rasp_run_dataframe = pd.DataFrame({
+                'RunQuarterData': rasp_total_days_run_all_roles_int[i],
+                'Role': role[i],
+                'Phase': 'Run',
+                'TotalCarbonFootPrints': totalcarbonfootprint_raspberry_run[i],
+                'Quarters': numeric_list_of_load_plan_run,
+                'RunYearList': year_list_run_load_plan_full,
+
+            })
+            print(rasp_run_dataframe)
+            all_dataframes_of_rasp_run_phase.append(rasp_run_dataframe)
+        # ==============================================================================
+        start_date_build = request.session.get('start_date_build')
+        end_date_build = request.session.get('end_date_build')
+        start_date_run = request.session.get('start_date_run')
+        end_date_run = request.session.get('end_date_run')
+
+        try:
+            for dataframe in all_dataframes_of_rasp_build_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners[i],
+
+                            category='Industrial Equipment',
+                            subcategory=transport_type[i],
+                            # typeoflaptop = transport_type[i],
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['BuildQuarterData'],
+                            year=row['BuildYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            emissionfactor=emission_factor_list[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        try:
+            for dataframe in all_dataframes_of_rasp_run_phase:
+                for index, row in dataframe.iterrows():
+                    for i in range(len(transport_type_run)):
+                        IMPACTS_DIRECTS_data = ImpactsDirects(
+                            projectname=request.session.get('name'),
+                            equipmentownership=vehical_owners_run[i],
+
+                            category='Industrial Equipment',
+                            subcategory=transport_type_run[i],
+                            # typeoflaptop = transport_type[i],
+
+                            emissionfactor=emission_factor_list_run[i],
+                            create_timestamp=create_timestamp,
+                            update_timestamp=create_timestamp,
+
+                            role=row['Role'],
+                            phasetype=row['Phase'],
+                            nofworkingdays=row['RunQuarterData'],
+                            year=row['RunYearList'],
+                            quarter=row['Quarters'],
+                            totalcarbonfootprint=row['TotalCarbonFootPrints'],
+
+                            buildstartdate=start_date_build,
+                            buildenddate=end_date_build,
+                            runstartdate=start_date_run,
+                            runenddate=end_date_run,
+
+                            projid=roleid,
+
+                        )
+                        IMPACTS_DIRECTS_data.save()
+                        print(IMPACTS_DIRECTS_data)
+        except Exception as e:
+            print(e)
+
+        list_length = request.session.get('list_length')
+
+        daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
+        laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+        business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
+        monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                         subcategory='Screen/Monitor').values()
+        drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
+        pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
+        projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
+                                                           subcategory='Video projector').values()
+        lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+        raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+        fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                        subcategory='Connected Sensors').values()
+        electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+        bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                           subcategory='Raspberry PI').values()
+        water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+        waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+        plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+        paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+        mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+        mobile_business_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Business Travel').values()
+        mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+            category='Mobile Combustion - Freight transport').values()
+
+        context = {
+            'user_details': user_details,
+            'year_details': year_details,
+            'res_dct': res_dct,
+            'default_dropdown1': default_dropdown1,
+            'quarter_details': quarter_details,
+            'role': request.session.get('role'),
+            'list': request.session.get('list'),
+            'list_run': request.session.get('list_run'),
+            'start_date_year': request.session.get('start_date_year'),
+            'start_date_year_run': request.session.get('start_date_year_run'),
+            'totalyear_loop_run': request.session.get('totalyear_loop_run'),
+            'totalyear_loop': request.session.get('totalyear_loop'),
+            'list_length': request.session.get('list_length'),
+            'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
+            'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
+            'fuel_data_list': fuel_data_list,
+            'laptop_data': laptop_data,
+            'daily_commute': daily_commute,
+            'business_travel': business_travel,
+            'laptop_data': laptop_data,
+            'monitor_data': monitor_data,
+            'drone_data': drone_data,
+            'pc_data': pc_data,
+            'list_count_run': request.session.get('list_count_run'),
+            'telephone_data': telephone_data,
+            'printer_data': printer_data,
+            'projector_data': projector_data,
+            'lidar_data': lidar_data,
+            'camera_data': camera_data,
+            'raw_data': raw_data,
+            'fuel_data': fuel_data,
+            'tablet_data': tablet_data,
+            'bt_data': bt_data,
+            'raspberry_data': raspberry_data,
+            'electricity_data': electricity_data,
+            'paper_data': paper_data,
+            'plastic_data': plastic_data,
+            'waste_data': waste_data,
+            'water_data': water_data,
+            'mobile_daily_data': mobile_daily_data,
+            'mobile_business_data': mobile_business_data,
+            'mobile_frieght_transport_data': mobile_frieght_transport_data,
+
+        }
+
 
         user_equipment_render_list = request.session.get('user_equipment_render_list')
         industrial_equipment_render_list = request.session.get('industrial_equipment_render_list')
@@ -11853,8 +16196,8 @@ def di_lidar(request):
                 return render(request, 'di_projector.html', context)
             else:
                 user_equipment_render_list.pop(0)
-                return render(request, 'di_monitor.html', context)
                 request.session['user_equipment_render_list'] = user_equipment_render_list
+                return render(request, 'di_monitor.html', context)
 
             return render(request, 'di_laptop.html', context)
 
@@ -11875,13 +16218,12 @@ def di_lidar(request):
             elif industrial_equipment_render_list[0] == 'lidar':
                 industrial_equipment_render_list.pop(0)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-                return render(request, 'di_lidar', context)
+                return render(request, 'di_lidar.html', context)
             else:
                 industrial_equipment_render_list.pop(0)
-                return render(request, 'di_raspberrypi.html', context)
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
-            return render(request, 'di_drone.html', context)
-
+                return render(request, 'di_raspberrypi.html', context)
+            # return render(request, 'di_drone.html', context)
 
         else:
             if len(indirect_render_list) >= 1:
@@ -11890,53 +16232,62 @@ def di_lidar(request):
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_fl.html', context)
-                elif 'mobile_combustion':
+                elif indirect_render_list[0] == 'mobile_combustion':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_mc.html', context)
-                elif 'electricity':
+                elif indirect_render_list[0] == 'electricity':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_el.html', context)
-                elif 'water':
+                elif indirect_render_list[0] == 'water':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_wt.html', context)
-                elif 'paper':
+                elif indirect_render_list[0] == 'paper':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_paper.html', context)
-                elif 'waste_material':
+                elif indirect_render_list[0] == 'waste_material':
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
-                    return render(request, 'indirect_impact_wt.html', context)
+                    return render(request, 'indirect_impact_waste.html', context)
                 else:
                     indirect_render_list.pop(0)
                     request.session['indirect_render_list'] = indirect_render_list
                     return render(request, 'indirect_impact_rm.html', context)
                 return render(request, 'di_drone.html', context)
-    # default_dropdown=['Car', 'Metro', 'Airplane', 'Train','Metro1', ]
-    # count = 1
-    # count2 = 1
-    role = request.session.get('role')
-    totalyear_loop = request.session.get('totalyear_loop')
-    totalyear_loop_run = request.session.get('totalyear_loop_run')
-    start_date_year_run = request.session.get('start_date_year_run')
-    start_date_year = request.session.get('start_date_year')
-    # for i in range(len(default_dropdown)):
-    #     default_dropdown.insert(count2, count)
-    #     count+=1
-    #     count2+=2
-    # res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
-    # print(res_dct)
+
+        # if WhichParametersImplemented[0]=='indirect_impact_fl':
+        #     return render(request, 'indirect_impact_fl.html',context)
+        # return render(request, 'di_raspberrypi.html',context)
+    default_dropdown = ['Car', 'Metro', 'Airplane', 'Train', 'Metro1', ]
+    count = 1
+    count2 = 1
+
     # import ipdb
     # ipdb.set_trace()
-    # default_dropdown1=['Car1', 'Metro1', 'Airplane1', 'Train1', ]
-    # year_details=['2020','2021']
-    # quarter_details=['Q1','Q2','Q3','Q4','Q1','Q2','Q3','Q4']
-    # user_details=['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1','IT Leader 2',]
+    list = request.session.get('list')
+    request.session['list'] = list
+    role = request.session.get('role')
+    totalyear_loop_run = request.session.get('totalyear_loop_run')
+    start_date_year_run = request.session.get('start_date_year_run')
+    totalyear_loop = request.session.get('totalyear_loop')
+    start_date_year = request.session.get('start_date_year')
+    for i in range(len(default_dropdown)):
+        default_dropdown.insert(count2, count)
+        count += 1
+        count2 += 2
+    res_dct = {default_dropdown[i]: default_dropdown[i + 1] for i in range(0, len(default_dropdown), 2)}
+    print(res_dct)
+    # import ipdb
+    # ipdb.set_trace()
+    default_dropdown1 = ['Car1', 'Metro1', 'Airplane1', 'Train1', ]
+    year_details = ['2020', '2021']
+    quarter_details = ['Q1', 'Q2', 'Q3', 'Q4', 'Q1', 'Q2', 'Q3', 'Q4']
+    user_details = ['Product Owner', 'Proxy PO', 'Data Scientist', 'IT Leader 1', 'IT Leader 2', ]
+    list_length = request.session.get('list_length')
 
-    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
     laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
@@ -11949,28 +16300,37 @@ def di_lidar(request):
     projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                        subcategory='Video projector').values()
     lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
+    raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
     sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
                                                     subcategory='Connected Sensors').values()
-    raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
+    electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
+    bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                       subcategory='Raspberry PI').values()
+    water_data = RefCarbonfootprint.objects.filter(category='Water').values()
+    waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
+    plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
+    paper_data = RefCarbonfootprint.objects.filter(category='Paper').values()
+    mobile_daily_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Daily Commute').values()
+    mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
+    mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
+        category='Mobile Combustion - Freight transport').values()
 
     context = {
-        'user_details': user_details,
-        'year_details': year_details,
-        'res_dct': res_dct,
-        'default_dropdown1': default_dropdown1,
-        'quarter_details': quarter_details,
-        'totalyear_loop': request.session.get('totalyear_loop'),
         'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
+        'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
+        'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
-        'electricity_data': electricity_data,
-        'country_list': country_list,
-        'sensor_data': sensor_data,
+        'fuel_data_list': fuel_data_list,
+        'laptop_data': laptop_data,
         'daily_commute': daily_commute,
         'business_travel': business_travel,
         'laptop_data': laptop_data,
@@ -11981,14 +16341,21 @@ def di_lidar(request):
         'printer_data': printer_data,
         'projector_data': projector_data,
         'lidar_data': lidar_data,
-        'tablet_data': tablet_data,
+        'camera_data': camera_data,
         'raw_data': raw_data,
-
+        'fuel_data': fuel_data,
+        'tablet_data': tablet_data,
+        'bt_data': bt_data,
+        'raspberry_data': raspberry_data,
+        'electricity_data': electricity_data,
+        'paper_data': paper_data,
+        'plastic_data': plastic_data,
+        'waste_data': waste_data,
+        'water_data': water_data,
+        'mobile_daily_data': mobile_daily_data,
+        'mobile_business_data': mobile_business_data,
+        'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
-    return render(request, 'di_lidar.html', context)
-
-
-def di_raspberrypi(request):
     return render(request, 'di_raspberrypi.html')
 
 

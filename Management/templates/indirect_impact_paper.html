@@ -511,7 +511,7 @@
             <div class="di_heading" >
                 Indirect Impact
                 <p class="di_subhead " style="margin-top: 10px;">Paper</p>
-                <p class="di_para" style="margin-top: 8px;padding-right: 200px; ">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p class="di_para" style="margin-top: 8px;padding-right: 200px; ">Please provide the type and quantity of paper avoided through the implementation of the IT project. Data shall be consolidated in quarterly format as provided below. </p>
             </div>
             <div class="w3-bar static-font" style="margin-top: 7px; font-weight: 400; font-size: 16px;">
                 <button id="nav_button_2" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Run');" style="color: #ADB5BD; border:none; background-color:transparent">Run</button>
@@ -531,8 +531,8 @@
                         <tr>
                             <th class="sticky-col first-col-fix fixed-col" style="height:40px;">Paper Saved</th>
                             <th class="load_cell_th">Unit</th>
-                            
-                            <th colspan="4" class="load_cell_th">{{start_date_year}}-Days</th>
+
+                            <th colspan="4" class="load_cell_th">{{start_date_year}}</th>
                             {% for r in totalyear_loop %}
                                 <th colspan="4" class="load_cell_th">Year {{r}}</th>
                             {% endfor %}
@@ -551,7 +551,7 @@
                         <tr>
                             <tr id="tr_id_">
                                 <td class="sticky-col first-col-fix fixed-col" style="height:40px;">
-                                    <select class="di_select" onchange="getFun(this.value)" name="type_transport">
+                                    <select class="di_select" name="type_paper">
                                     {% for j in paper_data %}
                                         <option class="di_option" id="fl_{{j.category}}" value="{{j.category}}">{{j.category}}</option>
                                         
