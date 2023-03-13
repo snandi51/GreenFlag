@@ -2313,6 +2313,7 @@ def di_business_travel(request):
         fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
         sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
                                                         subcategory='Connected Sensors').values()
+        # request.session['sensor_data'] = sensor_data
         electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
         bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
         raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
@@ -2515,10 +2516,13 @@ def di_business_travel(request):
     drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
     pc_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Desktop').values()
     tablet_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Tablet').values()
+    # request.session['tablet_data'] = tablet_data
     telephone_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Telephone').values()
     printer_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Printer').values()
     projector_data = RefCarbonfootprint.objects.filter(category='User Equipment',
                                                        subcategory='Video projector').values()
+    sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',
+                                                    subcategory='Connected Sensors').values()
     lidar_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
     camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
     fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
@@ -2538,6 +2542,8 @@ def di_business_travel(request):
         'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
         'daily_commute': daily_commute,
+        'sensor_data': sensor_data,
+        'tablet_data': tablet_data,
         'business_travel': business_travel,
         'laptop_data': laptop_data,
 
@@ -2793,6 +2799,7 @@ def di_laptop(request):
             'user_details': user_details,
             'year_details': year_details,
             'res_dct': res_dct,
+            'sensor_data': sensor_data,
             'default_dropdown1': default_dropdown1,
             'quarter_details': quarter_details,
             'role': request.session.get('role'),
@@ -3069,6 +3076,7 @@ def di_laptop(request):
         'totalyear_loop': request.session.get('totalyear_loop'),
         'list_length': request.session.get('list_length'),
         'daily_commute': daily_commute,
+        'sensor_data': sensor_data,
         'business_travel': business_travel,
         'laptop_data': laptop_data,
         'monitor_data': monitor_data,
@@ -3550,6 +3558,7 @@ def di_monitor(request):
             'list_run': request.session.get('list_run'),
             'list_count': request.session.get('list_count'),
             'role': request.session.get('role'),
+            'sensor_data': sensor_data,
             'totalyear_loop': request.session.get('totalyear_loop'),
             'start_date_year': request.session.get('start_date_year'),
             'start_date_year_run': request.session.get('start_date_year_run'),
@@ -3810,6 +3819,7 @@ def di_monitor(request):
         'totalyear_loop': request.session.get('totalyear_loop'),
         'role': request.session.get('role'),
         'list': request.session.get('list'),
+        'sensor_data': sensor_data,
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
@@ -3848,9 +3858,9 @@ def di_monitor(request):
 
 
 def di_drone(request):
+    submit = 0
+    final_screen = 0
     if request.method == "POST":
-        submit = 0
-        final_screen = 0
         role = request.session.get('role')
         list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
@@ -4366,6 +4376,7 @@ def di_drone(request):
             'user_details': user_details,
             'year_details': year_details,
             'res_dct': res_dct,
+            'sensor_data': sensor_data,
             'default_dropdown1': default_dropdown1,
             'quarter_details': quarter_details,
             'role': request.session.get('role'),
@@ -4649,6 +4660,7 @@ def di_drone(request):
         'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
+        'sensor_data': sensor_data,
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
@@ -6770,6 +6782,7 @@ def di_dcn(request):
             'country_list': country_list,
             # 'proj_type': proj_type,
             'role': request.session.get('role'),
+            'sensor_data': request.session.get('sensor_data'),
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'start_date_year': request.session.get('start_date_year'),
@@ -6963,6 +6976,7 @@ def di_dcn(request):
         'drone_data': drone_data,
         'pc_data': pc_data,
         'submit': submit,
+        'sensor_data': request.session.get('sensor_data'),
         'telephone_data': telephone_data,
         'printer_data': printer_data,
         'projector_data': projector_data,
@@ -7193,6 +7207,7 @@ def indirect_impact_fl(request):
             'user_details': user_details,
             'year_details': year_details,
             'res_dct': res_dct,
+            'sensor_data': sensor_data,
             'default_dropdown1': default_dropdown1,
             'quarter_details': quarter_details,
             'role': request.session.get('role'),
@@ -7302,7 +7317,6 @@ def indirect_impact_fl(request):
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
                 return render(request, 'di_raspberrypi.html', context)
             # return render(request, 'di_drone.html', context)
-
 
         else:
 
@@ -7478,6 +7492,7 @@ def indirect_impact_fl(request):
     context = {
         'role': request.session.get('role'),
         'list': request.session.get('list'),
+        'sensor_data': sensor_data,
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
@@ -7909,6 +7924,7 @@ def indirect_impact_mc(request):
             'user_details': user_details,
             'year_details': year_details,
             'res_dct': res_dct,
+            'sensor_data': sensor_data,
             'default_dropdown1': default_dropdown1,
             'quarter_details': quarter_details,
             'role': request.session.get('role'),
@@ -8388,6 +8404,7 @@ def indirect_impact_wt(request):
             'user_details': user_details,
             'year_details': year_details,
             'res_dct': res_dct,
+            'sensor_data': sensor_data,
             'default_dropdown1': default_dropdown1,
             'quarter_details': quarter_details,
             'role': request.session.get('role'),
@@ -8659,6 +8676,7 @@ def indirect_impact_wt(request):
     context = {
         'role': request.session.get('role'),
         'list': request.session.get('list'),
+        'sensor_data': sensor_data,
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
@@ -8878,6 +8896,7 @@ def indirect_impact_waste(request):
             'user_details': user_details,
             'year_details': year_details,
             'res_dct': res_dct,
+            'sensor_data': sensor_data,
             'default_dropdown1': default_dropdown1,
             'quarter_details': quarter_details,
             'role': request.session.get('role'),
@@ -9144,6 +9163,7 @@ def indirect_impact_waste(request):
     context = {
         'role': request.session.get('role'),
         'list': request.session.get('list'),
+        'sensor_data': sensor_data,
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
@@ -9362,6 +9382,7 @@ def indirect_impact_rm(request):
             'user_details': user_details,
             'year_details': year_details,
             'res_dct': res_dct,
+            'sensor_data': sensor_data,
             'default_dropdown1': default_dropdown1,
             'quarter_details': quarter_details,
             'role': request.session.get('role'),
@@ -9637,6 +9658,7 @@ def indirect_impact_rm(request):
         'noofworkingdays_drone': request.session.get('noofworkingdays_drone'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
         'submit': submit,
+        'sensor_data': sensor_data,
         'daily_commute': daily_commute,
         'business_travel': business_travel,
         'laptop_data': laptop_data,
@@ -10082,6 +10104,7 @@ def indirect_impact_paper(request):
             'user_details': user_details,
             'year_details': year_details,
             'res_dct': res_dct,
+            'sensor_data': sensor_data,
             'default_dropdown1': default_dropdown1,
             'quarter_details': quarter_details,
             'role': request.session.get('role'),
@@ -10349,6 +10372,7 @@ def indirect_impact_paper(request):
     context = {
         'role': request.session.get('role'),
         'list': request.session.get('list'),
+        'sensor_data': sensor_data,
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
@@ -10883,6 +10907,7 @@ def di_pc(request):
             'monitor_data': monitor_data,
             'drone_data': drone_data,
             'pc_data': pc_data,
+            'sensor_data': sensor_data,
             'telephone_data': telephone_data,
             'printer_data': printer_data,
             'projector_data': projector_data,
@@ -11096,7 +11121,7 @@ def di_pc(request):
         'laptop_data': laptop_data,
         'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data': laptop_data,
+        'sensor_data': sensor_data,
         'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
@@ -11556,6 +11581,7 @@ def di_tablet(request):
             # 'default_dropdown1':default_dropdown1,
             # 'quarter_details':quarter_details,
             'list': request.session.get('list'),
+            'sensor_data': sensor_data,
             'list_count': request.session.get('list_count'),
             'list_run': request.session.get('list_run'),
             'role': request.session.get('role'),
@@ -11822,6 +11848,7 @@ def di_tablet(request):
         # 'quarter_details':quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
         'role': request.session.get('role'),
+        'sensor_data': sensor_data,
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -12304,7 +12331,7 @@ def di_telephone(request):
             'laptop_data': laptop_data,
             'daily_commute': daily_commute,
             'business_travel': business_travel,
-            'laptop_data': laptop_data,
+            'sensor_data': sensor_data,
             'monitor_data': monitor_data,
             'drone_data': drone_data,
             'submit': submit,
@@ -12558,6 +12585,7 @@ def di_telephone(request):
         # 'quarter_details':quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
         'role': request.session.get('role'),
+        'sensor_data': sensor_data,
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -13023,6 +13051,7 @@ def di_printer(request):
             # 'default_dropdown1':default_dropdown1,
             # 'quarter_details':quarter_details,
             'list': request.session.get('list'),
+            'sensor_data': sensor_data,
             'list_run': request.session.get('list_run'),
             'list_count': request.session.get('list_run'),
             'role': request.session.get('role'),
@@ -13289,6 +13318,7 @@ def di_printer(request):
         # 'default_dropdown1':default_dropdown1,
         # 'quarter_details':quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
+        'sensor_data': sensor_data,
         'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
@@ -13776,6 +13806,7 @@ def di_bt_speaker(request):
             'list_count': request.session.get('list_count'),
             'role': request.session.get('role'),
             'submit': submit,
+            'sensor_data': sensor_data,
             'totalyear_loop': request.session.get('totalyear_loop'),
             'start_date_year': request.session.get('start_date_year'),
             'start_date_year_run': request.session.get('start_date_year_run'),
@@ -14038,6 +14069,7 @@ def di_bt_speaker(request):
         # 'quarter_details':quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
         'role': request.session.get('role'),
+        'sensor_data': sensor_data,
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -14508,6 +14540,7 @@ def di_projector(request):
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'role': request.session.get('role'),
+            'sensor_data': sensor_data,
             'totalyear_loop': request.session.get('totalyear_loop'),
             'start_date_year': request.session.get('start_date_year'),
             'start_date_year_run': request.session.get('start_date_year_run'),
@@ -14774,6 +14807,7 @@ def di_projector(request):
         # 'quarter_details':quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
         'role': request.session.get('role'),
+        'sensor_data': sensor_data,
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -14811,9 +14845,9 @@ def di_projector(request):
 
 
 def di_camera(request):
+    submit = 0
+    final_screen = 0
     if request.method == 'POST':
-        submit = 0
-        final_screen = 0
         list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
@@ -14975,8 +15009,6 @@ def di_camera(request):
 
         camera_total_run_days = copy.deepcopy(noofworkingdays_run)
         request.session['camera_total_build_days'] = camera_total_run_days
-
-
         roleid = ProjectDetails.objects.get(projid=request.session.get('current_project_id'))
 
         # import ipdb
@@ -15475,6 +15507,7 @@ def di_camera(request):
         'totalyear_loop': request.session.get('totalyear_loop'),
         'role': request.session.get('role'),
         'list': request.session.get('list'),
+        'sensor_data': sensor_data,
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
@@ -15512,9 +15545,9 @@ def di_camera(request):
 
 
 def di_connected_sensor(request):
+    submit = 0
+    final_screen = 0
     if request.method == 'POST':
-        submit = 0
-        final_screen = 0
         list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
@@ -15958,7 +15991,9 @@ def di_connected_sensor(request):
             # 'default_dropdown1':default_dropdown1,
             # 'quarter_details':quarter_details,
             'list': request.session.get('list'),
+            'sensor_data': sensor_data,
             'list_run': request.session.get('list_run'),
+            'list_count_run': request.session.get('list_count_run'),
             'role': request.session.get('role'),
             'submit': submit,
             'totalyear_loop': request.session.get('totalyear_loop'),
@@ -16061,7 +16096,6 @@ def di_connected_sensor(request):
                 request.session['industrial_equipment_render_list'] = industrial_equipment_render_list
                 return render(request, 'di_raspberrypi.html', context)
             # return render(request, 'di_drone.html', context)
-
 
         else:
 
@@ -16223,6 +16257,7 @@ def di_connected_sensor(request):
         'totalyear_loop': request.session.get('totalyear_loop'),
         'role': request.session.get('role'),
         'list': request.session.get('list'),
+        'sensor_data': sensor_data,
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
@@ -16260,9 +16295,9 @@ def di_connected_sensor(request):
 
 
 def di_lidar(request):
+    submit = 0
+    final_screen = 0
     if request.method == 'POST':
-        submit = 0
-        final_screen = 0
         list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
         WhichIndustrialEquipment = request.session.get('industrial_equipment')
@@ -16711,6 +16746,7 @@ def di_lidar(request):
             # 'default_dropdown1':default_dropdown1,
             # 'quarter_details':quarter_details,
             'list': request.session.get('list'),
+            'sensor_data': sensor_data,
             'list_run': request.session.get('list_run'),
             'role': request.session.get('role'),
             'totalyear_loop': request.session.get('totalyear_loop'),
@@ -16978,6 +17014,7 @@ def di_lidar(request):
         # 'quarter_details':quarter_details,
         'totalyear_loop': request.session.get('totalyear_loop'),
         'role': request.session.get('role'),
+        'sensor_data': sensor_data,
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
@@ -17016,9 +17053,9 @@ def di_lidar(request):
 
 
 def di_raspberrypi(request):
+    submit = 0
+    final_screen = 0
     if request.method == "POST":
-        submit = 0
-        final_screen = 0
         role = request.session.get('role')
         list = request.session.get('list')
         WhichUserEquipment = request.session.get('user_equipment')
@@ -17481,6 +17518,7 @@ def di_raspberrypi(request):
             'user_details': user_details,
             'year_details': year_details,
             'res_dct': res_dct,
+            'sensor_data': sensor_data,
             'default_dropdown1': default_dropdown1,
             'quarter_details': quarter_details,
             'role': request.session.get('role'),
@@ -17934,10 +17972,6 @@ def view_detailed_result(request):
         Non_session = ImpactsIndirects.objects.get(indirectid=user_indirectid)
         db_project_name = Non_session.projectname
         project_name = db_project_name
-
-
-
-
 
     user_equipment_list = request.session.get('WhichUserEquipment_list')
     # ProjectDetails -whichuserequipment *******
