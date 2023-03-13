@@ -280,10 +280,10 @@
                   <option class="di_option" value="Company">Company</option>
                   <option class="di_option" value="Owned">Owned</option></td>
                 {% for list1 in list %}
-                  <td class="load_cell"><input type="number" min="0" max="66" ="load_cell_ip" name="{{role}}_{{list1}}" id="bu('{{role}}_{{list1}}')" onclick="fun()"></td>
+                  <td class="load_cell"><input type="number" class="load_cell_ip" min="0" max="66" ="load_cell_ip" name="{{role}}_{{list1}}" id="bu('{{role}}_{{list1}}')" onclick="fun()"></td>
                 {% endfor %}
-                
-                
+
+
               </tr>
             {% endfor%}
           </tbody>
@@ -306,7 +306,7 @@
           <button type="submit" class="save" style="width:150px; text-align:end; border-radius:4px;  "><b class="continue" style="width:140px;">SAVE & CONTINUE</b></button>
       </div>
     </div>
-    
+
     <!---------------------- Run Phase ---------------------->
     <div class="load_view city" id="Run" style="display: none;margin-left:20px;width: auto;margin-top: 5px;">
       <div class="load_wrapper" >
@@ -320,7 +320,7 @@
                     {% for r in totalyear_loop %}
                       <th colspan="4" class="load_cell_th">Year {{r}}</th>
                     {% endfor %}
-                   
+
             </tr>
             <tr>
               <th  class="sticky-col first-col-fix fixed-col" style="background-color: #121010;border-color: black; border-radius: 0px;">&nbsp;</th>
@@ -343,7 +343,7 @@
                       {% endfor %}
                     </optgroup>
                     <optgroup style="float: left;background-color: #6C757D;" label="Custom" >
-                
+
                       <!-- {% for i in res_dct %}
                         <option style="background-color: #34373D;" >{{i}}</option>
                       {% endfor %} -->
@@ -355,7 +355,7 @@
                   <option class="di_option" value="Company">Company</option>
                   <option class="di_option" value="Owned">Owned</option></td>
                 {% for list1 in list %}
-                  <td class="load_cell"><input type="number" min="0" max="66" class="load_cell_ip" name="bu_run_{{role}}_{{list1}}"></td>
+                  <td class="load_cell"><input type="number" class="load_cell_ip" min="0" max="66" class="load_cell_ip" name="bu_run_{{role}}_{{list1}}"></td>
                 {% endfor %}
                 
                 

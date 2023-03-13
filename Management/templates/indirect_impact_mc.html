@@ -65,6 +65,15 @@
   background: #23272E;
   border-radius: 0px;
 }
+
+.load_cell_unit_th {
+  width: 70px;
+  text-align: center;
+  border: 1px solid #34373D;
+  background: #23272E;
+  border-radius: 0px;
+}
+
 .load_cell {
   width: 67px;
   text-align: center;
@@ -177,9 +186,9 @@
     <div class="di_heading" style="margin-left: 20px;">
         Indirect Impact
         <p class="di_subhead " style="margin-top: 10px; ">Mobile Combustion</p>
-        <p class="di_para" style="margin-top: 8px; padding-right: 200px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p class="di_para" style="margin-top: 8px; padding-right: 200px;">This category calculates the savings resulting from optimization of transportation activities for employees and freight. Please provide the activity data as per the applicable impact category and mode of transportation. Data shall be consolidated in quarterly format as provided below. </p>
     </div>
-    <div class="w3-bar static-font" style="margin-top: 7px; font-weight: 400; font-size: 16px;">
+    <div class="w3-bar static-font" style="margin-top: 7px; font-weight: 400; font-size: 16px;margin-left: 30px;">
       <button id="nav_button_2" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Run');" style="color: #ADB5BD; border:none; background-color:transparent">Run</button>
       <button class="btn btn-outline-secondary tablink w3-bottombar" onclick="customise()" style="color: #6C757D; border:none; background-color:transparent;float: right;margin-top: 10px;" name="customise" value="1"><p class="customize_button">Customise<img style="padding-left:5px;padding-right: 10px;" src="static/assets/img/arrow_up.png"></p></button>
       <div class="progress1">
@@ -187,18 +196,17 @@
               <hr class="line" size="3" width="100%" color="#6C757D">
           </div>
       </div>
-    </div>
     <form action="indirect_impact_mc"  method="post">
     {% csrf_token %}
-    <div class="load_view city" id="Build" style="display: block;margin-left:20px;width: auto;margin-top: 5px;padding-bottom: 10px;">
+    <div class="load_view city" id="Build" style="display: block;width: auto;margin-top: 5px;padding-bottom: 10px;">
         <div class="load_wrapper" >
           <table class="load_table">
             <thead>
                 <tr>
                     <th class="sticky-col first-col-fix fixed-col" style="height: 40px;width: 244px;">Impact Category</th>
                     <th class="load_cell_th">Mode of Transport</th>
-                    <th class="load_cell_th">Unit</th>
-                    <th colspan="4" class="load_cell_th">{{start_date_year}}-Days</th>
+                    <th class="load_cell_unit_th" style="width: 50px;">Unit</th>
+                    <th colspan="4" class="load_cell_th">{{start_date_year}}</th>
                             {% for r in totalyear_loop %}
                                 <th colspan="4" class="load_cell_th">Year {{r}}</th>
                             {% endfor %}
@@ -216,77 +224,44 @@
             <tbody>
               <tr>
                 <td class="sticky-col first-col-fix fixed-col" style="height: 40px;">Business Travel</td>
-                <td class="load_cell"><select class="di_select">
-                  <option class="di_option" value="0">Placeholder</option>
-                  <option class="di_option" value="1">Placeholder</option>
-                  <option class="di_option" value="1">Placeholder</option></td>
-                <td class="load_cell"><select class="di_select">
-                    <option class="di_option" value="0">Litre</option>
-                    <option class="di_option" value="1">Litre</option>
-                    <option class="di_option" value="1">Litre</option></td>
+                <td class="load_cell"><select class="di_select" name="business_daily">
+                  {% for list1 in mobile_business_data %}
+                    <option class="di_option" value="{{list1.subcategory}}">{{list1.subcategory}}</option>
+                  {% endfor %}
+                 </td>
+                <td class="load_cell">unit</td>
                     {% for list1 in list %}
-                      <td class="load_cell"><input class="load_cell_ip" name="{{role}}_{{list1}}"></td>
+                      <td class="load_cell"><input class="load_cell_ip" name="business_daily_{{list1}}"></td>
                     {% endfor %}
-                
-              
+
+
               </tr>
               <tr>
                 <td class="sticky-col first-col-fix fixed-col">Daily Commute</td>
-                <td class="load_cell"><select class="di_select">
-                  <option class="di_option" value="0">Placeholder</option>
-                  <option class="di_option" value="1">Placeholder</option>
-                  <option class="di_option" value="1">Placeholder</option></td>
-                <td class="load_cell"><select class="di_select">
-                    <option class="di_option" value="0">Litre</option>
-                    <option class="di_option" value="1">Litre</option>
-                    <option class="di_option" value="1">Litre</option></td>
-                
-                {% for list1 in list %}
-                  <td class="load_cell"><input class="load_cell_ip" name="{{role}}_{{list1}}"></td>
-                {% endfor %}
-              
-              </tr>
-              <tr>
-                <td class="sticky-col first-col-fix fixed-col">Downstream Freight Transport</td>
-                <td class="load_cell"><select class="di_select">
-                  <option class="di_option" value="0">Placeholder</option>
-                  <option class="di_option" value="1">Placeholder</option>
-                  <option class="di_option" value="1">Placeholder</option></td>
-                <td class="load_cell"><select class="di_select">
-                    <option class="di_option" value="0">Litre</option>
-                    <option class="di_option" value="1">Litre</option>
-                    <option class="di_option" value="1">Litre</option></td>
-                    {% for list1 in list %}
-                      <td class="load_cell"><input class="load_cell_ip" name="{{role}}_{{list1}}"></td>
-                    {% endfor %}
-              </tr>
-              <tr>
-                <td class="sticky-col first-col-fix fixed-col">Upstream Freight Transport</td>
-                <td class="load_cell"><select class="di_select">
-                  <option class="di_option" value="0">Placeholder</option>
-                  <option class="di_option" value="1">Placeholder</option>
-                  <option class="di_option" value="1">Placeholder</option></td>
-                <td class="load_cell"><select class="di_select">
-                    <option class="di_option" value="0">Litre</option>
-                    <option class="di_option" value="1">Litre</option>
-                    <option class="di_option" value="1">Litre</option></td>
-                    {% for list1 in list %}
-                      <td class="load_cell"><input class="load_cell_ip" name="{{role}}_{{list1}}"></td>
-                    {% endfor %}
-              </tr>
-              <tr>
-                <td class="sticky-col first-col-fix fixed-col">Transport - Customers</td>
-                <td class="load_cell"><select class="di_select">
-                  <option class="di_option" value="0">Placeholder</option>
-                  <option class="di_option" value="1">Placeholder</option>
-                  <option class="di_option" value="1">Placeholder</option></td>
-                <td class="load_cell"><select class="di_select">
-                  <option class="di_option" value="0">Litre</option>
-                  <option class="di_option" value="1">Litre</option>
-                  <option class="di_option" value="1">Litre</option></td>
-                  {% for list1 in list %}
-                    <td class="load_cell"><input class="load_cell_ip" name="{{role}}_{{list1}}"></td>
+                <td class="load_cell"><select class="di_select" name="mobile_daily">
+                  {% for list2 in mobile_daily_data %}
+                    <option class="di_option" value="{{list2.subcategory}}">{{list2.subcategory}}</option>
                   {% endfor %}
+                <td class="load_cell">unit</td>
+
+                {% for list1 in list %}
+                  <td class="load_cell"><input class="load_cell_ip" name="mobile_daily_{{list1}}"></td>
+                {% endfor %}
+
+              </tr>
+              <tr>
+                <td class="sticky-col first-col-fix fixed-col">Freight Transport</td>
+                <td class="load_cell">
+                  <select class="di_select" style="width: 150px;" name="mobile_ft">
+                    {% for list3 in mobile_frieght_transport_data %}
+                      <option class="di_option" value="{{list3.subcategory}}">{{list3.subcategory}}</option>
+                    {% endfor %}
+                  </select>
+                  </td>
+                <td class="load_cell">unit</td>
+                    {% for list1 in list %}
+                      <td class="load_cell"><input class="load_cell_ip" name="mobile_ft_{{list1}}"></td>
+                    {% endfor %}
               </tr>
 
             </tbody>

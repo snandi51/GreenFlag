@@ -508,7 +508,7 @@
                     <th class="sticky-col first-col-fix fixed-col" style="height:40px;">Electricity Saved</th>
                     <th class="load_cell_th">Country</th>
                     <th class="load_cell_th">Unit</th>
-                    <th colspan="4" class="load_cell_th">{{start_date_year}}-Days</th>
+                    <th colspan="4" class="load_cell_th">{{start_date_year}}</th>
                             {% for r in totalyear_loop %}
                                 <th colspan="4" class="load_cell_th">Year {{r}}</th>
                             {% endfor %}
@@ -526,17 +526,17 @@
                 </thead>
               <tbody>
               <tr>
-                  <td class="sticky-col first-col-fix fixed-col" style="height:40px;"><select class="di_select" style="background:none; border:none;">
+                  <td class="sticky-col first-col-fix fixed-col" style="height:40px;"><select class="di_select" name="type_electricity_run" style="background:none; border:none;">
                     {% for electricity_data in electricity_data %}
                                     <option class="di_option">{{electricity_data.category}}</option>
                     {% endfor %}
                     </select>
                   </td>
-                  
-                  <td class="load_cell"><select class="di_select" style="background:none; border:none;">
-                    
-                    {% for j in country_list %}
-                                    <option class="di_option">{{j}}</option>
+
+                  <td class="load_cell"><select class="di_select" name="type_country_run" style="background:none; border:none;">
+
+                    {% for electricity_data in electricity_data %}
+                                    <option class="di_option">{{electricity_data.subcategory}}</option>
                     {% endfor %}
                     </select>
                   </td>
