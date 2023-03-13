@@ -457,18 +457,20 @@
         }
     }
 
+
+    function customise(){
+        var main_div = document.getElementById('main_width');
+        var edit_project_popup_div = document.getElementById('custmise_popup_div');
+        main_div.style.opacity = 0.3;
+        custmise_popup_div.style.display = 'block';
+    }
+
     function delete_complete(delete_complete_id){
         var main_div = document.getElementById('main_width');
         var edit_project_popup_div = document.getElementById('delete_project_popup_div');
         console.log('mark_complete_dropdown ID: ' + delete_complete_id)
         main_div.style.opacity = 0.5;
         delete_project_popup_div.style.display = 'block';
-    }
-    function customise(){
-        var main_div = document.getElementById('main_width');
-        var edit_project_popup_div = document.getElementById('custmise_popup_div');
-        main_div.style.opacity = 0.3;
-        custmise_popup_div.style.display = 'block';
     }
 
     function delete_take_me_back(){
@@ -477,12 +479,14 @@
         main_div.style.opacity = 1;
         edit_project_popup_div.style.display = 'none';
     }
+
     function add_row(){
-      
+
       var insert_row = document.getElementById('tr_id_')
       console.log(insert_row)
       insert_row.insertAdjacentHTML('afterend',"<td class='sticky-col first-col-fix fixed-col' style='height:40px;'><select class='di_select' onchange='getFun(this.value)' name='type_transport'>{% for j in fuel_data_list %}<option class='di_option' id='fl_{{j.subcategory}}' value='{{j.subcategory}}'>{{j.subcategory}}</option>{% endfor %}</select><img src='static/assets/img/plus_line.png'  style='margin-top: -1px;margin-left: 5px;'height='10px' width='10px'  onclick='add_row()''></td><td class='load_cell' id='unit_value' value='unit_value'>unit</td>{% for list1 in list %}<td class='load_cell'><input class='load_cell_ip' name='{{list1}}''></td>{% endfor %}");
 }
+
 </script>
 <script>
     function getFun(value){
@@ -496,20 +500,22 @@
                 unit_value.innerText = fuel_data_list[a]['unit'];
             }
         }
-    
+
     }
 </script>
 <body>
 <div id="main_width" class="main_width_clone" style="overflow-y:auto; overflow-x:hidden;">
-    
-    
+    <div  style="overflow-y: auto;height: 470px;">
+
         <!-------------------------------------------End Of Progress Bar------------------------------------->
         <!---------------------------------------------Project Heading--------------------------------------->
         <div style="margin-left: 20px;">
+            <form action="indirect_impact_waste"  method="post">
+            {% csrf_token %}
             <div class="di_heading" >
                 Indirect Impact
-                <p class="di_subhead " style="margin-top: 10px;">Raw Material</p>
-                <p class="di_para" style="margin-top: 8px;padding-right: 200px; ">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p class="di_subhead " style="margin-top: 10px;">Waste Material</p>
+                <p class="di_para" style="margin-top: 8px;padding-right: 200px; ">Please provide the type and quantity of Waste avoided through the implementation of the IT project. Data shall be consolidated in quarterly format as provided below. </p>
             </div>
             <div class="w3-bar static-font" style="margin-top: 7px; font-weight: 400; font-size: 16px;">
                 <button id="nav_button_2" class="btn btn-outline-secondary tablink w3-bottombar" onclick="openCity(event, 'Run');" style="color: #ADB5BD; border:none; background-color:transparent">Run</button>
@@ -521,20 +527,17 @@
                 </div>
             </div>
 
-            <form action="indirect_impact_rm"  method="post">
-            {% csrf_token %}
             <div class="load_view city" id="Build" style="display: block; width: auto;margin-top: 5px;padding-bottom: 10px;">
                 <div class="load_wrapper" >
                     <table class="load_table">
                         <thead>
                         <tr>
-                            <th class="sticky-col first-col-fix fixed-col" style="height:40px;">Raw Material Saved</th>
+                            <th class="sticky-col first-col-fix fixed-col" style="height:40px;">Waste Saved</th>
                             <th class="load_cell_th">Unit</th>
-                            <th colspan="4" class="load_cell_th">{{start_date_year}}-Days</th>
+                            <th colspan="4" class="load_cell_th">{{start_date_year}}</th>
                             {% for r in totalyear_loop %}
                                 <th colspan="4" class="load_cell_th">Year {{r}}</th>
                             {% endfor %}
-
 
                         </tr>
                         <tr>
@@ -548,24 +551,24 @@
                         <tbody>
                             <tr id="tr_id_">
                                 <td class="sticky-col first-col-fix fixed-col" style="height:40px;">
-                                    <select class="di_select" onchange="getFun(this.value)" name="type_transport">
-                                    {% for j in raw_data %}
+                                    <select class="di_select" onchange="getFun(this.value)" name="selected_waste">
+                                    {% for j in waste_data %}
                                         <option class="di_option" id="fl_{{j.subcategory}}" value="{{j.subcategory}}">{{j.subcategory}}</option>
-                                        
+
                                     {% endfor %}
                                     </select>
                                     <img src="static/assets/img/plus_line.png"  style="margin-top: -1px;margin-left: 5px;"height="10px" width="10px"  onclick="add_row()">
                                 </td>
                                 <td class="load_cell" id="unit_value" value="unit_value">unit</td>
-                                    
-                                    
-                                
+
+
+
                                 {% for list1 in list %}
                                     <td class="load_cell"><input class="load_cell_ip" name="{{list1}}"></td>
                                 {% endfor %}
-                                
+
                             </tr>
-                       
+
                         </tbody>
                     </table>
                 </div>
@@ -595,7 +598,7 @@
 
     <!-----------------------------------------End Of Project Heading------------------------------------>
 </div>
-
+</div>
 <!------------------------------------------Footer-------------------------------------->
 <!-- <div class="footer">
     <div style="width:50%; float:left; text-align:center; margin-top:5px; ">
@@ -611,7 +614,7 @@
     <label style="font-size: 14px; color: #ADB5BD; margin-left: 40px; width: 420px; font-family: Ubuntu;">You will be directed to emission factor library to add the custom emission factor</label>
     <div style="margin: 0 auto; display: inline;">
         <div style="margin: 0 auto; display: inline;">
-            <button class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 148px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent"><a style="color: #4FAFA2;" href="{% url 'indirect_impact_rm' %}">No, take me back.</a></button>
+            <button class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 148px; margin-top: 25px; margin-left: 240px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent"><a style="color: #4FAFA2;" href="{% url 'indirect_impact_waste' %}">No, take me back.</a></button>
             <button class="action_btn cancel" style="font-size: 12px;  margin: 0 auto;  border: 2px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 54px; margin-left: 5px; height: 30px; color: #E6E9EE; border-color: #4FAFA2; background-color: #4FAFA2"><a href="{% url 'index' %}" style="color: #E6E9EE;">Yes</a></button>
         </div>
     </div>
