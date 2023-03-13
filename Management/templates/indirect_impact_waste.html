@@ -503,6 +503,16 @@
     
     }
 </script>
+<script>
+    window.onload = function(){
+      var submit = {{submit|safe}}
+      console.log('submit', submit);
+      if (submit == 1){
+        var main_width = document.getElementById('main_width');
+        main_width.style.opacity = 0.5;
+      }
+    }
+</script>
 <body>
 <div id="main_width" class="main_width_clone" style="overflow-y:auto; overflow-x:hidden;">
     <div  style="overflow-y: auto;height: 470px;">
@@ -619,6 +629,19 @@
         </div>
     </div>
 </div>
+
+{% if submit == 1 %}
+  <div id="submit_popup_div" style="width: 493px; font-family: Ubuntu;  margin-top: auto; height: 220px; left:40%; top: 35%; background-color: #34373D; z-index: 1; margin: 0 auto; position: fixed;">
+    <img src="static/assets/img/subtract.png" height="25" width="25" style="position: absolute; margin-top: 25px; margin-left: 25px;"><label style="font-size: 20px; color: #ADB5BD; padding: 20px; margin-left: 50px; width: 430px; font-family: Ubuntu; font-weight: 500">You have successfully added the project!</label>
+    <label style="font-size: 14px; color: #ADB5BD; margin-left: 40px; width: 420px; font-family: Ubuntu;">Would you like to view the results or go back to the my projects page?</label>
+    <div style="margin: 0 auto; display: inline;">
+        <div style="margin: 0 auto; display: inline;">
+            <button class="action_btn submit" style="font-size: 12px;  margin: 0 auto;  border: 1.5px; font-weight: bold; letter-spacing: 0.02em; border-radius: 4px; width: 120px; margin-top: 25px; margin-left: 200px; font-weight: 500; height: 30px; color: #4FAFA2; border-color: #4FAFA2; border-style: solid; background-color: transparent"><a style="color: #4FAFA2;" href="{% url 'login' %}">MY PROJECTS</a></button>
+            <button class="action_btn cancel" style="font-size: 12px;  margin: 0 auto;  border: 2px; font-weight: 500; letter-spacing: 0.02em; border-radius: 4px; width: 120px; margin-left: 5px; height: 30px; color: #E6E9EE; border-color: #4FAFA2; background-color: #4FAFA2"><a href="{% url 'view_detailed_result' %}" style="color: #E6E9EE;">VIEW RESULTS</a></button>
+        </div>
+    </div>
+  </div>
+{% endif %}
 
 {% endblock %}
 </body>
