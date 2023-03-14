@@ -263,15 +263,15 @@
                   <select class="load_cell_ips" style="float: left;" name="type_transport_{{role}}" id="cars">
                     
                       <optgroup style="float: left;background-color: #6C757D;"label="Default" >
-                        {% for i in printer_data %}
+                        {% for i in printer_default %}
                           <option style="background-color: #34373D;" value="{{i.subcategory}}">{{i.subcategory}}</option>
                         {% endfor %}
                       </optgroup>
                       <optgroup style="float: left;background-color: #6C757D;" label="Custom" >
                 
-                      <!-- {% for i in res_dct %}
-                        <option style="background-color: #34373D;" >{{i}}</option>
-                      {% endfor %} -->
+                      {% for i in emission_library_data_custom_printer %}
+                        <option style="background-color: #34373D;" >{{i.name}}</option>
+                      {% endfor %}
                       </optgroup>
                   </select>
                   <img src="static/assets/img/plus_line.png" id="tr_id_{{role}}" style="float: left;margin-top: 15px;margin-left: 5px;"height="10px" width="10px"  onclick="add_row(this.id)">
@@ -339,15 +339,15 @@
                 <td  class="load_cell_1" >
                   <select class="load_cell_ips" style="float: left;" name="type_transport_run_{{role}}" id="cars">
                     <optgroup style="float: left;background-color: #6C757D;"label="Default">
-                      {% for i in printer_data %}
+                      {% for i in printer_default %}
                         <option style="background-color: #34373D;" value="{{i.subcategory}}">{{i.subcategory}}</option>
                       {% endfor %}
                     </optgroup>
                     <optgroup style="float: left;background-color: #6C757D;" label="Custom" >
                 
-                      <!-- {% for i in res_dct %}
-                        <option style="background-color: #34373D;" >{{i}}</option>
-                      {% endfor %} -->
+                     {% for i in emission_library_data_custom_printer %}
+                        <option style="background-color: #34373D;" >{{i.name}}</option>
+                      {% endfor %}
                     </optgroup>
                   </select>
                   <img src="static/assets/img/plus_line.png" id="tr1_id_{{role}}" style="float: left;margin-top: 15px;margin-left: 5px;"height="10px" width="10px"  onclick="add_row(this.id)">

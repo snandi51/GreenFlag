@@ -122,7 +122,7 @@ def projectA(request):
         if len(WhichUserEquipment_list) >= 1:
             get_name1 = WhichUserEquipment_list[0]
             try:
-                save_data_in_custom = RefCarbonfootprint(name=get_name1, category='None', subcategory='None',
+                save_data_in_custom = RefCarbonfootprint(name=get_name1, category='User Equipment', subcategory='Laptop',
                                                          emissionfactor=0.0,
                                                          unit=0, lcrecycling='None', lcusage='None',
                                                          typeofimpact='None',
@@ -138,7 +138,7 @@ def projectA(request):
         if len(WhichIndustrialEquipment_list) >= 1:
             get_name2 = WhichIndustrialEquipment_list[0]
             try:
-                save_data_in_custom2 = RefCarbonfootprint(name=get_name2, category='None', subcategory='None',
+                save_data_in_custom2 = RefCarbonfootprint(name=get_name2, category='Industrial Equipment', subcategory=get_name2,
                                                           emissionfactor=0.0,
                                                           unit=0, lcrecycling='None', lcusage='None',
                                                           typeofimpact='None',
@@ -1712,6 +1712,8 @@ def di_daily_commute(request):
             'role': request.session.get('role'),
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
             'start_date_year': request.session.get('start_date_year'),
             'start_date_year_run': request.session.get('start_date_year_run'),
             'totalyear_loop_run': request.session.get('totalyear_loop_run'),
@@ -2794,8 +2796,87 @@ def di_laptop(request):
         mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Freight transport').values()
 
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='Industrial Equipment',
+                                                                                   subcategory='Raspberry PI').values()
 
         context = {
+            'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc': emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer': emission_library_data_custom_printer,
+            'emission_library_data_custom_projector': emission_library_data_custom_projector,
+            'emission_library_data_custom_bt': emission_library_data_custom_bt,
+            'laptop_default': laptop_default,
+            'monitor_default': monitor_default,
+            'tablet_default': tablet_default,
+            'pc_default': pc_default,
+            'telephone_default': telephone_default,
+            'printer_default': printer_default,
+            'projector_default': projector_default,
+            'bt_default': bt_default,
+            'drone_default': drone_default,
+            'emission_library_data_custom_drone': emission_library_data_custom_drone,
+            'lidar_default': lidar_default,
+            'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+            'camera_default': camera_default,
+            'emission_library_data_custom_camera': emission_library_data_custom_camera,
+            'sensor_default': sensor_default,
+            'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+            'raspberry_default': raspberry_default,
+            'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
+
             'user_details': user_details,
             'year_details': year_details,
             'res_dct': res_dct,
@@ -3066,7 +3147,86 @@ def di_laptop(request):
     mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
         category='Mobile Combustion - Freight transport').values()
 
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='User Equipment',
+                                                                            subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                             category='User Equipment',
+                                                                             subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='User Equipment',
+                                                                            subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                             category='User Equipment',
+                                                                             subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Raspberry PI').values()
+
     context = {
+        'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector': emission_library_data_custom_projector,
+        'emission_library_data_custom_bt': emission_library_data_custom_bt,
+        'laptop_default': laptop_default,
+        'monitor_default': monitor_default,
+        'tablet_default': tablet_default,
+        'pc_default': pc_default,
+        'telephone_default': telephone_default,
+        'printer_default': printer_default,
+        'projector_default': projector_default,
+        'bt_default': bt_default,
+        'drone_default': drone_default,
+        'emission_library_data_custom_drone': emission_library_data_custom_drone,
+        'lidar_default': lidar_default,
+        'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+        'camera_default': camera_default,
+        'emission_library_data_custom_camera': emission_library_data_custom_camera,
+        'sensor_default': sensor_default,
+        'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+        'raspberry_default': raspberry_default,
+        'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
         'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
@@ -3548,7 +3708,90 @@ def di_monitor(request):
             category='Mobile Combustion - Business Travel').values()
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
             category='Mobile Combustion - Freight transport').values()
+
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='Industrial Equipment',
+                                                                                   subcategory='Raspberry PI').values()
         context = {
+            'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc': emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer': emission_library_data_custom_printer,
+            'emission_library_data_custom_projector': emission_library_data_custom_projector,
+            'emission_library_data_custom_bt': emission_library_data_custom_bt,
+            'laptop_default': laptop_default,
+            'monitor_default': monitor_default,
+            'tablet_default': tablet_default,
+            'pc_default': pc_default,
+            'telephone_default': telephone_default,
+            'printer_default': printer_default,
+            'projector_default': projector_default,
+            'bt_default': bt_default,
+            'drone_default': drone_default,
+            'emission_library_data_custom_drone': emission_library_data_custom_drone,
+            'lidar_default': lidar_default,
+            'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+            'camera_default': camera_default,
+            'emission_library_data_custom_camera': emission_library_data_custom_camera,
+            'sensor_default': sensor_default,
+            'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+            'raspberry_default': raspberry_default,
+            'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -3814,7 +4057,85 @@ def di_monitor(request):
     mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
         category='Mobile Combustion - Freight transport').values()
 
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='User Equipment',
+                                                                            subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                             category='User Equipment',
+                                                                             subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='User Equipment',
+                                                                            subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                             category='User Equipment',
+                                                                             subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Raspberry PI').values()
+
     context = {
+        'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector': emission_library_data_custom_projector,
+        'emission_library_data_custom_bt': emission_library_data_custom_bt,
+        'laptop_default': laptop_default,
+        'monitor_default': monitor_default,
+        'tablet_default': tablet_default,
+        'pc_default': pc_default,
+        'telephone_default': telephone_default,
+        'printer_default': printer_default,
+        'projector_default': projector_default,
+        'bt_default': bt_default,
+        'drone_default': drone_default,
+        'emission_library_data_custom_drone': emission_library_data_custom_drone,
+        'lidar_default': lidar_default,
+        'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+        'camera_default': camera_default,
+        'emission_library_data_custom_camera': emission_library_data_custom_camera,
+        'sensor_default': sensor_default,
+        'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+        'raspberry_default': raspberry_default,
+        'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
 
         'totalyear_loop': request.session.get('totalyear_loop'),
         'role': request.session.get('role'),
@@ -3823,6 +4144,10 @@ def di_monitor(request):
         'list_run': request.session.get('list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
         'list_length': request.session.get('list_length'),
         'noofworkingdays_monitor': request.session.get('noofworkingdays_monitor'),
@@ -4372,7 +4697,86 @@ def di_drone(request):
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
             category='Mobile Combustion - Freight transport').values()
 
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='Industrial Equipment',
+                                                                                   subcategory='Raspberry PI').values()
+
         context = {
+            'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc': emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer': emission_library_data_custom_printer,
+            'emission_library_data_custom_projector': emission_library_data_custom_projector,
+            'emission_library_data_custom_bt': emission_library_data_custom_bt,
+            'laptop_default': laptop_default,
+            'monitor_default': monitor_default,
+            'tablet_default': tablet_default,
+            'pc_default': pc_default,
+            'telephone_default': telephone_default,
+            'printer_default': printer_default,
+            'projector_default': projector_default,
+            'bt_default': bt_default,
+            'drone_default': drone_default,
+            'emission_library_data_custom_drone': emission_library_data_custom_drone,
+            'lidar_default': lidar_default,
+            'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+            'camera_default': camera_default,
+            'emission_library_data_custom_camera': emission_library_data_custom_camera,
+            'sensor_default': sensor_default,
+            'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+            'raspberry_default': raspberry_default,
+            'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
             'user_details': user_details,
             'year_details': year_details,
             'res_dct': res_dct,
@@ -4656,7 +5060,86 @@ def di_drone(request):
     mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
     mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
         category='Mobile Combustion - Freight transport').values()
+
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='User Equipment',
+                                                                            subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                             category='User Equipment',
+                                                                             subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='User Equipment',
+                                                                            subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                             category='User Equipment',
+                                                                             subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Raspberry PI').values()
     context = {
+        'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector': emission_library_data_custom_projector,
+        'emission_library_data_custom_bt': emission_library_data_custom_bt,
+        'laptop_default': laptop_default,
+        'monitor_default': monitor_default,
+        'tablet_default': tablet_default,
+        'pc_default': pc_default,
+        'telephone_default': telephone_default,
+        'printer_default': printer_default,
+        'projector_default': projector_default,
+        'bt_default': bt_default,
+        'drone_default': drone_default,
+        'emission_library_data_custom_drone': emission_library_data_custom_drone,
+        'lidar_default': lidar_default,
+        'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+        'camera_default': camera_default,
+        'emission_library_data_custom_camera': emission_library_data_custom_camera,
+        'sensor_default': sensor_default,
+        'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+        'raspberry_default': raspberry_default,
+        'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
         'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
@@ -6751,6 +7234,34 @@ def di_dcn(request):
             )
             DatacenterReseaux_data.save()
 
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',category='User Equipment',subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',category='User Equipment', subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',category='User Equipment',subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',category='User Equipment',subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',category='User Equipment', subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',category='User Equipment',subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',category='Industrial Equipment',subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom', category='Industrial Equipment', subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',category='Industrial Equipment',subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom', category='Industrial Equipment',subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',category='Industrial Equipment',subcategory='Raspberry PI').values()
+
         daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
         laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
         business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
@@ -6765,10 +7276,10 @@ def di_dcn(request):
         camera_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Camera').values()
         raw_data = RefCarbonfootprint.objects.filter(category='Raw Material').values()
         fuel_data = RefCarbonfootprint.objects.filter(category='Fuel - Stationary combustion').values()
-        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
+        sensor_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
         electricity_data = RefCarbonfootprint.objects.filter(category='Grid Electricity').values()
         bt_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
-        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment',subcategory='Raspberry PI').values()
+        raspberry_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
         water_data = RefCarbonfootprint.objects.filter(category='Water').values()
         waste_data = RefCarbonfootprint.objects.filter(category='Waste').values()
         plastic_data = RefCarbonfootprint.objects.filter(category='Plastic').values()
@@ -6777,8 +7288,38 @@ def di_dcn(request):
         mobile_business_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Business Travel').values()
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(category='Mobile Combustion - Freight transport').values()
 
+
+
         context = {
             # 'project_type_list': project_type_list,
+            'emission_library_data_custom_laptop':emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor':emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc':emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet':emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone':emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer':emission_library_data_custom_printer,
+            'emission_library_data_custom_projector':emission_library_data_custom_projector,
+            'emission_library_data_custom_bt':emission_library_data_custom_bt,
+            'laptop_default':laptop_default,
+            'monitor_default':monitor_default,
+            'tablet_default':tablet_default,
+            'pc_default':pc_default,
+            'telephone_default':telephone_default,
+            'printer_default':printer_default,
+            'projector_default':projector_default,
+            'bt_default':bt_default,
+            'drone_default':drone_default,
+            'emission_library_data_custom_drone':emission_library_data_custom_drone,
+            'lidar_default':lidar_default,
+            'emission_library_data_custom_lidar':emission_library_data_custom_lidar,
+            'camera_default':camera_default,
+            'emission_library_data_custom_camera':emission_library_data_custom_camera,
+            'sensor_default':sensor_default,
+            'emission_library_data_custom_sensor':emission_library_data_custom_sensor,
+            'raspberry_default':raspberry_default,
+            'emission_library_data_custom_raspberry':emission_library_data_custom_raspberry,
+
+
             'country_list': country_list,
             # 'proj_type': proj_type,
             'role': request.session.get('role'),
@@ -6920,8 +7461,9 @@ def di_dcn(request):
             else:
                 sumbit = 1
 
+
     daily_commute = RefCarbonfootprint.objects.filter(category='People - Daily commute').values()
-    laptop_data = RefCarbonfootprint.objects.filter(category='User Equipment', subcategory='Laptop').values()
+    laptop_data = RefCarbonfootprint.objects.filter(scope = not_custom, category='User Equipment', subcategory='Laptop').values()
     business_travel = RefCarbonfootprint.objects.filter(category='People- Business Travel').values()
     monitor_data = RefCarbonfootprint.objects.filter(category='User Equipment',subcategory='Screen/Monitor').values()
     drone_data = RefCarbonfootprint.objects.filter(category='Industrial Equipment', subcategory='Drones').values()
@@ -6951,8 +7493,62 @@ def di_dcn(request):
     # project_type_list = list(proj_type)
     # project_type_list = list(dict.fromkeys(project_type_list))
     # project_type_list = [item for tuple_item in project_type_list for item in tuple_item]
+
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.objects.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.objects.filter(category='Industrial Equipment',subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment', subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment', subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',category='User Equipment',subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',category='Industrial Equipment', subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom', category='Industrial Equipment',subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom', category='Industrial Equipment',subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom', category='Industrial Equipment',ubcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom', category='Industrial Equipment', subcategory='Raspberry PI').values()
     context = {
         # 'project_type_list': project_type_list,
+        'emission_library_data_custom_laptop':emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector':emission_library_data_custom_projector,
+        'emission_library_data_custom_bt':emission_library_data_custom_bt,
+        'laptop_default':laptop_default,
+        'monitor_default':monitor_default,
+        'tablet_default':tablet_default,
+        'pc_default':pc_default,
+        'telephone_default':telephone_default,
+        'printer_default':printer_default,
+        'projector_default':projector_default,
+        'bt_default':bt_default,
+        'drone_default':drone_default,
+        'emission_library_data_custom_drone':emission_library_data_custom_drone,
+        'lidar_default':lidar_default,
+        'emission_library_data_custom_lidar':emission_library_data_custom_lidar,
+        'camera_default':camera_default,
+        'emission_library_data_custom_camera':emission_library_data_custom_camera,
+        'sensor_default':sensor_default,
+        'emission_library_data_custom_sensor':emission_library_data_custom_sensor,
+        'raspberry_default':raspberry_default,
+        'emission_library_data_custom_raspberry':emission_library_data_custom_raspberry,
         'country_list': country_list,
         # 'proj_type': proj_type,
         'role': request.session.get('role'),
@@ -10885,8 +11481,87 @@ def di_pc(request):
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
             category='Mobile Combustion - Freight transport').values()
 
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='Industrial Equipment',
+                                                                                   subcategory='Raspberry PI').values()
+
 
         context = {
+            'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc': emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer': emission_library_data_custom_printer,
+            'emission_library_data_custom_projector': emission_library_data_custom_projector,
+            'emission_library_data_custom_bt': emission_library_data_custom_bt,
+            'laptop_default': laptop_default,
+            'monitor_default': monitor_default,
+            'tablet_default': tablet_default,
+            'pc_default': pc_default,
+            'telephone_default': telephone_default,
+            'printer_default': printer_default,
+            'projector_default': projector_default,
+            'bt_default': bt_default,
+            'drone_default': drone_default,
+            'emission_library_data_custom_drone': emission_library_data_custom_drone,
+            'lidar_default': lidar_default,
+            'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+            'camera_default': camera_default,
+            'emission_library_data_custom_camera': emission_library_data_custom_camera,
+            'sensor_default': sensor_default,
+            'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+            'raspberry_default': raspberry_default,
+            'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -10895,6 +11570,10 @@ def di_pc(request):
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'list_cont': request.session.get('list_cont'),
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
             'role': request.session.get('role'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'start_date_year': request.session.get('start_date_year'),
@@ -11103,7 +11782,82 @@ def di_pc(request):
     mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
         category='Mobile Combustion - Freight transport').values()
 
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Raspberry PI').values()
+
     context = {
+        'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector': emission_library_data_custom_projector,
+        'emission_library_data_custom_bt': emission_library_data_custom_bt,
+        'laptop_default': laptop_default,
+        'monitor_default': monitor_default,
+        'tablet_default': tablet_default,
+        'pc_default': pc_default,
+        'telephone_default': telephone_default,
+        'printer_default': printer_default,
+        'projector_default': projector_default,
+        'bt_default': bt_default,
+        'drone_default': drone_default,
+        'emission_library_data_custom_drone': emission_library_data_custom_drone,
+        'lidar_default': lidar_default,
+        'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+        'camera_default': camera_default,
+        'emission_library_data_custom_camera': emission_library_data_custom_camera,
+        'sensor_default': sensor_default,
+        'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+        'raspberry_default': raspberry_default,
+        'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
@@ -11113,6 +11867,10 @@ def di_pc(request):
         'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
@@ -11147,6 +11905,62 @@ def di_pc(request):
 
     }
     return render(request, 'di_pc.html', context)
+
+
+
+def get_session_data(request):
+    session_data = ProjectDetails.objects.all()
+    dict_count = 1
+    session_dict = {}
+    for items in session_data:
+        session_dict['session_dict_{}'.format(dict_count)] = items.__dict__
+        session_dict.get('session_dict_{}'.format(dict_count))['_state'] = str(
+            session_dict.get('session_dict_{}'.format(dict_count))['_state'])
+        session_dict.get('session_dict_{}'.format(dict_count))['create_timestamp'] = \
+            session_dict.get('session_dict_{}'.format(dict_count))['create_timestamp'].strftime("%d %B %Y")
+        session_dict.get('session_dict_{}'.format(dict_count))['update_timestamp'] = \
+            session_dict.get('session_dict_{}'.format(dict_count))['update_timestamp'].strftime("%d %B %Y")
+        dict_count += 1
+    return session_dict
+
+
+def get_user_groups(request):
+    user_groups = Group.objects.all()
+    user_groups_dict = []
+    for instance in user_groups:
+        user_groups_dict.append(instance.__dict__)
+    return user_groups_dict
+
+
+def get_emission_library_data(request):
+    emission_library_data = RefCarbonfootprint.objects.filter(scope='Default')
+    emission_library_data_custom = RefCarbonfootprint.objects.filter(scope='Custom')
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment', subcategory='Laptop')
+    emission_library_data_list = []
+    emission_library_data_custom_list = []
+    for item in emission_library_data:
+        emission_library_data_list.append(item.__dict__)
+
+    for item_data in emission_library_data_custom:
+        emission_library_data_custom_list.append(item_data.__dict__)
+
+    return [emission_library_data_list, emission_library_data_custom_list]
+
+
+def error_400(request, exception):
+    return render(request, '400.html')
+
+
+def error_403(request, exception):
+    return render(request, '403.html')
+
+
+def error_404(request, exception):
+    return render(request, '404.html')
+
+
+def error_500(request):
+    return render(request, '500.html')
 
 
 def di_tablet(request):
@@ -11573,8 +12387,87 @@ def di_tablet(request):
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
             category='Mobile Combustion - Freight transport').values()
 
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='Industrial Equipment',
+                                                                                   subcategory='Raspberry PI').values()
+
 
         context = {
+            'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc': emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer': emission_library_data_custom_printer,
+            'emission_library_data_custom_projector': emission_library_data_custom_projector,
+            'emission_library_data_custom_bt': emission_library_data_custom_bt,
+            'laptop_default': laptop_default,
+            'monitor_default': monitor_default,
+            'tablet_default': tablet_default,
+            'pc_default': pc_default,
+            'telephone_default': telephone_default,
+            'printer_default': printer_default,
+            'projector_default': projector_default,
+            'bt_default': bt_default,
+            'drone_default': drone_default,
+            'emission_library_data_custom_drone': emission_library_data_custom_drone,
+            'lidar_default': lidar_default,
+            'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+            'camera_default': camera_default,
+            'emission_library_data_custom_camera': emission_library_data_custom_camera,
+            'sensor_default': sensor_default,
+            'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+            'raspberry_default': raspberry_default,
+            'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -11584,6 +12477,10 @@ def di_tablet(request):
             'sensor_data': sensor_data,
             'list_count': request.session.get('list_count'),
             'list_run': request.session.get('list_run'),
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
             'role': request.session.get('role'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'start_date_year': request.session.get('start_date_year'),
@@ -11841,7 +12738,82 @@ def di_tablet(request):
     mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
         category='Mobile Combustion - Freight transport').values()
 
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Raspberry PI').values()
+
     context = {
+        'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector': emission_library_data_custom_projector,
+        'emission_library_data_custom_bt': emission_library_data_custom_bt,
+        'laptop_default': laptop_default,
+        'monitor_default': monitor_default,
+        'tablet_default': tablet_default,
+        'pc_default': pc_default,
+        'telephone_default': telephone_default,
+        'printer_default': printer_default,
+        'projector_default': projector_default,
+        'bt_default': bt_default,
+        'drone_default': drone_default,
+        'emission_library_data_custom_drone': emission_library_data_custom_drone,
+        'lidar_default': lidar_default,
+        'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+        'camera_default': camera_default,
+        'emission_library_data_custom_camera': emission_library_data_custom_camera,
+        'sensor_default': sensor_default,
+        'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+        'raspberry_default': raspberry_default,
+        'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
@@ -11852,6 +12824,10 @@ def di_tablet(request):
         'sensor_data': sensor_data,
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
@@ -12315,7 +13291,86 @@ def di_telephone(request):
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
             category='Mobile Combustion - Freight transport').values()
 
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='Industrial Equipment',
+                                                                                   subcategory='Raspberry PI').values()
+
         context = {
+            'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc': emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer': emission_library_data_custom_printer,
+            'emission_library_data_custom_projector': emission_library_data_custom_projector,
+            'emission_library_data_custom_bt': emission_library_data_custom_bt,
+            'laptop_default': laptop_default,
+            'monitor_default': monitor_default,
+            'tablet_default': tablet_default,
+            'pc_default': pc_default,
+            'telephone_default': telephone_default,
+            'printer_default': printer_default,
+            'projector_default': projector_default,
+            'bt_default': bt_default,
+            'drone_default': drone_default,
+            'emission_library_data_custom_drone': emission_library_data_custom_drone,
+            'lidar_default': lidar_default,
+            'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+            'camera_default': camera_default,
+            'emission_library_data_custom_camera': emission_library_data_custom_camera,
+            'sensor_default': sensor_default,
+            'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+            'raspberry_default': raspberry_default,
+            'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -12323,6 +13378,10 @@ def di_telephone(request):
             # 'quarter_details':quarter_details,
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
             'role': request.session.get('role'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'start_date_year': request.session.get('start_date_year'),
@@ -12579,7 +13638,82 @@ def di_telephone(request):
     mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
         category='Mobile Combustion - Freight transport').values()
 
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Raspberry PI').values()
+
     context = {
+        'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector': emission_library_data_custom_projector,
+        'emission_library_data_custom_bt': emission_library_data_custom_bt,
+        'laptop_default': laptop_default,
+        'monitor_default': monitor_default,
+        'tablet_default': tablet_default,
+        'pc_default': pc_default,
+        'telephone_default': telephone_default,
+        'printer_default': printer_default,
+        'projector_default': projector_default,
+        'bt_default': bt_default,
+        'drone_default': drone_default,
+        'emission_library_data_custom_drone': emission_library_data_custom_drone,
+        'lidar_default': lidar_default,
+        'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+        'camera_default': camera_default,
+        'emission_library_data_custom_camera': emission_library_data_custom_camera,
+        'sensor_default': sensor_default,
+        'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+        'raspberry_default': raspberry_default,
+        'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
@@ -12590,6 +13724,10 @@ def di_telephone(request):
         'sensor_data': sensor_data,
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
@@ -13046,7 +14184,86 @@ def di_printer(request):
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
             category='Mobile Combustion - Freight transport').values()
 
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='Industrial Equipment',
+                                                                                   subcategory='Raspberry PI').values()
+
         context = {
+            'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc': emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer': emission_library_data_custom_printer,
+            'emission_library_data_custom_projector': emission_library_data_custom_projector,
+            'emission_library_data_custom_bt': emission_library_data_custom_bt,
+            'laptop_default': laptop_default,
+            'monitor_default': monitor_default,
+            'tablet_default': tablet_default,
+            'pc_default': pc_default,
+            'telephone_default': telephone_default,
+            'printer_default': printer_default,
+            'projector_default': projector_default,
+            'bt_default': bt_default,
+            'drone_default': drone_default,
+            'emission_library_data_custom_drone': emission_library_data_custom_drone,
+            'lidar_default': lidar_default,
+            'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+            'camera_default': camera_default,
+            'emission_library_data_custom_camera': emission_library_data_custom_camera,
+            'sensor_default': sensor_default,
+            'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+            'raspberry_default': raspberry_default,
+            'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -13056,6 +14273,10 @@ def di_printer(request):
             'sensor_data': sensor_data,
             'list_run': request.session.get('list_run'),
             'list_count': request.session.get('list_run'),
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
             'role': request.session.get('role'),
             'list_count_run': request.session.get('list_count_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
@@ -13313,7 +14534,82 @@ def di_printer(request):
     mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
         category='Mobile Combustion - Freight transport').values()
 
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Raspberry PI').values()
+
     context = {
+        'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector': emission_library_data_custom_projector,
+        'emission_library_data_custom_bt': emission_library_data_custom_bt,
+        'laptop_default': laptop_default,
+        'monitor_default': monitor_default,
+        'tablet_default': tablet_default,
+        'pc_default': pc_default,
+        'telephone_default': telephone_default,
+        'printer_default': printer_default,
+        'projector_default': projector_default,
+        'bt_default': bt_default,
+        'drone_default': drone_default,
+        'emission_library_data_custom_drone': emission_library_data_custom_drone,
+        'lidar_default': lidar_default,
+        'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+        'camera_default': camera_default,
+        'emission_library_data_custom_camera': emission_library_data_custom_camera,
+        'sensor_default': sensor_default,
+        'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+        'raspberry_default': raspberry_default,
+        'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
@@ -13324,6 +14620,10 @@ def di_printer(request):
         'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
@@ -13797,7 +15097,86 @@ def di_bt_speaker(request):
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
             category='Mobile Combustion - Freight transport').values()
 
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='Industrial Equipment',
+                                                                                   subcategory='Raspberry PI').values()
+
         context = {
+            'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc': emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer': emission_library_data_custom_printer,
+            'emission_library_data_custom_projector': emission_library_data_custom_projector,
+            'emission_library_data_custom_bt': emission_library_data_custom_bt,
+            'laptop_default': laptop_default,
+            'monitor_default': monitor_default,
+            'tablet_default': tablet_default,
+            'pc_default': pc_default,
+            'telephone_default': telephone_default,
+            'printer_default': printer_default,
+            'projector_default': projector_default,
+            'bt_default': bt_default,
+            'drone_default': drone_default,
+            'emission_library_data_custom_drone': emission_library_data_custom_drone,
+            'lidar_default': lidar_default,
+            'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+            'camera_default': camera_default,
+            'emission_library_data_custom_camera': emission_library_data_custom_camera,
+            'sensor_default': sensor_default,
+            'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+            'raspberry_default': raspberry_default,
+            'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -13806,6 +15185,10 @@ def di_bt_speaker(request):
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
             'list_count': request.session.get('list_count'),
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
             'role': request.session.get('role'),
             'submit': submit,
             'sensor_data': sensor_data,
@@ -14063,7 +15446,82 @@ def di_bt_speaker(request):
     mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
         category='Mobile Combustion - Freight transport').values()
 
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Raspberry PI').values()
+
     context = {
+        'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector': emission_library_data_custom_projector,
+        'emission_library_data_custom_bt': emission_library_data_custom_bt,
+        'laptop_default': laptop_default,
+        'monitor_default': monitor_default,
+        'tablet_default': tablet_default,
+        'pc_default': pc_default,
+        'telephone_default': telephone_default,
+        'printer_default': printer_default,
+        'projector_default': projector_default,
+        'bt_default': bt_default,
+        'drone_default': drone_default,
+        'emission_library_data_custom_drone': emission_library_data_custom_drone,
+        'lidar_default': lidar_default,
+        'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+        'camera_default': camera_default,
+        'emission_library_data_custom_camera': emission_library_data_custom_camera,
+        'sensor_default': sensor_default,
+        'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+        'raspberry_default': raspberry_default,
+        'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
@@ -14074,6 +15532,10 @@ def di_bt_speaker(request):
         'sensor_data': sensor_data,
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
@@ -14533,7 +15995,86 @@ def di_projector(request):
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
             category='Mobile Combustion - Freight transport').values()
 
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='Industrial Equipment',
+                                                                                   subcategory='Raspberry PI').values()
+
         context = {
+            'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc': emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer': emission_library_data_custom_printer,
+            'emission_library_data_custom_projector': emission_library_data_custom_projector,
+            'emission_library_data_custom_bt': emission_library_data_custom_bt,
+            'laptop_default': laptop_default,
+            'monitor_default': monitor_default,
+            'tablet_default': tablet_default,
+            'pc_default': pc_default,
+            'telephone_default': telephone_default,
+            'printer_default': printer_default,
+            'projector_default': projector_default,
+            'bt_default': bt_default,
+            'drone_default': drone_default,
+            'emission_library_data_custom_drone': emission_library_data_custom_drone,
+            'lidar_default': lidar_default,
+            'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+            'camera_default': camera_default,
+            'emission_library_data_custom_camera': emission_library_data_custom_camera,
+            'sensor_default': sensor_default,
+            'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+            'raspberry_default': raspberry_default,
+            'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -14543,6 +16084,10 @@ def di_projector(request):
             'list_run': request.session.get('list_run'),
             'role': request.session.get('role'),
             'sensor_data': sensor_data,
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'start_date_year': request.session.get('start_date_year'),
             'start_date_year_run': request.session.get('start_date_year_run'),
@@ -14801,7 +16346,82 @@ def di_projector(request):
     mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
         category='Mobile Combustion - Freight transport').values()
 
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Raspberry PI').values()
+
     context = {
+        'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector': emission_library_data_custom_projector,
+        'emission_library_data_custom_bt': emission_library_data_custom_bt,
+        'laptop_default': laptop_default,
+        'monitor_default': monitor_default,
+        'tablet_default': tablet_default,
+        'pc_default': pc_default,
+        'telephone_default': telephone_default,
+        'printer_default': printer_default,
+        'projector_default': projector_default,
+        'bt_default': bt_default,
+        'drone_default': drone_default,
+        'emission_library_data_custom_drone': emission_library_data_custom_drone,
+        'lidar_default': lidar_default,
+        'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+        'camera_default': camera_default,
+        'emission_library_data_custom_camera': emission_library_data_custom_camera,
+        'sensor_default': sensor_default,
+        'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+        'raspberry_default': raspberry_default,
+        'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
@@ -14812,6 +16432,10 @@ def di_projector(request):
         'sensor_data': sensor_data,
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
@@ -14820,7 +16444,6 @@ def di_projector(request):
         'laptop_data': laptop_data,
         'daily_commute': daily_commute,
         'business_travel': business_travel,
-        'laptop_data': laptop_data,
         'monitor_data': monitor_data,
         'drone_data': drone_data,
         'pc_data': pc_data,
@@ -15254,10 +16877,92 @@ def di_camera(request):
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
             category='Mobile Combustion - Freight transport').values()
 
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='Industrial Equipment',
+                                                                                   subcategory='Raspberry PI').values()
+
         context = {
+            'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc': emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer': emission_library_data_custom_printer,
+            'emission_library_data_custom_projector': emission_library_data_custom_projector,
+            'emission_library_data_custom_bt': emission_library_data_custom_bt,
+            'laptop_default': laptop_default,
+            'monitor_default': monitor_default,
+            'tablet_default': tablet_default,
+            'pc_default': pc_default,
+            'telephone_default': telephone_default,
+            'printer_default': printer_default,
+            'projector_default': projector_default,
+            'bt_default': bt_default,
+            'drone_default': drone_default,
+            'emission_library_data_custom_drone': emission_library_data_custom_drone,
+            'lidar_default': lidar_default,
+            'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+            'camera_default': camera_default,
+            'emission_library_data_custom_camera': emission_library_data_custom_camera,
+            'sensor_default': sensor_default,
+            'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+            'raspberry_default': raspberry_default,
+            'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
 
             'list': request.session.get('list'),
             'list_run': request.session.get('list_run'),
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
             'role': request.session.get('role'),
             'sensor_data': sensor_data,
             'totalyear_loop': request.session.get('totalyear_loop'),
@@ -15505,12 +17210,91 @@ def di_camera(request):
     mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
         category='Mobile Combustion - Freight transport').values()
 
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Raspberry PI').values()
+
     context = {
+        'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector': emission_library_data_custom_projector,
+        'emission_library_data_custom_bt': emission_library_data_custom_bt,
+        'laptop_default': laptop_default,
+        'monitor_default': monitor_default,
+        'tablet_default': tablet_default,
+        'pc_default': pc_default,
+        'telephone_default': telephone_default,
+        'printer_default': printer_default,
+        'projector_default': projector_default,
+        'bt_default': bt_default,
+        'drone_default': drone_default,
+        'emission_library_data_custom_drone': emission_library_data_custom_drone,
+        'lidar_default': lidar_default,
+        'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+        'camera_default': camera_default,
+        'emission_library_data_custom_camera': emission_library_data_custom_camera,
+        'sensor_default': sensor_default,
+        'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+        'raspberry_default': raspberry_default,
+        'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
         'totalyear_loop': request.session.get('totalyear_loop'),
         'role': request.session.get('role'),
         'list': request.session.get('list'),
         'sensor_data': sensor_data,
         'list_run': request.session.get('list_run'),
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
@@ -15986,7 +17770,86 @@ def di_connected_sensor(request):
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
             category='Mobile Combustion - Freight transport').values()
 
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='Industrial Equipment',
+                                                                                   subcategory='Raspberry PI').values()
+
         context = {
+            'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc': emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer': emission_library_data_custom_printer,
+            'emission_library_data_custom_projector': emission_library_data_custom_projector,
+            'emission_library_data_custom_bt': emission_library_data_custom_bt,
+            'laptop_default': laptop_default,
+            'monitor_default': monitor_default,
+            'tablet_default': tablet_default,
+            'pc_default': pc_default,
+            'telephone_default': telephone_default,
+            'printer_default': printer_default,
+            'projector_default': projector_default,
+            'bt_default': bt_default,
+            'drone_default': drone_default,
+            'emission_library_data_custom_drone': emission_library_data_custom_drone,
+            'lidar_default': lidar_default,
+            'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+            'camera_default': camera_default,
+            'emission_library_data_custom_camera': emission_library_data_custom_camera,
+            'sensor_default': sensor_default,
+            'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+            'raspberry_default': raspberry_default,
+            'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -15995,7 +17858,10 @@ def di_connected_sensor(request):
             'list': request.session.get('list'),
             'sensor_data': sensor_data,
             'list_run': request.session.get('list_run'),
+            'list_count': request.session.get('list_count'),
             'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
             'role': request.session.get('role'),
             'submit': submit,
             'totalyear_loop': request.session.get('totalyear_loop'),
@@ -16250,7 +18116,82 @@ def di_connected_sensor(request):
     mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
         category='Mobile Combustion - Freight transport').values()
 
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                             subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Raspberry PI').values()
+
     context = {
+        'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector': emission_library_data_custom_projector,
+        'emission_library_data_custom_bt': emission_library_data_custom_bt,
+        'laptop_default': laptop_default,
+        'monitor_default': monitor_default,
+        'tablet_default': tablet_default,
+        'pc_default': pc_default,
+        'telephone_default': telephone_default,
+        'printer_default': printer_default,
+        'projector_default': projector_default,
+        'bt_default': bt_default,
+        'drone_default': drone_default,
+        'emission_library_data_custom_drone': emission_library_data_custom_drone,
+        'lidar_default': lidar_default,
+        'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+        'camera_default': camera_default,
+        'emission_library_data_custom_camera': emission_library_data_custom_camera,
+        'sensor_default': sensor_default,
+        'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+        'raspberry_default': raspberry_default,
+        'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
@@ -16261,6 +18202,10 @@ def di_connected_sensor(request):
         'list': request.session.get('list'),
         'sensor_data': sensor_data,
         'list_run': request.session.get('list_run'),
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
@@ -16741,7 +18686,86 @@ def di_lidar(request):
             category='Mobile Combustion - Freight transport').values()
         # print(electricity_data)
 
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='Industrial Equipment',
+                                                                                   subcategory='Raspberry PI').values()
+
         context = {
+            'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc': emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer': emission_library_data_custom_printer,
+            'emission_library_data_custom_projector': emission_library_data_custom_projector,
+            'emission_library_data_custom_bt': emission_library_data_custom_bt,
+            'laptop_default': laptop_default,
+            'monitor_default': monitor_default,
+            'tablet_default': tablet_default,
+            'pc_default': pc_default,
+            'telephone_default': telephone_default,
+            'printer_default': printer_default,
+            'projector_default': projector_default,
+            'bt_default': bt_default,
+            'drone_default': drone_default,
+            'emission_library_data_custom_drone': emission_library_data_custom_drone,
+            'lidar_default': lidar_default,
+            'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+            'camera_default': camera_default,
+            'emission_library_data_custom_camera': emission_library_data_custom_camera,
+            'sensor_default': sensor_default,
+            'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+            'raspberry_default': raspberry_default,
+            'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
             # 'user_details':user_details,
             # 'year_details':year_details,
             # 'res_dct':res_dct,
@@ -16750,6 +18774,10 @@ def di_lidar(request):
             'list': request.session.get('list'),
             'sensor_data': sensor_data,
             'list_run': request.session.get('list_run'),
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
             'role': request.session.get('role'),
             'totalyear_loop': request.session.get('totalyear_loop'),
             'start_date_year': request.session.get('start_date_year'),
@@ -17008,7 +19036,87 @@ def di_lidar(request):
     mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
         category='Mobile Combustion - Freight transport').values()
 
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='User Equipment',
+                                                                            subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                             category='User Equipment',
+                                                                             subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='User Equipment',
+                                                                            subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                             category='User Equipment',
+                                                                             subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Raspberry PI').values()
+
+
     context = {
+        'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector': emission_library_data_custom_projector,
+        'emission_library_data_custom_bt': emission_library_data_custom_bt,
+        'laptop_default': laptop_default,
+        'monitor_default': monitor_default,
+        'tablet_default': tablet_default,
+        'pc_default': pc_default,
+        'telephone_default': telephone_default,
+        'printer_default': printer_default,
+        'projector_default': projector_default,
+        'bt_default': bt_default,
+        'drone_default': drone_default,
+        'emission_library_data_custom_drone': emission_library_data_custom_drone,
+        'lidar_default': lidar_default,
+        'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+        'camera_default': camera_default,
+        'emission_library_data_custom_camera': emission_library_data_custom_camera,
+        'sensor_default': sensor_default,
+        'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+        'raspberry_default': raspberry_default,
+        'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
         # 'user_details':user_details,
         # 'year_details':year_details,
         # 'res_dct':res_dct,
@@ -17019,6 +19127,10 @@ def di_lidar(request):
         'sensor_data': sensor_data,
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
@@ -17516,7 +19628,91 @@ def di_raspberrypi(request):
         mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
             category='Mobile Combustion - Freight transport').values()
 
+        not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+        laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+        monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+        pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+        tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+        telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+        printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+        projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+        bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+        drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+        lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+        camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+        sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+        raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+        emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Laptop').values()
+        emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Screen/Monitor').values()
+        emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Desktop').values()
+        emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='User Equipment',
+                                                                                subcategory='Tablet').values()
+        emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Telephone').values()
+        emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                 category='User Equipment',
+                                                                                 subcategory='Printer').values()
+        emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='User Equipment',
+                                                                                   subcategory='Video projector').values()
+        emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                            subcategory='Bluetooth speaker').values()
+        emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Drone').values()
+        emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Lidar').values()
+        emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Camera').values()
+        emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                category='Industrial Equipment',
+                                                                                subcategory='Connected Sensors').values()
+        emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                                   category='Industrial Equipment',
+                                                                                   subcategory='Raspberry PI').values()
+
         context = {
+            'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+            'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+            'emission_library_data_custom_pc': emission_library_data_custom_pc,
+            'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+            'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+            'emission_library_data_custom_printer': emission_library_data_custom_printer,
+            'emission_library_data_custom_projector': emission_library_data_custom_projector,
+            'emission_library_data_custom_bt': emission_library_data_custom_bt,
+            'laptop_default': laptop_default,
+            'monitor_default': monitor_default,
+            'tablet_default': tablet_default,
+            'pc_default': pc_default,
+            'telephone_default': telephone_default,
+            'printer_default': printer_default,
+            'projector_default': projector_default,
+            'bt_default': bt_default,
+            'drone_default': drone_default,
+            'emission_library_data_custom_drone': emission_library_data_custom_drone,
+            'lidar_default': lidar_default,
+            'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+            'camera_default': camera_default,
+            'emission_library_data_custom_camera': emission_library_data_custom_camera,
+            'sensor_default': sensor_default,
+            'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+            'raspberry_default': raspberry_default,
+            'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
+            'list_count': request.session.get('list_count'),
+            'list_count_run': request.session.get('list_count_run'),
+            'span_build_list': request.session.get('span_build_list'),
+            'span_build_list_run': request.session.get('span_build_list_run'),
+
             'user_details': user_details,
             'year_details': year_details,
             'res_dct': res_dct,
@@ -17797,10 +19993,93 @@ def di_raspberrypi(request):
     mobile_frieght_transport_data = RefCarbonfootprint.objects.filter(
         category='Mobile Combustion - Freight transport').values()
 
+    not_custom = RefCarbonfootprint.objects.exclude(scope='Custom').values()
+    laptop_default = not_custom.filter(category='User Equipment', subcategory='Laptop').values()
+    monitor_default = not_custom.filter(category='User Equipment', subcategory='Screen/Monitor').values()
+    pc_default = not_custom.filter(category='User Equipment', subcategory='Desktop').values()
+    tablet_default = not_custom.filter(category='User Equipment', subcategory='Tablet').values()
+    telephone_default = not_custom.filter(category='User Equipment', subcategory='Telephone').values()
+    printer_default = not_custom.filter(category='User Equipment', subcategory='Printer').values()
+    projector_default = not_custom.filter(category='User Equipment', subcategory='Video projector').values()
+    bt_default = not_custom.filter(category='User Equipment', subcategory='Bluetooth speaker').values()
+    drone_default = not_custom.filter(category='Industrial Equipment', subcategory='Drones').values()
+    lidar_default = not_custom.filter(category='Industrial Equipment', subcategory='Lidar').values()
+    camera_default = not_custom.filter(category='Industrial Equipment', subcategory='Camera').values()
+    sensor_default = not_custom.filter(category='Industrial Equipment', subcategory='Connected Sensors').values()
+    raspberry_default = not_custom.filter(category='Industrial Equipment', subcategory='Raspberry PI').values()
+    emission_library_data_custom_laptop = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='User Equipment',
+                                                                            subcategory='Laptop').values()
+    emission_library_data_custom_monitor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                             category='User Equipment',
+                                                                             subcategory='Screen/Monitor').values()
+    emission_library_data_custom_pc = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Desktop').values()
+    emission_library_data_custom_tablet = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='User Equipment',
+                                                                            subcategory='Tablet').values()
+    emission_library_data_custom_telephone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Telephone').values()
+    emission_library_data_custom_printer = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                             category='User Equipment',
+                                                                             subcategory='Printer').values()
+    emission_library_data_custom_projector = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='User Equipment',
+                                                                               subcategory='Video projector').values()
+    emission_library_data_custom_bt = RefCarbonfootprint.objects.filter(scope='Custom', category='User Equipment',
+                                                                        subcategory='Bluetooth speaker').values()
+    emission_library_data_custom_drone = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Drone').values()
+    emission_library_data_custom_lidar = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                           category='Industrial Equipment',
+                                                                           subcategory='Lidar').values()
+    emission_library_data_custom_camera = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Camera').values()
+    emission_library_data_custom_sensor = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                            category='Industrial Equipment',
+                                                                            subcategory='Connected Sensors').values()
+    emission_library_data_custom_raspberry = RefCarbonfootprint.objects.filter(scope='Custom',
+                                                                               category='Industrial Equipment',
+                                                                               subcategory='Raspberry PI').values()
+
     context = {
+        'emission_library_data_custom_laptop': emission_library_data_custom_laptop,
+        'emission_library_data_custom_monitor': emission_library_data_custom_monitor,
+        'emission_library_data_custom_pc': emission_library_data_custom_pc,
+        'emission_library_data_custom_tablet': emission_library_data_custom_tablet,
+        'emission_library_data_custom_telephone': emission_library_data_custom_telephone,
+        'emission_library_data_custom_printer': emission_library_data_custom_printer,
+        'emission_library_data_custom_projector': emission_library_data_custom_projector,
+        'emission_library_data_custom_bt': emission_library_data_custom_bt,
+        'laptop_default': laptop_default,
+        'monitor_default': monitor_default,
+        'tablet_default': tablet_default,
+        'pc_default': pc_default,
+        'telephone_default': telephone_default,
+        'printer_default': printer_default,
+        'projector_default': projector_default,
+        'bt_default': bt_default,
+        'drone_default': drone_default,
+        'emission_library_data_custom_drone': emission_library_data_custom_drone,
+        'lidar_default': lidar_default,
+        'emission_library_data_custom_lidar': emission_library_data_custom_lidar,
+        'camera_default': camera_default,
+        'emission_library_data_custom_camera': emission_library_data_custom_camera,
+        'sensor_default': sensor_default,
+        'emission_library_data_custom_sensor': emission_library_data_custom_sensor,
+        'raspberry_default': raspberry_default,
+        'emission_library_data_custom_raspberry': emission_library_data_custom_raspberry,
+
         'role': request.session.get('role'),
         'list': request.session.get('list'),
         'list_run': request.session.get('list_run'),
+        'list_count': request.session.get('list_count'),
+        'list_count_run': request.session.get('list_count_run'),
+        'span_build_list': request.session.get('span_build_list'),
+        'span_build_list_run': request.session.get('span_build_list_run'),
         'start_date_year': request.session.get('start_date_year'),
         'start_date_year_run': request.session.get('start_date_year_run'),
         'totalyear_loop_run': request.session.get('totalyear_loop_run'),
@@ -17835,7 +20114,7 @@ def di_raspberrypi(request):
         'mobile_business_data': mobile_business_data,
         'mobile_frieght_transport_data': mobile_frieght_transport_data,
     }
-    return render(request, 'di_raspberrypi.html')
+    return render(request, 'di_raspberrypi.html', context)
 
 
 def detailed_view_cmo(request):
